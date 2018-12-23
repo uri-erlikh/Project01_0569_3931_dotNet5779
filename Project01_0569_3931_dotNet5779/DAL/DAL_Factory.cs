@@ -12,7 +12,7 @@ namespace DAL
         {
             switch (type)
             {
-                case "lists":return Dal_imp.Instance;
+                case "lists":return DLObject.GetInstance();
             }
             return null;
         }

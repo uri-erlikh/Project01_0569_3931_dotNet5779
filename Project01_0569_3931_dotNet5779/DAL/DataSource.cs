@@ -16,11 +16,9 @@ namespace DAL
         }
         
 
-        internal static Dictionary<String, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>() {
-            
-    };
+        internal static Dictionary<String, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>();
         
-        internal Dictionary<string, Boolean> Schedules;
+        internal Dictionary<string, bool> Schedules;
 
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
         internal static List<DO.Trainee> Trainies = new List<DO.Trainee>();

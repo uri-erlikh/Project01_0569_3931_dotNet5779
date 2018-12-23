@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class Dal_imp : IDal                         //תזכורת - סינגלטון ועיקרון השיבוט כפי שמופיע אצל דן 
+    public class Dal_imp                          //תזכורת - סינגלטון ועיקרון השיבוט כפי שמופיע אצל דן 
     {
-        static readonly Dal_imp instance = new Dal_imp();
-        Dal_imp() { }
-        static Dal_imp() { }
-
-        public static Dal_imp Instance { get { return instance; } }
+        
 
         // private DataSource ds = new DataSource();
 
