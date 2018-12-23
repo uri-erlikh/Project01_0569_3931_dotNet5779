@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace DO
 {
-    public partial class DO
-    {
+    
         public enum Vehicle { privateCar, motorcycle, truck, heavyTruck };
         public enum GearBox { auto, manual };
         public enum Gender { male, female };
@@ -50,5 +49,5 @@ namespace DAL
        
             
     }
-}
+
 

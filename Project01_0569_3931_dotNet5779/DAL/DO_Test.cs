@@ -4,11 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace DO
 {
-    public partial class DO
-    {
-
+    
         public class Test
         {
             public readonly int TestNumber;
@@ -58,6 +56,7 @@ namespace DAL
                 this.TestHour = te.TestHour;
                 this.testAddress = te.testAddress;
                 this.PassedTest = this.PassedTest;
+                //crit
                 this.TesterNote = te.TesterNote;
             }
         }
@@ -72,4 +71,4 @@ namespace DAL
 
         //------------------------------------------------------------------ 
     }
-}
+

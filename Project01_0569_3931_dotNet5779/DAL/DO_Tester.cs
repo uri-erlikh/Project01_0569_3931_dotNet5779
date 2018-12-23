@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL
+namespace DO
 {
-    public partial class DO
-    {
+    
         public class Person
         {
             protected readonly string id;
@@ -66,4 +65,4 @@ namespace DAL
         }
         //--------------------------------------------------------------
     }
-}
+
