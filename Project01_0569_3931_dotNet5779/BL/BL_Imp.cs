@@ -20,7 +20,7 @@ namespace BL
                     try
                     {
                         if (tester.Age >= 40 && tester.Age < 67)
-                            dl.AddTester(tester);
+                            dl.AddTester(BOtoDOTester(tester));
                         else if (tester.Age < 40)
                             throw new Exception("Too young tester");
                         else throw new Exception("Too old tester");
@@ -55,7 +55,7 @@ namespace BL
         //--------------------------------------------------------------------
         void UpdateTester(string testerFamilyName, string TesterPrivateName, int num, params object[] info) { }
         //----------------------------------------------------------------
-        void AddTrainee(BO.Trainee trainee)
+        public void AddTrainee(BO.Trainee trainee)
         {
             try
             {
@@ -81,7 +81,7 @@ namespace BL
             }
         }
         //------------------------------------------------------------------------
-        void DeleteTrainee(string TraineeID)
+        public void DeleteTrainee(string TraineeID)
         {
             try
             {
@@ -92,11 +92,23 @@ namespace BL
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine(e.Message);             
             }
         }
         //--------------------------------------------------------------------
+        private DAL.DO.Tester BOtoDOTester(BO.Tester OldTester)
+        {
+            DAL.DO.Tester DOTester = new DAL.DO.Tester { ID = OldTester.ID,
+            FamilyName=OldTester.FamilyName,
+            PrivateName =OldTester.PrivateName,
+            DayOfBirth=OldTester.DayOfBirth,
+            PersonGender=OldTester.PersonGender,
+            Phone=OldTester.Phone,
+            PersonAddress=OldTester.PersonAddress,
+            };
 
+            return DOTester;
+        }
 
     }
 }

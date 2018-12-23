@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public class BO
+    public partial class BO
     {
         public enum Vehicle { privateCar, motorcycle, truck, heavyTruck };
         public enum GearBox { auto, manual };
@@ -24,9 +24,9 @@ namespace BL
         //---------------------------------------------------
         public class Address
         {
-            public string City;
-            public string Street;
-            public int NumOfBuilding;
+            public string City { get; set; }
+            public string Street { get; set; }
+            public int NumOfBuilding { get; set; }
         }
         //------------------------------------------------------
         public class Person

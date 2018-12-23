@@ -17,13 +17,13 @@ namespace DAL
 
         // private DataSource ds = new DataSource();
 
-        void AddTester(DO.Tester tester)
+        public void AddTester(DO.Tester tester)
         {
             if (!IfExist(tester.ID, "tester"))
                 DataSource.Testers.Add(tester);
         }
         //--------------------------------------------------------------
-        void DeleteTester(string TesterID)
+        public void DeleteTester(string TesterID)
         {
             if (IfExist(TesterID, "tester"))
                 foreach (var tester in DataSource.Testers)
@@ -31,13 +31,13 @@ namespace DAL
                         DataSource.Testers.Remove(tester);
         }
         //------------------------------------------------------------------
-        void AddTrainee(DO.Trainee trainee)
+        public void AddTrainee(DO.Trainee trainee)
         {
             if (!IfExist(trainee.ID, "trainee"))
                 DataSource.Trainies.Add(trainee);
         }
         //------------------------------------------------------------
-        void DeleteTrainee(string TraineeID)
+        public void DeleteTrainee(string TraineeID)
         {
             if (IfExist(TraineeID, "tester"))
                 foreach (var trainee in DataSource.Trainies)
