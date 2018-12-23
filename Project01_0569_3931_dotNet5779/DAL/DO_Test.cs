@@ -12,13 +12,25 @@ namespace DAL
         public class Test
         {
             public readonly int TestNumber;
+            private string testerId;
             public string TesterId { get; set; }
+            private string traineeId;
             public string TraineeId { get; set; }
+            private DateTime testDate;
             public DateTime TestDate { get; set; }
+            private DateTime testHour;
             public DateTime TestHour { get; set; }
-            public Address TestAddress { get; set; }
+            private Address testAddress;
+            public Address TestAddress { get { return testAddress; } set
+                {
+                    this.testAddress.City = value.City;
+                    this.testAddress.Street = value.Street;
+                    this.testAddress.NumOfBuilding = value.NumOfBuilding;
+                } }
             public List<Criterion> Criterions;// = new List<Criterion>();
+            private bool passedTest;
             public bool PassedTest { get; set; }
+            private string testNote;
             public string TesterNote { get; set; }
             public override string ToString()
             {
@@ -36,6 +48,18 @@ namespace DAL
                 this.Criterions[4].Crit = "distance keeping";
                 this.Criterions[5].Crit = "vinkers";
             }
+
+            public Test(Test te)
+            {
+                this.TestNumber = te.TestNumber;
+                this.TesterId = te.TesterId;
+                this.TraineeId = te.TraineeId;
+                this.TestDate = te.TestDate;
+                this.TestHour = te.TestHour;
+                this.testAddress = te.testAddress;
+                this.PassedTest = this.PassedTest;
+                this.TesterNote = te.TesterNote;
+            }
         }
 
         public class Criterion
@@ -43,6 +67,8 @@ namespace DAL
             public string Crit;
             public bool WasOK;
         }
+
+        
 
         //------------------------------------------------------------------ 
     }

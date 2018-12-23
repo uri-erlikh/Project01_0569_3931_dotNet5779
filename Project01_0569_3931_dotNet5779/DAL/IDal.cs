@@ -35,9 +35,9 @@ namespace DAL
         List<DO.Trainee> GetSomeTrainees(Predicate<bool> func );
 
         Dictionary<String, Object> getConfig();
-        void SetConfig(String parm, Object value)
+        void SetConfig(String parm, Object value);
 
-         bool IfExist(string ID, )
+         bool IfExist(string ID, );
         void AddCriterion(string newCrit);//פונקציה להוספת קריטריון בכל המבחנים הרשומים במערכת. אני מציע כי הערך 
         //של הנתון הבוליאני יהיה אמת באופן דיפולטיבי
     }

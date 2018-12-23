@@ -40,6 +40,11 @@ namespace DAL
                 this.numOfBuilding = myNumOfBuilding;
                 this.NumOfBuilding = myNumOfBuilding;
             }
+                public override string ToString()
+            {
+                return "" + this.Street + " " + this.NumOfBuilding + " " + this.City;
+            }
+           
         }
         //--------------------------------------------------------------
        
