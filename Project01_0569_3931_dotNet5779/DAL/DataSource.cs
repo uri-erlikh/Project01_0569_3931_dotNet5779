@@ -14,8 +14,12 @@ namespace DAL
             internal bool Writable;
             internal object value;
         }
+        
 
-        internal Dictionary<String, ConfigurationParameter> Configuration;
+        internal static Dictionary<String, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>() {
+            
+    };
+        
         internal Dictionary<string, Boolean> Schedules;
 
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
@@ -23,6 +27,13 @@ namespace DAL
         internal static List<DO.Test> Tests = new List<DO.Test>();
         static DataSource()
         {
+            Configuration.Add("MIN_LESSONS", new ConfigurationParameter() { Readable = true, Writable = false, value = 28 });
+            Configuration.Add("MAX_TESTER_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 67 });
+            Configuration.Add("MIN_TRAINEE_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 16 });
+            Configuration.Add("MIN_GAP_TEST", new ConfigurationParameter() { Readable = true, Writable = false, value = 30 });
+            Configuration.Add("MIN_TESTER_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 40 });
+            Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 1000000 });
+
             Testers.Add(new DO.Tester("305343931")
             {
                 PrivateName = "Moshe",
@@ -30,7 +41,7 @@ namespace DAL
                 BirthOfDay = new DateTime(1965, 04, 12),
                 Phone = "0501234567",
                 PersonGender = DO.Gender.male,
-                PersonAddress = new Address() { City = "Elad", NumOfBuilding = 12, Street = "shmaia" },
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "shmaia" },
                 MaxWeeklytTests = 20,
                 RangeToTest = 30,
                 TesterExperience = 10,

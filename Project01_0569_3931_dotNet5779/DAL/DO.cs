@@ -11,15 +11,7 @@ namespace DO
         public enum GearBox { auto, manual };
         public enum Gender { male, female };
         //-------------------------------------------------------------
-        public class Configuration
-        {
-            public static int MIN_LESSONS = 28;
-            public static int MAX_TESTER_AGE = 67;
-            public static int MIN_TRAINEE_AGE = 16;
-            public static int MIN_GAP_TEST = 30;
-            public static int MIN_TESTER_AGE = 40;
-            public static int Number = 10000000;
-        }
+        
         //-------------------------------------------------------------------
         public struct Address
         {
