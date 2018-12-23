@@ -8,16 +8,25 @@ namespace DAL
 {
     class DataSource
     {
+        internal class ConfigurationParameter
+        {
+            internal bool Readable;
+            internal bool Writable;
+            internal object value;
+        }
+
+        internal Dictionary<String, ConfigurationParameter> Configuration;
+        internal Dictionary<string, Boolean> Schedules;
+
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
         internal static List<DO.Trainee> Trainies = new List<DO.Trainee>();
         internal static List<DO.Test> Tests = new List<DO.Test>();
         static DataSource()
         {
-            Testers.Add(new DO.Tester
+            Testers.Add(new DO.Tester("305343931")
             {
                 PrivateName = "Moshe",
-                FamilyName = "Weizman",
-                ID = "305343931",
+                FamilyName = "Weizman",                
                 BirthOfDay = new DateTime(1965, 04, 12),
                 Phone = "0501234567",
                 PersonGender = DO.Gender.male,

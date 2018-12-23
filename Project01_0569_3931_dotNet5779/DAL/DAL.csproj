@@ -44,6 +44,7 @@
     <Compile Include="DAL_Factory.cs" />
     <Compile Include="DAL_imp.cs" />
     <Compile Include="DataSource.cs" />
+    <Compile Include="DLObject.cs" />
     <Compile Include="DO.cs" />
     <Compile Include="DO_Test.cs" />
     <Compile Include="DO_Tester.cs" />

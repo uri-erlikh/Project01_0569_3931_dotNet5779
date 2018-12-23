@@ -28,8 +28,7 @@ namespace DAL
         {
             public int TesterExperience { get; set; }
             public int MaxWeeklytTests { get; set; }
-            public Vehicle TesterVehicle { get; set; }
-            public bool[,] Schedule; // = new bool[5, 6];
+            public Vehicle TesterVehicle { get; set; }           
             public double RangeToTest { get; set; }
             public override string ToString()
             {
@@ -37,8 +36,7 @@ namespace DAL
             }
             public Tester(string myId)
             {
-               //id= myId;
-               Schedule = new bool[5, 6];//לא לשכוח לאתחל את התאים
+                //id= myId;          
             }
         }
         //--------------------------------------------------------------

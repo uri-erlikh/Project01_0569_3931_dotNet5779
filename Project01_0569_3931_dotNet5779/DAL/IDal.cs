@@ -30,9 +30,14 @@ namespace DAL
         List<DO.Trainee> GetTrainees();
         List<DO.Test> GetTests();
 
-        List<DO.Test> GetSomeTests();
+        List<DO.Test> GetSomeTests(Predicate<bool> func );
+        List<DO.Tester> GetSomeTesters(Predicate<bool> func );
+        List<DO.Trainee> GetSomeTrainees(Predicate<bool> func );
 
-        bool IfExist(string ID, )
+        Dictionary<String, Object> getConfig();
+        void SetConfig(String parm, Object value)
+
+         bool IfExist(string ID, )
         void AddCriterion(string newCrit);//פונקציה להוספת קריטריון בכל המבחנים הרשומים במערכת. אני מציע כי הערך 
         //של הנתון הבוליאני יהיה אמת באופן דיפולטיבי
     }

@@ -12,7 +12,7 @@ namespace DAL
         {
             switch (type)
             {
-                case "data": return Dal_imp.Instance;
+                case "lisst": return Dal_imp.Instance;
             }
             return null;
         }
