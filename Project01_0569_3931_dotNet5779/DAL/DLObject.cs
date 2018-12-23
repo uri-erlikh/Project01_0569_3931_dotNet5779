@@ -9,6 +9,6 @@ namespace DAL
 {
     class DLObject
     {
-
+        
     }
 }
