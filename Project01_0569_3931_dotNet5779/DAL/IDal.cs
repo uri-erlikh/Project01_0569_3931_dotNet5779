@@ -10,19 +10,17 @@ namespace DAL
     {
         void AddTester(DO.Tester tester);
         void DeleteTester(string TesterID);
-        void UpdateTester(string testerFamilyName, string TesterPrivateName, int num, params object[] info);
-        //לפי סיפרת הביקורת נדע איך להשתמש.
-        //נוכל להיעזר בפונקציית gettypecode וכמובן לבדוק חריגות.
-        //כל דרך אחרת תתקבל בברכה...
+        void UpdateTester(string testerID,string field, params object[] info);
+        
         DO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(DO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
-        void UpdateTrainee(string traineeFamilyName, string TraineePrivateName, int num, params object[] info);
+        void UpdateTrainee(string traineeID, string field, params object[] info);
         DO.Trainee GetOneTrainee(string ID);
 //-------------------------------------------------------
         void AddTest(DO.Test test);
-        void UpdateTestResult(bool Passed);
+        void UpdateTestResult(int NumOfTest,string field,  object result);
         DO.Test GetOneTest(int TestNum);
 
 
@@ -35,11 +33,7 @@ namespace DAL
         List<DO.Trainee> GetSomeTrainees(Predicate<bool> func );
 
         Dictionary<String, Object> getConfig();
-        void SetConfig(String parm, Object value);
-
-         bool IfExist(string ID, );
-        void AddCriterion(string newCrit);//פונקציה להוספת קריטריון בכל המבחנים הרשומים במערכת. אני מציע כי הערך 
-        //של הנתון הבוליאני יהיה אמת באופן דיפולטיבי
+        void SetConfig(String parm, Object value);        
     }
 }
 

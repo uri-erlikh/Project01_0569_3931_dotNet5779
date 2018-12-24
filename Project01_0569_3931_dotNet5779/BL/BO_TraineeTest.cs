@@ -11,7 +11,7 @@ namespace BO
         public readonly int TestNumber;
 
         private ExternalTrainee trainee;
-        public ExternalTrainee Trainee { get { return trainee; }set { } }
+        public ExternalTrainee Trainee { get { return trainee; }set { this.trainee.id = value.ID; } }
 
         private DateTime testdate;
         public DateTime TestDate { get; set; }

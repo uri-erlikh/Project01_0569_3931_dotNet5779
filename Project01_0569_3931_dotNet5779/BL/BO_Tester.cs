@@ -8,8 +8,8 @@ namespace BO
 {
     public class Person
     {
-        protected readonly string id;
-        public string ID { get; }
+        private string id;
+        public string ID { get; set; }
 
         private string familyName;
         public string FamilyName { get; set; }

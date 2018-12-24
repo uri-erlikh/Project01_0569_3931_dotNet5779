@@ -19,7 +19,7 @@ namespace DAL
 
         internal static Dictionary<String, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>();
         
-        internal Dictionary<string, bool> Schedules;
+        internal static Dictionary<string, bool> Schedules=new Dictionary<string, bool>();
 
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
         internal static List<DO.Trainee> Trainies = new List<DO.Trainee>();
@@ -31,7 +31,7 @@ namespace DAL
             Configuration.Add("MIN_TRAINEE_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 16 });
             Configuration.Add("MIN_GAP_TEST", new ConfigurationParameter() { Readable = true, Writable = false, value = 30 });
             Configuration.Add("MIN_TESTER_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 40 });
-            Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 1000000 });
+            Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 10000000 });
 
             Testers.Add(new DO.Tester("305343931")
             {

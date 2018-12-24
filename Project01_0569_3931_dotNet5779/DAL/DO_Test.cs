@@ -9,15 +9,21 @@ namespace DO
 
     public class Test
     {
-        public readonly int TestNumber;
+        private int testNumber;
+        public int TestNumber { get; set; }
+
         private string testerId;
         public string TesterId { get; set; }
+
         private string traineeId;
         public string TraineeId { get; set; }
+
         private DateTime testDate;
         public DateTime TestDate { get; set; }
+
         private DateTime testHour;
         public DateTime TestHour { get; set; }
+
         private Address testAddress;
         public Address TestAddress
         {
@@ -29,6 +35,7 @@ namespace DO
                 this.testAddress.NumOfBuilding = value.NumOfBuilding;
             }
         }
+
         private bool mirrors;
         public bool Mirrors { get; set; }
         private bool brakes;
@@ -41,10 +48,12 @@ namespace DO
         public bool Vinkers { get; set; }
         private bool trafficSigns;
         public bool TrafficSigns { get; set; }
+
         private bool passedTest;
         public bool PassedTest { get; set; }
         private string testNote;
         public string TesterNote { get; set; }
+        
 
         public override string ToString()
         {

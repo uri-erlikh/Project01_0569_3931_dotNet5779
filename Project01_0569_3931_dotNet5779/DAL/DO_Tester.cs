@@ -13,14 +13,19 @@ namespace DO
             public string ID { get;  }
             private string familyName;
             public string FamilyName { get; set; }
+
             private string privateName;
             public string PrivateName { get; set; }
+
             private DateTime dayOfBirth;
             public DateTime DayOfBirth { get; set; }
+
             private Gender personGender;
             public Gender PersonGender { get; set; }
+
             private string phone;
             public string Phone { get; set; }
+
             private Address personAddress;
             public Address PersonAddress { get { return personAddress; } set {
                     this.personAddress.City = value.City;
@@ -37,12 +42,16 @@ namespace DO
         {
             private int testerExperience;
             public int TesterExperience { get; set; }
+
             private int maxWeeklyTests;
             public int MaxWeeklyTests { get; set; }
+
             private Vehicle testerVehicle;
             public Vehicle TesterVehicle { get; set; }
+
             private double rangeToTest;
             public double RangeToTest { get; set; }
+
             public override string ToString()
             {
                 return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
