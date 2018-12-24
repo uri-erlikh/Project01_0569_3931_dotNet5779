@@ -6,12 +6,25 @@ using System.Threading.Tasks;
 
 namespace BO
 {
-    public class TesterTest
+    public class Test
     {
         public readonly int TestNumber;
 
+        private ExternalTester tester;
+        public ExternalTester Tester
+        {
+            get { return tester; }
+            set
+            {
+                this.tester.ID = value.ID; this.tester.FamilyName = value.FamilyName;
+                this.tester.PrivateName = value.PrivateName; this.tester.TesterVehicle = value.TesterVehicle;
+            }
+        }            
         private string traineeId;
         public string TraineeId { get; set; }
+
+        private string traineeName;
+        public string TraineeName { get; set; }
 
         private DateTime testDate;
         public DateTime TestDate { get; set; }
@@ -20,15 +33,8 @@ namespace BO
         public DateTime TestHour { get; set; }
 
         private Address testAddress;
-        public Address TestAddress
-        {
-            get { return testAddress; }
-            set
-            {
-                this.testAddress.City = value.City;
-                this.testAddress.Street = value.Street; this.testAddress.NumOfBuilding = value.NumOfBuilding;
-            }
-        }
+        public Address TestAddress { get { return testAddress; } set { this.testAddress.City = value.City;
+           this.testAddress.Street=value.Street ;this.testAddress.NumOfBuilding = value.NumOfBuilding; } }
 
         private bool mirrors;
         public bool Mirrors { get; set; }
@@ -45,18 +51,16 @@ namespace BO
 
         private bool passedTest;
         public bool PassedTest { get; set; }
-
-        private string testerNote;
+        private string testNote;
         public string TesterNote { get; set; }
 
-        public TesterTest() { }
+        public Test() { }
 
         public override string ToString()
         {
-            return @"Test number: " + this.TestNumber + " traineeID: " + this.TraineeId 
-                + " at: " + this.TestAddress + " " + this.TestHour 
-                + " passed? "
-                + this.PassedTest + " note: " + this.TesterNote; 
+            return @"Test number: "+this.TestNumber+ this.tester.ToString()
+                + " trainee: "+this.traineeId+" "+this.traineeName+" at:"+this.TestAddress+" "+this.TestHour
+                + " passed? "+this.PassedTest+" note: "+this.TesterNote;
         }
     }
 }

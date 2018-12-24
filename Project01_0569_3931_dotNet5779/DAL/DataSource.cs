@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DO;
 
 namespace DAL
 {
@@ -36,11 +37,11 @@ namespace DAL
             {
                 PrivateName = "Moshe",
                 FamilyName = "Weizman",                
-                BirthOfDay = new DateTime(1965, 04, 12),
+                DayOfBirth = new DateTime(1965, 04, 12),
                 Phone = "0501234567",
                 PersonGender = DO.Gender.male,
                 PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "shmaia" },
-                MaxWeeklytTests = 20,
+                MaxWeeklyTests = 20,
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.privateCar,
@@ -62,7 +63,7 @@ namespace DAL
                 Phone = "0501444567",
                 PersonGender = DO.Gender.male,
                 PersonAddress =    ,
-                MaxWeeklytTests = 25,
+                MaxWeeklyTests = 25,
                 RangeToTest = 40,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.truck,
