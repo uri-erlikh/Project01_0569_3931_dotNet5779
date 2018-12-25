@@ -27,9 +27,9 @@ namespace DAL
         List<DO.Trainee> GetTrainees();
         List<DO.Test> GetTests();
 //---------------------------------------------
-        List<DO.Test> GetSomeTests(Predicate<bool> func );
+        List<DO.Test> GetSomeTests(Predicate<bool> deleg );
         List<DO.Tester> GetSomeTesters(Predicate<bool> func );
-        List<DO.Trainee> GetSomeTrainees(Predicate<bool> func );
+        List<DO.Trainee> GetSomeTrainies(Predicate<bool> func );
 
         Dictionary<String, Object> getConfig();
         void SetConfig(String parm, Object value);        

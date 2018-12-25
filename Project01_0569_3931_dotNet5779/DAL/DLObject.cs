@@ -105,7 +105,7 @@ namespace DAL
                                 tester.RangeToTest = (int)info[0];
                                 break;
                             case "schedule":
-                                DataSource.Schedules[testerID][(int)info[0],(int)info[1]] = (bool)info[2];//chek the data
+                                DataSource.Schedules[testerID][(int)info[0], (int)info[1]] = (bool)info[2];//chek the data
                                 break;
                             default: break;
                         }
@@ -307,5 +307,15 @@ namespace DAL
             return newList;
         }
         //---------------------------------------------------------
+        List<DO.Test> GetSomeTests(Predicate<bool> deleg)
+        {
+            if (DataSource.Tests.Count == 0)
+                throw new NullReferenceException("empty list");
+            var NewList = from item in DataSource.Tests
+                          where (deleg(item))
+                          select item;
+            return NewList;
+        }
+        //--------------------------------------------------
     }
 }
