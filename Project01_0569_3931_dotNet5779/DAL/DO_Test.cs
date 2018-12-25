@@ -76,8 +76,13 @@ namespace DO
             this.TestDate = te.TestDate;
             this.TestHour = te.TestHour;
             this.testAddress = te.testAddress;
+            this.Mirrors = te.Mirrors;
+            this.Brakes = te.Brakes;
+            this.ReverseParking = te.ReverseParking;
+            this.Distance = te.Distance;
+            this.Vinkers = te.Vinkers;
+            this.TrafficSigns = te.TrafficSigns;
             this.PassedTest = this.PassedTest;
-            //crit
             this.TesterNote = te.TesterNote;
         }
     }

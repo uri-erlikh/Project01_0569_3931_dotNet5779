@@ -8,7 +8,7 @@ namespace DAL
 {
     public interface IDal
     {
-        void AddTester(DO.Tester tester);
+        void AddTester(DO.Tester tester, bool [,]matrix);
         void DeleteTester(string TesterID);
         void UpdateTester(string testerID,string field, params object[] info);
         
@@ -22,12 +22,11 @@ namespace DAL
         void AddTest(DO.Test test);
         void UpdateTestResult(int NumOfTest,string field,  object result);
         DO.Test GetOneTest(int TestNum);
-
-
+//-----------------------------------------
         List<DO.Tester> GetTesters();
         List<DO.Trainee> GetTrainees();
         List<DO.Test> GetTests();
-
+//---------------------------------------------
         List<DO.Test> GetSomeTests(Predicate<bool> func );
         List<DO.Tester> GetSomeTesters(Predicate<bool> func );
         List<DO.Trainee> GetSomeTrainees(Predicate<bool> func );

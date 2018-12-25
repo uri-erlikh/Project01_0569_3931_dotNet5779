@@ -23,10 +23,13 @@ namespace DAL
         }
 
         //-------------------------------------------------------
-        public void AddTester(DO.Tester tester)
+        public void AddTester(DO.Tester tester, bool[,] matrix)
         {
             if (!IfExist(tester.ID, "tester"))
+            {
                 DataSource.Testers.Add(tester);
+                DataSource.Schedules.Add(tester.ID, matrix);
+            }
             else throw new DuplicateWaitObjectException("allready exist");
         }
         //--------------------------------------------------------------
@@ -38,6 +41,7 @@ namespace DAL
                     if (DataSource.Testers[i].ID == TesterID)
                     {
                         DataSource.Testers.Remove(DataSource.Testers[i]);
+                        DataSource.Schedules.Remove(TesterID);
                         break;
                     }
             }
@@ -73,35 +77,35 @@ namespace DAL
                     {
                         switch (field)
                         {
-                            case "FamilyName":
+                            case "amilyName":
                                 tester.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
                                 break;
-                            case "PrivateName":
+                            case "privateName":
                                 tester.PrivateName = (string)info[0];
                                 break;
-                            case "DayOfBirth":
+                            case "dayOfBirth":
                                 tester.DayOfBirth = (DateTime)info[0];//אולי try
                                 break;
-                            case "Phone":
+                            case "phone":
                                 tester.Phone = (string)info[0];
                                 break;
-                            case "PersonAddress":
+                            case "personAddress":
                                 tester.PersonAddress = (Address)info[0];
                                 break;
-                            case "TesterExperience":
+                            case "testerExperience":
                                 tester.TesterExperience = (int)info[0];
                                 break;
-                            case "MaxWeeklyTesters":
+                            case "maxWeeklyTesters":
                                 tester.MaxWeeklyTests = (int)info[0];
                                 break;
-                            case "TesterVehicle":
+                            case "testerVehicle":
                                 tester.TesterVehicle = (Vehicle)info[0];
                                 break;
-                            case "RangeToTest":
+                            case "rangeToTest":
                                 tester.RangeToTest = (int)info[0];
                                 break;
-                            case "Schedule":
-                                DataSource.Schedules[testerID][info[0], info[1]] = (bool)info[2];
+                            case "schedule":
+                                DataSource.Schedules[testerID][(int)info[0],(int)info[1]] = (bool)info[2];//chek the data
                                 break;
                             default: break;
                         }
@@ -131,9 +135,12 @@ namespace DAL
         {
             if (IfExist(TraineeID, "tester"))
             {
-                for (int i=0;i<DataSource.Trainies.Count; ++i)
+                for (int i = 0; i < DataSource.Trainies.Count; ++i)
                     if (DataSource.Trainies[i].ID == TraineeID)
+                    {
                         DataSource.Trainies.Remove(DataSource.Trainies[i]);
+                        break;
+                    }
             }
             else throw new KeyNotFoundException("ID not found");
         }
@@ -148,34 +155,34 @@ namespace DAL
                     {
                         switch (field)
                         {
-                            case "FamilyName":
+                            case "familyName":
                                 trainee.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
                                 break;
-                            case "PrivateName":
+                            case "privateName":
                                 trainee.PrivateName = (string)info[0];
                                 break;
-                            case "DayOfBirth":
+                            case "dayOfBirth":
                                 trainee.DayOfBirth = (DateTime)info[0];//אולי try
                                 break;
-                            case "Phone":
+                            case "phone":
                                 trainee.Phone = (string)info[0];
                                 break;
-                            case "PersonAddress":
+                            case "personAddress":
                                 trainee.PersonAddress = (Address)info[0];//לבנות למעללה מבנה של כתובת
                                 break;
-                            case "TraineeVehicle":
+                            case "traineeVehicle":
                                 trainee.TraineeVehicle = (Vehicle)info[0];
                                 break;
-                            case "TraineeGear":
+                            case "traineeGear":
                                 trainee.TraineeGear = (GearBox)info[0];
                                 break;
-                            case "School":
+                            case "school":
                                 trainee.School = (string)info[0];
                                 break;
-                            case "Teacher":
+                            case "teacher":
                                 trainee.Teacher = (string)info[0];
                                 break;
-                            case "DrivingLessonsNum":
+                            case "drivingLessonsNum":
                                 trainee.DrivingLessonsNum = (int)info[0];
                                 break;
                             default: break;
@@ -207,45 +214,44 @@ namespace DAL
             DataSource.Configuration["Number"].value = temp + 1;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(int NumOfTest, string field, object result)
+        public void UpdateTestResult(int numOfTest, string field, object result)
         {
-            if (!IfTestExist(NumOfTest))
+            if (!IfTestExist(numOfTest))
                 throw new KeyNotFoundException("Test is not exist");//try
             foreach (var item in DataSource.Tests)
-                if (item.TestNumber == NumOfTest)
+                if (item.TestNumber == numOfTest)
                 {
-                    if (item.TestHour < DateTime.Now)//try
-                        throw new InvalidOperationException("Test don't occur yet");//change the execption
+                    if (item.TestHour > DateTime.Now)//try
+                        throw new InvalidOperationException("Test didn't occur yet");//change the execption
                     switch (field)
                     {
-                        case "Mirrors":
+                        case "mirrors":
                             item.Mirrors = (bool)result;
                             break;
-                        case "Brakes":
+                        case "brakes":
                             item.Brakes = (bool)result;
                             break;
-                        case "ReverseParking":
+                        case "reverseParking":
                             item.ReverseParking = (bool)result;
                             break;
-                        case "Distance":
+                        case "distance":
                             item.Distance = (bool)result;
                             break;
-                        case "Vinkers":
+                        case "vinkers":
                             item.Vinkers = (bool)result;
                             break;
-                        case "TrafficSigns":
+                        case "trafficSigns":
                             item.TrafficSigns = (bool)result;
                             break;
-                        case "PassedTest":
+                        case "passedTest":
                             item.PassedTest = (bool)result;
                             break;
-                        case "TesterNote":
+                        case "testerNote":
                             item.TesterNote = (string)result;
                             break;
                         default: throw new InvalidOperationException("you cannot change this field");//the same
                     }
                 }
-
         }
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)
@@ -255,5 +261,51 @@ namespace DAL
             return false;
         }
         //----------------------------------------------------
+        public DO.Test GetOneTest(int testNum)
+        {
+            if (!IfTestExist(testNum))
+                throw new KeyNotFoundException();
+            foreach (var item in DataSource.Tests)
+                if (item.TestNumber == testNum)
+                    return new Test(item);
+            return null;
+        }
+        //--------------------------------------------------
+        public List<DO.Tester> GetTesters()
+        {
+            if (DataSource.Testers.Count == 0)
+                throw new NullReferenceException("empty list");
+            List<DO.Tester> newList = new List<DO.Tester>();
+            foreach (var item in DataSource.Testers)
+            {
+                newList.Add(new DO.Tester(item));
+            }
+            return newList;
+        }
+        //-----------------------------------------------------
+        public List<DO.Trainee> GetTrainees()
+        {
+            if (DataSource.Trainies.Count == 0)
+                throw new NullReferenceException("empty list");
+            List<DO.Trainee> newList = new List<DO.Trainee>();
+            foreach (var item in DataSource.Trainies)
+            {
+                newList.Add(new DO.Trainee(item));
+            }
+            return newList;
+        }
+        //----------------------------------------------------
+        public List<DO.Test> GetTests()
+        {
+            if (DataSource.Tests.Count == 0)
+                throw new NullReferenceException("empty list");
+            List<DO.Test> newList = new List<DO.Test>();
+            foreach (var item in DataSource.Tests)
+            {
+                newList.Add(new DO.Test(item));
+            }
+            return newList;
+        }
+        //---------------------------------------------------------
     }
 }
