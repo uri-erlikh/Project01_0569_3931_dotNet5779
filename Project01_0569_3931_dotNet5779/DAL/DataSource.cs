@@ -15,7 +15,7 @@ namespace DAL
             internal bool Writable;
             internal object value;
         }
-        
+        //dddd
 
         internal static Dictionary<String, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>();
         
