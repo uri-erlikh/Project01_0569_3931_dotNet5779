@@ -42,7 +42,6 @@ namespace BO
         public Person()
         {
             DayOfBirth = new DateTime();
-            this.age = DateTime.Now.Year - DayOfBirth.Year;
         }
     }
     //-----------------------------------------------------------
@@ -62,16 +61,17 @@ namespace BO
         private double rangeToTest;
         public double RangeToTest { get; set; }
 
-        public List<Test> TesterTest; 
+        public List<TesterTest> TesterTests; //אותחל בבנאי
 
         public override string ToString()
         {
             return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
         }
 
-        Tester() 
+        public Tester() 
         {
             Schedule = new bool[5, 6];
+            TesterTests = new List<TesterTest>();
         }
         //------------------------------------------------------------
     //    public Tester(string myId) : base(myId) { }

@@ -16,7 +16,7 @@ namespace DAL
         //---------------------------------------------
         void AddTrainee(DO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
-        void UpdateTrainee(string traineeID, string field, params object[] info);
+        void UpdateTrainee(string traineeID, string field,  object info);
         DO.Trainee GetOneTrainee(string ID);
 //-------------------------------------------------------
         void AddTest(DO.Test test);

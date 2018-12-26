@@ -17,10 +17,15 @@ namespace BL
             //-------------------------------------------------------------
             public void AddTester(BO.Tester tester, bool[,] matrix)
             {
-
+                tester.age = DateTime.Now.Year - tester.DayOfBirth.Year;
                 try
                 {
-                    if (tester.age >= Configuration.MIN_TESTER_AGE && tester.age < Configuration.MAX_TESTER_AGE)
+                    if (tester.age < Configuration.MIN_TESTER_AGE)
+                        throw new BO.InvalidDataException("Too young tester");
+                    if (tester.age > Configuration.MAX_TESTER_AGE)
+                        throw new BO.InvalidDataException("Too old tester");//if if if
+                }
+                catch (BO.InvalidDataException e) { throw; }                
                         try
                         {
                             dl.AddTester(Convert(tester), matrix);
@@ -28,12 +33,7 @@ namespace BL
                         catch (DuplicateWaitObjectException e)
                         {
                             throw;
-                        }
-                    else if (tester.age < Configuration.MIN_TESTER_AGE)
-                        throw new BO.InvalidDataException("Too young tester");
-                    else throw new BO.InvalidDataException("Too old tester");
-                }
-                catch (BO.InvalidDataException e) { throw; }
+                        }                  
             }
             //---------------------------------------------------------
             public void DeleteTester(string TesterID)
@@ -46,7 +46,44 @@ namespace BL
                 { throw; }
             }
             //--------------------------------------------------------------------
-            public void UpdateTester(string testerID, string field, params object[] info) { }
+            public void UpdateTester(string testerID, string field, params object[] info)
+            {
+                try { }//בדיקות תקינות
+                switch (field)//מתי בודקים קלט
+                {
+                    case "familyName":
+                        dl.UpdateTester( testerID,  field,  info);
+                        break;
+                    case "privateName":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "dayOfBirth":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "phone":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "personAddress":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "testerExperience":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "maxWeeklyTesters":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "testerVehicle":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "rangeToTest":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "schedule":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    default: throw new InvalidDataException ("no such field");
+                }
+            }
             //---------------------------------------------------------------
             public BO.Tester GetOneTester(string ID)
             {
@@ -62,6 +99,7 @@ namespace BL
             //----------------------------------------------------------------
             public void AddTrainee(BO.Trainee trainee)
             {
+                trainee.age = DateTime.Now.Year - trainee.DayOfBirth.Year;
                 try
                 {
                     if (trainee.age < Configuration.MIN_TRAINEE_AGE)
@@ -92,20 +130,58 @@ namespace BL
                 }
             }
             //--------------------------------------------------------------------
-            public void UpdateTrainee(string traineeID, string field, params object[] info) { }
+            public void UpdateTrainee(string traineeID, string field, params object[] info)
+            {
+                try
+                {
+                    dl.UpdateTrainee(traineeID, field, info);
+                }
+                catch (KeyNotFoundException e) { throw; }
+            }
             //---------------------------------------------------------------------
             public BO.Trainee GetOneTrainee(string ID)
             {
                 try
                 {
-                    return convert(dl.GetOneTrainee(ID));
+                    return Convert(dl.GetOneTrainee(ID));
                 }
                 catch (KeyNotFoundException e)
                 {
                     throw;
                 }
             }
-            //------------------------------------------------------------------            
+            //------------------------------------------------------------------
+            void AddTest(BO.Test test)
+            {
+                var t= test.TestDate-((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                                         where item.TestDate < DateTime.Now
+                                         orderby item.TestDate descending
+                                         select item.TestDate).ToList().FirstOrDefault());
+                try
+                {
+                    if (t.Days < BO.Configuration.MIN_GAP_TEST)
+                        throw new InvalidDataException("test too close");
+                }
+                catch(InvalidDataException e) { throw; }
+                try { 
+                    if(dl.GetOneTrainee(test.TraineeId).DrivingLessonsNum< Configuration.MIN_LESSONS)
+                        throw new InvalidDataException("not enough lessons");
+                }
+                catch(InvalidDataException e) { throw; }
+                var k = (from item in dl.GetTesters()
+                         where (dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9] == true)
+                         select item).ToList();
+                if (k.Count == 0)
+                    throw new InvalidDataException("bad time to test");
+                else
+
+                try
+                {
+                    dl.AddTest(Convert(test));
+                }
+                catch(KeyNotFoundException e) { throw; }
+            }
+            //------------------------------------------------------------------
             private DO.Tester Convert(BO.Tester tester)
             {
                 return new DO.Tester(tester.ID)
@@ -175,9 +251,21 @@ namespace BL
                     TesterVehicle = (BO.Vehicle)tester.TesterVehicle,
                     RangeToTest = tester.RangeToTest,
                     Schedule = dl.GetSchedule(tester.ID),
-
-                };
+                    TesterTests=GetTesterTest(dl.GetSomeTests(x=>x.TesterId==tester.ID)),
+                };                
             }
+
+            private List<BO.TesterTest> GetTesterTest(List<DO.Test> list)
+            {
+                List<BO.TesterTest> newList = new List<TesterTest>();
+                foreach (var irem in list)
+                    newList.Add(new TesterTest()
+                    {
+
+                    });
+                return newList;
+                    }
+            //---------------------------------------------------------------------------
 
         }
     }

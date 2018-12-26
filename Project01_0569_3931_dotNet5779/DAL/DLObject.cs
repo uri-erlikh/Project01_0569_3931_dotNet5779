@@ -74,47 +74,49 @@ namespace DAL
         //----------------------------------------------------------------------------
         public void UpdateTester(string testerID, string field, params object[] info)
         {
-            if (!IfExist(testerID, "tester"))
-                throw new KeyNotFoundException("ID not found");//try
+            try
+            {
+                if (!IfExist(testerID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch (KeyNotFoundException e) { throw; }
             else
                 foreach (var tester in DataSource.Testers)
-                    if (testerID == tester.ID)
+                if (testerID == tester.ID)
+                {
+                    switch (field)
                     {
-                        switch (field)
-                        {
-                            case "familyName":
-                                tester.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
-                                break;
-                            case "privateName":
-                                tester.PrivateName = (string)info[0];
-                                break;
-                            case "dayOfBirth":
-                                tester.DayOfBirth = (DateTime)info[0];//אולי try
-                                break;
-                            case "phone":
-                                tester.Phone = (string)info[0];
-                                break;
-                            case "personAddress":
-                                tester.PersonAddress = (Address)info[0];
-                                break;
-                            case "testerExperience":
-                                tester.TesterExperience = (int)info[0];
-                                break;
-                            case "maxWeeklyTesters":
-                                tester.MaxWeeklyTests = (int)info[0];
-                                break;
-                            case "testerVehicle":
-                                tester.TesterVehicle = (Vehicle)info[0];
-                                break;
-                            case "rangeToTest":
-                                tester.RangeToTest = (int)info[0];
-                                break;
-                            case "schedule":
-                                DataSource.Schedules[testerID][(int)info[0], (int)info[1]] = (bool)info[2];//chek the data
-                                break;
-                            default: break;
-                        }
-                    }
+                        case "familyName":
+                            tester.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
+                            break;
+                        case "privateName":
+                            tester.PrivateName = (string)info[0];
+                            break;
+                        case "dayOfBirth":
+                            tester.DayOfBirth = (DateTime)info[0];//אולי try
+                            break;
+                        case "phone":
+                            tester.Phone = (string)info[0];
+                            break;
+                        case "personAddress":
+                            tester.PersonAddress = (Address)info[0];
+                            break;
+                        case "testerExperience":
+                            tester.TesterExperience = (int)info[0];
+                            break;
+                        case "maxWeeklyTesters":
+                            tester.MaxWeeklyTests = (int)info[0];
+                            break;
+                        case "testerVehicle":
+                            tester.TesterVehicle = (Vehicle)info[0];
+                            break;
+                        case "rangeToTest":
+                            tester.RangeToTest = (int)info[0];
+                            break;
+                        case "schedule":
+                            DataSource.Schedules[testerID][(int)info[0], (int)info[1]] = (bool)info[2];//chek the data
+                            break;                    }
+                }
         }
         //--------------------------------------------------------
         public DO.Tester GetOneTester(string ID)
@@ -160,49 +162,51 @@ namespace DAL
                 }
         }
         //--------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, params object[] info)
+        public void UpdateTrainee(string traineeID, string field, object info)
         {
-            if (!IfExist(traineeID, "trainee"))
-                throw new KeyNotFoundException("ID not found");//try
-            else
-                foreach (var trainee in DataSource.Trainies)
-                    if (traineeID == trainee.ID)
+            try
+            {
+                if (!IfExist(traineeID, "trainee"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch (KeyNotFoundException e) { throw; }
+            foreach (var trainee in DataSource.Trainies)
+                if (traineeID == trainee.ID)
+                {
+                    switch (field)
                     {
-                        switch (field)
-                        {
-                            case "familyName":
-                                trainee.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
-                                break;
-                            case "privateName":
-                                trainee.PrivateName = (string)info[0];
-                                break;
-                            case "dayOfBirth":
-                                trainee.DayOfBirth = (DateTime)info[0];//אולי try
-                                break;
-                            case "phone":
-                                trainee.Phone = (string)info[0];
-                                break;
-                            case "personAddress":
-                                trainee.PersonAddress = (Address)info[0];//לבנות למעללה מבנה של כתובת
-                                break;
-                            case "traineeVehicle":
-                                trainee.TraineeVehicle = (Vehicle)info[0];
-                                break;
-                            case "traineeGear":
-                                trainee.TraineeGear = (GearBox)info[0];
-                                break;
-                            case "school":
-                                trainee.School = (string)info[0];
-                                break;
-                            case "teacher":
-                                trainee.Teacher = (string)info[0];
-                                break;
-                            case "drivingLessonsNum":
-                                trainee.DrivingLessonsNum = (int)info[0];
-                                break;
-                            default: break;
-                        }
+                        case "familyName":
+                            trainee.FamilyName = (string)info;//לבדוק למעלה שזה לא נאללל
+                            break;
+                        case "privateName":
+                            trainee.PrivateName = (string)info;
+                            break;
+                        case "dayOfBirth":
+                            trainee.DayOfBirth = (DateTime)info;//אולי try
+                            break;
+                        case "phone":
+                            trainee.Phone = (string)info;
+                            break;
+                        case "personAddress":
+                            trainee.PersonAddress = (Address)info;//לבנות למעללה מבנה של כתובת
+                            break;
+                        case "traineeVehicle":
+                            trainee.TraineeVehicle = (Vehicle)info;
+                            break;
+                        case "traineeGear":
+                            trainee.TraineeGear = (GearBox)info;
+                            break;
+                        case "school":
+                            trainee.School = (string)info;
+                            break;
+                        case "teacher":
+                            trainee.Teacher = (string)info;
+                            break;
+                        case "drivingLessonsNum":
+                            trainee.DrivingLessonsNum = (int)info;
+                            break;
                     }
+                }
         }
         //--------------------------------------------------
         public DO.Trainee GetOneTrainee(string ID)
@@ -223,10 +227,14 @@ namespace DAL
         //--------------------------------------------------------
         public void AddTest(DO.Test test)
         {
-            if (!IfExist(test.TesterId, "tester"))
-                throw new KeyNotFoundException("TesterID not found");//try 
-            if (!IfExist(test.TraineeId, "trainee"))
-                throw new KeyNotFoundException("TraineeID not found");//try  
+            try
+            {
+                if (!IfExist(test.TesterId, "tester"))
+                    throw new KeyNotFoundException("TesterID not found");
+                if (!IfExist(test.TraineeId, "trainee"))
+                    throw new KeyNotFoundException("TraineeID not found");
+            }
+            catch (KeyNotFoundException e) { throw; }
             int temp = (int)DataSource.Configuration["Number"].value;
             test.TestNumber = temp;
             DataSource.Tests.Add(test);
@@ -377,12 +385,6 @@ namespace DAL
         //-----------------------------------------------------
         public bool[,] GetSchedule(string ID)
         {
-            try
-            {
-                if (!IfExist(ID, "tester"))
-                    throw new KeyNotFoundException();
-            }
-            catch (KeyNotFoundException e) { throw; }
             var matrix = (from item in DataSource.Schedules
                           where (item.Key == ID)
                           select item.Value).ToArray();
