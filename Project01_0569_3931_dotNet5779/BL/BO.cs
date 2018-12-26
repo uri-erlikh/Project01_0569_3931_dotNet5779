@@ -38,8 +38,17 @@ namespace BO
             MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
         }
     }
-    //---------------------------------------------------
-    public struct Address
+    //----------------------------------------------------
+    [Serializable]
+    public class InvalidDataException : Exception
+    {
+        public InvalidDataException() : base() { }
+        public InvalidDataException(string message) : base(message) { }
+        public InvalidDataException(string message, Exception inner) : base(message, inner) { }
+        //protected MyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+    }
+        //---------------------------------------------------
+        public struct Address
     {
         private string city;
         public string City { get; set; }

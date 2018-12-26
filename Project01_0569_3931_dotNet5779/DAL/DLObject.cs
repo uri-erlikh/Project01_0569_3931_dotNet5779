@@ -25,27 +25,34 @@ namespace DAL
         //-------------------------------------------------------
         public void AddTester(DO.Tester tester, bool[,] matrix)
         {
-            if (!IfExist(tester.ID, "tester"))
+            try
             {
-                DataSource.Testers.Add(tester);
-                DataSource.Schedules.Add(tester.ID, matrix);
+                if (!IfExist(tester.ID, "tester"))
+                {
+                    DataSource.Testers.Add(tester);
+                    DataSource.Schedules.Add(tester.ID, matrix);
+                }
+                else throw new DuplicateWaitObjectException("allready exist");
             }
-            else throw new DuplicateWaitObjectException("allready exist");
+            catch  { throw; }
         }
         //--------------------------------------------------------------
         public void DeleteTester(string TesterID)
         {
-            if (IfExist(TesterID, "tester"))
+            try
             {
-                for (int i = 0; i < DataSource.Testers.Count; ++i)
-                    if (DataSource.Testers[i].ID == TesterID)
-                    {
-                        DataSource.Testers.Remove(DataSource.Testers[i]);
-                        DataSource.Schedules.Remove(TesterID);
-                        break;
-                    }
+                if (!IfExist(TesterID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
             }
-            else throw new KeyNotFoundException("ID not found");
+            catch (KeyNotFoundException e) { throw; }
+
+            for (int i = 0; i < DataSource.Testers.Count; ++i) 
+                        if (DataSource.Testers[i].ID == TesterID)
+                        {
+                            DataSource.Testers.Remove(DataSource.Testers[i]);
+                            DataSource.Schedules.Remove(TesterID);
+                            return;
+                        }                                  
         }
         //------------------------------------------------------------------        
         private bool IfExist(string ID, string type)
@@ -114,8 +121,12 @@ namespace DAL
         //--------------------------------------------------------
         public DO.Tester GetOneTester(string ID)
         {
-            if (!IfExist(ID, "tester"))
-                throw new KeyNotFoundException("ID not found");
+            try
+            {
+                if (!IfExist(ID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch(KeyNotFoundException e) { throw; }
             foreach (var item in DataSource.Testers)
             {
                 if (item.ID == ID)
@@ -126,23 +137,29 @@ namespace DAL
         //------------------------------------------------------------
         public void AddTrainee(DO.Trainee trainee)
         {
-            if (!IfExist(trainee.ID, "trainee"))
-                DataSource.Trainies.Add(trainee);
-            else throw new DuplicateWaitObjectException("allready exist");
+            try
+            {
+                if (IfExist(trainee.ID, "trainee"))
+                    throw new DuplicateWaitObjectException("allready exist");
+            }
+            catch (DuplicateWaitObjectException e) { throw; }
+            DataSource.Trainies.Add(trainee);             
         }
         //------------------------------------------------------------
         public void DeleteTrainee(string TraineeID)
         {
-            if (IfExist(TraineeID, "tester"))
+            try
             {
-                for (int i = 0; i < DataSource.Trainies.Count; ++i)
+                if (!IfExist(TraineeID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch(KeyNotFoundException e) { throw; }
+                    for (int i = 0; i < DataSource.Trainies.Count; ++i)
                     if (DataSource.Trainies[i].ID == TraineeID)
                     {
                         DataSource.Trainies.Remove(DataSource.Trainies[i]);
-                        break;
-                    }
-            }
-            else throw new KeyNotFoundException("ID not found");
+                        return;
+                    }             
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(string traineeID, string field, params object[] info)
@@ -307,7 +324,7 @@ namespace DAL
             return newList;
         }
         //---------------------------------------------------------
-        List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
+        public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
             if (DataSource.Tests.Count == 0)
                 throw new NullReferenceException("empty list");
@@ -317,7 +334,7 @@ namespace DAL
             return NewList.ToList();
         }
         //--------------------------------------------------
-        List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
+        public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
             if (DataSource.Testers.Count == 0)
                 throw new NullReferenceException("empty list");
@@ -327,7 +344,7 @@ namespace DAL
             return NewList.ToList();
         }
         //--------------------------------------------------
-        List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
+        public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
         {
             if (DataSource.Testers.Count == 0)
                 throw new NullReferenceException("empty list");
@@ -337,7 +354,7 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-        Dictionary<String, Object> getConfig()
+        public Dictionary<String, Object> getConfig()
         {
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             var newDict = from item in DataSource.Configuration
@@ -348,7 +365,7 @@ namespace DAL
             return dictionary;
         }
         //-----------------------------------------------------------------------
-        void SetConfig(string parm, object value)
+        public void SetConfig(string parm, object value)
         {
            // DataSource.Configuration.Keys== parmלבדוק שקיים הערך במילון
             if (DataSource.Configuration[parm].Writable == false)

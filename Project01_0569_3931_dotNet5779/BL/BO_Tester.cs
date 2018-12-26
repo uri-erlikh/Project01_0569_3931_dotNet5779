@@ -20,6 +20,8 @@ namespace BO
         private DateTime dayOfBirth;
         public DateTime DayOfBirth { get; set; }
 
+        public int age;
+
         private Gender personGender;
         public Gender PersonGender { get; set; }
 
@@ -37,7 +39,11 @@ namespace BO
                 this.personAddress.NumOfBuilding = value.NumOfBuilding;
             }
         }
-        public Person(){}
+        public Person()
+        {
+            DayOfBirth = new DateTime();
+            this.age = DateTime.Now.Year - DayOfBirth.Year;
+        }
     }
     //-----------------------------------------------------------
     public class Tester : Person
