@@ -27,12 +27,12 @@ namespace DAL
         List<DO.Trainee> GetTrainees();
         List<DO.Test> GetTests();
 //---------------------------------------------
-        List<DO.Test> GetSomeTests(Predicate<bool> deleg );
-        List<DO.Tester> GetSomeTesters(Predicate<bool> func );
-        List<DO.Trainee> GetSomeTrainies(Predicate<bool> func );
+        List<DO.Test> GetSomeTests(Predicate<DO.Test>someFunc );
+        List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func );
+        List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func );
 
-        Dictionary<String, Object> getConfig();
-        void SetConfig(String parm, Object value);        
+        Dictionary<string, object> getConfig();
+        void SetConfig(string parm, object value);        
     }
 }
 

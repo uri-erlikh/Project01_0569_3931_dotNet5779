@@ -297,7 +297,7 @@ namespace DAL
         //----------------------------------------------------
         public List<DO.Test> GetTests()
         {
-            if (DataSource.Tests.Count == 0)
+            if (DataSource.Tests.Count == 0)            
                 throw new NullReferenceException("empty list");
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
@@ -307,15 +307,56 @@ namespace DAL
             return newList;
         }
         //---------------------------------------------------------
-        List<DO.Test> GetSomeTests(Predicate<bool> deleg)
+        List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
             if (DataSource.Tests.Count == 0)
                 throw new NullReferenceException("empty list");
             var NewList = from item in DataSource.Tests
-                          where (deleg(item))
+                          where (someFunc(item))
                           select item;
-            return NewList;
+            return NewList.ToList();
         }
         //--------------------------------------------------
+        List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
+        {
+            if (DataSource.Testers.Count == 0)
+                throw new NullReferenceException("empty list");
+            var NewList = from item in DataSource.Testers
+                          where (func(item))
+                          select item;
+            return NewList.ToList();
+        }
+        //--------------------------------------------------
+        List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
+        {
+            if (DataSource.Testers.Count == 0)
+                throw new NullReferenceException("empty list");
+            var NewList = from item in DataSource.Trainies
+                          where (func(item))
+                          select item;
+            return NewList.ToList();
+        }
+        //------------------------------------------------------------------
+        Dictionary<String, Object> getConfig()
+        {
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            var newDict = from item in DataSource.Configuration
+                          where (item.Value.Readable == true)
+                          select new { key = item.Key, item.Value.value };
+            foreach (var item in newDict)
+                dictionary.Add(item.key, item.value);
+            return dictionary;
+        }
+        //-----------------------------------------------------------------------
+        void SetConfig(string parm, object value)
+        {
+           // DataSource.Configuration.Keys== parmלבדוק שקיים הערך במילון
+            if (DataSource.Configuration[parm].Writable == false)
+                throw new InvalidOperationException("it is non writeable value");
+            else DataSource.Configuration[parm].value = value;
+        }
+        //-----------------------------------------------------
+
+
     }
 }

@@ -3,24 +3,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DAL;
 
 namespace BO
 {
-    
-    
-        public enum Vehicle { privateCar, motorcycle, truck, heavyTruck };
-        public enum GearBox { auto, manual };
-        public enum Gender { male, female };
 
-        public class Configuration
+
+    public enum Vehicle { privateCar, motorcycle, truck, heavyTruck };
+    public enum GearBox { auto, manual };
+    public enum Gender { male, female };
+
+    public static class Configuration
+    {
+        public static int MIN_LESSONS;
+        public static int MAX_TESTER_AGE;
+        public static int MIN_TRAINEE_AGE;
+        public static int MIN_GAP_TEST;
+        public static int MIN_TESTER_AGE;
+
+        public static bool IfIntialized;
+        public static DateTime updateTime;
+
+        static Configuration()
         {
-            public static int MIN_LESSONS = 28;
-            public static int MAX_TESTER_AGE = 67;
-            public static int MIN_TRAINEE_AGE = 16;
-            public static int MIN_GAP_TEST = 30;
-            public static int MIN_TESTER_AGE = 40;
-            public static int Number = 1;
+            IDal d_l = DAL_Factory.GetDL("data");
+
+            IfIntialized = true;
+            updateTime = DateTime.Now;
+            Dictionary<string,object> config = new Dictionary<string, object>(d_l.getConfig());
+            MIN_LESSONS = (int)config["MIN_LESSONS"];
+            MAX_TESTER_AGE= (int)config["MAX_TESTER_AGE"];
+            MIN_TRAINEE_AGE = (int)config["MIN_TRAINEE_AGE"];
+            MIN_GAP_TEST= (int)config["MIN_GAP_TEST"];
+            MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
         }
+    }
     //---------------------------------------------------
     public struct Address
     {
@@ -46,5 +63,6 @@ namespace BO
         }
 
     }
-   
+
+
 

@@ -8,31 +8,31 @@ namespace BL
 {
     public interface IBL
     {
-        void AddTester(BO.Tester tester);
+        void AddTester(DO.Tester tester, bool[,] matrix);
         void DeleteTester(string TesterID);
-        void UpdateTester(string testerFamilyName, string TesterPrivateName, int num, params object[] info);
-        //לפי סיפרת הביקורת נדע איך להשתמש.
-        //נוכל להיעזר בפונקציית gettypecode וכמובן לבדוק חריגות.
-        //כל דרך אחרת תתקבל בברכה...
-        void AddTrainee(BO.Trainee trainee);
+        void UpdateTester(string testerID, string field, params object[] info);
+
+        DO.Tester GetOneTester(string ID);
+        //---------------------------------------------
+        void AddTrainee(DO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
-        void UpdateTrainee(string traineeFamilyName, string TraineePrivateName, int num, params object[] info);
+        void UpdateTrainee(string traineeID, string field, params object[] info);
+        DO.Trainee GetOneTrainee(string ID);
+        //-------------------------------------------------------
+        void AddTest(DO.Test test);
+        void UpdateTestResult(int NumOfTest, string field, object result);
+        DO.Test GetOneTest(int TestNum);
+        //-----------------------------------------
+        List<DO.Tester> GetTesters();
+        List<DO.Trainee> GetTrainees();
+        List<DO.Test> GetTests();
+        //---------------------------------------------
+        List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc);
+        List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func);
+        List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func);
 
-        void AddTest(BO.Test test);
-        void UpdateTestResult(bool Passed);
-
-        List<BO.Tester> GetTesters();
-        List<BO.Trainee> GetTrainees();
-        List<BO.Test> GetTests();
-
-        BO.Tester GetOneTester(string ID);
-        BO.Trainee GetOneTrainee(string ID);
-        BO.Test GetOneTest(string IDTester, string IDTrainee);
-        bool IfExist(string ID, string type);
-        void AddCriterion(string newCrit);//פונקציה להוספת קריטריון בכל המבחנים הרשומים במערכת. אני מציע כי הערך 
-                                          //של הנתון הבוליאני יהיה אמת באופן דיפולטיבי
-
-
+        Dictionary<string, object> getConfig();
+        void SetConfig(string parm, object value);
     }
 }
 

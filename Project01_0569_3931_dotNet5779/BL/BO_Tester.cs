@@ -37,10 +37,7 @@ namespace BO
                 this.personAddress.NumOfBuilding = value.NumOfBuilding;
             }
         }
-        public Person()//string myId)
-        {
-            //this.id = myId;
-        }
+        public Person(){}
     }
     //-----------------------------------------------------------
     public class Tester : Person
