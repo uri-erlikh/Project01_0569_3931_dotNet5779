@@ -57,7 +57,7 @@ namespace BO
         private Vehicle testerVehicle;
         public Vehicle TesterVehicle { get; set; }
 
-        public bool[,] Schedule;//לא אתחלתי
+        public bool[,] Schedule;//אתחלתי בבנאי
 
         private double rangeToTest;
         public double RangeToTest { get; set; }
@@ -68,6 +68,12 @@ namespace BO
         {
             return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
         }
+
+        Tester() 
+        {
+            Schedule = new bool[5, 6];
+        }
+        //------------------------------------------------------------
     //    public Tester(string myId) : base(myId) { }
 
     //    public Tester(Tester t) : base(t.ID)

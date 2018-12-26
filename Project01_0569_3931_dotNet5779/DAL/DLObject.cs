@@ -27,14 +27,12 @@ namespace DAL
         {
             try
             {
-                if (!IfExist(tester.ID, "tester"))
-                {
-                    DataSource.Testers.Add(tester);
-                    DataSource.Schedules.Add(tester.ID, matrix);
-                }
-                else throw new DuplicateWaitObjectException("allready exist");
+                if (IfExist(tester.ID, "tester"))
+                    throw new DuplicateWaitObjectException("allready exist");
             }
-            catch  { throw; }
+            catch (DuplicateWaitObjectException e) { throw; }
+            DataSource.Testers.Add(tester);
+            DataSource.Schedules.Add(tester.ID, matrix);
         }
         //--------------------------------------------------------------
         public void DeleteTester(string TesterID)
@@ -46,13 +44,13 @@ namespace DAL
             }
             catch (KeyNotFoundException e) { throw; }
 
-            for (int i = 0; i < DataSource.Testers.Count; ++i) 
-                        if (DataSource.Testers[i].ID == TesterID)
-                        {
-                            DataSource.Testers.Remove(DataSource.Testers[i]);
-                            DataSource.Schedules.Remove(TesterID);
-                            return;
-                        }                                  
+            for (int i = 0; i < DataSource.Testers.Count; ++i)
+                if (DataSource.Testers[i].ID == TesterID)
+                {
+                    DataSource.Testers.Remove(DataSource.Testers[i]);
+                    DataSource.Schedules.Remove(TesterID);
+                    return;
+                }
         }
         //------------------------------------------------------------------        
         private bool IfExist(string ID, string type)
@@ -84,7 +82,7 @@ namespace DAL
                     {
                         switch (field)
                         {
-                            case "amilyName":
+                            case "familyName":
                                 tester.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
                                 break;
                             case "privateName":
@@ -126,7 +124,7 @@ namespace DAL
                 if (!IfExist(ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
             }
-            catch(KeyNotFoundException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
             foreach (var item in DataSource.Testers)
             {
                 if (item.ID == ID)
@@ -143,7 +141,7 @@ namespace DAL
                     throw new DuplicateWaitObjectException("allready exist");
             }
             catch (DuplicateWaitObjectException e) { throw; }
-            DataSource.Trainies.Add(trainee);             
+            DataSource.Trainies.Add(trainee);
         }
         //------------------------------------------------------------
         public void DeleteTrainee(string TraineeID)
@@ -153,13 +151,13 @@ namespace DAL
                 if (!IfExist(TraineeID, "tester"))
                     throw new KeyNotFoundException("ID not found");
             }
-            catch(KeyNotFoundException e) { throw; }
-                    for (int i = 0; i < DataSource.Trainies.Count; ++i)
-                    if (DataSource.Trainies[i].ID == TraineeID)
-                    {
-                        DataSource.Trainies.Remove(DataSource.Trainies[i]);
-                        return;
-                    }             
+            catch (KeyNotFoundException e) { throw; }
+            for (int i = 0; i < DataSource.Trainies.Count; ++i)
+                if (DataSource.Trainies[i].ID == TraineeID)
+                {
+                    DataSource.Trainies.Remove(DataSource.Trainies[i]);
+                    return;
+                }
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(string traineeID, string field, params object[] info)
@@ -209,8 +207,12 @@ namespace DAL
         //--------------------------------------------------
         public DO.Trainee GetOneTrainee(string ID)
         {
-            if (!IfExist(ID, "trainee"))
-                throw new KeyNotFoundException("ID not found");
+            try
+            {
+                if (!IfExist(ID, "trainee"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch (KeyNotFoundException e) { throw; }
             foreach (var item in DataSource.Trainies)
             {
                 if (item.ID == ID)
@@ -314,7 +316,7 @@ namespace DAL
         //----------------------------------------------------
         public List<DO.Test> GetTests()
         {
-            if (DataSource.Tests.Count == 0)            
+            if (DataSource.Tests.Count == 0)
                 throw new NullReferenceException("empty list");
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
@@ -367,13 +369,25 @@ namespace DAL
         //-----------------------------------------------------------------------
         public void SetConfig(string parm, object value)
         {
-           // DataSource.Configuration.Keys== parmלבדוק שקיים הערך במילון
+            // DataSource.Configuration.Keys== parmלבדוק שקיים הערך במילון
             if (DataSource.Configuration[parm].Writable == false)
-                throw new InvalidOperationException("it is non writeable value");
+                throw new InvalidOperationException("it is non-writeable value");
             else DataSource.Configuration[parm].value = value;
         }
         //-----------------------------------------------------
-
-
+        public bool[,] GetSchedule(string ID)
+        {
+            try
+            {
+                if (!IfExist(ID, "tester"))
+                    throw new KeyNotFoundException();
+            }
+            catch (KeyNotFoundException e) { throw; }
+            var matrix = (from item in DataSource.Schedules
+                          where (item.Key == ID)
+                          select item.Value).ToArray();
+            return matrix.FirstOrDefault();
+        }
     }
 }
+

@@ -32,7 +32,8 @@ namespace DAL
         List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func );
 
         Dictionary<string, object> getConfig();
-        void SetConfig(string parm, object value);        
+        void SetConfig(string parm, object value);
+        bool[,] GetSchedule(string ID);
     }
 }
 
