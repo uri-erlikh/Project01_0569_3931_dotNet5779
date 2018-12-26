@@ -35,7 +35,7 @@ namespace DAL
             Testers.Add(new DO.Tester("305343931")
             {
                 PrivateName = "Moshe",
-                FamilyName = "Weizman",                
+                FamilyName = "Weizman",
                 DayOfBirth = new DateTime(1965, 04, 12),
                 Phone = "0501234567",
                 PersonGender = DO.Gender.male,
@@ -44,48 +44,47 @@ namespace DAL
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.privateCar,
-                Schedule = new bool[5, 6]
+                Schedules.Add("305343931", bool[,] matrix = new bool[5, 6]
                 {
-                    { true, true, false,true,false ,false},
-                    {true, true, false,true,false ,false},
-                    { true, true, false,true,false,true},
-                    { true, true, false,true,false,false},
-                    {false, true, false,true,false,true }
-                }
+                    { true, true, false, true, false, false },
+                { true, true, false, true, false, false },
+                { true, true, false, true, false, true },
+                { true, true, false, true, false, false },
+                { false, true, false, true, false, true }
+            }
+                )
             });
-            Testers.Add(new DO.Tester
+            Testers.Add(new DO.Tester("206543731")
             {
                 PrivateName = "Uri",
                 FamilyName = "Erliche",
-                ID = "206543731",
-                BirthOfDay = new DateTime(1985, 04, 12),
+                DayOfBirth = new DateTime(1985, 04, 12),
                 Phone = "0501444567",
                 PersonGender = DO.Gender.male,
-                PersonAddress =    ,
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 3, Street = "shamai" },
                 MaxWeeklyTests = 25,
-                RangeToTest = 40,
+                RangeToTest = 40.5,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.truck,
-                Schedule = new bool[5, 6]
+                Schedules.Add("206543731", new bool[5, 6]
                 {
                     { true, false, false,true,false ,false},
                     {true, true, false,true,true ,true},
                     { false, true, false,true,false,true},
                     { true, false, true,true,false,true},
                     {true, true, false,true,false,true }
-                }
+                })
             });
-            Testers.Add(new DO.Tester
+            Testers.Add(new DO.Tester("305343234")
             {
                 PrivateName = "Yosi",
                 FamilyName = "Israel",
-                ID = "305343234",
-                BirthOfDay = new DateTime(1995, 04, 15),
+                DayOfBirth = new DateTime(1995, 04, 15),
                 Phone = "0501234222",
                 PersonGender = DO.Gender.male,
-                PersonAddress =    ,
-                MaxWeeklytTests = 20,
-                RangeToTest = 30,
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 2, Street = "shmaia" },
+                MaxWeeklyTests = 20,
+                RangeToTest = 30.7,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.motorcycle,
                 Schedule = new bool[5, 6]
@@ -97,16 +96,15 @@ namespace DAL
                     {true, true, true,true,false,true}
                 }
             });
-            Testers.Add(new DO.Tester
+            Testers.Add(new DO.Tester("456743931")
             {
                 PrivateName = "Sara",
                 FamilyName = "Cohen",
-                ID = "456743931",
-                BirthOfDay = new DateTime(1975, 01, 12),
+                DayOfBirth = new DateTime(1975, 01, 12),
                 Phone = "0545634567",
                 PersonGender = DO.Gender.female,
-                PersonAddress =    ,
-                MaxWeeklytTests = 15,
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 20, Street = "ben zaqai" },
+                MaxWeeklyTests = 15,
                 RangeToTest = 12,
                 TesterExperience = 24,
                 TesterVehicle = DO.Vehicle.privateCar,
@@ -119,16 +117,15 @@ namespace DAL
                     {true, true, false,true,false,true }
                 }
             });
-            Testers.Add(new DO.Tester
+            Testers.Add(new DO.Tester("649843931")
             {
                 PrivateName = "Israel",
                 FamilyName = "Israeli",
-                ID = "649843931",
-                BirthOfDay = new DateTime(1985, 04, 12),
+                DayOfBirth = new DateTime(1985, 04, 12),
                 Phone = "0501235632",
                 PersonGender = DO.Gender.male,
-                PersonAddress =    ,
-                MaxWeeklytTests = 20,
+                PersonAddress = new DO.Address { City = "bnei brak", NumOfBuilding = 1, Street = "hshoner" },
+                MaxWeeklyTests = 20,
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.heavyTruck,
@@ -141,142 +138,147 @@ namespace DAL
                     {true, true, false,true,false,true }
                 }
             });
-
-            Trainies.Add(new DO.Trainee
+            //------------------------------------------------------------------------------------------------------------------
+            Trainies.Add(new DO.Trainee("123543786")
             {
                 PrivateName = "Noam",
                 FamilyName = "Atias",
-                ID = "123543786",
+                Phone = "05325674653",
+                DayOfBirth = new DateTime(1998, 07, 13),
+                School = "keren",
+                Teacher = "Gil Dan",
+                DrivingLessonsNum = 35,
+                PersonGender = Gender.male,
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "shmaia" },
+                TraineeGear = GearBox.auto,
+                TraineeVehicle = Vehicle.privateCar
+            });
+            Trainies.Add(new DO.Trainee("657847659")
+            {
+                PrivateName = "Yoel",
+                FamilyName = "Atias",
                 Phone = "05325674653",
                 DayOfBirth = new DateTime(1998, 07, 13),
                 School = "keren",
                 Teacher = "Moshe Gil",
-                CurrentTestNum = 3,
                 DrivingLessonsNum = 35,
                 PersonGender = Gender.male,
-                PersonAddress =  ,
+                PersonAddress = new DO.Address { City = "Ramat Gan", NumOfBuilding = 7, Street = "shmaia" },
                 TraineeGear = GearBox.auto,
-                TraineeVehicle = Vehicle.privateCar
+                TraineeVehicle = Vehicle.truck
             });
-            Trainies.Add(new DO.Trainee
+            Trainies.Add(new DO.Trainee("098768574")
             {
                 PrivateName = "Noam",
                 FamilyName = "Atias",
-                ID = "123543786",
                 Phone = "05325674653",
                 DayOfBirth = new DateTime(1998, 07, 13),
                 School = "keren",
-                Teacher = "Moshe Gil",
-                CurrentTestNum = 3,
+                Teacher = "Dan Gil",
                 DrivingLessonsNum = 35,
                 PersonGender = Gender.male,
-                PersonAddress =  ,
+                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "heelel" },
                 TraineeGear = GearBox.auto,
-                TraineeVehicle = Vehicle.privateCar
+                TraineeVehicle = Vehicle.motorcycle
             });
-            Trainies.Add(new DO.Trainee
+            Trainies.Add(new DO.Trainee("145674664")
             {
-                PrivateName = "Noam",
-                FamilyName = "Atias",
-                ID = "123543786",
+                PrivateName = "Naor",
+                FamilyName = "Ati",
                 Phone = "05325674653",
                 DayOfBirth = new DateTime(1998, 07, 13),
                 School = "keren",
-                Teacher = "Moshe Gil",
-                CurrentTestNum = 3,
+                Teacher = "Noah Cohen",
                 DrivingLessonsNum = 35,
                 PersonGender = Gender.male,
-                PersonAddress =  ,
+                PersonAddress = new DO.Address { City = "Netanya", NumOfBuilding = 12, Street = "shmaia" },
                 TraineeGear = GearBox.auto,
                 TraineeVehicle = Vehicle.privateCar
             });
-            Trainies.Add(new DO.Trainee
+            Trainies.Add(new DO.Trainee("784765489")
             {
-                PrivateName = "Noam",
+                PrivateName = "Dani",
                 FamilyName = "Atias",
-                ID = "123543786",
                 Phone = "05325674653",
                 DayOfBirth = new DateTime(1998, 07, 13),
                 School = "keren",
-                Teacher = "Moshe Gil",
-                CurrentTestNum = 3,
-                DrivingLessonsNum = 35,
-                PersonGender = Gender.male,
-                PersonAddress =  ,
-                TraineeGear = GearBox.auto,
-                TraineeVehicle = Vehicle.privateCar
-            });
-            Trainies.Add(new DO.Trainee
-            {
-                PrivateName = "Noam",
-                FamilyName = "Atias",
-                ID = "123543786",
-                Phone = "05325674653",
-                BirthOfDay = new DateTime(1998, 07, 13),
-                School = "keren",
-                Teacher = "Moshe Gil",
-                CurrentTestNum = 3,
+                Teacher = "Nir Gil",
                 DrivingLessonsNum = 35,
                 PersonGender = DO.Gender.male,
-                PersonAddress =  ,
+                PersonAddress = new DO.Address { City = "Jerusalem", NumOfBuilding = 12, Street = "shmaia" },
                 TraineeGear = GearBox.auto,
-                TraineeVehicle = Vehicle.privateCar
+                TraineeVehicle = Vehicle.heavyTruck
             });
-
-            Tests.Add(new DO.Test
+            //--------------------------------------------------------------------------------------------------------
+            Tests.Add(new DO.Test("649843931", "784765489")
             {
-                TesterId = "305343931",
-                TraineeId = "123543786",
                 TestDate = new DateTime(2018, 12, 25),
-                TestAddress =  ,
+                TestAddress = new DO.Address { City = "Tel aviv", NumOfBuilding = 50, Street = "shmaia" },
                 PassedTest = true,
                 TesterNote = "no note",
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
-                Criterions = new List<DO.Criterion>()
+                Mirrors = true,
+                Brakes = true,
+                ReverseParking=true,
+                Distance=true,
+                Vinkers=false,
+                TrafficSigns=true
             });
-            Tests.Add(new DO.Test
+            Tests.Add(new DO.Test("456743931", "145674664")
             {
-                TesterId = "305343931",
-                TraineeId = "123543786",
-                TestDate = new DateTime(2018, 12, 25),
-                TestAddress =  ,
+                TestDate = new DateTime(2019, 12, 25),
+                TestAddress = new DO.Address { City = "Jerusalem", NumOfBuilding = 12, Street = "Jafo" },
                 PassedTest = true,
                 TesterNote = "no note",
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
-                Criterions = new List<Criterion>()
+                Mirrors = true,
+                Brakes = true,
+                ReverseParking=false,
+                Distance=true,
+                Vinkers=false,
+                TrafficSigns=true
             });
-            Tests.Add(new DO.Test
+            Tests.Add(new DO.Test("305343234", "098768574" )
             {
-                TesterId = "305343931",
-                TraineeId = "123543786",
-                TestDate = new DateTime(2018, 12, 25),
-                TestAddress =  ,
+                TestDate = new DateTime(2018, 12, 10),
+                TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 70, Street = "shmaia" },
+                PassedTest = false,
+                TesterNote = "no note",
+                TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
+                Mirrors = true,
+                Brakes = true,
+                ReverseParking=false,
+                Distance=false,
+                Vinkers=false,
+                TrafficSigns=false
+            });
+            Tests.Add(new DO.Test("206543731", "657847659" )
+            {
+                TestDate = new DateTime(2020, 12, 25),
+                TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "Tena" },
+                PassedTest = false,
+                TesterNote = "no note",
+                TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
+                Mirrors = false,
+                Brakes = true,
+                ReverseParking=false,
+                Distance=false,
+                Vinkers=true,
+                TrafficSigns=false
+            });
+            Tests.Add(new DO.Test("305343931"," 123543786")
+            {
+                TestDate = new DateTime(2021, 12, 25),
+                TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 78, Street = "Tena" },
                 PassedTest = true,
                 TesterNote = "no note",
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
-                Criterions = new List<Criterion>()
-            });
-            Tests.Add(new DO.Test
-            {
-                TesterId = "305343931",
-                TraineeId = "123543786",
-                TestDate = new DateTime(2018, 12, 25),
-                TestAddress =  ,
-                PassedTest = true,
-                TesterNote = "no note",
-                TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
-                Criterions = new List<Criterion>()
-            });
-            Tests.Add(new DO.Test
-            {
-                TesterId = "305343931",
-                TraineeId = "123543786",
-                TestDate = new DateTime(2018, 12, 25),
-                TestAddress =  ,
-                PassedTest = true,
-                TesterNote = "no note",
-                TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
-                Criterions = new List<Criterion>()
+                Mirrors = true,
+                Brakes = true,
+                ReverseParking=true,
+                Distance=true,
+                Vinkers=true,
+                TrafficSigns=false
             });
 
         }

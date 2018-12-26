@@ -77,7 +77,7 @@ namespace DO
             this.PersonAddress = t.PersonAddress;
             this.TesterExperience = t.TesterExperience;
             this.MaxWeeklyTests = t.MaxWeeklyTests;
-            this.TesterVehicle = this.TesterVehicle;
+            this.TesterVehicle = t.TesterVehicle;
             this.RangeToTest = t.RangeToTest;
         }
     }

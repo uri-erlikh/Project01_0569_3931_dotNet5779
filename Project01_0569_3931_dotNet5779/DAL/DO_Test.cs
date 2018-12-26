@@ -82,7 +82,7 @@ namespace DO
             this.Distance = te.Distance;
             this.Vinkers = te.Vinkers;
             this.TrafficSigns = te.TrafficSigns;
-            this.PassedTest = this.PassedTest;
+            this.PassedTest = te.PassedTest;
             this.TesterNote = te.TesterNote;
         }
     }
