@@ -18,7 +18,7 @@ namespace DAL
 
         internal static Dictionary<string, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>();
 
-        internal static Dictionary<string, bool[,]> Schedules = new Dictionary<string, bool[,]>();// עי new צריך לאתחל את מיערך
+        internal static Dictionary<string, bool[,]> Schedules = new Dictionary<string, bool[,]>();
 
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
         internal static List<DO.Trainee> Trainies = new List<DO.Trainee>();

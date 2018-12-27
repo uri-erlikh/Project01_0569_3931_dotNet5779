@@ -25,15 +25,15 @@ namespace BL
                     if (tester.age > Configuration.MAX_TESTER_AGE)
                         throw new BO.InvalidDataException("Too old tester");//if if if
                 }
-                catch (BO.InvalidDataException e) { throw; }                
-                        try
-                        {
-                            dl.AddTester(Convert(tester), matrix);
-                        }
-                        catch (DuplicateWaitObjectException e)
-                        {
-                            throw;
-                        }                  
+                catch (BO.InvalidDataException e) { throw; }
+                try
+                {
+                    dl.AddTester(Convert(tester), matrix);
+                }
+                catch (DuplicateWaitObjectException e)
+                {
+                    throw;
+                }
             }
             //---------------------------------------------------------
             public void DeleteTester(string TesterID)
@@ -52,7 +52,7 @@ namespace BL
                 switch (field)//מתי בודקים קלט
                 {
                     case "familyName":
-                        dl.UpdateTester( testerID,  field,  info);
+                        dl.UpdateTester(testerID, field, info);
                         break;
                     case "privateName":
                         dl.UpdateTester(testerID, field, info);
@@ -81,7 +81,7 @@ namespace BL
                     case "schedule":
                         dl.UpdateTester(testerID, field, info);
                         break;
-                    default: throw new InvalidDataException ("no such field");
+                    default: throw new InvalidDataException("no such field");
                 }
             }
             //---------------------------------------------------------------
@@ -153,37 +153,95 @@ namespace BL
             //------------------------------------------------------------------
             public void AddTest(BO.Test test)
             {
-                var t= test.TestDate-((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
-                                         where item.TestDate < DateTime.Now
-                                         orderby item.TestDate descending
-                                         select item.TestDate).ToList().FirstOrDefault());
+                var t = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                                          where item.TestDate < DateTime.Now
+                                          orderby item.TestDate descending
+                                          select item.TestDate).ToList().FirstOrDefault());
                 try
                 {
                     if (t.Days < BO.Configuration.MIN_GAP_TEST)
                         throw new InvalidDataException("test too close");
                 }
-                catch(InvalidDataException e) { throw; }
-                try { 
-                    if(dl.GetOneTrainee(test.TraineeId).DrivingLessonsNum< Configuration.MIN_LESSONS)
+                catch (InvalidDataException e) { throw; }
+                try
+                {
+                    if (dl.GetOneTrainee(test.TraineeId).DrivingLessonsNum < Configuration.MIN_LESSONS)
                         throw new InvalidDataException("not enough lessons");
                 }
-                catch(InvalidDataException e) { throw; }
+                catch (InvalidDataException e) { throw; }
                 var k = (from item in dl.GetTesters()
                          where (dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9] == true)
                          select item).ToList();
                 if (k.Count == 0)
                     throw new InvalidDataException("bad time to test");
-                else;
+                else
 
-                try
-                {
-                    dl.AddTest(Convert(test));
-                }
-                catch(KeyNotFoundException e) { throw; }
+                    try
+                    {
+                        dl.AddTest(Convert(test));
+                    }
+                    catch (KeyNotFoundException e) { throw; }
             }
             //------------------------------------------------------------------
-
+            public BO.Test GetOneTest(int TestNum)
+            {
+                try
+                {
+                    return Convert(dl.GetOneTest(TestNum));
+                }
+                catch (KeyNotFoundException e)
+                {
+                    throw;
+                }
+            }
             //---------------------------------------------------------------------
+            public List<BO.Tester> GetTesters()
+            {
+                try
+                {
+                    List<DO.Tester> list = dl.GetTesters();
+                    var newList = list.Select(x => Convert(x)).ToList();
+                    return newList;
+                }
+                catch (ArgumentNullException e) { throw; }
+            }
+            //---------------------------------------------------------------------
+            public List<BO.Trainee> GetTrainees()
+            {
+                try
+                {
+                    List<DO.Trainee> list = dl.GetTrainees();
+                    var newList = list.Select(x => Convert(x)).ToList();
+                    return newList;
+                }
+                catch (ArgumentNullException e) { throw; }
+            }
+            //-------------------------------------------------------------------------
+            public List<BO.Test> GetTests()
+            {
+                try
+                {
+                    List<DO.Test> list = dl.GetTests();
+                    var newList = list.Select(x => Convert(x)).ToList();
+                    return newList;
+                }
+                catch (ArgumentNullException e) { throw; }
+            }
+            //--------------------------------------------------------------------------
+            public Dictionary<string, object> getConfig()
+            {
+                return dl.getConfig();
+            }
+            //-----------------------------------------------------------------------------
+            public void SetConfig(string parm, object value)
+            {
+                try
+                {
+                    dl.SetConfig(parm, value);
+                }
+                catch (InvalidOperationException e) { throw; }
+            }
+           //-----------------------------------------------------------------------------
             private DO.Tester Convert(BO.Tester tester)
             {
                 return new DO.Tester(tester.ID)
@@ -193,7 +251,7 @@ namespace BL
                     Phone = tester.Phone,
                     DayOfBirth = tester.DayOfBirth,
                     PersonGender = (DO.Gender)tester.PersonGender,
-                    PersonAddress = new DO.Address(tester.PersonAddress.City,tester.PersonAddress.Street,tester.PersonAddress.NumOfBuilding),
+                    PersonAddress = new DO.Address(tester.PersonAddress.City, tester.PersonAddress.Street, tester.PersonAddress.NumOfBuilding),
                     TesterExperience = tester.TesterExperience,
                     TesterVehicle = (DO.Vehicle)tester.TesterVehicle,
                     MaxWeeklyTests = tester.MaxWeeklyTests,
@@ -205,17 +263,17 @@ namespace BL
             {
                 return new DO.Trainee(trainee.ID)
                 {
-                    FamilyName=trainee.FamilyName,
-                    PrivateName=trainee.PrivateName,
-                    Phone=trainee.Phone,
-                    DayOfBirth=trainee.DayOfBirth,
-                    PersonGender=(DO.Gender)trainee.PersonGender,
-                    PersonAddress=new DO.Address(trainee.PersonAddress.City, trainee.PersonAddress.Street, trainee.PersonAddress.NumOfBuilding),
-                    TraineeVehicle= (DO.Vehicle)trainee.TraineeVehicle,
-                    TraineeGear=(DO.GearBox)trainee.TraineeGear,
-                    School=trainee.School,
-                    Teacher=trainee.Teacher,
-                    DrivingLessonsNum=trainee.DrivingLessonsNum,
+                    FamilyName = trainee.FamilyName,
+                    PrivateName = trainee.PrivateName,
+                    Phone = trainee.Phone,
+                    DayOfBirth = trainee.DayOfBirth,
+                    PersonGender = (DO.Gender)trainee.PersonGender,
+                    PersonAddress = new DO.Address(trainee.PersonAddress.City, trainee.PersonAddress.Street, trainee.PersonAddress.NumOfBuilding),
+                    TraineeVehicle = (DO.Vehicle)trainee.TraineeVehicle,
+                    TraineeGear = (DO.GearBox)trainee.TraineeGear,
+                    School = trainee.School,
+                    Teacher = trainee.Teacher,
+                    DrivingLessonsNum = trainee.DrivingLessonsNum,
                 };
             }
             //------------------------------------------------------------------            
@@ -232,8 +290,8 @@ namespace BL
                     Distance = test.Distance,
                     Vinkers = test.Vinkers,
                     TrafficSigns = test.TrafficSigns,
-                    PassedTest=test.PassedTest,
-                    TesterNote=test.TesterNote,
+                    PassedTest = test.PassedTest,
+                    TesterNote = test.TesterNote,
                 };
             }
             //--------------------------------------------------------------------------
@@ -253,8 +311,8 @@ namespace BL
                     TesterVehicle = (BO.Vehicle)tester.TesterVehicle,
                     RangeToTest = tester.RangeToTest,
                     Schedule = dl.GetSchedule(tester.ID),
-                    TesterTests=GetTesterTests(dl.GetSomeTests(x=>x.TesterId==tester.ID)),
-                };                
+                    TesterTests = GetTesterTests(dl.GetSomeTests(x => x.TesterId == tester.ID)),
+                };
             }
 
             private List<BO.TesterTest> GetTesterTests(List<DO.Test> list)
@@ -263,40 +321,40 @@ namespace BL
                 foreach (var item in list)
                     newList.Add(new TesterTest()
                     {
-                        TestNumber=item.TestNumber,
-                        TraineeId=item.TraineeId,
-                        TestDate=item.TestDate,
-                        TestHour=item.TestHour,
-                        TestAddress=new BO.Address(item.TestAddress.City,item.TestAddress.Street,item.TestAddress.NumOfBuilding),
-                        Mirrors=item.Mirrors,
-                        Brakes=item.Brakes,
+                        TestNumber = item.TestNumber,
+                        TraineeId = item.TraineeId,
+                        TestDate = item.TestDate,
+                        TestHour = item.TestHour,
+                        TestAddress = new BO.Address(item.TestAddress.City, item.TestAddress.Street, item.TestAddress.NumOfBuilding),
+                        Mirrors = item.Mirrors,
+                        Brakes = item.Brakes,
                         ReverseParking = item.ReverseParking,
                         Distance = item.Distance,
-                        Vinkers=item.Vinkers,
-                        TrafficSigns=item.TrafficSigns,
-                        PassedTest=item.PassedTest,
-                        TesterNote=item.TesterNote,
+                        Vinkers = item.Vinkers,
+                        TrafficSigns = item.TrafficSigns,
+                        PassedTest = item.PassedTest,
+                        TesterNote = item.TesterNote,
                     });
                 return newList;
-                    }
+            }
             //---------------------------------------------------------------------------
             private BO.Trainee Convert(DO.Trainee trainee)
             {
                 return new BO.Trainee()
                 {
                     ID = trainee.ID,
-                    FamilyName=trainee.FamilyName,
-                    PrivateName=trainee.PrivateName,
-                    DayOfBirth=trainee.DayOfBirth,
-                    Phone=trainee.Phone,
-                    PersonGender=(BO.Gender)trainee.PersonGender,
-                    PersonAddress=new BO.Address(trainee.PersonAddress.City,trainee.PersonAddress.Street,trainee.PersonAddress.NumOfBuilding),
-                    TraineeVehicle=(BO.Vehicle)trainee.TraineeVehicle,
-                    TraineeGear=(BO.GearBox)trainee.TraineeGear,
-                    School=trainee.School,
-                    Teacher=trainee.Teacher,
-                    DrivingLessonsNum=trainee.DrivingLessonsNum,
-                    Trainee_Test=GetTraineeTests(dl.GetSomeTests(x=>x.TraineeId==trainee.ID)),
+                    FamilyName = trainee.FamilyName,
+                    PrivateName = trainee.PrivateName,
+                    DayOfBirth = trainee.DayOfBirth,
+                    Phone = trainee.Phone,
+                    PersonGender = (BO.Gender)trainee.PersonGender,
+                    PersonAddress = new BO.Address(trainee.PersonAddress.City, trainee.PersonAddress.Street, trainee.PersonAddress.NumOfBuilding),
+                    TraineeVehicle = (BO.Vehicle)trainee.TraineeVehicle,
+                    TraineeGear = (BO.GearBox)trainee.TraineeGear,
+                    School = trainee.School,
+                    Teacher = trainee.Teacher,
+                    DrivingLessonsNum = trainee.DrivingLessonsNum,
+                    Trainee_Test = GetTraineeTests(dl.GetSomeTests(x => x.TraineeId == trainee.ID)),
                 };
             }
 
@@ -317,14 +375,14 @@ namespace BL
                         TestDate = item.TestDate,
                         TestHour = item.TestHour,
                         TestAddress = new BO.Address(item.TestAddress.City, item.TestAddress.Street, item.TestAddress.NumOfBuilding),
-                        Mirrors=item.Mirrors,
-                        Brakes=item.Brakes,
-                        ReverseParking=item.ReverseParking,
-                        Distance=item.Distance,
-                        Vinkers=item.Vinkers,
-                        TrafficSigns=item.TrafficSigns,
-                        PassedTest=item.PassedTest,
-                        TesterNote=item.TesterNote,
+                        Mirrors = item.Mirrors,
+                        Brakes = item.Brakes,
+                        ReverseParking = item.ReverseParking,
+                        Distance = item.Distance,
+                        Vinkers = item.Vinkers,
+                        TrafficSigns = item.TrafficSigns,
+                        PassedTest = item.PassedTest,
+                        TesterNote = item.TesterNote,
                     });
                 return newList;
             }
@@ -343,17 +401,17 @@ namespace BL
                     },
                     TraineeId = test.TraineeId,
                     TraineeName = string.Format(dl.GetOneTrainee(test.TraineeId).FamilyName + " " + dl.GetOneTrainee(test.TraineeId).PrivateName),
-                    TestDate=test.TestDate,
+                    TestDate = test.TestDate,
                     TestHour = test.TestHour,
-                    TestAddress=new BO.Address(test.TestAddress.City,test.TestAddress.Street,test.TestAddress.NumOfBuilding),
-                    Mirrors=test.Mirrors,
-                    Brakes=test.Brakes,
-                    ReverseParking=test.ReverseParking,
-                    Distance=test.Distance,
-                    Vinkers=test.Vinkers,
-                    TrafficSigns=test.TrafficSigns,
-                    PassedTest=test.PassedTest,
-                    TesterNote=test.TesterNote,
+                    TestAddress = new BO.Address(test.TestAddress.City, test.TestAddress.Street, test.TestAddress.NumOfBuilding),
+                    Mirrors = test.Mirrors,
+                    Brakes = test.Brakes,
+                    ReverseParking = test.ReverseParking,
+                    Distance = test.Distance,
+                    Vinkers = test.Vinkers,
+                    TrafficSigns = test.TrafficSigns,
+                    PassedTest = test.PassedTest,
+                    TesterNote = test.TesterNote,
                 };
             }
             //-------------------------------------------------------------------------------------
