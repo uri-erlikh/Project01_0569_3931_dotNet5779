@@ -10,7 +10,7 @@ namespace BO
     {
         public int TestNumber { get; set; }
 
-        private ExternalTester tester;
+        private ExternalTester tester=new ExternalTester();
         public ExternalTester Tester { get { return tester; } set { tester.ID = value.ID;tester.FamilyName = value.FamilyName;
                 tester.PrivateName = value.PrivateName;tester.TesterVehicle = value.TesterVehicle;
             } }
@@ -21,7 +21,7 @@ namespace BO
         private DateTime testHour;
         public DateTime TestHour { get; set; }
 
-        private Address testAddress;
+        private Address testAddress=new Address();
         public Address TestAddress
         {
             get { return testAddress; }
@@ -55,8 +55,8 @@ namespace BO
         public override string ToString()
         {
             if (PassedTest)
-                return String.Format("Test number {0}: trainee {1} passed the test at {2}. {3}", TestNumber, trainee.ToString(), TestDate, TesterNote);
-            return String.Format("Test number {0}: trainee {1} failed at the test at {2}. {3}", TestNumber, trainee.ToString(), TestDate, TesterNote);
+                return String.Format("Test number {0}: trainee  passed the test at {1}. {2}", TestNumber,  TestDate, TesterNote);
+            return String.Format("Test number {0}: trainee  failed at the test at {1}. {2}", TestNumber,  TestDate, TesterNote);
         }
     }
 }

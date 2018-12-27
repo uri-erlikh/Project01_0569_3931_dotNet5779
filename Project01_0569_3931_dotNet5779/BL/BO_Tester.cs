@@ -28,7 +28,7 @@ namespace BO
         private string phone;
         public string Phone { get; set; }
 
-        private Address personAddress;
+        private Address personAddress=new Address();
         public Address PersonAddress
         {
             get { return personAddress; }
@@ -39,6 +39,7 @@ namespace BO
                 this.personAddress.NumOfBuilding = value.NumOfBuilding;
             }
         }
+
         public Person()
         {
             DayOfBirth = new DateTime();
@@ -68,27 +69,10 @@ namespace BO
             return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
         }
 
-        public Tester() 
+        public Tester()
         {
             Schedule = new bool[5, 6];
             TesterTests = new List<TesterTest>();
         }
-        //------------------------------------------------------------
-    //    public Tester(string myId) : base(myId) { }
-
-    //    public Tester(Tester t) : base(t.ID)
-    //    {
-    //        this.FamilyName = t.FamilyName;
-    //        this.PrivateName = t.PrivateName;
-    //        this.DayOfBirth = t.DayOfBirth;
-    //        this.PersonGender = t.PersonGender;
-    //        this.Phone = t.Phone;
-    //        this.PersonAddress = t.PersonAddress;
-    //        this.TesterExperience = t.TesterExperience;
-    //        this.MaxWeeklyTests = t.MaxWeeklyTests;
-    //        this.TesterVehicle = this.TesterVehicle;
-    //        this.RangeToTest = t.RangeToTest;
-    //    }
-    //}
-    //--------------------------------------------------------------
+    }   
 }

@@ -10,8 +10,8 @@ namespace BO
     {
         public int TestNumber { get; set; }
 
-        private ExternalTester tester;
-        public ExternalTester Tester
+        private ExternalTester tester = new ExternalTester();
+        public ExternalTester Tester 
         {
             get { return tester; }
             set
@@ -32,7 +32,7 @@ namespace BO
         private DateTime testHour;
         public DateTime TestHour { get; set; }
 
-        private Address testAddress;
+        private Address testAddress=new Address();
         public Address TestAddress { get { return testAddress; } set { this.testAddress.City = value.City;
            this.testAddress.Street=value.Street ;this.testAddress.NumOfBuilding = value.NumOfBuilding; } }
 

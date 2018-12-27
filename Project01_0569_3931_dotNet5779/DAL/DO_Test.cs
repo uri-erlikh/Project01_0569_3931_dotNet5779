@@ -24,7 +24,7 @@ namespace DO
         private DateTime testHour;
         public DateTime TestHour { get; set; }
 
-        private Address testAddress;
+        private Address testAddress = new Address();
         public Address TestAddress
         {
             get { return testAddress; }
