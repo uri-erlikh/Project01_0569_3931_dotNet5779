@@ -29,9 +29,6 @@ namespace BO
         {
             return String.Format("{0}, {1} ,{2} ,at school: {3}", PrivateName, FamilyName, ID, School);
         }
-        public Trainee()
-        {
-
-        }
+        public Trainee(){}
     }
 }

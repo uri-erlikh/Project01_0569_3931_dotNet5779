@@ -151,7 +151,7 @@ namespace BL
                 }
             }
             //------------------------------------------------------------------
-            void AddTest(BO.Test test)
+            public void AddTest(BO.Test test)
             {
                 var t= test.TestDate-((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
                                          where item.TestDate < DateTime.Now
@@ -173,7 +173,7 @@ namespace BL
                          select item).ToList();
                 if (k.Count == 0)
                     throw new InvalidDataException("bad time to test");
-                else
+                else;
 
                 try
                 {
@@ -182,6 +182,8 @@ namespace BL
                 catch(KeyNotFoundException e) { throw; }
             }
             //------------------------------------------------------------------
+
+            //---------------------------------------------------------------------
             private DO.Tester Convert(BO.Tester tester)
             {
                 return new DO.Tester(tester.ID)
@@ -300,17 +302,61 @@ namespace BL
 
             private List<BO.TraineeTest> GetTraineeTests(List<DO.Test> list)
             {
-                List<BO.TraineeTest> newList = new List<TraineeTest>();//
+                List<BO.TraineeTest> newList = new List<TraineeTest>();
                 foreach (var item in list)
                     newList.Add(new TraineeTest()
                     {
-                        TestNumber=item.TestNumber,
-                        
-
+                        TestNumber = item.TestNumber,
+                        Tester = new ExternalTester()
+                        {
+                            ID = item.TesterId,
+                            PrivateName = dl.GetOneTester(item.TesterId).PrivateName,
+                            FamilyName = dl.GetOneTester(item.TesterId).FamilyName,
+                            TesterVehicle = (BO.Vehicle)dl.GetOneTester(item.TesterId).TesterVehicle,
+                        },
+                        TestDate = item.TestDate,
+                        TestHour = item.TestHour,
+                        TestAddress = new BO.Address(item.TestAddress.City, item.TestAddress.Street, item.TestAddress.NumOfBuilding),
+                        Mirrors=item.Mirrors,
+                        Brakes=item.Brakes,
+                        ReverseParking=item.ReverseParking,
+                        Distance=item.Distance,
+                        Vinkers=item.Vinkers,
+                        TrafficSigns=item.TrafficSigns,
+                        PassedTest=item.PassedTest,
+                        TesterNote=item.TesterNote,
                     });
                 return newList;
             }
             //--------------------------------------------------------------------------
+            private BO.Test Convert(DO.Test test)
+            {
+                return new BO.Test()
+                {
+                    TestNumber = test.TestNumber,
+                    Tester = new ExternalTester()
+                    {
+                        ID = test.TesterId,
+                        PrivateName = dl.GetOneTester(test.TesterId).PrivateName,
+                        FamilyName = dl.GetOneTester(test.TesterId).FamilyName,
+                        TesterVehicle = (BO.Vehicle)dl.GetOneTester(test.TesterId).TesterVehicle,
+                    },
+                    TraineeId = test.TraineeId,
+                    TraineeName = string.Format(dl.GetOneTrainee(test.TraineeId).FamilyName + " " + dl.GetOneTrainee(test.TraineeId).PrivateName),
+                    TestDate=test.TestDate,
+                    TestHour = test.TestHour,
+                    TestAddress=new BO.Address(test.TestAddress.City,test.TestAddress.Street,test.TestAddress.NumOfBuilding),
+                    Mirrors=test.Mirrors,
+                    Brakes=test.Brakes,
+                    ReverseParking=test.ReverseParking,
+                    Distance=test.Distance,
+                    Vinkers=test.Vinkers,
+                    TrafficSigns=test.TrafficSigns,
+                    PassedTest=test.PassedTest,
+                    TesterNote=test.TesterNote,
+                };
+            }
+            //-------------------------------------------------------------------------------------
         }
     }
 }
