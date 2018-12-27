@@ -145,7 +145,7 @@ namespace DAL
                     { true, false, true,true,false,true},
                     {true, true, false,true,false,true }
                });
-
+            //==
             //------------------------------------------------------------------------------------------------------------------
             Trainies.Add(new DO.Trainee("123543786")
             {
