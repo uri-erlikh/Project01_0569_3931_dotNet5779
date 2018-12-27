@@ -17,8 +17,8 @@ namespace DAL
         }
 
         internal static Dictionary<string, ConfigurationParameter> Configuration = new Dictionary<string, ConfigurationParameter>();
-        
-        internal static Dictionary<string, bool[,]> Schedules=new Dictionary<string, bool[,]>();// עי new צריך לאתחל את מיערך
+
+        internal static Dictionary<string, bool[,]> Schedules = new Dictionary<string, bool[,]>();// עי new צריך לאתחל את מיערך
 
         internal static List<DO.Tester> Testers = new List<DO.Tester>();
         internal static List<DO.Trainee> Trainies = new List<DO.Trainee>();
@@ -44,15 +44,7 @@ namespace DAL
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.privateCar,
-                Schedules.Add("305343931", bool[,] matrix = new bool[5, 6]
-                {
-                    { true, true, false, true, false, false },
-                { true, true, false, true, false, false },
-                { true, true, false, true, false, true },
-                { true, true, false, true, false, false },
-                { false, true, false, true, false, true }
-            }
-                )
+
             });
             Testers.Add(new DO.Tester("206543731")
             {
@@ -66,14 +58,7 @@ namespace DAL
                 RangeToTest = 40.5,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.truck,
-                Schedules.Add("206543731", new bool[5, 6]
-                {
-                    { true, false, false,true,false ,false},
-                    {true, true, false,true,true ,true},
-                    { false, true, false,true,false,true},
-                    { true, false, true,true,false,true},
-                    {true, true, false,true,false,true }
-                })
+
             });
             Testers.Add(new DO.Tester("305343234")
             {
@@ -87,14 +72,7 @@ namespace DAL
                 RangeToTest = 30.7,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.motorcycle,
-                Schedule = new bool[5, 6]
-                {
-                    { true, true, false,true,false ,false},
-                    {false, true, true,true,false ,true},
-                    { true, true, false,true,false,true},
-                    { false, true, false,true,false,true},
-                    {true, true, true,true,false,true}
-                }
+             
             });
             Testers.Add(new DO.Tester("456743931")
             {
@@ -108,14 +86,7 @@ namespace DAL
                 RangeToTest = 12,
                 TesterExperience = 24,
                 TesterVehicle = DO.Vehicle.privateCar,
-                Schedule = new bool[5, 6]
-                {
-                    { true, true, false,true,false ,false},
-                    {true, true, false,true,false ,true},
-                    { true, true, false,true,false,true},
-                    { true, true, false,true,false,true},
-                    {true, true, false,true,false,true }
-                }
+                
             });
             Testers.Add(new DO.Tester("649843931")
             {
@@ -129,15 +100,52 @@ namespace DAL
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.heavyTruck,
-                Schedule = new bool[5, 6]
-                {
-                    { true, true, true,true,false ,false},
-                    {true, true, false,true,true ,true},
-                    { true, true, false,true,false,false},
-                    { true, true, true,true,true,true},
-                    {true, true, false,true,false,true }
-                }
+               
             });
+            //---------------------------------------------------------------------------------------------------------------
+            Schedules.Add("305343931", new bool[5, 6]
+                {
+                    { true, true, false, true, false, false },
+                { true, true, false, true, false, false },
+                { true, true, false, true, false, true },
+                { true, true, false, true, false, false },
+                { false, true, false, true, false, true }
+            });
+
+            Schedules.Add("206543731", new bool[5, 6]
+               {
+                    { true, false, false,true,false ,false},
+                    {true, true, false,true,true ,true},
+                    { false, true, false,true,false,true},
+                    { true, false, true,true,false,true},
+                    {true, true, false,true,false,true }
+               });
+
+            Schedules.Add("305343234", new bool[5, 6]
+               {
+                    { true, false, false,true,false ,false},
+                    {true, true, false,true,true ,true},
+                    { false, true, false,true,false,true},
+                    { true, false, true,true,false,true},
+                    {true, true, false,true,false,true }
+               });
+            Schedules.Add("456743931", new bool[5, 6]
+               {
+                    { true, false, false,true,false ,false},
+                    {true, true, false,true,true ,true},
+                    { false, true, false,true,false,true},
+                    { true, false, true,true,false,true},
+                    {true, true, false,true,false,true }
+               });
+            Schedules.Add("649843931", new bool[5, 6]
+               {
+                    { true, false, false,true,false ,false},
+                    {true, true, false,true,true ,true},
+                    { false, true, false,true,false,true},
+                    { true, false, true,true,false,true},
+                    {true, true, false,true,false,true }
+               });
+
             //------------------------------------------------------------------------------------------------------------------
             Trainies.Add(new DO.Trainee("123543786")
             {
@@ -219,10 +227,10 @@ namespace DAL
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
                 Mirrors = true,
                 Brakes = true,
-                ReverseParking=true,
-                Distance=true,
-                Vinkers=false,
-                TrafficSigns=true
+                ReverseParking = true,
+                Distance = true,
+                Vinkers = false,
+                TrafficSigns = true
             });
             Tests.Add(new DO.Test("456743931", "145674664")
             {
@@ -233,12 +241,12 @@ namespace DAL
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
                 Mirrors = true,
                 Brakes = true,
-                ReverseParking=false,
-                Distance=true,
-                Vinkers=false,
-                TrafficSigns=true
+                ReverseParking = false,
+                Distance = true,
+                Vinkers = false,
+                TrafficSigns = true
             });
-            Tests.Add(new DO.Test("305343234", "098768574" )
+            Tests.Add(new DO.Test("305343234", "098768574")
             {
                 TestDate = new DateTime(2018, 12, 10),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 70, Street = "shmaia" },
@@ -247,12 +255,12 @@ namespace DAL
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
                 Mirrors = true,
                 Brakes = true,
-                ReverseParking=false,
-                Distance=false,
-                Vinkers=false,
-                TrafficSigns=false
+                ReverseParking = false,
+                Distance = false,
+                Vinkers = false,
+                TrafficSigns = false
             });
-            Tests.Add(new DO.Test("206543731", "657847659" )
+            Tests.Add(new DO.Test("206543731", "657847659")
             {
                 TestDate = new DateTime(2020, 12, 25),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "Tena" },
@@ -261,12 +269,12 @@ namespace DAL
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
                 Mirrors = false,
                 Brakes = true,
-                ReverseParking=false,
-                Distance=false,
-                Vinkers=true,
-                TrafficSigns=false
+                ReverseParking = false,
+                Distance = false,
+                Vinkers = true,
+                TrafficSigns = false
             });
-            Tests.Add(new DO.Test("305343931"," 123543786")
+            Tests.Add(new DO.Test("305343931", " 123543786")
             {
                 TestDate = new DateTime(2021, 12, 25),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 78, Street = "Tena" },
@@ -275,10 +283,10 @@ namespace DAL
                 TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
                 Mirrors = true,
                 Brakes = true,
-                ReverseParking=true,
-                Distance=true,
-                Vinkers=true,
-                TrafficSigns=false
+                ReverseParking = true,
+                Distance = true,
+                Vinkers = true,
+                TrafficSigns = false
             });
 
         }
