@@ -8,10 +8,10 @@ namespace BO
 {
     public class TraineeTest
     {
-        public readonly int TestNumber;
+        public int TestNumber;
 
-        private ExternalTrainee trainee;
-        public ExternalTrainee Trainee { get { return trainee; }set { this.trainee.id = value.ID; } }
+        private ExternalTester tester;
+        public ExternalTester Tester { get { return tester; } set { tester = value; } }
 
         private DateTime testdate;
         public DateTime TestDate { get; set; }

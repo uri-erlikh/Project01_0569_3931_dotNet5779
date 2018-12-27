@@ -44,37 +44,24 @@ namespace DAL
                 RangeToTest = 30,
                 TesterExperience = 10,
                 TesterVehicle = DO.Vehicle.privateCar,
-                Schedules.Add("305343931", bool[,] matrix = new bool[5, 6]
-                {
-                    { true, true, false, true, false, false },
-                { true, true, false, true, false, false },
-                { true, true, false, true, false, true },
-                { true, true, false, true, false, false },
-                { false, true, false, true, false, true }
-            }
-                )
             });
-            Testers.Add(new DO.Tester("206543731")
-            {
-                PrivateName = "Uri",
-                FamilyName = "Erliche",
-                DayOfBirth = new DateTime(1985, 04, 12),
-                Phone = "0501444567",
-                PersonGender = DO.Gender.male,
-                PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 3, Street = "shamai" },
-                MaxWeeklyTests = 25,
-                RangeToTest = 40.5,
-                TesterExperience = 10,
-                TesterVehicle = DO.Vehicle.truck,
-                Schedules.Add("206543731", new bool[5, 6]
+                
+
+                Testers.Add(new DO.Tester("206543731")
                 {
-                    { true, false, false,true,false ,false},
-                    {true, true, false,true,true ,true},
-                    { false, true, false,true,false,true},
-                    { true, false, true,true,false,true},
-                    {true, true, false,true,false,true }
-                })
-            });
+                    PrivateName = "Uri",
+                    FamilyName = "Erliche",
+                    DayOfBirth = new DateTime(1985, 04, 12),
+                    Phone = "0501444567",
+                    PersonGender = DO.Gender.male,
+                    PersonAddress = new DO.Address { City = "Elad", NumOfBuilding = 3, Street = "shamai" },
+                    MaxWeeklyTests = 25,
+                    RangeToTest = 40.5,
+                    TesterExperience = 10,
+                    TesterVehicle = DO.Vehicle.truck,
+                }
+                );
+
             Testers.Add(new DO.Tester("305343234")
             {
                 PrivateName = "Yosi",
@@ -139,6 +126,17 @@ namespace DAL
                 }
             });
             //------------------------------------------------------------------------------------------------------------------
+            Schedules.Add("305343931", new bool[5, 6]
+                {
+                    { true, true, false, true, false, false },
+                { true, true, false, true, false, false },
+                { true, true, false, true, false, true },
+                { true, true, false, true, false, false },
+                { false, true, false, true, false, true }
+            }
+                );
+            
+            //-----------------------------------------------------------------------
             Trainies.Add(new DO.Trainee("123543786")
             {
                 PrivateName = "Noam",

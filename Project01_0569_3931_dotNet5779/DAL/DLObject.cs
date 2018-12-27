@@ -79,9 +79,9 @@ namespace DAL
                 if (!IfExist(testerID, "tester"))
                     throw new KeyNotFoundException("ID not found");
             }
-            catch (KeyNotFoundException e) { throw; }
-            else
-                foreach (var tester in DataSource.Testers)
+            catch (KeyNotFoundException e)
+            { throw; }
+            foreach (var tester in DataSource.Testers)
                 if (testerID == tester.ID)
                 {
                     switch (field)
@@ -114,8 +114,9 @@ namespace DAL
                             tester.RangeToTest = (int)info[0];
                             break;
                         case "schedule":
-                            DataSource.Schedules[testerID][(int)info[0], (int)info[1]] = (bool)info[2];//chek the data
-                            break;                    }
+                            DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];//chek the data
+                            break;
+                    }
                 }
         }
         //--------------------------------------------------------

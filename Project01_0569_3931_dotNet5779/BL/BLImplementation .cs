@@ -251,22 +251,66 @@ namespace BL
                     TesterVehicle = (BO.Vehicle)tester.TesterVehicle,
                     RangeToTest = tester.RangeToTest,
                     Schedule = dl.GetSchedule(tester.ID),
-                    TesterTests=GetTesterTest(dl.GetSomeTests(x=>x.TesterId==tester.ID)),
+                    TesterTests=GetTesterTests(dl.GetSomeTests(x=>x.TesterId==tester.ID)),
                 };                
             }
 
-            private List<BO.TesterTest> GetTesterTest(List<DO.Test> list)
+            private List<BO.TesterTest> GetTesterTests(List<DO.Test> list)
             {
                 List<BO.TesterTest> newList = new List<TesterTest>();
-                foreach (var irem in list)
+                foreach (var item in list)
                     newList.Add(new TesterTest()
                     {
-
+                        TestNumber=item.TestNumber,
+                        TraineeId=item.TraineeId,
+                        TestDate=item.TestDate,
+                        TestHour=item.TestHour,
+                        TestAddress=new BO.Address(item.TestAddress.City,item.TestAddress.Street,item.TestAddress.NumOfBuilding),
+                        Mirrors=item.Mirrors,
+                        Brakes=item.Brakes,
+                        ReverseParking = item.ReverseParking,
+                        Distance = item.Distance,
+                        Vinkers=item.Vinkers,
+                        TrafficSigns=item.TrafficSigns,
+                        PassedTest=item.PassedTest,
+                        TesterNote=item.TesterNote,
                     });
                 return newList;
                     }
             //---------------------------------------------------------------------------
+            private BO.Trainee Convert(DO.Trainee trainee)
+            {
+                return new BO.Trainee()
+                {
+                    ID = trainee.ID,
+                    FamilyName=trainee.FamilyName,
+                    PrivateName=trainee.PrivateName,
+                    DayOfBirth=trainee.DayOfBirth,
+                    Phone=trainee.Phone,
+                    PersonGender=(BO.Gender)trainee.PersonGender,
+                    PersonAddress=new BO.Address(trainee.PersonAddress.City,trainee.PersonAddress.Street,trainee.PersonAddress.NumOfBuilding),
+                    TraineeVehicle=(BO.Vehicle)trainee.TraineeVehicle,
+                    TraineeGear=(BO.GearBox)trainee.TraineeGear,
+                    School=trainee.School,
+                    Teacher=trainee.Teacher,
+                    DrivingLessonsNum=trainee.DrivingLessonsNum,
+                    Trainee_Test=GetTraineeTests(dl.GetSomeTests(x=>x.TraineeId==trainee.ID)),
+                };
+            }
 
+            private List<BO.TraineeTest> GetTraineeTests(List<DO.Test> list)
+            {
+                List<BO.TraineeTest> newList = new List<TraineeTest>();
+                foreach (var item in list)
+                    newList.Add(new TraineeTest()
+                    {
+                        TestNumber=item.TestNumber,
+                        
+
+                    });
+                return newList;
+            }
+            //--------------------------------------------------------------------------
         }
     }
 }
