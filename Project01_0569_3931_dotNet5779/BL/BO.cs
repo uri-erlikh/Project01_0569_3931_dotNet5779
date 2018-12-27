@@ -26,16 +26,21 @@ namespace BO
 
         static Configuration()
         {
-            IDal d_l = DAL_Factory.GetDL("data");
+            IDal d_l = DAL_Factory.GetDL("lists");
 
             IfIntialized = true;
             updateTime = DateTime.Now;
-            Dictionary<string,object> config = new Dictionary<string, object>(d_l.getConfig());
+            Dictionary<string, object> config= new Dictionary<string, object>(d_l.getConfig());
             MIN_LESSONS = (int)config["MIN_LESSONS"];
-            MAX_TESTER_AGE= (int)config["MAX_TESTER_AGE"];
+            MAX_TESTER_AGE = (int)config["MAX_TESTER_AGE"];
             MIN_TRAINEE_AGE = (int)config["MIN_TRAINEE_AGE"];
-            MIN_GAP_TEST= (int)config["MIN_GAP_TEST"];
+            MIN_GAP_TEST = (int)config["MIN_GAP_TEST"];
             MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
+        }
+
+        public override static string ToString()
+        {
+
         }
     }
     //----------------------------------------------------
@@ -47,8 +52,8 @@ namespace BO
         public InvalidDataException(string message, Exception inner) : base(message, inner) { }
         //protected MyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
-        //---------------------------------------------------
-        public struct Address
+    //---------------------------------------------------
+    public struct Address
     {
         private string city;
         public string City { get; set; }
@@ -70,8 +75,8 @@ namespace BO
         {
             return "" + this.Street + " " + this.NumOfBuilding + " " + this.City;
         }
-
     }
+}
 
 
 

@@ -23,7 +23,7 @@ namespace BO
         private int drivingLessonsNum;
         public int DrivingLessonsNum { get; set; }
 
-        public List<TraineeTest> Trainee_Test;//לא אתחלתי
+        public List<TraineeTest> Trainee_Test=new List<TraineeTest>();
 
         public override string ToString()
         {

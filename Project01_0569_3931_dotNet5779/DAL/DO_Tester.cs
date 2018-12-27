@@ -9,7 +9,7 @@ namespace DO
 
     public class Person
     {
-        protected readonly string id;
+        private string Id;
         public string ID { get; }
         private string familyName;
         public string FamilyName { get; set; }
@@ -26,7 +26,7 @@ namespace DO
         private string phone;
         public string Phone { get; set; }
 
-        private Address personAddress;
+        private Address personAddress=new Address();
         public Address PersonAddress
         {
             get { return personAddress; }
@@ -39,7 +39,7 @@ namespace DO
         }
         public Person(string myId)
         {
-            this.id = myId;
+            this.ID = myId;
             DayOfBirth = new DateTime();
         }
     }

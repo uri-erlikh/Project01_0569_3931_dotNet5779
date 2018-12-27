@@ -104,7 +104,7 @@ namespace DAL
                         case "testerExperience":
                             tester.TesterExperience = (int)info[0];
                             break;
-                        case "maxWeeklyTesters":
+                        case "maxWeeklyTests":
                             tester.MaxWeeklyTests = (int)info[0];
                             break;
                         case "testerVehicle":
@@ -408,12 +408,14 @@ namespace DAL
         {
             try
             {
-                var asd = DataSource.Configuration.Keys.Select(x => x==parm).ToArray();
-                
+                var asd = DataSource.Configuration.Keys.Where(x => x == parm).ToArray();
+                if (asd.Length == 0)
+                    throw new KeyNotFoundException("key not found");
                 if (DataSource.Configuration[parm].Writable == false)
                     throw new InvalidOperationException("it is non-writeable value");
             }
             catch (InvalidOperationException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
             DataSource.Configuration[parm].value = value;
         }
         //-----------------------------------------------------
