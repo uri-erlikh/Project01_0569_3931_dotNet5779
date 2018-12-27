@@ -13,7 +13,7 @@ namespace UI
         static void Main(string[] args)
         {
            // BO.Tester t=new BO.Tester()
-           // {
+           // {י
            //     ID= "305343931",
            //     PrivateName = "Moshe",
            //     FamilyName = "Weizman",
