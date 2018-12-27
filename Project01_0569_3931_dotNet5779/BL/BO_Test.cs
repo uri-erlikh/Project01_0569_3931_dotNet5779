@@ -8,7 +8,7 @@ namespace BO
 {
     public class Test
     {
-        public readonly int TestNumber;
+        public int TestNumber { get; set; }
 
         private ExternalTester tester;
         public ExternalTester Tester
@@ -54,7 +54,11 @@ namespace BO
         private string testNote;
         public string TesterNote { get; set; }
 
-        public Test() { }
+        public Test()
+        {
+            TestDate = new DateTime();
+            TestHour = new DateTime();
+        }
 
         public override string ToString()
         {

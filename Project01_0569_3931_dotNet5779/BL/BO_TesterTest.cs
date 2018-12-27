@@ -8,7 +8,7 @@ namespace BO
 {
     public class TesterTest
     {
-        public readonly int TestNumber;
+        public int TestNumber { get; set; }
 
         private string traineeId;
         public string TraineeId { get; set; }

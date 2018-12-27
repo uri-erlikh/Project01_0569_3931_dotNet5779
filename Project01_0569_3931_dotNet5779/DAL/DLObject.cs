@@ -79,9 +79,9 @@ namespace DAL
                 if (!IfExist(testerID, "tester"))
                     throw new KeyNotFoundException("ID not found");
             }
-            catch (KeyNotFoundException e) { throw; }
-            else
-                foreach (var tester in DataSource.Testers)
+            catch (KeyNotFoundException e)
+            { throw; }
+            foreach (var tester in DataSource.Testers)
                 if (testerID == tester.ID)
                 {
                     switch (field)
@@ -114,8 +114,9 @@ namespace DAL
                             tester.RangeToTest = (int)info[0];
                             break;
                         case "schedule":
-                            DataSource.Schedules[testerID][(int)info[0], (int)info[1]] = (bool)info[2];//chek the data
-                            break;                    }
+                            DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];//chek the data
+                            break;
+                    }
                 }
         }
         //--------------------------------------------------------
@@ -290,8 +291,12 @@ namespace DAL
         //----------------------------------------------------
         public DO.Test GetOneTest(int testNum)
         {
-            if (!IfTestExist(testNum))
-                throw new KeyNotFoundException();
+            try
+            {
+                if (!IfTestExist(testNum))
+                    throw new KeyNotFoundException();
+            }
+            catch (KeyNotFoundException e) { throw; }
             foreach (var item in DataSource.Tests)
                 if (item.TestNumber == testNum)
                     return new Test(item);
@@ -300,8 +305,12 @@ namespace DAL
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()
         {
-            if (DataSource.Testers.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Testers.Count == 0)
+                    throw new ArgumentNullException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             List<DO.Tester> newList = new List<DO.Tester>();
             foreach (var item in DataSource.Testers)
             {
@@ -312,8 +321,12 @@ namespace DAL
         //-----------------------------------------------------
         public List<DO.Trainee> GetTrainees()
         {
-            if (DataSource.Trainies.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Trainies.Count == 0)
+                    throw new NullReferenceException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             List<DO.Trainee> newList = new List<DO.Trainee>();
             foreach (var item in DataSource.Trainies)
             {
@@ -324,8 +337,12 @@ namespace DAL
         //----------------------------------------------------
         public List<DO.Test> GetTests()
         {
-            if (DataSource.Tests.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Tests.Count == 0)
+                    throw new NullReferenceException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
             {
@@ -336,8 +353,12 @@ namespace DAL
         //---------------------------------------------------------
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
-            if (DataSource.Tests.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Tests.Count == 0)
+                    throw new ArgumentNullException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             var NewList = from item in DataSource.Tests
                           where (someFunc(item))
                           select item;
@@ -346,8 +367,12 @@ namespace DAL
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
-            if (DataSource.Testers.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Testers.Count == 0)
+                    throw new NullReferenceException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             var NewList = from item in DataSource.Testers
                           where (func(item))
                           select item;
@@ -356,8 +381,12 @@ namespace DAL
         //--------------------------------------------------
         public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
         {
-            if (DataSource.Testers.Count == 0)
-                throw new NullReferenceException("empty list");
+            try
+            {
+                if (DataSource.Testers.Count == 0)
+                    throw new NullReferenceException("empty list");
+            }
+            catch (ArgumentNullException e) { throw; }
             var NewList = from item in DataSource.Trainies
                           where (func(item))
                           select item;
@@ -377,10 +406,15 @@ namespace DAL
         //-----------------------------------------------------------------------
         public void SetConfig(string parm, object value)
         {
-            // DataSource.Configuration.Keys== parmלבדוק שקיים הערך במילון
-            if (DataSource.Configuration[parm].Writable == false)
-                throw new InvalidOperationException("it is non-writeable value");
-            else DataSource.Configuration[parm].value = value;
+            try
+            {
+                var asd = DataSource.Configuration.Keys.Select(x => x==parm).ToArray();
+                
+                if (DataSource.Configuration[parm].Writable == false)
+                    throw new InvalidOperationException("it is non-writeable value");
+            }
+            catch (InvalidOperationException e) { throw; }
+            DataSource.Configuration[parm].value = value;
         }
         //-----------------------------------------------------
         public bool[,] GetSchedule(string ID)

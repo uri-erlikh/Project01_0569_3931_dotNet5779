@@ -27,9 +27,9 @@ namespace BL
         List<BO.Trainee> GetTrainees();
         List<BO.Test> GetTests();
         //---------------------------------------------
-        List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
-        List<BO.Tester> GetSomeTesters(Predicate<BO.Tester> func);
-        List<BO.Trainee> GetSomeTrainies(Predicate<BO.Trainee> func);
+        //List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
+        //List<BO.Tester> GetSomeTesters(Predicate<BO.Tester> func);
+        //List<BO.Trainee> GetSomeTrainies(Predicate<BO.Trainee> func);
 
         Dictionary<string, object> getConfig();
         void SetConfig(string parm, object value);
