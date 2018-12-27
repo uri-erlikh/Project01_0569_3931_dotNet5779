@@ -300,7 +300,7 @@ namespace BL
 
             private List<BO.TraineeTest> GetTraineeTests(List<DO.Test> list)
             {
-                List<BO.TraineeTest> newList = new List<TraineeTest>();
+                List<BO.TraineeTest> newList = new List<TraineeTest>();//
                 foreach (var item in list)
                     newList.Add(new TraineeTest()
                     {
