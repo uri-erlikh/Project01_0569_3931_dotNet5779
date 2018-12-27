@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BLImplementation .cs" />
+    <Compile Include="BL_Factory.cs" />
     <Compile Include="BL_Imp.cs" />
     <Compile Include="BO.cs" />
     <Compile Include="BO_ExternalTester.cs" />
