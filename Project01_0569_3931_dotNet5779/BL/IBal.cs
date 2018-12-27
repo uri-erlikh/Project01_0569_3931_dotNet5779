@@ -23,13 +23,18 @@ namespace BL
         void UpdateTestResult(int NumOfTest, string field, object result);
         BO.Test GetOneTest(int TestNum);
         //-----------------------------------------
-        List<BO.Tester> GetTesters();
+        List<BO.Tester> GetTesters(BO.Address address, double x );
         List<BO.Trainee> GetTrainees();
         List<BO.Test> GetTests();
         //---------------------------------------------
-        //List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
+        List<BO.Tester> GetCloseTester();
+        List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
         //List<BO.Tester> GetSomeTesters(Predicate<BO.Tester> func);
         //List<BO.Trainee> GetSomeTrainies(Predicate<BO.Trainee> func);
+        int NumOfTest(string id);
+        bool IfPassed(string id);
+        List<BO.Test> TestsPerDate(DateTime date);
+        List<BO.Test> TestsPerMonth(DateTime date);
 
         Dictionary<string, object> getConfig();
         void SetConfig(string parm, object value);

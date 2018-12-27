@@ -13,10 +13,10 @@ namespace BO
         private string traineeId;
         public string TraineeId { get; set; }
 
-        private DateTime testDate;
+        private DateTime testDate=new DateTime();
         public DateTime TestDate { get; set; }
 
-        private DateTime testHour;
+        private DateTime testHour=new DateTime();
         public DateTime TestHour { get; set; }
 
         private Address testAddress=new Address();

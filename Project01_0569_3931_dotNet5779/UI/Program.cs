@@ -12,14 +12,15 @@ namespace UI
 
         static void Main(string[] args)
         {
-            //11
+            
             DateTime dateTime;
             bool[,] matrix = new bool[5, 6];
             string city;
             string street;
-            int numofilding;
+            int numofbuilding;
             int num;
             IBL bL = BL_Factory.GetBL();
+
             Console.WriteLine(@"choose what you wants to do:
 1:Add Tester
 2:Add Trianee
@@ -40,8 +41,8 @@ namespace UI
                     Console.WriteLine("enter Street:");
                     street = Console.ReadLine();
                     Console.WriteLine("enter NumOfBilding:");
-                    numofilding = int.Parse(Console.ReadLine());
-                    tester.PersonAddress = new Address(city, street, numofilding);
+                    numofbuilding = int.Parse(Console.ReadLine());
+                    tester.PersonAddress = new Address(city, street, numofbuilding);
                     Console.WriteLine("enter number phone:");
                     tester.Phone = Console.ReadLine();
                     Console.WriteLine("enter your sex: for male: 0 , for female: 1 :");
@@ -104,7 +105,7 @@ namespace UI
                     trainee.TraineeGear = (GearBox)int.Parse(Console.ReadLine());
                     Console.WriteLine("enter type the Vehicle: ");
                     trainee.TraineeVehicle = (Vehicle)int.Parse(Console.ReadLine());
-                    Console.WriteLine("enter your sex: for male: 0 , for female: 1 : ");
+                    Console.WriteLine("enter your gender: for male: 0 , for female: 1 : ");
                     trainee.PersonGender = (Gender)int.Parse(Console.ReadLine());
                     Console.WriteLine("enter your date of birth: ");
                     trainee.DayOfBirth = ;

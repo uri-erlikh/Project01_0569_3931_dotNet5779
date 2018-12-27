@@ -12,6 +12,7 @@ namespace BL
     public class BLImplementation : IBL
     {
         IDal dl = DAL_Factory.GetDL("lists");
+        static Random r = new Random();
         //-------------------------------------------------------------
         public void AddTester(BO.Tester tester, bool[,] matrix)
         {
@@ -46,11 +47,11 @@ namespace BL
         //--------------------------------------------------------------------
         public void UpdateTester(string testerID, string field, params object[] info)
         {
-           // try { }//בדיקות תקינות
-                switch (field)//מתי בודקים קלט
+            // try { }//בדיקות תקינות
+            switch (field)//מתי בודקים קלט
             {
-                case "familyName":
-                    dl.UpdateTester(testerID, field, info);
+                case "familyName":                    
+                        dl.UpdateTester(testerID, field, info);                    
                     break;
                 case "privateName":
                     dl.UpdateTester(testerID, field, info);
@@ -167,10 +168,12 @@ namespace BL
                     throw new InvalidDataException("not enough lessons");
             }
             catch (InvalidDataException e) { throw; }
-            var k = (from item in dl.GetTesters()
-                     where (dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9] == true)
+
+            List<BO.Tester> optionaltesters = new List<BO.Tester>();
+            var m = (from item in dl.GetTesters()
+                     where dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9]==true
                      select item).ToList();
-            if (k.Count == 0)
+            if (!m.Any())
                 throw new InvalidDataException("bad time to test");
             else
 
@@ -180,6 +183,8 @@ namespace BL
                 }
                 catch (KeyNotFoundException e) { throw; }
         }
+
+
         //------------------------------------------------------------------
         public void UpdateTestResult(int NumOfTest, string field, object result)
         {
@@ -243,6 +248,7 @@ namespace BL
                 dl.SetConfig(parm, value);
             }
             catch (InvalidOperationException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
         }
         //-----------------------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)
@@ -262,6 +268,47 @@ namespace BL
             };
         }
         //------------------------------------------------------------------
+        public List<BO.Tester> GetCloseTester(BO.Address address, double x)
+        {             
+            return(from item in dl.GetTesters()
+            where x < r.Next()
+            select Convert(item)).ToList();            
+        }
+        //---------------------------------------------------------------------
+        public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
+        {
+
+            List<BO.Test> list = (from item in dl.GetTests()
+                                  select Convert(item)).ToList();
+            return (list.Where(x => someFunc(x)).Select(x => x)).ToList();                                     
+        }
+        //------------------------------------------------------------------------
+        public int NumOfTest(string id)
+        {
+            return Convert(dl.GetOneTrainee(id)).Trainee_Test.Count;
+        }
+        //--------------------------------------------------------------------------
+        public bool IfPassed(string id)
+        {
+            return (from item in Convert(dl.GetOneTrainee(id)).Trainee_Test
+                    where item.PassedTest == true
+                    select item).ToList().Any();
+        }
+        //--------------------------------------------------------------------
+        public List<BO.Test> TestsPerDate(DateTime date)
+        {
+            return (from item in dl.GetTests()
+                     where item.TestDate == date
+                     select Convert(item)).ToList();
+        }
+
+        public List<BO.Test> TestsPerMonth(DateTime date)
+        {
+            return (from item in dl.GetTests()
+                    where item.TestDate.Year == date.Year && item.TestDate.Month==date.Month
+                    select Convert(item)).ToList();
+        }
+        //-----------------------------------------------------------------
         private DO.Trainee Convert(BO.Trainee trainee)
         {
             return new DO.Trainee(trainee.ID)
