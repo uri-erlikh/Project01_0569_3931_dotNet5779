@@ -47,42 +47,48 @@ namespace BL
         //--------------------------------------------------------------------
         public void UpdateTester(string testerID, string field, params object[] info)
         {
-            // try { }//בדיקות תקינות
-            switch (field)//מתי בודקים קלט
-            {
-                case "familyName":                    
-                        dl.UpdateTester(testerID, field, info);                    
-                    break;
-                case "privateName":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "dayOfBirth":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "phone":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "personAddress":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "testerExperience":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "maxWeeklyTests":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "testerVehicle":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "rangeToTest":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "schedule":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                default: throw new InvalidDataException("no such field");
+            try
+            {   // try { }//בדיקות תקינות
+                switch (field)//מתי בודקים קלט
+                {
+                    case "familyName":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "privateName":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "dayOfBirth":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "phone":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "personAddress":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "testerExperience":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "maxWeeklyTests":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "testerVehicle":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "rangeToTest":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    case "schedule":
+                        dl.UpdateTester(testerID, field, info);
+                        break;
+                    default: throw new InvalidDataException("no such field");//למה הוספנו את זה???
+                }
             }
-        }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            }
         //---------------------------------------------------------------
         public BO.Tester GetOneTester(string ID)
         {

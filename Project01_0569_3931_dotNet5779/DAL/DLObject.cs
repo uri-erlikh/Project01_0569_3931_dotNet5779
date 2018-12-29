@@ -99,7 +99,7 @@ namespace DAL
                             tester.Phone = (string)info[0];
                             break;
                         case "personAddress":
-                            tester.PersonAddress = (Address)info[0];
+                            tester.PersonAddress =(Address)info[0];
                             break;
                         case "testerExperience":
                             tester.TesterExperience = (int)info[0];
