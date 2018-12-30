@@ -49,6 +49,7 @@
     <Compile Include="DO_Test.cs" />
     <Compile Include="DO_Tester.cs" />
     <Compile Include="DO_Trainee.cs" />
+    <Compile Include="IBal.cs" />
     <Compile Include="IDal.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

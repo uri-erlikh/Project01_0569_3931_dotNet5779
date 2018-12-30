@@ -19,10 +19,14 @@ namespace BL
             tester.age = DateTime.Now.Year - tester.DayOfBirth.Year;
             try
             {
-                if (tester.age < (int)BO.Configuration.MIN_TESTER_AGE)
-                    throw new BO.InvalidDataException("Too young tester");
-                if (tester.age > Configuration.MAX_TESTER_AGE)
-                    throw new BO.InvalidDataException("Too old tester");//if if if
+                CheckAgeTester(tester.age);
+                CheckName(tester.FamilyName);
+                CheckName(tester.PrivateName);
+                CheckDate(tester.DayOfBirth);
+                CheckPhone(tester.Phone);
+                CheckTesterEExperience(tester.TesterExperience);
+                CheckMaxWeeekltTests(tester.MaxWeeklyTests);
+                CheckVehicle(tester.TesterVehicle.ToString());
             }
             catch (BO.InvalidDataException e) { throw; }
             try
@@ -51,45 +55,24 @@ namespace BL
             {
                 switch (field)
                 {
-                    case "familyName":
-                        if (((string)info[0]) == "")
-                            throw new InvalidDataException("name cannot be empty string");
-                        break;
+                    case "familyName":CheckName((string)info[0]);
+                        break;                        
                     case "privateName":
-                        if (((string)info[0]) == "")
-                            throw new InvalidDataException("name cannot be empty string");
+                        CheckName((string)info[0]);
                         break;
-                    case "dayOfBirth":
-                        if (((DateTime)info[0]).Day < 1 || ((DateTime)info[0]).Day > 31)
-                            throw new InvalidDataException("no valid day");
-                        if (((DateTime)info[0]).Month < 1 || ((DateTime)info[0]).Month > 12)
-                            throw new InvalidDataException("no valid month");
-                        if (((DateTime)info[0]).Year < DateTime.Now.Year - Configuration.MAX_TESTER_AGE
-                            || ((DateTime)info[0]).Year > DateTime.Now.Year - Configuration.MIN_TESTER_AGE)
-                            throw new InvalidDataException("no valid year");
+                    case "dayOfBirth":CheckDate((DateTime)info[0]);                        
                         break;
-                    case "phone":
-                        if (((string)info[0])[0] != 0 || ((string)info[0]).Length != 10)
-                            throw new InvalidDataException("no valid phone number");
+                    case "phone":CheckPhone((string)info[0]);                        
                         break;
                     case "personAddress": break;
-                    case "testerExperience":
-                        if (((int)info[0]) > Configuration.MAX_TESTER_AGE - Configuration.MIN_TESTER_AGE || ((int)info[0]) < 0)
-                            throw new InvalidDataException("no valid num of tster's experience years");
+                    case "testerExperience":CheckTesterEExperience((int)info[0]);                        
                         break;
-                    case "maxWeeklyTests":
-                        if (((int)info[0]) < 1 || ((int)info[0]) > 30)
-                            throw new InvalidDataException("no valid maxWeeklyTests number");
+                    case "maxWeeklyTests":CheckMaxWeeekltTests((int)info[0]);                        
                         break;
-                    case "testerVehicle":
-                        if (((string)info[0]) != "privateCar" && ((string)info[0]) != "motorcycle"
-                        && ((string)info[0]) != "truck" && ((string)info[0]) != "heavyTruck")
-                            throw new InvalidDataException("no valid vehicle");
+                    case "testerVehicle":CheckVehicle((string)info[0]);                        
                         break;
                     case "rangeToTest": break;
-                    case "schedule":
-                        if (((int)info[0]) < 1 || ((int)info[0]) > 5 || ((int)info[1]) < 9 || ((int)info[1]) > 15)
-                            throw new InvalidDataException("hours operation are not matched");
+                    case "schedule":CheckScheduale((int)info[0], (int)info[1]);                        
                         break;
                     default: throw new InvalidDataException("no such field");
                 }
@@ -121,11 +104,19 @@ namespace BL
             {
                 if (trainee.age < Configuration.MIN_TRAINEE_AGE)
                     throw new InvalidDataException("Too young trainee");
+                CheckName(trainee.FamilyName);
+                CheckName(trainee.PrivateName);
+                CheckDate(trainee.DayOfBirth);
+                CheckPhone(trainee.Phone);
+                CheckVehicle(trainee.TraineeVehicle.ToString());
+                CheckGear(trainee.TraineeGear.ToString());
+                CheckDrivingLessonsNum(trainee.DrivingLessonsNum);-*
             }
             catch (InvalidDataException e)
             {
                 throw;
             }
+
             try
             {
                 dl.AddTrainee(Convert(trainee));
@@ -149,6 +140,31 @@ namespace BL
         //--------------------------------------------------------------------
         public void UpdateTrainee(string traineeID, string field, object info)
         {
+            try
+            {
+                switch (field)
+                {
+                    case "familyName":CheckName((string)info);
+                        break;
+                    case "privateName":CheckName((string)info);
+                        break;
+                    case "dayOfBirth":CheckDate((DateTime)info);                        
+                        break;
+                    case "phone":CheckPhone((string)info);
+                        break;
+                    case "personAddress": break;
+                    case "traineeVehicle":CheckVehicle((string)info);                        
+                        break;
+                    case "traineeGear":CheckGear((string)info);
+                        break;
+                    case "school":break;
+                    case "teacher":break;
+                    case "drivingLessonsNum": CheckDrivingLessonsNum((int)info);
+                        break;
+                }
+            }
+            catch (InvalidDataException e) { throw; }
+
             try
             {
                 dl.UpdateTrainee(traineeID, field, info);
@@ -187,12 +203,9 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
 
-            List<DO.Tester> optionaltesters = new List<DO.Tester>();
-            var m = (from item in dl.GetTesters()
-                     where dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9] == true
-                     select item).ToList();
-            if (!m.Any())
-                throw new InvalidDataException("bad time to test");
+            while (!GetTestersByDate(test.TestHour).Any())
+                test.TestHour = DateTime.Now.AddDays(r.Next(7));
+
             ////////////יש כאן חריגה וכן להלן
             if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
                 throw new InvalidDataException("no match between tester and trainee - other vehicles");
@@ -203,7 +216,6 @@ namespace BL
                  select item).ToList().Any())
                 throw new InvalidDataException("trainee passed a test on this vehicle");
             ///////////////////////
-
 
 
             try
@@ -306,7 +318,7 @@ namespace BL
             catch (ArgumentNullException e) { throw; }
         }
         //---------------------------------------------------------------------
-        List<BO.Tester> GetTestersByDate(DateTime hour)
+        public List<BO.Tester> GetTestersByDate(DateTime hour)
         {
             bool flag = true;
             List<DO.Tester> optionaltesters = new List<DO.Tester>();
@@ -314,7 +326,7 @@ namespace BL
                      where dl.GetSchedule(item.ID)[hour.Day - 1, hour.Hour - 9] == true
                      select item).ToList();
             if (!m.Any())
-                throw new InvalidDataException("bad time to test");            
+                throw new InvalidDataException("bad time to test");
             var newList = (from item in m
                            from itemTest in Convert(item).TesterTests
                            where itemTest.TestHour == hour
@@ -384,7 +396,18 @@ namespace BL
             }
             catch (ArgumentNullException e) { throw; }
         }
+        //------------------------------------------------------------------
+        public List<BO.Tester> TestersByVehicle(bool flag)
+        {
+            if (flag)
+                (from item in dl.GetTesters()
+                 orderby item.FamilyName
+                 group item by item.TesterVehicle
 
+
+
+
+        }
         //-----------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)
         {
@@ -559,6 +582,81 @@ namespace BL
             };
         }
         //-------------------------------------------------------------------------------------
+        private void CheckName (string name)
+        {
+            try
+            {
+                if (name == "")
+                    throw new InvalidDataException("name cannot be empty string");
+            }
+            catch (InvalidDataException e) { throw; }
+        }
+        //------------------------------------------------------------------------------
+        private void CheckDate(DateTime time)
+        {
+            try
+            {
+                if (time.Day < 1 || time.Day > 31)
+                    throw new InvalidDataException("no valid day");
+                if (time.Month < 1 || time.Month > 12)
+                    throw new InvalidDataException("no valid month");
+                if (time.Year < (DateTime.Now.Year - Configuration.MAX_TESTER_AGE)
+                    || time.Year > (DateTime.Now.Year - Configuration.MIN_TESTER_AGE))
+                    throw new InvalidDataException("no valid year");
+            }catch (InvalidDataException e) { throw; }
+        }
+        //-------------------------------------------------------------------------
+        private void CheckPhone(string phone)
+        {
+            if (phone[0] != 0 || phone.Length != 10)
+                throw new InvalidDataException("no valid phone number");
+        }
+        //--------------------------------------------------------------------
+        private void CheckTesterEExperience (int testerExperience)
+        {
+            if (testerExperience > Configuration.MAX_TESTER_AGE - Configuration.MIN_TESTER_AGE || testerExperience < 0)
+                throw new InvalidDataException("no valid num of tster's experience years");
+        }
+        //--------------------------------------------------------------------------
+        private void CheckMaxWeeekltTests(int maxWeeklyTests)
+        {
+            if (maxWeeklyTests < 1 || maxWeeklyTests > 30)
+                throw new InvalidDataException("no valid maxWeeklyTests number");
+        }
+        //------------------------------------------------------------------------
+        private void CheckVehicle (string vehicle)
+        {
+            if (vehicle != "privateCar" && vehicle != "motorcycle"
+                        && vehicle != "truck" && vehicle != "heavyTruck")
+                throw new InvalidDataException("no valid vehicle");
+        }
+        //------------------------------------------------------------------------
+        private void CheckScheduale (int day, int hour)
+        {
+            if ( day< 1 || day > 5 || hour < 9 || hour > 15)
+                throw new InvalidDataException("hours operation are not matched");
+        }
+        //--------------------------------------------------------------------
+        private void CheckGear(string gear)
+        {
+            if (gear != "auto" && gear != "manual")
+                throw new InvalidDataException("no valid gear");
+        }
+        //----------------------------------------------------------------------------
+        private void CheckDrivingLessonsNum(int num)
+        {
+            if (num < Configuration.MIN_LESSONS)
+                throw new InvalidDataException("too few lessons");
+        }
+        //--------------------------------------------------------------------------------
+        private void CheckAgeTester(int age)
+        {
+            if (age >= Configuration.MAX_TESTER_AGE)
+                throw new InvalidDataException("too old tester");
+                if (age < Configuration.MIN_TESTER_AGE)
+                throw new InvalidDataException("too young tester");
+        }
+        //--------------------------------------------------------------------------------
     }
 }
 
