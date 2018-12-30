@@ -434,3 +434,43 @@ namespace UI
 //        return (from item in dl.GetTesters()
 //                group Convert(item) by Convert(item).TesterVehicle).ToList();
 //}
+////----------------------------------------------------------------------------
+//public List<IGrouping<string, BO.Trainee>> Traineesbyschool(bool flag)
+//{
+//    if (flag)
+//    {
+//        return (from item in dl.GetTrainees()
+//                orderby item.FamilyName
+//                group Convert(item) by Convert(item).School).ToList();
+//    }
+//    else
+//        return (from item in dl.GetTrainees()
+//                group Convert(item) by Convert(item).School).ToList();
+
+//}
+////-----------------------------------------------------------------------
+//public List<IGrouping<string, BO.Trainee>> Traineesbyteacher(bool flag)
+//{
+//    if (flag)
+//    {
+//        return (from item in dl.GetTrainees()
+//                orderby item.FamilyName
+//                group Convert(item) by Convert(item).Teacher).ToList();
+//    }
+//    else
+//        return (from item in dl.GetTrainees()
+//                group Convert(item) by Convert(item).Teacher).ToList();
+//}
+////------------------------------------------------------------------------
+//public List<IGrouping<int, BO.Trainee>> Traineesbytests(bool flag)
+//{
+//    if (flag)
+//    {
+//        return (from item in dl.GetTrainees()
+//                orderby item.FamilyName
+//                group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
+//    }
+//    else
+//        return (from item in dl.GetTrainees()
+//                group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
+//}

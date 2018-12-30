@@ -397,16 +397,57 @@ namespace BL
             catch (ArgumentNullException e) { throw; }
         }
         //------------------------------------------------------------------
-        public List<BO.Tester> TestersByVehicle(bool flag)
+        public List<IGrouping<BO.Vehicle, BO.Tester>> Testersbyvichle(bool flag)
         {
             if (flag)
-                (from item in dl.GetTesters()
-                 orderby item.FamilyName
-                 group item by item.TesterVehicle
+            {
+                return (from item in dl.GetTesters()
+                        orderby item.FamilyName
+                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+            }
+            else
+                return (from item in dl.GetTesters()
+                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+        }
+        //----------------------------------------------------------------------------
+        public List<IGrouping<string, BO.Trainee>> Traineesbyschool(bool flag)
+        {
+            if (flag)
+            {
+                return (from item in dl.GetTrainees()
+                        orderby item.FamilyName
+                        group Convert(item) by Convert(item).School).ToList();
+            }
+            else
+                return (from item in dl.GetTrainees()
+                        group Convert(item) by Convert(item).School).ToList();
 
-
-
-
+        }
+        //-----------------------------------------------------------------------
+        public List<IGrouping<string, BO.Trainee>> Traineesbyteacher(bool flag)
+        {
+            if (flag)
+            {
+                return (from item in dl.GetTrainees()
+                        orderby item.FamilyName
+                        group Convert(item) by Convert(item).Teacher).ToList();
+            }
+            else
+                return (from item in dl.GetTrainees()
+                        group Convert(item) by Convert(item).Teacher).ToList();
+        }
+        //------------------------------------------------------------------------
+        public List<IGrouping<int, BO.Trainee>> Traineesbytests(bool flag)
+        {
+            if (flag)
+            {
+                return (from item in dl.GetTrainees()
+                        orderby item.FamilyName
+                        group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
+            }
+            else
+                return (from item in dl.GetTrainees()
+                        group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
         }
         //-----------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)
