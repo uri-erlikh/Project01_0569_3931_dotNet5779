@@ -39,6 +39,8 @@ namespace BL
 
         Dictionary<string, object> getConfig();
         void SetConfig(string parm, object value);
+        List<IGrouping<BO.Vehicle, BO.Tester> > Testersbyvichle(bool flag);
+        List<IGrouping<BO.Vehicle, BO.Tester>> Trainees (bool flag);
     }
 }
 

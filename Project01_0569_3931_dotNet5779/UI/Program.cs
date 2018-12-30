@@ -9,7 +9,8 @@ namespace UI
 {
     class Program
     {
-
+        enum hours { nine, ten, Eleven, Twelve, one, tow, trhee }
+        enum days { sunday, monday, Tuesday, Wednesday, Thursday }
         static void Main(string[] args)
         {
 
@@ -70,11 +71,24 @@ namespace UI
                         tester.DayOfBirth.Day = int.Parse(Console.ReadLine());
                         dateTime = new DateTime();
                         Console.WriteLine("");
+
+                        hours hours = new hours();
+                        days days = new days();
+                        int t = 9;
                         for (int i = 0; i < 5; ++i)
                         {
+                            Console.WriteLine("enter for day: " + days);
+                            ++days;
                             for (int j = 0; j < 6; ++j)
                             {
-
+                                Console.WriteLine("enter for hour: " + hours);
+                                ++hours;
+                                do
+                                { 
+                                    matrix[i, j] = bool.Parse(Console.ReadLine());
+                                    if (matrix[i, j] != true && matrix[i, j] != false)
+                                        Console.WriteLine("enter only 1 or 0");
+                                } while (matrix[i, j] != true && matrix[i, j] != false);
                             }
                         }
                         try
@@ -207,8 +221,10 @@ namespace UI
 9:range To Test
 10:schedule
 ");
+                        number = int.Parse(Console.ReadLine());
                         try
                         {
+
                             switch (number)
                             {
                                 case 1:
@@ -295,6 +311,7 @@ namespace UI
 9:teacher
 10:Number of Lessons
 ");
+                        number1 = int.Parse(Console.ReadLine());
                         try
                         {
                             switch (number1)
@@ -362,62 +379,32 @@ namespace UI
                         {
                             Console.WriteLine(e);
                         }
+                        break;
                     case 8:
-                        object result = new object();
+
+
+                        bool[] result = new bool[7];
+                        string note; ;
                         int numOfTest;
-                        int number2;
                         Console.WriteLine("enter the numOfTest: ");
                         numOfTest = int.Parse(Console.ReadLine());
-                        Console.WriteLine(@"select what you want to update:
+                        Console.WriteLine(@"enter your update:
 1:mirrors
 2:brakes
 3:reverseParking
 4:distance
 5:vinkers
 6:trafficSigns
-7:passedTest
-8: testerNote
-9:exit");
+7:passedTest");
+                        for (int i = 0; i < 7; ++i)
+                        {
+                            result[i] = bool.Parse(Console.ReadLine());
+                        }
+                        Console.WriteLine("enter note: ");
+                        note = Console.ReadLine();
                         try
                         {
-                            do
-                            {
-                                switch (number2)
-
-                            case 1:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "mirrors", result);
-                                    break;
-                                case 2:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "brakes", result);
-                                    break;
-                                case 3:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "reverseParking", result);
-                                    break;
-                                case 4:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "distance", result);
-                                    break;
-                                case 5:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "vinkers", result);
-                                    break;
-                                case 6:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "trafficSigns", result);
-                                    break;
-                                case 7:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "passedTest", result);
-                                    break;
-                                case 8:
-                                    result = Console.ReadLine();
-                                    bL.UpdateTestResult(numOfTest, "testerNote", result);
-                                    break;
-                                }
-                            } while (number2 != 9);
+                            bL.UpdateTestResult(numOfTest, result, note);
                         }
                         catch (KeyNotFoundException e)
                         {
@@ -428,9 +415,22 @@ namespace UI
                             Console.WriteLine(e);
                         }
                         break;
+
                 }
             } while (num != 9);
         }
     }
 }
 
+//public List<IGrouping<BO.Vehicle, BO.Tester>> Testersbyvichle(bool flag)
+//{
+//    if (flag)
+//    {
+//        return (from item in dl.GetTesters()
+//                orderby item.FamilyName
+//                group Convert(item) by Convert(item).TesterVehicle).ToList();
+//    }
+//    else
+//        return (from item in dl.GetTesters()
+//                group Convert(item) by Convert(item).TesterVehicle).ToList();
+//}

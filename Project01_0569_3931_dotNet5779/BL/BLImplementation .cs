@@ -64,7 +64,7 @@ namespace BL
                             throw new InvalidDataException("no valid day");
                         if (((DateTime)info[0]).Month < 1 || ((DateTime)info[0]).Month > 12)
                             throw new InvalidDataException("no valid month");
-                        if (((DateTime)info[0]).Year < DateTime.Now.Year - Configuration.MAX_TESTER_AGE
+                        if (((DateTime)info[0]).Year < (DateTime.Now.Year - Configuration.MAX_TESTER_AGE)
                             || ((DateTime)info[0]).Year > DateTime.Now.Year - Configuration.MIN_TESTER_AGE)
                             throw new InvalidDataException("no valid year");
                         break;
@@ -91,7 +91,7 @@ namespace BL
                         if (((int)info[0]) < 1 || ((int)info[0]) > 5 || ((int)info[1]) < 9 || ((int)info[1]) > 15)
                             throw new InvalidDataException("hours operation are not matched");
                         break;
-                    default: throw new InvalidDataException("no such field");
+                        //   default: throw new InvalidDataException("no such field");
                 }
             }
             catch (InvalidDataException e) { throw; }
@@ -314,7 +314,7 @@ namespace BL
                      where dl.GetSchedule(item.ID)[hour.Day - 1, hour.Hour - 9] == true
                      select item).ToList();
             if (!m.Any())
-                throw new InvalidDataException("bad time to test");            
+                throw new InvalidDataException("bad time to test");
             var newList = (from item in m
                            from itemTest in Convert(item).TesterTests
                            where itemTest.TestHour == hour
@@ -384,6 +384,20 @@ namespace BL
             }
             catch (ArgumentNullException e) { throw; }
         }
+        //-------------------------------------------------------------------
+        public List<IGrouping<BO.Vehicle, BO.Tester>> Testersbyvichle(bool flag)
+        {
+            if (flag)
+            {
+                return (from item in dl.GetTesters()
+                        orderby item.FamilyName
+                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+            }
+            else
+                return (from item in dl.GetTesters()
+                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+        }
+        //-------------------------------------------------------------------------------
 
         //-----------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)
