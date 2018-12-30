@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 using DAL;
@@ -38,7 +39,7 @@ namespace BO
             MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
         }
 
-        public override static string ToString()
+        public static override string  ToString()
         {
 
         }
@@ -50,7 +51,7 @@ namespace BO
         public InvalidDataException() : base() { }
         public InvalidDataException(string message) : base(message) { }
         public InvalidDataException(string message, Exception inner) : base(message, inner) { }
-        //protected MyException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected InvalidDataException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     //---------------------------------------------------
     public struct Address

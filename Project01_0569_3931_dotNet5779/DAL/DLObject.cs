@@ -76,12 +76,7 @@ namespace DAL
         {
             try
             {
-                if (!IfExist(testerID, "tester"))
-                    throw new KeyNotFoundException("ID not found");
-            }
-            catch (KeyNotFoundException e)
-            { throw; }
-            DO.Tester tester = GetOneTester(testerID);
+                DO.Tester tester = GetOneTester(testerID);            
             switch (field)
             {
                 case "familyName":
@@ -115,6 +110,9 @@ namespace DAL
                     DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
                     break;
             }
+            }
+            catch (KeyNotFoundException e)
+            { throw; }
         }
         //--------------------------------------------------------
         public DO.Tester GetOneTester(string ID)
@@ -164,13 +162,7 @@ namespace DAL
         {
             try
             {
-                if (!IfExist(traineeID, "trainee"))
-                    throw new KeyNotFoundException("ID not found");
-            }
-            catch (KeyNotFoundException e) { throw; }
-            foreach (var trainee in DataSource.Trainies)
-                if (traineeID == trainee.ID)
-                {
+                DO.Trainee trainee = GetOneTrainee(traineeID);            
                     switch (field)
                     {
                         case "familyName":
@@ -180,13 +172,13 @@ namespace DAL
                             trainee.PrivateName = (string)info;
                             break;
                         case "dayOfBirth":
-                            trainee.DayOfBirth = (DateTime)info;//אולי try
+                            trainee.DayOfBirth = (DateTime)info;
                             break;
                         case "phone":
                             trainee.Phone = (string)info;
                             break;
                         case "personAddress":
-                            trainee.PersonAddress = (Address)info;//לבנות למעללה מבנה של כתובת
+                            trainee.PersonAddress = (Address)info;
                             break;
                         case "traineeVehicle":
                             trainee.TraineeVehicle = (Vehicle)info;
@@ -204,7 +196,8 @@ namespace DAL
                             trainee.DrivingLessonsNum = (int)info;
                             break;
                     }
-                }
+            }
+            catch (KeyNotFoundException e) { throw; }
         }
         //--------------------------------------------------
         public DO.Trainee GetOneTrainee(string ID)
