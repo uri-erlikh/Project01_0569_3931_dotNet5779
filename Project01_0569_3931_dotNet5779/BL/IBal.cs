@@ -16,18 +16,19 @@ namespace BL
         //---------------------------------------------
         void AddTrainee(BO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
-        void UpdateTrainee(string traineeID, string field, params object[] info);
+        void UpdateTrainee(string traineeID, string field, object info);
         BO.Trainee GetOneTrainee(string ID);
         //-------------------------------------------------------
         void AddTest(BO.Test test);
-        void UpdateTestResult(int NumOfTest, string field, object result);
+        void UpdateTestResult(int NumOfTest, bool[]result,string note);
         BO.Test GetOneTest(int TestNum);
         //-----------------------------------------
-        List<BO.Tester> GetTesters(BO.Address address, double x );
+        List<BO.Tester> GetTesters();
         List<BO.Trainee> GetTrainees();
         List<BO.Test> GetTests();
         //---------------------------------------------
-        List<BO.Tester> GetCloseTester();
+        List<BO.Tester> GetCloseTester(BO.Address address, double x);
+        List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
         //List<BO.Tester> GetSomeTesters(Predicate<BO.Tester> func);
         //List<BO.Trainee> GetSomeTrainies(Predicate<BO.Trainee> func);

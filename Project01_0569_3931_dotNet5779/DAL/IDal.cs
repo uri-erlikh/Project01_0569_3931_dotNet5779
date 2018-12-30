@@ -20,7 +20,7 @@ namespace DAL
         DO.Trainee GetOneTrainee(string ID);
 //-------------------------------------------------------
         void AddTest(DO.Test test);
-        void UpdateTestResult(int NumOfTest,string field,  object result);
+        void UpdateTestResult(int NumOfTest,bool[] result, string note);
         DO.Test GetOneTest(int TestNum);
 //-----------------------------------------
         List<DO.Tester> GetTesters();

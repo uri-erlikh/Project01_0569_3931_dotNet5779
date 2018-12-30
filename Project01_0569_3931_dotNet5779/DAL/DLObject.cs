@@ -81,43 +81,40 @@ namespace DAL
             }
             catch (KeyNotFoundException e)
             { throw; }
-            foreach (var tester in DataSource.Testers)
-                if (testerID == tester.ID)
-                {
-                    switch (field)
-                    {
-                        case "familyName":
-                            tester.FamilyName = (string)info[0];//לבדוק למעלה שזה לא נאללל
-                            break;
-                        case "privateName":
-                            tester.PrivateName = (string)info[0];
-                            break;
-                        case "dayOfBirth":
-                            tester.DayOfBirth = (DateTime)info[0];//אולי try
-                            break;
-                        case "phone":
-                            tester.Phone = (string)info[0];
-                            break;
-                        case "personAddress":
-                            tester.PersonAddress = (Address)info[0];
-                            break;
-                        case "testerExperience":
-                            tester.TesterExperience = (int)info[0];
-                            break;
-                        case "maxWeeklyTests":
-                            tester.MaxWeeklyTests = (int)info[0];
-                            break;
-                        case "testerVehicle":
-                            tester.TesterVehicle = (Vehicle)info[0];
-                            break;
-                        case "rangeToTest":
-                            tester.RangeToTest = (int)info[0];
-                            break;
-                        case "schedule":
-                            DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];//chek the data
-                            break;
-                    }
-                }
+            DO.Tester tester = GetOneTester(testerID);
+            switch (field)
+            {
+                case "familyName":
+                    tester.FamilyName = (string)info[0];
+                    break;
+                case "privateName":
+                    tester.PrivateName = (string)info[0];
+                    break;
+                case "dayOfBirth":
+                    tester.DayOfBirth = (DateTime)info[0];
+                    break;
+                case "phone":
+                    tester.Phone = (string)info[0];
+                    break;
+                case "personAddress":
+                    tester.PersonAddress = (Address)info[0];
+                    break;
+                case "testerExperience":
+                    tester.TesterExperience = (int)info[0];
+                    break;
+                case "maxWeeklyTests":
+                    tester.MaxWeeklyTests = (int)info[0];
+                    break;
+                case "testerVehicle":
+                    tester.TesterVehicle = (Vehicle)info[0];
+                    break;
+                case "rangeToTest":
+                    tester.RangeToTest = (int)info[0];
+                    break;
+                case "schedule":
+                    DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
+                    break;
+            }
         }
         //--------------------------------------------------------
         public DO.Tester GetOneTester(string ID)
@@ -151,7 +148,7 @@ namespace DAL
         {
             try
             {
-                if (!IfExist(TraineeID, "tester"))
+                if (!IfExist(TraineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
@@ -242,44 +239,21 @@ namespace DAL
             DataSource.Configuration["Number"].value = temp + 1;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(int numOfTest, string field, object result)
+        public void UpdateTestResult(int numOfTest, bool[] result, string note)
         {
-            if (!IfTestExist(numOfTest))
-                throw new KeyNotFoundException("Test is not exist");//try
-            foreach (var item in DataSource.Tests)
-                if (item.TestNumber == numOfTest)
-                {
-                    if (item.TestHour > DateTime.Now)//try
-                        throw new InvalidOperationException("Test didn't occur yet");//change the execption
-                    switch (field)
-                    {
-                        case "mirrors":
-                            item.Mirrors = (bool)result;
-                            break;
-                        case "brakes":
-                            item.Brakes = (bool)result;
-                            break;
-                        case "reverseParking":
-                            item.ReverseParking = (bool)result;
-                            break;
-                        case "distance":
-                            item.Distance = (bool)result;
-                            break;
-                        case "vinkers":
-                            item.Vinkers = (bool)result;
-                            break;
-                        case "trafficSigns":
-                            item.TrafficSigns = (bool)result;
-                            break;
-                        case "passedTest":
-                            item.PassedTest = (bool)result;
-                            break;
-                        case "testerNote":
-                            item.TesterNote = (string)result;
-                            break;
-                        default: throw new InvalidOperationException("you cannot change this field");//the same
-                    }
-                }
+            try
+            {
+                DO.Test test = GetOneTest(numOfTest);
+                test.Mirrors = result[0];
+                test.Brakes = result[1];
+                test.ReverseParking = result[2];
+                test.Distance = result[3];
+                test.Vinkers = result[4];
+                test.TrafficSigns = result[5];
+                test.PassedTest = result[6];
+                test.TesterNote = note;
+            }
+            catch (KeyNotFoundException e) { throw; }
         }
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)
@@ -323,8 +297,8 @@ namespace DAL
         {
             try
             {
-                if (DataSource.Trainies.Count == 0)
-                    throw new NullReferenceException("empty list");
+                if (!DataSource.Trainies.Any())
+                    throw new ArgumentNullException("empty list");
             }
             catch (ArgumentNullException e) { throw; }
             List<DO.Trainee> newList = new List<DO.Trainee>();
@@ -339,8 +313,8 @@ namespace DAL
         {
             try
             {
-                if (DataSource.Tests.Count == 0)
-                    throw new NullReferenceException("empty list");
+                if (!DataSource.Tests.Any())
+                    throw new ArgumentNullException("empty list");
             }
             catch (ArgumentNullException e) { throw; }
             List<DO.Test> newList = new List<DO.Test>();
@@ -355,22 +329,21 @@ namespace DAL
         {
             try
             {
-                if (DataSource.Tests.Count == 0)
+                if (!DataSource.Tests.Any())
                     throw new ArgumentNullException("empty list");
             }
             catch (ArgumentNullException e) { throw; }
-            var NewList = from item in DataSource.Tests
-                          where (someFunc(item))
-                          select item;
-            return NewList.ToList();
+            return (from item in DataSource.Tests
+                    where (someFunc(item))
+                    select item).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
             try
             {
-                if (DataSource.Testers.Count == 0)
-                    throw new NullReferenceException("empty list");
+                if (!DataSource.Testers.Any())
+                    throw new ArgumentNullException("empty list");
             }
             catch (ArgumentNullException e) { throw; }
             var NewList = from item in DataSource.Testers
@@ -383,8 +356,8 @@ namespace DAL
         {
             try
             {
-                if (DataSource.Testers.Count == 0)
-                    throw new NullReferenceException("empty list");
+                if (!DataSource.Testers.Any())
+                    throw new ArgumentNullException("empty list");
             }
             catch (ArgumentNullException e) { throw; }
             var NewList = from item in DataSource.Trainies
@@ -408,7 +381,7 @@ namespace DAL
         {
             try
             {
-                var asd = DataSource.Configuration.Keys.Where(x => x == parm).ToArray();
+                var asd = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
                 if (asd.Length == 0)
                     throw new KeyNotFoundException("key not found");
                 if (DataSource.Configuration[parm].Writable == false)
@@ -421,6 +394,12 @@ namespace DAL
         //-----------------------------------------------------
         public bool[,] GetSchedule(string ID)
         {
+            try
+            {
+                if (!IfExist(ID, "tester"))
+                    throw new KeyNotFoundException();
+            }
+            catch (KeyNotFoundException e) { throw; }
             var matrix = (from item in DataSource.Schedules
                           where (item.Key == ID)
                           select item.Value).ToArray();

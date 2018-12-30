@@ -47,41 +47,59 @@ namespace BL
         //--------------------------------------------------------------------
         public void UpdateTester(string testerID, string field, params object[] info)
         {
-            // try { }//בדיקות תקינות
-            switch (field)//מתי בודקים קלט
+            try
             {
-                case "familyName":                    
-                        dl.UpdateTester(testerID, field, info);                    
-                    break;
-                case "privateName":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "dayOfBirth":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "phone":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "personAddress":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "testerExperience":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "maxWeeklyTests":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "testerVehicle":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "rangeToTest":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                case "schedule":
-                    dl.UpdateTester(testerID, field, info);
-                    break;
-                default: throw new InvalidDataException("no such field");
+                switch (field)
+                {
+                    case "familyName":
+                        if (((string)info[0]) == "")
+                            throw new InvalidDataException("name cannot be empty string");
+                        break;
+                    case "privateName":
+                        if (((string)info[0]) == "")
+                            throw new InvalidDataException("name cannot be empty string");
+                        break;
+                    case "dayOfBirth":
+                        if (((DateTime)info[0]).Day < 1 || ((DateTime)info[0]).Day > 31)
+                            throw new InvalidDataException("no valid day");
+                        if (((DateTime)info[0]).Month < 1 || ((DateTime)info[0]).Month > 12)
+                            throw new InvalidDataException("no valid month");
+                        if (((DateTime)info[0]).Year < DateTime.Now.Year - Configuration.MAX_TESTER_AGE
+                            || ((DateTime)info[0]).Year > DateTime.Now.Year - Configuration.MIN_TESTER_AGE)
+                            throw new InvalidDataException("no valid year");
+                        break;
+                    case "phone":
+                        if (((string)info[0])[0] != 0 || ((string)info[0]).Length != 10)
+                            throw new InvalidDataException("no valid phone number");
+                        break;
+                    case "personAddress": break;
+                    case "testerExperience":
+                        if (((int)info[0]) > Configuration.MAX_TESTER_AGE - Configuration.MIN_TESTER_AGE || ((int)info[0]) < 0)
+                            throw new InvalidDataException("no valid num of tster's experience years");
+                        break;
+                    case "maxWeeklyTests":
+                        if (((int)info[0]) < 1 || ((int)info[0]) > 30)
+                            throw new InvalidDataException("no valid maxWeeklyTests number");
+                        break;
+                    case "testerVehicle":
+                        if (((string)info[0]) != "privateCar" && ((string)info[0]) != "motorcycle"
+                        && ((string)info[0]) != "truck" && ((string)info[0]) != "heavyTruck")
+                            throw new InvalidDataException("no valid vehicle");
+                        break;
+                    case "rangeToTest": break;
+                    case "schedule":
+                        if (((int)info[0]) < 1 || ((int)info[0]) > 5 || ((int)info[1]) < 9 || ((int)info[1]) > 15)
+                            throw new InvalidDataException("hours operation are not matched");
+                        break;
+                    default: throw new InvalidDataException("no such field");
+                }
             }
+            catch (InvalidDataException e) { throw; }
+            try
+            {
+                dl.UpdateTester(testerID, field, info);
+            }
+            catch (KeyNotFoundException e) { throw; }
         }
         //---------------------------------------------------------------
         public BO.Tester GetOneTester(string ID)
@@ -129,7 +147,7 @@ namespace BL
             }
         }
         //--------------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, params object[] info)
+        public void UpdateTrainee(string traineeID, string field, object info)
         {
             try
             {
@@ -169,26 +187,51 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
 
-            List<BO.Tester> optionaltesters = new List<BO.Tester>();
+            List<DO.Tester> optionaltesters = new List<DO.Tester>();
             var m = (from item in dl.GetTesters()
-                     where dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9]==true
+                     where dl.GetSchedule(item.ID)[test.TestHour.Day - 1, test.TestHour.Hour - 9] == true
                      select item).ToList();
             if (!m.Any())
                 throw new InvalidDataException("bad time to test");
-            else
+            ////////////יש כאן חריגה וכן להלן
+            if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
+                throw new InvalidDataException("no match between tester and trainee - other vehicles");
+            /////////////////
+            if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                 where item.PassedTest == true
+                 where Convert(item).Tester.TesterVehicle == (BO.Vehicle)(dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
+                 select item).ToList().Any())
+                throw new InvalidDataException("trainee passed a test on this vehicle");
+            ///////////////////////
 
-                try
-                {
-                    dl.AddTest(Convert(test));
-                }
-                catch (KeyNotFoundException e) { throw; }
+
+
+            try
+            {
+                dl.AddTest(Convert(test));
+            }
+            catch (KeyNotFoundException e) { throw; }
         }
 
 
         //------------------------------------------------------------------
-        public void UpdateTestResult(int NumOfTest, string field, object result)
+        public void UpdateTestResult(int NumOfTest, bool[] result, string note = "")
         {
-
+            try
+            {
+                bool summary = true;
+                DO.Test test = dl.GetOneTest(NumOfTest);
+                if (test.TestHour > DateTime.Now)
+                    throw new InvalidDataException("Test didn't occur yet");
+                for (int i = 0; i < result.Length - 1; ++i)
+                    if (result[i] == false)
+                        summary = false;
+                if (summary != result[result.Length - 1])
+                    throw new InvalidDataException("data and result are not matched");
+            }
+            catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            dl.UpdateTestResult(NumOfTest, result, note);
         }
         //------------------------------------------------------------
         public BO.Test GetOneTest(int TestNum)
@@ -251,6 +294,98 @@ namespace BL
             catch (KeyNotFoundException e) { throw; }
         }
         //-----------------------------------------------------------------------------
+
+        public List<BO.Tester> GetCloseTester(BO.Address address, double x)
+        {
+            try
+            {
+                return (from item in dl.GetTesters()
+                        where x < r.Next()
+                        select Convert(item)).ToList();
+            }
+            catch (ArgumentNullException e) { throw; }
+        }
+        //---------------------------------------------------------------------
+        List<BO.Tester> GetTestersByDate(DateTime hour)
+        {
+            bool flag = true;
+            List<DO.Tester> optionaltesters = new List<DO.Tester>();
+            var m = (from item in dl.GetTesters()
+                     where dl.GetSchedule(item.ID)[hour.Day - 1, hour.Hour - 9] == true
+                     select item).ToList();
+            if (!m.Any())
+                throw new InvalidDataException("bad time to test");            
+            var newList = (from item in m
+                           from itemTest in Convert(item).TesterTests
+                           where itemTest.TestHour == hour
+                           select item).ToList();
+            for (int i = 0; i < m.Count; ++i)
+            {
+                flag = true;
+                for (int j = 0; j < newList.Count; ++j)
+                    if (m[i] == newList[j])
+                        flag = false;
+                if (flag == true)
+                    optionaltesters.Add(m[i]);
+            }
+            return (from item in optionaltesters
+                    select Convert(item)).ToList();
+        }
+        //------------------------------------------------------------------
+        public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
+        {
+            try
+            {
+                List<BO.Test> list = (from item in dl.GetTests()
+                                      select Convert(item)).ToList();
+                return (list.Where(x => someFunc(x)).Select(x => x)).ToList();
+            }
+            catch (ArgumentNullException e) { throw; }
+        }
+        //------------------------------------------------------------------------
+        public int NumOfTest(string id)
+        {
+            try
+            {
+                return Convert(dl.GetOneTrainee(id)).Trainee_Test.Count;
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //--------------------------------------------------------------------------
+        public bool IfPassed(string id)
+        {
+            try
+            {
+                return (from item in Convert(dl.GetOneTrainee(id)).Trainee_Test
+                        where item.PassedTest == true
+                        select item).ToList().Any();
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //--------------------------------------------------------------------
+        public List<BO.Test> TestsPerDate(DateTime date)
+        {
+            try
+            {
+                return (from item in dl.GetTests()
+                        where item.TestDate == date
+                        select Convert(item)).ToList();
+            }
+            catch (ArgumentNullException e) { throw; }
+        }
+
+        public List<BO.Test> TestsPerMonth(DateTime date)
+        {
+            try
+            {
+                return (from item in dl.GetTests()
+                        where item.TestDate.Year == date.Year && item.TestDate.Month == date.Month
+                        select Convert(item)).ToList();
+            }
+            catch (ArgumentNullException e) { throw; }
+        }
+
+        //-----------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)
         {
             return new DO.Tester(tester.ID)
@@ -268,47 +403,6 @@ namespace BL
             };
         }
         //------------------------------------------------------------------
-        public List<BO.Tester> GetCloseTester(BO.Address address, double x)
-        {             
-            return(from item in dl.GetTesters()
-            where x < r.Next()
-            select Convert(item)).ToList();            
-        }
-        //---------------------------------------------------------------------
-        public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
-        {
-
-            List<BO.Test> list = (from item in dl.GetTests()
-                                  select Convert(item)).ToList();
-            return (list.Where(x => someFunc(x)).Select(x => x)).ToList();                                     
-        }
-        //------------------------------------------------------------------------
-        public int NumOfTest(string id)
-        {
-            return Convert(dl.GetOneTrainee(id)).Trainee_Test.Count;
-        }
-        //--------------------------------------------------------------------------
-        public bool IfPassed(string id)
-        {
-            return (from item in Convert(dl.GetOneTrainee(id)).Trainee_Test
-                    where item.PassedTest == true
-                    select item).ToList().Any();
-        }
-        //--------------------------------------------------------------------
-        public List<BO.Test> TestsPerDate(DateTime date)
-        {
-            return (from item in dl.GetTests()
-                     where item.TestDate == date
-                     select Convert(item)).ToList();
-        }
-
-        public List<BO.Test> TestsPerMonth(DateTime date)
-        {
-            return (from item in dl.GetTests()
-                    where item.TestDate.Year == date.Year && item.TestDate.Month==date.Month
-                    select Convert(item)).ToList();
-        }
-        //-----------------------------------------------------------------
         private DO.Trainee Convert(BO.Trainee trainee)
         {
             return new DO.Trainee(trainee.ID)
@@ -367,7 +461,7 @@ namespace BL
 
         private List<BO.TesterTest> GetTesterTests(List<DO.Test> list)
         {
-            List<BO.TesterTest> newList = new List<TesterTest>();
+            List<BO.TesterTest> newList = new List<BO.TesterTest>();
             foreach (var item in list)
                 newList.Add(new TesterTest()
                 {
