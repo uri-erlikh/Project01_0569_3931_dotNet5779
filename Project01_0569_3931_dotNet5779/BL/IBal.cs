@@ -37,15 +37,14 @@ namespace BL
         List<BO.Test> TestsPerDate(DateTime date);
         List<BO.Test> TestsPerMonth(DateTime date);
 
-        List<BO.Tester> TestersByVehicle(bool flag);
+        //List<BO.Tester> TestersByVehicle(bool flag);
 
         Dictionary<string, object> getConfig();
         void SetConfig(string parm, object value);
-        List<IGrouping<BO.Vehicle, BO.Tester> > Testersbyvichle(bool flag);
-        List<IGrouping<BO.Vehicle, BO.Tester>> Traineesbyschool (bool flag);
-        List<IGrouping<string, BO.Trainee>> Traineesbyteacher(bool flag);
-        List<IGrouping<string, BO.Trainee>> Traineesbytests(bool flag);
-        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate);
+        List<IGrouping<BO.Vehicle, BO.Tester> > TestersByVehicle(bool flag);
+        List<IGrouping<string, BO.Trainee>> TraineesBySchool (bool flag);
+        List<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag);
+        List<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag);
     }
     
 }

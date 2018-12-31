@@ -19,12 +19,13 @@ namespace BL
             tester.age = DateTime.Now.Year - tester.DayOfBirth.Year;
             try
             {
+                CheckID(tester.ID);
                 CheckAgeTester(tester.age);
                 CheckName(tester.FamilyName);
                 CheckName(tester.PrivateName);
                 CheckDate(tester.DayOfBirth);
                 CheckPhone(tester.Phone);
-                CheckTesterEExperience(tester.TesterExperience);
+                CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
                 CheckVehicle(tester.TesterVehicle.ToString());
             }
@@ -69,7 +70,7 @@ namespace BL
                         break;
                     case "personAddress": break;
                     case "testerExperience":
-                        CheckTesterEExperience((int)info[0]);
+                        CheckTesterExperience((int)info[0]);
                         break;
                     case "maxWeeklyTests":
                         CheckMaxWeeekltTests((int)info[0]);
@@ -111,6 +112,7 @@ namespace BL
             {
                 if (trainee.age < Configuration.MIN_TRAINEE_AGE)
                     throw new InvalidDataException("Too young trainee");
+                CheckID(trainee.ID);
                 CheckName(trainee.FamilyName);
                 CheckName(trainee.PrivateName);
                 CheckDateTrainee(trainee.DayOfBirth);
@@ -200,46 +202,100 @@ namespace BL
         //------------------------------------------------------------------
         public void AddTest(BO.Test test)
         {
-            var t = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
-                                      where item.TestDate < DateTime.Now
-                                      orderby item.TestDate descending
-                                      select item.TestDate).ToList().FirstOrDefault());
             try
             {
-                if (t.Days < BO.Configuration.MIN_GAP_TEST)
+                CheckID(test.Tester.ID);
+                CheckID(test.TraineeId);
+                CheckDateTrainee(test.TestDate);
+                checkHour(test.TestHour);
+            }
+            catch (InvalidDataException e) { throw; }
+            //------------
+            var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                                          where item.TestDate < DateTime.Now
+                                          orderby item.TestDate descending
+                                          select item.TestDate).ToList().FirstOrDefault());
+            try
+            {
+                if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
                     throw new InvalidDataException("test too close");
             }
             catch (InvalidDataException e) { throw; }
+            //-------------
             try
             {
                 if (dl.GetOneTrainee(test.TraineeId).DrivingLessonsNum < Configuration.MIN_LESSONS)
                     throw new InvalidDataException("not enough lessons");
             }
             catch (InvalidDataException e) { throw; }
+            //-------------
+            try
+            {
+                DateTime newDate=new DateTime();
+                List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
+                List<BO.Tester> WhoTest = GetTestersByDate(test.TestHour);
+                if (!WhoTest.Any())
+                    newDate =GetNewDate(test.TestHour); 
+                    WhoTest = GetTestersByDate(newDate);
 
-            while (!GetTestersByDate(test.TestHour).Any())
-                test.TestHour = DateTime.Now.AddDays(r.Next(7));
+                if (WhoTest.Any() && closeTester.Any())
+                {
+                    var x = WhoTest.Intersect(closeTester).ToList();//.FirstOrDefault();                )
+                    //test.Tester.ID = x.ID;
+                    List<BO.Tester> temp = from item in x
+                                           from item1 in item.TesterTests
+                                           where item1.TestHour > DateTime.Now
+                                           select item1.TestHour into g
+                                           from
+                }
+                else throw new InvalidDataException("no close tester");
+                if ((from item in dl.GetSomeTests(x => x.TestHour == test.TestHour && x.TraineeId == test.TraineeId)
+                     select item).ToList().Any())
+                    throw new InvalidDataException("trainee allready has a test this time");
+            }
+            catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            //------------
 
-            ////////////יש כאן חריגה וכן להלן
-            if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
-                throw new InvalidDataException("no match between tester and trainee - other vehicles");
-            /////////////////
-            if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
-                 where item.PassedTest == true
-                 where Convert(item).Tester.TesterVehicle == (BO.Vehicle)(dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
-                 select item).ToList().Any())
-                throw new InvalidDataException("trainee passed a test on this vehicle");
-            ///////////////////////
-
-
+            //------------
+            try
+            {
+                if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
+                    throw new InvalidDataException("no match between tester and trainee - other vehicles");
+            }
+            catch (KeyNotFoundException e) { throw; }
+            catch (InvalidDataException e) { throw; }
+            //-----------------------
+            try
+            {
+                if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                     where item.PassedTest == true
+                     where Convert(item).Tester.TesterVehicle == (BO.Vehicle)(dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
+                     select item).ToList().Any())
+                    throw new InvalidDataException("trainee passed a test on this vehicle");
+            }
+            catch (InvalidDataException e) { throw; }
+            //---------------
             try
             {
                 dl.AddTest(Convert(test));
             }
             catch (KeyNotFoundException e) { throw; }
         }
-
-
+        //-------------------------------------------------------------------
+        public DateTime GetNewDate(DateTime hour)
+        {
+            DateTime temp = hour.AddDays(1);
+            while (!GetTestersByDate(temp).Any())
+                if (temp.AddHours(1).Hour < 14)
+                    temp.AddHours(1);
+                else
+                {
+                    temp.AddDays(1);
+                    temp.AddHours(-9);
+                }
+            return temp;
+        }
         //------------------------------------------------------------------
         public void UpdateTestResult(int NumOfTest, bool[] result, string note = "")
         {
@@ -334,50 +390,24 @@ namespace BL
         //---------------------------------------------------------------------
         public List<BO.Tester> GetTestersByDate(DateTime hour)
         {
-            //    bool flag = true;
-            //    List<DO.Tester> optionaltesters = new List<DO.Tester>();
-            var m = (from item in dl.GetTesters()
-                     where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek - 1, hour.Hour - 9] == true
-                     select item).ToList();
-            if (!m.Any())
-                throw new InvalidDataException("bad time to test");
-            var newList = (from item in m
-                           from itemTest in Convert(item).TesterTests
-                           where itemTest.TestHour != hour
-                           select item).ToList();
-            //for (int i = 0; i < m.Count; ++i)
-            //{
-            //    flag = true;
-            //    for (int j = 0; j < newList.Count; ++j)
-            //        if (m[i] == newList[j])
-            //            flag = false;
-            //    if (flag == true)
-            //        optionaltesters.Add(m[i]);
-            //}
-            //return (from item in optionaltesters
-            //        select Convert(item)).ToList();        
-            return (from item in m.Except(newList)
-                    select Convert(item)).ToList();
-        }
-        //--------------------------------------------------------------
-        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate)
-        {
-            List<DateTime> dateTimes = new List<DateTime>();
-            
-            for (int i = fromdate.DayOfYear+365* fromdate.Year; i < untildate.DayOfYear +365* untildate.Year; ++i)
+            try
             {
-                for (int j=0 ; j < 23; ++j)
-                {
-                    if (fromdate.Hour <= 15 && fromdate.Hour >= 9)                       
-                    if (GetTestersByDate(fromdate).Count > 0)
-                        dateTimes.Add(fromdate);
-                    fromdate.AddHours(1);
-                }
-                fromdate.AddDays(1);
-            }
-            return dateTimes;
-        }
+                List<DO.Tester> WhoWork = (from item in dl.GetTesters()
+                                           where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek - 1, hour.Hour - 9] == true
+                                           select item).ToList();
+                if (!WhoWork.Any())
+                    throw new InvalidDataException("bad time to test. no testers.");
+                var newList = (from item in WhoWork
+                               from itemTest in Convert(item).TesterTests
+                               where itemTest.TestHour == hour
+                               select item).ToList();
 
+                return (from item in WhoWork.Except(newList)
+                        select Convert(item)).ToList();
+            }
+            catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+        }
         //------------------------------------------------------------------
         public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
         {
@@ -432,7 +462,7 @@ namespace BL
             catch (ArgumentNullException e) { throw; }
         }
         //------------------------------------------------------------------
-        public List<IGrouping<BO.Vehicle, BO.Tester>> Testersbyvichle(bool flag)
+        public List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)
         {
             if (flag)
             {
@@ -445,7 +475,7 @@ namespace BL
                         group Convert(item) by Convert(item).TesterVehicle).ToList();
         }
         //----------------------------------------------------------------------------
-        public List<IGrouping<string, BO.Trainee>> Traineesbyschool(bool flag)
+        public List<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag)
         {
             if (flag)
             {
@@ -459,7 +489,7 @@ namespace BL
 
         }
         //-----------------------------------------------------------------------
-        public List<IGrouping<string, BO.Trainee>> Traineesbyteacher(bool flag)
+        public List<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag)
         {
             if (flag)
             {
@@ -472,7 +502,7 @@ namespace BL
                         group Convert(item) by Convert(item).Teacher).ToList();
         }
         //------------------------------------------------------------------------
-        public List<IGrouping<int, BO.Trainee>> Traineesbytests(bool flag)
+        public List<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag)
         {
             if (flag)
             {
@@ -693,7 +723,7 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //--------------------------------------------------------------------
-        private void CheckTesterEExperience(int testerExperience)
+        private void CheckTesterExperience(int testerExperience)
         {
             try
             {
@@ -728,7 +758,7 @@ namespace BL
         {
             try
             {
-                if (day < 1 || day > 5 || hour < 9 || hour > 15)
+                if (day < 1 || day > 5 || hour < 9 || hour > 14)
                     throw new InvalidDataException("hours operation are not matched");
             }
             catch (InvalidDataException e) { throw; }
@@ -775,12 +805,31 @@ namespace BL
                     throw new InvalidDataException("no valid day");
                 if (time.Month < 1 || time.Month > 12)
                     throw new InvalidDataException("no valid month");
-                if (time.Year > DateTime.Now.Year - Configuration.MIN_TRAINEE_AGE)
-                    throw new InvalidDataException("too young trainee");
             }
             catch (InvalidDataException e) { throw; }
         }
         //------------------------------------------------------------------------------
+        private void CheckID(string ID)
+        {
+            try
+            {
+                if (int.Parse(ID) > 999999999 || int.Parse(ID) < 10000000)
+                    throw new InvalidDataException("no valid ID");
+            }
+            catch (InvalidDataException e) { throw; }
+        }
+        //---------------------------------------------------------------------------------
+        private void checkHour(DateTime hour)
+        {
+            try
+            {
+                if (hour.Hour < 9 || hour.Hour > 14)
+                    throw new InvalidDataException("not at operation time");
+                if ((int)hour.DayOfWeek > 5 || (int)hour.DayOfWeek < 1)
+                    throw new InvalidDataException("not valid day");
+            }
+            catch (InvalidDataException e) { throw; }
+        }
+        //-------------------------------------------------------------------------------
     }
 }
-

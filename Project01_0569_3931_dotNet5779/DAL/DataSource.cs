@@ -31,7 +31,7 @@ namespace DAL
             Configuration.Add("MIN_GAP_TEST", new ConfigurationParameter() { Readable = true, Writable = false, value = 30 });
             Configuration.Add("MIN_TESTER_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 40 });
             Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 10000000 });
-
+            
             Testers.Add(new DO.Tester("305343931")
             {
                 PrivateName = "Moshe",
