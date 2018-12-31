@@ -63,7 +63,7 @@ namespace BO
         public override string ToString()
         {
             return @"Test number: "+this.TestNumber+ this.tester.ToString()
-                + " trainee: "+this.traineeId+" "+this.traineeName+" at:"+this.TestAddress+" "+this.TestHour
+                + " trainee: "+this.TraineeId+" "+this.TraineeName+" at:"+this.TestAddress+" "+this.TestHour
                 + " passed? "+this.PassedTest+" note: "+this.TesterNote;
         }
     }

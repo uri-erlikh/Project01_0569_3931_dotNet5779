@@ -302,6 +302,7 @@ namespace BL
                 return temp;
             }
             catch (KeyNotFoundException e) { throw; }
+            catch(IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         public DateTime GetNewDate(DateTime hour)
@@ -699,7 +700,7 @@ namespace BL
         //--------------------------------------------------------------------------
         private BO.Test Convert(DO.Test test)
         {
-            return new BO.Test()
+             return new BO.Test()
             {
                 TestNumber = test.TestNumber,
                 Tester = new ExternalTester()

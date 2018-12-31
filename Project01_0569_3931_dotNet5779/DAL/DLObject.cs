@@ -49,6 +49,12 @@ namespace DAL
                 {
                     DataSource.Testers.Remove(DataSource.Testers[i]);
                     DataSource.Schedules.Remove(TesterID);
+                    for (int j = 0; j < DataSource.Tests.Count; ++j)
+                        if (DataSource.Tests[j].TesterId == TesterID)
+                        {
+                            DataSource.Tests.Remove(DataSource.Tests[j]);
+                            --j;
+                        }
                     return;
                 }
         }
@@ -154,6 +160,12 @@ namespace DAL
                 if (DataSource.Trainies[i].ID == TraineeID)
                 {
                     DataSource.Trainies.Remove(DataSource.Trainies[i]);
+                    for (int j=0;j<DataSource.Tests.Count;++j)
+                        if (DataSource.Tests[j].TraineeId==TraineeID)
+                        {
+                            DataSource.Tests.Remove(DataSource.Tests[j]);
+                            --j;
+                        }
                     return;
                 }
         }
@@ -272,13 +284,7 @@ namespace DAL
         }
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()
-        {
-            try
-            {
-                if (DataSource.Testers.Count == 0)
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {            
             List<DO.Tester> newList = new List<DO.Tester>();
             foreach (var item in DataSource.Testers)
             {
@@ -288,13 +294,7 @@ namespace DAL
         }
         //-----------------------------------------------------
         public List<DO.Trainee> GetTrainees()
-        {
-            try
-            {
-                if (!DataSource.Trainies.Any())
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {            
             List<DO.Trainee> newList = new List<DO.Trainee>();
             foreach (var item in DataSource.Trainies)
             {
@@ -304,13 +304,7 @@ namespace DAL
         }
         //----------------------------------------------------
         public List<DO.Test> GetTests()
-        {
-            try
-            {
-                if (!DataSource.Tests.Any())
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {            
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
             {
@@ -320,26 +314,14 @@ namespace DAL
         }
         //---------------------------------------------------------
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
-        {
-            try
-            {
-                if (!DataSource.Tests.Any())
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {            
             return (from item in DataSource.Tests
                     where (someFunc(item))
                     select item).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
-        {
-            try
-            {
-                if (!DataSource.Testers.Any())
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {           
             var NewList = from item in DataSource.Testers
                           where (func(item))
                           select item;
@@ -347,13 +329,7 @@ namespace DAL
         }
         //--------------------------------------------------
         public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
-        {
-            try
-            {
-                if (!DataSource.Testers.Any())
-                    throw new ArgumentNullException("empty list");
-            }
-            catch (ArgumentNullException e) { throw; }
+        {            
             var NewList = from item in DataSource.Trainies
                           where (func(item))
                           select item;
