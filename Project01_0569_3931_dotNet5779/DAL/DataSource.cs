@@ -274,7 +274,7 @@ namespace DAL
                 Vinkers = true,
                 TrafficSigns = false
             });
-            Tests.Add(new DO.Test("305343931", " 123543786")
+            Tests.Add(new DO.Test("305343931", "123543786")
             {
                 TestDate = new DateTime(2021, 12, 25),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 78, Street = "Tena" },
