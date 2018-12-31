@@ -76,11 +76,11 @@ namespace DAL
         {
             try
             {
-                DO.Tester tester = GetOneTester(testerID);            
+               Tester tester =DataSource.Testers.Find(x => x.ID == testerID);
             switch (field)
             {
                 case "familyName":
-                    tester.FamilyName = (string)info[0];
+                         tester.FamilyName = (string)info[0];
                     break;
                 case "privateName":
                     tester.PrivateName = (string)info[0];
@@ -162,7 +162,8 @@ namespace DAL
         {
             try
             {
-                DO.Trainee trainee = GetOneTrainee(traineeID);            
+
+                Trainee trainee = DataSource.Trainies.Find(x => x.ID == traineeID);         
                     switch (field)
                     {
                         case "familyName":
@@ -236,7 +237,7 @@ namespace DAL
         {
             try
             {
-                DO.Test test = GetOneTest(numOfTest);
+                Test test = DataSource.Tests.Find(x=>x.TestNumber== numOfTest);
                 test.Mirrors = result[0];
                 test.Brakes = result[1];
                 test.ReverseParking = result[2];
