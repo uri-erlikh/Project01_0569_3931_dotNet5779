@@ -39,10 +39,7 @@ namespace BO
             MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
         }
 
-        public static override string  ToString()
-        {
-
-        }
+        
     }
     //----------------------------------------------------
     [Serializable]

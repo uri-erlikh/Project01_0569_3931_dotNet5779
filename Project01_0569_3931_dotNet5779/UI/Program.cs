@@ -25,8 +25,9 @@ namespace UI
             int month;
             int year;
             IBL bL = BL_Factory.GetBL();
-
-            Console.WriteLine(@"choose what you wants to do:
+            do
+            {
+                Console.WriteLine(@"choose what you wants to do:
 1:Add Tester
 2:Add Trianee
 3:Add Test
@@ -40,8 +41,7 @@ namespace UI
 11: print all tests
 12:exit");
             num = int.Parse(Console.ReadLine());
-            do
-            {
+            
                 switch (num)
                 {
                     case 1:
@@ -69,7 +69,7 @@ namespace UI
                         tester.RangeToTest = double.Parse(Console.ReadLine());
                         Console.WriteLine("enter your Experience: ");
                         tester.TesterExperience = int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your specialization: ");
+                        Console.WriteLine("enter your specialization: privateCar=0, motorcycle=1, truck=2, heavyTruck=3");
                         tester.TesterVehicle = (Vehicle)int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your day of birth: ");
                         day = int.Parse(Console.ReadLine());
@@ -77,7 +77,7 @@ namespace UI
                         month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of birth: ");
                         year = int.Parse(Console.ReadLine());
-                        tester.DayOfBirth = new DateTime(day, month, year);
+                        tester.DayOfBirth = new DateTime(year,month,day);
                         Console.WriteLine("enter the Schedule: ");
 
                         hours hours = new hours();
@@ -105,11 +105,11 @@ namespace UI
                         }
                         catch (InvalidDataException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         catch (DuplicateWaitObjectException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 2:
@@ -135,34 +135,30 @@ namespace UI
                         trainee.Teacher = Console.ReadLine();
                         Console.WriteLine("enter number phone:");
                         trainee.Phone = Console.ReadLine();
-                        Console.WriteLine("enter type the GearBox: ");
+                        Console.WriteLine("enter type the GearBox:0-1 ");
                         trainee.TraineeGear = (GearBox)int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter type the Vehicle: ");
+                        Console.WriteLine("enter type the Vehicle:0-4 ");
                         trainee.TraineeVehicle = (Vehicle)int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your gender: for male: 0 , for female: 1 : ");
                         trainee.PersonGender = (Gender)int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your day of birth: ");
                         day = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your month of birth: ");
-                        month = int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your day of birth: ");
-                        day = int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your month of birth: ");
-                        month = int.Parse(Console.ReadLine());
+                        month = int.Parse(Console.ReadLine());                       
                         Console.WriteLine("enter your year of birth: ");
                         year = int.Parse(Console.ReadLine());
-                        trainee.DayOfBirth = new DateTime(day, month, year);
+                        trainee.DayOfBirth = new DateTime(year,month,day);
                         try
                         {
                             bL.AddTrainee(trainee);
                         }
                         catch (InvalidDataException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         catch (DuplicateWaitObjectException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 3:
@@ -177,10 +173,10 @@ namespace UI
                         month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of test: ");
                         year = int.Parse(Console.ReadLine());
-                        test.TestDate = new DateTime(day, month, year);
+                        test.TestDate = new DateTime(year,month,day);
                         Console.WriteLine("enter the hour for test: ");
                         hour = int.Parse(Console.ReadLine());
-                        test.TestHour = new DateTime(day, month, year, hour,0,0);
+                        test.TestHour = new DateTime(year,month,day, hour,0,0);
                         Console.WriteLine("enter City of test: ");
                         city = Console.ReadLine();
                         Console.WriteLine("enter Street of test: ");
@@ -194,11 +190,11 @@ namespace UI
                         }
                         catch (InvalidDataException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 4:
@@ -210,7 +206,7 @@ namespace UI
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 5:
@@ -222,7 +218,7 @@ namespace UI
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 6:
@@ -314,7 +310,7 @@ namespace UI
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 7:
@@ -400,7 +396,7 @@ namespace UI
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 8:
@@ -431,11 +427,11 @@ namespace UI
                         }
                         catch (KeyNotFoundException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         catch (InvalidOperationException e)
                         {
-                            Console.WriteLine(e);
+                            Console.WriteLine(e.Message);
                         }
                         break;
                     case 9:
