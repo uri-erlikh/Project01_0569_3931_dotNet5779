@@ -205,7 +205,6 @@ namespace BL
         {
             try
             {
-                CheckID(test.Tester.ID);
                 CheckID(test.TraineeId);
                 CheckDateTrainee(test.TestDate);//נראה לי שבדחקת הקלט של הימים וכו צריך להיות בPL
                 checkHour(test.TestHour);
