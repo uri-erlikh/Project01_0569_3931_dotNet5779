@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DAL;
 using DO;
 using BO;
+using System.Globalization;
 
 namespace BL
 {
@@ -231,22 +232,18 @@ namespace BL
             //-------------
             try
             {
-                DateTime newDate=new DateTime();
+                DateTime newDate = new DateTime();
                 List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
                 List<BO.Tester> WhoTest = GetTestersByDate(test.TestHour);
                 if (!WhoTest.Any())
-                    newDate =GetNewDate(test.TestHour); 
-                    WhoTest = GetTestersByDate(newDate);
+                    newDate = GetNewDate(test.TestHour);
+                WhoTest = GetTestersByDate(newDate);
 
                 if (WhoTest.Any() && closeTester.Any())
                 {
-                    var x = WhoTest.Intersect(closeTester).ToList();//.FirstOrDefault();                )
-                    //test.Tester.ID = x.ID;
-                    List<BO.Tester> temp = from item in x
-                                           from item1 in item.TesterTests
-                                           where item1.TestHour > DateTime.Now
-                                           select item1.TestHour into g
-                                           from
+                    var x = WhoTest.Intersect(closeTester).ToList().FirstOrDefault();                )
+                    test.Tester.ID = x.ID;
+                    test.TestDate = newDate;                    
                 }
                 else throw new InvalidDataException("no close tester");
                 if ((from item in dl.GetSomeTests(x => x.TestHour == test.TestHour && x.TraineeId == test.TraineeId)
@@ -255,8 +252,6 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
-            //------------
-
             //------------
             try
             {
@@ -283,6 +278,33 @@ namespace BL
             catch (KeyNotFoundException e) { throw; }
         }
         //-------------------------------------------------------------------
+        public List<BO.Tester> GetTestersByDate(DateTime hour)
+        {
+            try
+            {
+                List<DO.Tester> WhoWork = (from item in dl.GetTesters()
+                                           where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek, hour.Hour - 9] == true
+                                           select item).ToList();
+                if (!WhoWork.Any())
+                    return new List<BO.Tester>();
+                var newList = (from item in WhoWork
+                               from itemTest in Convert(item).TesterTests
+                               where itemTest.TestHour == hour
+                               select item).ToList();
+
+                List<BO.Tester> temp = (from item in WhoWork.Except(newList)
+                                        select Convert(item)).ToList();
+                for (int i = 0; i < temp.Count; ++i)
+                    if (!CheckHoursInWeek(temp[i], hour))
+                    {
+                        temp.Remove(temp[i]);
+                        --i;
+                    }
+                return temp;
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //-----------------------------------------------------------------
         public DateTime GetNewDate(DateTime hour)
         {
             DateTime temp = hour.AddDays(1);
@@ -297,6 +319,23 @@ namespace BL
             return temp;
         }
         //------------------------------------------------------------------
+        private bool CheckHoursInWeek(BO.Tester tester,DateTime hour)
+        {
+            int counter = 0;
+            DateTime sunday = hour.AddDays((int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int)hour.DayOfWeek);
+            DateTime friday = sunday.AddDays(4);
+            List<DateTime> times = (from test in tester.TesterTests
+                                    where test.TestDate > DateTime.Now
+                                    select test.TestHour).ToList();
+            foreach (var date in times)
+                if (date < friday && date > sunday)
+                    ++counter;
+
+            if (counter == tester.MaxWeeklyTests)
+                return false;
+            return true;
+        }
+        //-------------------------------------------------------------------
         public void UpdateTestResult(int NumOfTest, bool[] result, string note = "")
         {
             try
@@ -387,28 +426,7 @@ namespace BL
             }
             catch (ArgumentNullException e) { throw; }
         }
-        //---------------------------------------------------------------------
-        public List<BO.Tester> GetTestersByDate(DateTime hour)
-        {
-            try
-            {
-                List<DO.Tester> WhoWork = (from item in dl.GetTesters()
-                                           where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek - 1, hour.Hour - 9] == true
-                                           select item).ToList();
-                if (!WhoWork.Any())
-                    throw new InvalidDataException("bad time to test. no testers.");
-                var newList = (from item in WhoWork
-                               from itemTest in Convert(item).TesterTests
-                               where itemTest.TestHour == hour
-                               select item).ToList();
-
-                return (from item in WhoWork.Except(newList)
-                        select Convert(item)).ToList();
-            }
-            catch (InvalidDataException e) { throw; }
-            catch (KeyNotFoundException e) { throw; }
-        }
-        //------------------------------------------------------------------
+        //---------------------------------------------------------------------        
         public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
         {
             try
@@ -825,7 +843,7 @@ namespace BL
             {
                 if (hour.Hour < 9 || hour.Hour > 14)
                     throw new InvalidDataException("not at operation time");
-                if ((int)hour.DayOfWeek > 5 || (int)hour.DayOfWeek < 1)
+                if ((int)hour.DayOfWeek > 4 || (int)hour.DayOfWeek < 0)
                     throw new InvalidDataException("not valid day");
             }
             catch (InvalidDataException e) { throw; }
