@@ -120,7 +120,7 @@ namespace BL
                 CheckPhone(trainee.Phone);
                 CheckVehicle(trainee.TraineeVehicle.ToString());
                 CheckGear(trainee.TraineeGear.ToString());
-                CheckDrivingLessonsNum(trainee.DrivingLessonsNum); 
+                CheckDrivingLessonsNum(trainee.DrivingLessonsNum);
             }
             catch (InvalidDataException e)
             {
@@ -221,6 +221,7 @@ namespace BL
                     throw new InvalidDataException("test too close");
             }
             catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
             //-------------
             try
             {
@@ -228,21 +229,26 @@ namespace BL
                     throw new InvalidDataException("not enough lessons");
             }
             catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
             //-------------
             try
             {
                 DateTime newDate = new DateTime();
                 List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
-                List<BO.Tester> WhoTest = GetTestersByDate(test.TestHour);
-                if (!WhoTest.Any())
+                List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
+                if (!whoTest.Any())
                     newDate = GetNewDate(test.TestHour);
-                WhoTest = GetTestersByDate(newDate);
+                whoTest = GetTestersByDate(newDate);
 
-                if (WhoTest.Any() && closeTester.Any())
+                if (whoTest.Any() && closeTester.Any())
                 {
-                    var x = WhoTest.Intersect(closeTester).ToList().FirstOrDefault();                
+                    //var x = WhoTest.Intersect(closeTester).ToList().First();    
+                    var x = (from item in whoTest
+                             from item1 in closeTester
+                             where item.ID == item1.ID
+                             select item).ToList().FirstOrDefault();
                     test.Tester.ID = x.ID;
-                    test.TestDate = newDate;                    
+                    test.TestDate = newDate;
                 }
                 else throw new InvalidDataException("no close tester");
                 if ((from item in dl.GetSomeTests(x => x.TestHour == test.TestHour && x.TraineeId == test.TraineeId)
@@ -284,6 +290,7 @@ namespace BL
                 List<DO.Tester> WhoWork = (from item in dl.GetTesters()
                                            where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek, hour.Hour - 9] == true
                                            select item).ToList();
+                //List<DO.Tester> WhoWork = dl.GetSomeTesters(x => Convert(x).Schedule[(int)hour.DayOfWeek, hour.Hour - 9] == true);
                 if (!WhoWork.Any())
                     return new List<BO.Tester>();
                 var newList = (from item in WhoWork
@@ -302,7 +309,7 @@ namespace BL
                 return temp;
             }
             catch (KeyNotFoundException e) { throw; }
-            catch(IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         public DateTime GetNewDate(DateTime hour)
@@ -337,7 +344,7 @@ namespace BL
             return dateTimes;
         }
         //------------------------------------------------------------------
-        private bool CheckHoursInWeek(BO.Tester tester,DateTime hour)
+        private bool CheckHoursInWeek(BO.Tester tester, DateTime hour)
         {
             int counter = 0;
             DateTime sunday = hour.AddDays((int)CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek - (int)hour.DayOfWeek);
@@ -532,8 +539,8 @@ namespace BL
                 return (from item in dl.GetTrainees()
                         orderby item.FamilyName
                         group Convert(item) by Convert(item).Teacher).ToList();// into g
-                     //   select new { teacher = g.Key, name = g };
-               
+                                                                               //   select new { teacher = g.Key, name = g };
+
             }
             else
                 return (from item in dl.GetTrainees()
@@ -700,7 +707,7 @@ namespace BL
         //--------------------------------------------------------------------------
         private BO.Test Convert(DO.Test test)
         {
-             return new BO.Test()
+            return new BO.Test()
             {
                 TestNumber = test.TestNumber,
                 Tester = new ExternalTester()
@@ -864,7 +871,7 @@ namespace BL
                 if (hour.Hour < 9 || hour.Hour > 14)
                     throw new InvalidDataException("not at operation time");
                 if ((int)hour.DayOfWeek > 4 || (int)hour.DayOfWeek < 0)
-                    throw new InvalidDataException("not valid day");
+                    throw new InvalidDataException("we aren't working at weekend");
             }
             catch (InvalidDataException e) { throw; }
         }

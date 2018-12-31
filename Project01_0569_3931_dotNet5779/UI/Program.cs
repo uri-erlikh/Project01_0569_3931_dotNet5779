@@ -170,31 +170,32 @@ namespace UI
                         }
                         break;
                     case 3:
-                        Test test = new Test();
-                        Console.WriteLine("enter id for trainee: ");
-                        test.TraineeId = Console.ReadLine();
-                        test.TraineeName = bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
-                        // Console.WriteLine("enter name for trainee: ");
-                        //  test.TraineeName = Console.ReadLine();
-                        Console.WriteLine("enter your day of test: ");
-                        day = int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your month of test: ");
-                        month = int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your year of test: ");
-                        year = int.Parse(Console.ReadLine());
-                        test.TestDate = new DateTime(year, month, day);
-                        Console.WriteLine("enter the hour for test: ");
-                        hour = int.Parse(Console.ReadLine());
-                        test.TestHour = new DateTime(year, month, day, hour, 0, 0);
-                        Console.WriteLine("enter City of test: ");
-                        city = Console.ReadLine();
-                        Console.WriteLine("enter Street of test: ");
-                        street = Console.ReadLine();
-                        Console.WriteLine("enter Num Of Bilding of test: ");
-                        numofbuilding = int.Parse(Console.ReadLine());
-                        test.TestAddress = new Address(city, street, numofbuilding);
                         try
                         {
+                            Test test = new Test();
+                            Console.WriteLine("enter id for trainee: ");
+                            test.TraineeId = Console.ReadLine();
+                            test.TraineeName = bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
+                            // Console.WriteLine("enter name for trainee: ");
+                            //  test.TraineeName = Console.ReadLine();
+                            Console.WriteLine("enter your day of test: ");
+                            day = int.Parse(Console.ReadLine());
+                            Console.WriteLine("enter your month of test: ");
+                            month = int.Parse(Console.ReadLine());
+                            Console.WriteLine("enter your year of test: ");
+                            year = int.Parse(Console.ReadLine());
+                            test.TestDate = new DateTime(year, month, day);
+                            Console.WriteLine("enter the hour for test: ");
+                            hour = int.Parse(Console.ReadLine());
+                            test.TestHour = new DateTime(year, month, day, hour, 0, 0);
+                            Console.WriteLine("enter City of test: ");
+                            city = Console.ReadLine();
+                            Console.WriteLine("enter Street of test: ");
+                            street = Console.ReadLine();
+                            Console.WriteLine("enter Num Of Bilding of test: ");
+                            numofbuilding = int.Parse(Console.ReadLine());
+                            test.TestAddress = new Address(city, street, numofbuilding);
+
                             bL.AddTest(test);
                         }
                         catch (InvalidDataException e)

@@ -82,40 +82,44 @@ namespace DAL
         {
             try
             {
-                DO.Tester tester = GetOneTester(testerID);            
-            switch (field)
-            {
-                case "familyName":
-                    tester.FamilyName = (string)info[0];
-                    break;
-                case "privateName":
-                    tester.PrivateName = (string)info[0];
-                    break;
-                case "dayOfBirth":
-                    tester.DayOfBirth = (DateTime)info[0];
-                    break;
-                case "phone":
-                    tester.Phone = (string)info[0];
-                    break;
-                case "personAddress":
-                    tester.PersonAddress = (Address)info[0];
-                    break;
-                case "testerExperience":
-                    tester.TesterExperience = (int)info[0];
-                    break;
-                case "maxWeeklyTests":
-                    tester.MaxWeeklyTests = (int)info[0];
-                    break;
-                case "testerVehicle":
-                    tester.TesterVehicle = (Vehicle)info[0];
-                    break;
-                case "rangeToTest":
-                    tester.RangeToTest = (int)info[0];
-                    break;
-                case "schedule":
-                    DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
-                    break;
-            }
+                foreach (var tester in DataSource.Testers)
+                {
+                    if (tester.ID == testerID) {
+                        switch (field)
+                        {
+                            case "familyName":
+                                tester.FamilyName = (string)info[0];
+                                break;
+                            case "privateName":
+                                tester.PrivateName = (string)info[0];
+                                break;
+                            case "dayOfBirth":
+                                tester.DayOfBirth = (DateTime)info[0];
+                                break;
+                            case "phone":
+                                tester.Phone = (string)info[0];
+                                break;
+                            case "personAddress":
+                                tester.PersonAddress = (Address)info[0];
+                                break;
+                            case "testerExperience":
+                                tester.TesterExperience = (int)info[0];
+                                break;
+                            case "maxWeeklyTests":
+                                tester.MaxWeeklyTests = (int)info[0];
+                                break;
+                            case "testerVehicle":
+                                tester.TesterVehicle = (Vehicle)info[0];
+                                break;
+                            case "rangeToTest":
+                                tester.RangeToTest = (int)info[0];
+                                break;
+                            case "schedule":
+                                DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
+                                break;
+                        }
+                    }
+                }
             }
             catch (KeyNotFoundException e)
             { throw; }
@@ -160,8 +164,8 @@ namespace DAL
                 if (DataSource.Trainies[i].ID == TraineeID)
                 {
                     DataSource.Trainies.Remove(DataSource.Trainies[i]);
-                    for (int j=0;j<DataSource.Tests.Count;++j)
-                        if (DataSource.Tests[j].TraineeId==TraineeID)
+                    for (int j = 0; j < DataSource.Tests.Count; ++j)
+                        if (DataSource.Tests[j].TraineeId == TraineeID)
                         {
                             DataSource.Tests.Remove(DataSource.Tests[j]);
                             --j;
@@ -174,40 +178,45 @@ namespace DAL
         {
             try
             {
-                DO.Trainee trainee = GetOneTrainee(traineeID);            
-                    switch (field)
+                foreach (var trainee in DataSource.Trainies)
+                {
+                    if (trainee.ID == traineeID)
                     {
-                        case "familyName":
-                            trainee.FamilyName = (string)info;//לבדוק למעלה שזה לא נאללל
-                            break;
-                        case "privateName":
-                            trainee.PrivateName = (string)info;
-                            break;
-                        case "dayOfBirth":
-                            trainee.DayOfBirth = (DateTime)info;
-                            break;
-                        case "phone":
-                            trainee.Phone = (string)info;
-                            break;
-                        case "personAddress":
-                            trainee.PersonAddress = (Address)info;
-                            break;
-                        case "traineeVehicle":
-                            trainee.TraineeVehicle = (Vehicle)info;
-                            break;
-                        case "traineeGear":
-                            trainee.TraineeGear = (GearBox)info;
-                            break;
-                        case "school":
-                            trainee.School = (string)info;
-                            break;
-                        case "teacher":
-                            trainee.Teacher = (string)info;
-                            break;
-                        case "drivingLessonsNum":
-                            trainee.DrivingLessonsNum = (int)info;
-                            break;
+                        switch (field)
+                        {
+                            case "familyName":
+                                trainee.FamilyName = (string)info;
+                                break;
+                            case "privateName":
+                                trainee.PrivateName = (string)info;
+                                break;
+                            case "dayOfBirth":
+                                trainee.DayOfBirth = (DateTime)info;
+                                break;
+                            case "phone":
+                                trainee.Phone = (string)info;
+                                break;
+                            case "personAddress":
+                                trainee.PersonAddress = (Address)info;
+                                break;
+                            case "traineeVehicle":
+                                trainee.TraineeVehicle = (Vehicle)info;
+                                break;
+                            case "traineeGear":
+                                trainee.TraineeGear = (GearBox)info;
+                                break;
+                            case "school":
+                                trainee.School = (string)info;
+                                break;
+                            case "teacher":
+                                trainee.Teacher = (string)info;
+                                break;
+                            case "drivingLessonsNum":
+                                trainee.DrivingLessonsNum = (int)info;
+                                break;
+                        }
                     }
+                }
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -248,15 +257,20 @@ namespace DAL
         {
             try
             {
-                DO.Test test = GetOneTest(numOfTest);
-                test.Mirrors = result[0];
-                test.Brakes = result[1];
-                test.ReverseParking = result[2];
-                test.Distance = result[3];
-                test.Vinkers = result[4];
-                test.TrafficSigns = result[5];
-                test.PassedTest = result[6];
-                test.TesterNote = note;
+                foreach (var test in DataSource.Tests)
+                {
+                    if (test.TestNumber == numOfTest)
+                    {
+                        test.Mirrors = result[0];
+                        test.Brakes = result[1];
+                        test.ReverseParking = result[2];
+                        test.Distance = result[3];
+                        test.Vinkers = result[4];
+                        test.TrafficSigns = result[5];
+                        test.PassedTest = result[6];
+                        test.TesterNote = note;
+                    }
+                }
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -283,7 +297,7 @@ namespace DAL
         }
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()
-        {            
+        {
             List<DO.Tester> newList = new List<DO.Tester>();
             foreach (var item in DataSource.Testers)
             {
@@ -293,7 +307,7 @@ namespace DAL
         }
         //-----------------------------------------------------
         public List<DO.Trainee> GetTrainees()
-        {            
+        {
             List<DO.Trainee> newList = new List<DO.Trainee>();
             foreach (var item in DataSource.Trainies)
             {
@@ -303,7 +317,7 @@ namespace DAL
         }
         //----------------------------------------------------
         public List<DO.Test> GetTests()
-        {            
+        {
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
             {
@@ -313,14 +327,14 @@ namespace DAL
         }
         //---------------------------------------------------------
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
-        {            
+        {
             return (from item in DataSource.Tests
                     where (someFunc(item))
                     select item).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
-        {           
+        {
             var NewList = from item in DataSource.Testers
                           where (func(item))
                           select item;
@@ -328,7 +342,7 @@ namespace DAL
         }
         //--------------------------------------------------
         public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
-        {            
+        {
             var NewList = from item in DataSource.Trainies
                           where (func(item))
                           select item;
@@ -371,7 +385,7 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
             var matrix = (from item in DataSource.Schedules
                           where (item.Key == ID)
-                          select item.Value).ToArray();
+                          select item.Value).ToList();
             return matrix.FirstOrDefault();
         }
     }
