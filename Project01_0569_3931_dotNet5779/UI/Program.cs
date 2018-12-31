@@ -35,7 +35,10 @@ namespace UI
 6:Update Tester
 7:Update Trianee
 8:Update Test
-9:exit");
+9:print all teters
+10:print all trianee
+11: print all tests
+12:exit");
             num = int.Parse(Console.ReadLine());
             do
             {
@@ -435,9 +438,20 @@ namespace UI
                             Console.WriteLine(e);
                         }
                         break;
-
+                    case 9:
+                        foreach (var item in bL.GetTesters())
+                            Console.WriteLine(item);
+                        break;
+                    case 10:
+                        foreach (var item in bL.GetTrainees())
+                            Console.WriteLine(item);
+                        break;
+                    case 11:
+                        foreach (var item in bL.GetTests())
+                            Console.WriteLine(item);
+                        break;
                 }
-            } while (num != 9);
+            } while (num != 12);
         }
     }
 }

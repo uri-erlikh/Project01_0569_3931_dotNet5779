@@ -511,9 +511,11 @@ namespace BL
         {
             if (flag)
             {
-                return (from item in dl.GetTrainees()
+                var list= from item in dl.GetTrainees()
                         orderby item.FamilyName
-                        group Convert(item) by Convert(item).Teacher).ToList();
+                        group Convert(item) by Convert(item).Teacher into g
+                        select new { teacher = g.Key, name = g };
+                return list;
             }
             else
                 return (from item in dl.GetTrainees()
