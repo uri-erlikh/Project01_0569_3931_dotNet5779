@@ -88,24 +88,22 @@ namespace UI
 
                         hours hours = new hours();
                         days days = new days();
-                        for (int i = 0; i < 5; ++i, ++days, hours = 0)
+                        try
                         {
-                            Console.WriteLine("enter for day: " + days);
-                            for (int j = 0; j < 6; ++j, ++hours)
+                            for (int i = 0; i < 5; ++i, ++days, hours = 0)
                             {
-                                do
+                                Console.WriteLine("enter for day: " + days);
+                                for (int j = 0; j < 6; ++j, ++hours)
                                 {
                                     Console.WriteLine("enter for hour: " + hours);
-                                    try
-                                    {
-                                        matrix[i, j] = bool.Parse(Console.ReadLine());
-                                    }
-                                    catch (FormatException e)
-                                    {
-                                        Console.WriteLine(e.Message);
-                                    }
-                                } while (matrix[i, j] != true && matrix[i, j] != false);
+                                    matrix[i, j] = bool.Parse(Console.ReadLine());
+                                    throw new FormatException();
+                                }
                             }
+                        }
+                        catch (FormatException e)
+                        {
+                            Console.WriteLine(e.Message);
                         }
                         try
                         {
