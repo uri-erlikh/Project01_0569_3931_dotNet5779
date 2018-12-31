@@ -13,7 +13,6 @@ namespace UI
         enum days { sunday, monday, Tuesday, Wednesday, Thursday }
         static void Main(string[] args)
         {
-
             bool[,] matrix = new bool[5, 6];
             string id;
             string city;
@@ -28,20 +27,20 @@ namespace UI
             do
             {
                 Console.WriteLine(@"choose what you wants to do:
-1:Add Tester
-2:Add Trianee
-3:Add Test
-4:Delete Tester
-5:Delete Trianee
-6:Update Tester
-7:Update Trianee
-8:Update Test
-9:print all teters
-10:print all trianee
+1: Add Tester
+2: Add Trianee
+3: Add Test
+4: Delete Tester
+5: Delete Trianee
+6: Update Tester
+7: Update Trianee
+8: Update Test
+9: print all teters
+10: print all trianee
 11: print all tests
 12:exit");
-            num = int.Parse(Console.ReadLine());
-            
+                num = int.Parse(Console.ReadLine());
+
                 switch (num)
                 {
                     case 1:
@@ -57,8 +56,15 @@ namespace UI
                         Console.WriteLine("enter Street:");
                         street = Console.ReadLine();
                         Console.WriteLine("enter NumOfBilding:");
-                        numofbuilding = int.Parse(Console.ReadLine());
-                        tester.PersonAddress = new Address(city, street, numofbuilding);
+                        try
+                        {
+                            numofbuilding = int.Parse(Console.ReadLine());
+                            tester.PersonAddress = new Address(city, street, numofbuilding);
+                        }
+                        catch (FormatException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         Console.WriteLine("enter number phone:");
                         tester.Phone = Console.ReadLine();
                         Console.WriteLine("enter your gender: for male: enter 0 , for female: enter 1 :");
@@ -77,25 +83,27 @@ namespace UI
                         month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of birth: ");
                         year = int.Parse(Console.ReadLine());
-                        tester.DayOfBirth = new DateTime(year,month,day);
-                        Console.WriteLine("enter the Schedule: ");
+                        tester.DayOfBirth = new DateTime(year, month, day);
+                        Console.WriteLine("enter only true or false for the Schedule: ");
 
                         hours hours = new hours();
                         days days = new days();
-                       // int t = 9;
-                        for (int i = 0; i < 5; ++i)
+                        for (int i = 0; i < 5; ++i, ++days, hours = 0)
                         {
                             Console.WriteLine("enter for day: " + days);
-                            ++days;
-                            for (int j = 0; j < 6; ++j)
+                            for (int j = 0; j < 6; ++j, ++hours)
                             {
-                                Console.WriteLine("enter for hour: " + hours);
-                                ++hours;
                                 do
-                                { 
-                                    matrix[i, j] = bool.Parse(Console.ReadLine());
-                                    if (matrix[i, j] != true && matrix[i, j] != false)
-                                        Console.WriteLine("enter only 1 or 0");
+                                {
+                                    Console.WriteLine("enter for hour: " + hours);
+                                    try
+                                    {
+                                        matrix[i, j] = bool.Parse(Console.ReadLine());
+                                    }
+                                    catch (FormatException e)
+                                    {
+                                        Console.WriteLine(e.Message);
+                                    }
                                 } while (matrix[i, j] != true && matrix[i, j] != false);
                             }
                         }
@@ -144,10 +152,10 @@ namespace UI
                         Console.WriteLine("enter your day of birth: ");
                         day = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your month of birth: ");
-                        month = int.Parse(Console.ReadLine());                       
+                        month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of birth: ");
                         year = int.Parse(Console.ReadLine());
-                        trainee.DayOfBirth = new DateTime(year,month,day);
+                        trainee.DayOfBirth = new DateTime(year, month, day);
                         try
                         {
                             bL.AddTrainee(trainee);
@@ -162,22 +170,22 @@ namespace UI
                         }
                         break;
                     case 3:
-                        Test test = new Test();                       
+                        Test test = new Test();
                         Console.WriteLine("enter id for trainee: ");
                         test.TraineeId = Console.ReadLine();
-                        test.TraineeName= bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
-                       // Console.WriteLine("enter name for trainee: ");
-                      //  test.TraineeName = Console.ReadLine();
-                        Console.WriteLine("enter your day of test: ");                      
+                        test.TraineeName = bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
+                        // Console.WriteLine("enter name for trainee: ");
+                        //  test.TraineeName = Console.ReadLine();
+                        Console.WriteLine("enter your day of test: ");
                         day = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your month of test: ");
                         month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of test: ");
                         year = int.Parse(Console.ReadLine());
-                        test.TestDate = new DateTime(year,month,day);
+                        test.TestDate = new DateTime(year, month, day);
                         Console.WriteLine("enter the hour for test: ");
                         hour = int.Parse(Console.ReadLine());
-                        test.TestHour = new DateTime(year,month,day, hour,0,0);
+                        test.TestHour = new DateTime(year, month, day, hour, 0, 0);
                         Console.WriteLine("enter City of test: ");
                         city = Console.ReadLine();
                         Console.WriteLine("enter Street of test: ");
