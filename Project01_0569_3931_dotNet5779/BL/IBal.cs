@@ -45,6 +45,7 @@ namespace BL
         List<IGrouping<BO.Vehicle, BO.Tester>> Traineesbyschool (bool flag);
         List<IGrouping<string, BO.Trainee>> Traineesbyteacher(bool flag);
         List<IGrouping<string, BO.Trainee>> Traineesbytests(bool flag);
+        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate);
     }
     
 }

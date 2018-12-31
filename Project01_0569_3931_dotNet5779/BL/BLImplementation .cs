@@ -334,29 +334,50 @@ namespace BL
         //---------------------------------------------------------------------
         public List<BO.Tester> GetTestersByDate(DateTime hour)
         {
-            bool flag = true;
-            List<DO.Tester> optionaltesters = new List<DO.Tester>();
+            //    bool flag = true;
+            //    List<DO.Tester> optionaltesters = new List<DO.Tester>();
             var m = (from item in dl.GetTesters()
-                     where dl.GetSchedule(item.ID)[hour.Day - 1, hour.Hour - 9] == true
+                     where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek - 1, hour.Hour - 9] == true
                      select item).ToList();
             if (!m.Any())
                 throw new InvalidDataException("bad time to test");
             var newList = (from item in m
                            from itemTest in Convert(item).TesterTests
-                           where itemTest.TestHour == hour
+                           where itemTest.TestHour != hour
                            select item).ToList();
-            for (int i = 0; i < m.Count; ++i)
-            {
-                flag = true;
-                for (int j = 0; j < newList.Count; ++j)
-                    if (m[i] == newList[j])
-                        flag = false;
-                if (flag == true)
-                    optionaltesters.Add(m[i]);
-            }
-            return (from item in optionaltesters
+            //for (int i = 0; i < m.Count; ++i)
+            //{
+            //    flag = true;
+            //    for (int j = 0; j < newList.Count; ++j)
+            //        if (m[i] == newList[j])
+            //            flag = false;
+            //    if (flag == true)
+            //        optionaltesters.Add(m[i]);
+            //}
+            //return (from item in optionaltesters
+            //        select Convert(item)).ToList();        
+            return (from item in m.Except(newList)
                     select Convert(item)).ToList();
         }
+        //--------------------------------------------------------------
+        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate)
+        {
+            List<DateTime> dateTimes = new List<DateTime>();
+            
+            for (int i = fromdate.DayOfYear+365* fromdate.Year; i < untildate.DayOfYear +365* untildate.Year; ++i)
+            {
+                for (int j=0 ; j < 23; ++j)
+                {
+                    if (fromdate.Hour <= 15 && fromdate.Hour >= 9)                       
+                    if (GetTestersByDate(fromdate).Count > 0)
+                        dateTimes.Add(fromdate);
+                    fromdate.AddHours(1);
+                }
+                fromdate.AddDays(1);
+            }
+            return dateTimes;
+        }
+
         //------------------------------------------------------------------
         public List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc)
         {
