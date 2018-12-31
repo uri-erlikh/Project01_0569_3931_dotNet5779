@@ -206,7 +206,7 @@ namespace BL
             {
                 CheckID(test.Tester.ID);
                 CheckID(test.TraineeId);
-                CheckDateTrainee(test.TestDate);
+                CheckDateTrainee(test.TestDate);//נראה לי שבדחקת הקלט של הימים וכו צריך להיות בPL
                 checkHour(test.TestHour);
             }
             catch (InvalidDataException e) { throw; }
@@ -295,6 +295,24 @@ namespace BL
                     temp.AddHours(-9);
                 }
             return temp;
+        }
+        //--------------------------------------------------------------------
+        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate)
+        {
+            List<DateTime> dateTimes = new List<DateTime>();
+
+            for (int i = fromdate.DayOfYear + 365 * fromdate.Year; i < untildate.DayOfYear + 365 * untildate.Year; ++i)
+            {
+                for (int j = 0; j < 23; ++j)
+                {
+                    if (fromdate.Hour <= 15 && fromdate.Hour >= 9)
+                        if (GetTestersByDate(fromdate).Count > 0)
+                            dateTimes.Add(fromdate);
+                    fromdate.AddHours(1);
+                }
+                fromdate.AddDays(1);
+            }
+            return dateTimes;
         }
         //------------------------------------------------------------------
         public void UpdateTestResult(int NumOfTest, bool[] result, string note = "")
