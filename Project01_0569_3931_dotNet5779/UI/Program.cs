@@ -165,8 +165,9 @@ namespace UI
                         Test test = new Test();                       
                         Console.WriteLine("enter id for trainee: ");
                         test.TraineeId = Console.ReadLine();
-                        Console.WriteLine("enter name for trainee: ");
-                        test.TraineeName = Console.ReadLine();
+                        test.TraineeName= bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
+                       // Console.WriteLine("enter name for trainee: ");
+                      //  test.TraineeName = Console.ReadLine();
                         Console.WriteLine("enter your day of test: ");                      
                         day = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your month of test: ");
