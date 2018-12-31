@@ -303,7 +303,7 @@ namespace BL
 
             for (int i = fromdate.DayOfYear + 365 * fromdate.Year; i < untildate.DayOfYear + 365 * untildate.Year; ++i)
             {
-                for (int j = 0; j < 23; ++j)
+                for (int j = 0; j <= 23; ++j)
                 {
                     if (fromdate.Hour <= 15 && fromdate.Hour >= 9)
                         if (GetTestersByDate(fromdate).Count > 0)
