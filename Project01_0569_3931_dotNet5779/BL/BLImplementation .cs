@@ -211,7 +211,7 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
             //------------
-            var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+            var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)//לדעתי צריך להוסיך פוראיצ'
                                           where item.TestDate < DateTime.Now
                                           orderby item.TestDate descending
                                           select item.TestDate).ToList().FirstOrDefault());
@@ -237,9 +237,10 @@ namespace BL
                 List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
                 List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
                 if (!whoTest.Any())
+                {
                     newDate = GetNewDate(test.TestHour);
-                whoTest = GetTestersByDate(newDate);
-
+                    whoTest = GetTestersByDate(newDate);
+                }
                 if (whoTest.Any() && closeTester.Any())
                 {
                     //var x = WhoTest.Intersect(closeTester).ToList().First();    
