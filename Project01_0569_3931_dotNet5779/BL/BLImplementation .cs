@@ -120,7 +120,7 @@ namespace BL
                 CheckPhone(trainee.Phone);
                 CheckVehicle(trainee.TraineeVehicle.ToString());
                 CheckGear(trainee.TraineeGear.ToString());
-                CheckDrivingLessonsNum(trainee.DrivingLessonsNum); -*
+                CheckDrivingLessonsNum(trainee.DrivingLessonsNum); 
             }
             catch (InvalidDataException e)
             {
@@ -241,7 +241,7 @@ namespace BL
 
                 if (WhoTest.Any() && closeTester.Any())
                 {
-                    var x = WhoTest.Intersect(closeTester).ToList().FirstOrDefault();                )
+                    var x = WhoTest.Intersect(closeTester).ToList().FirstOrDefault();                
                     test.Tester.ID = x.ID;
                     test.TestDate = newDate;                    
                 }
@@ -753,7 +753,7 @@ namespace BL
         {
             try
             {
-                if (phone[0] != 0 || phone.Length != 10)
+                if (phone[0] != '0' || phone.Length != 10)
                     throw new InvalidDataException("no valid phone number");
             }
             catch (InvalidDataException e) { throw; }
