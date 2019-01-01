@@ -266,7 +266,7 @@ namespace DAL
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "Tena" },
                 PassedTest = false,
                 TesterNote = "no note",
-                TestHour = new DateTime(2018, 12, 25, 12, 54, 45),
+                TestHour = new DateTime(2017, 12, 25, 12, 54, 45),
                 Mirrors = false,
                 Brakes = true,
                 ReverseParking = false,

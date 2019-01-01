@@ -45,26 +45,23 @@ namespace UI
                 {
                     case 1:
                         Tester tester = new BO.Tester();
-                        Console.WriteLine("enter id:");
-                        tester.ID = Console.ReadLine();
-                        Console.WriteLine("enter Family Name:");
-                        tester.FamilyName = Console.ReadLine();
-                        Console.WriteLine("enter Private Name:");
-                        tester.PrivateName = Console.ReadLine();
-                        Console.WriteLine("enter City:");
-                        city = Console.ReadLine();
-                        Console.WriteLine("enter Street:");
-                        street = Console.ReadLine();
-                        Console.WriteLine("enter NumOfBilding:");
                         try
                         {
+                            Console.WriteLine("enter id:");
+                            tester.ID = Console.ReadLine();
+                            Console.WriteLine("enter Family Name:");
+                            tester.FamilyName = Console.ReadLine();
+                            Console.WriteLine("enter Private Name:");
+                            tester.PrivateName = Console.ReadLine();
+                            Console.WriteLine("enter City:");
+                            city = Console.ReadLine();
+                            Console.WriteLine("enter Street:");
+                            street = Console.ReadLine();
+                            Console.WriteLine("enter NumOfBilding:");
+
                             numofbuilding = int.Parse(Console.ReadLine());
                             tester.PersonAddress = new Address(city, street, numofbuilding);
-                        }
-                        catch (FormatException e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
+                        
                         Console.WriteLine("enter number phone:");
                         tester.Phone = Console.ReadLine();
                         Console.WriteLine("enter your gender: for male: enter 0 , for female: enter 1 :");
@@ -77,8 +74,8 @@ namespace UI
                         tester.TesterExperience = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your specialization: privateCar=0, motorcycle=1, truck=2, heavyTruck=3");
                         tester.TesterVehicle = (Vehicle)int.Parse(Console.ReadLine());
-                        Console.WriteLine("enter your day of birth: ");
-                        day = int.Parse(Console.ReadLine());
+                        Console.WriteLine("enter your day of birth: ");                                                
+                            day = int.Parse(Console.ReadLine());                        
                         Console.WriteLine("enter your month of birth: ");
                         month = int.Parse(Console.ReadLine());
                         Console.WriteLine("enter your year of birth: ");
@@ -88,24 +85,20 @@ namespace UI
 
                         hours hours = new hours();
                         days days = new days();
-                        for (int i = 0; i < 5; ++i, ++days, hours = 0)
-                        {
-                            Console.WriteLine("enter for day: " + days);
-                            for (int j = 0; j < 6; ++j, ++hours)
+                       
+                            for (int i = 0; i < 5; ++i, ++days, hours = 0)
                             {
-                                do
+                                Console.WriteLine("enter for day: " + days);
+                                for (int j = 0; j < 6; ++j, ++hours)
                                 {
                                     Console.WriteLine("enter for hour: " + hours);
-                                    try
-                                    {
-                                        matrix[i, j] = bool.Parse(Console.ReadLine());
-                                    }
-                                    catch (FormatException e)
-                                    {
-                                        Console.WriteLine(e.Message);
-                                    }
-                                } while (matrix[i, j] != true && matrix[i, j] != false);
+                                    matrix[i, j] = bool.Parse(Console.ReadLine());                                    
+                                }
                             }
+                        }
+                        catch (FormatException e)
+                        {
+                            Console.WriteLine(e.Message);
                         }
                         try
                         {
@@ -457,7 +450,24 @@ namespace UI
                 }
             } while (num != 12);
         }
+        //--------------------------------------------------------------
+        void CheckDate(DateTime time)
+        {
+            try
+            {
+                if (time.Day < 1 || time.Day > 31)
+                    throw new InvalidDataException("no valid day");
+                if (time.Month < 1 || time.Month > 12)
+                    throw new InvalidDataException("no valid month");
+                if (time.Year < (DateTime.Now.Year - Configuration.MAX_TESTER_AGE)
+                    || time.Year > (DateTime.Now.Year - Configuration.MIN_TESTER_AGE))
+                    throw new InvalidDataException("no valid year");
+            }
+            catch (InvalidDataException e) { throw; }
+        }
     }
 }
+
+
 
 
