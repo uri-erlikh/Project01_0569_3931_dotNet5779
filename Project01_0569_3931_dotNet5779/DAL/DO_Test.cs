@@ -66,7 +66,7 @@ namespace DO
         {
             this.TesterId = IDTester;
             this.TraineeId = IDTrainee;
-            this.TestDate = new DateTime();
+            this.TestDate = new DateTime().Date;
             this.TestHour = new DateTime();
         }
 

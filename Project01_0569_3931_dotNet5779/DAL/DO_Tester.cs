@@ -40,7 +40,7 @@ namespace DO
         public Person(string myId)
         {
             this.ID = myId;
-            DayOfBirth = new DateTime();
+            DayOfBirth = new DateTime().Date;
         }
     }
     //-----------------------------------------------------------
@@ -62,10 +62,7 @@ namespace DO
         {
             return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
         }
-        public Tester(string myId) : base(myId)
-        {
-            DayOfBirth = new DateTime();
-        }
+        public Tester(string myId) : base(myId) { }
 
         public Tester(Tester t) : base(t.ID)
         {

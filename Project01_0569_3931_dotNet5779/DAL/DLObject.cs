@@ -351,8 +351,8 @@ namespace DAL
         {
             try
             {
-                var asd = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
-                if (asd.Length == 0)
+                var tempArray = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
+                if (tempArray.Length == 0)
                     throw new KeyNotFoundException("key not found");
                 if (DataSource.Configuration[parm].Writable == false)
                     throw new InvalidOperationException("it is non-writeable value");

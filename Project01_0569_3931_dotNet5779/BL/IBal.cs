@@ -11,7 +11,6 @@ namespace BL
         void AddTester(BO.Tester tester, bool[,] matrix);
         void DeleteTester(string TesterID);
         void UpdateTester(string testerID, string field, params object[] info);
-
         BO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(BO.Trainee trainee);
@@ -30,8 +29,7 @@ namespace BL
         List<BO.Tester> GetCloseTester(BO.Address address, double x);
         List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
-        //List<BO.Tester> GetSomeTesters(Predicate<BO.Tester> func);
-        //List<BO.Trainee> GetSomeTrainies(Predicate<BO.Trainee> func);
+        
         int NumOfTest(string id);
         bool IfPassed(string id);
         List<BO.Test> TestsPerDate(DateTime date);
@@ -39,7 +37,7 @@ namespace BL
 
         //List<BO.Tester> TestersByVehicle(bool flag);
 
-        Dictionary<string, object> getConfig();
+        Dictionary<string, object> GetConfig();
         void SetConfig(string parm, object value);
         List<IGrouping<BO.Vehicle, BO.Tester> > TestersByVehicle(bool flag);
         List<IGrouping<string, BO.Trainee>> TraineesBySchool (bool flag);

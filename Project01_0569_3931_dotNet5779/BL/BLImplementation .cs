@@ -10,7 +10,7 @@ using System.Globalization;
 
 namespace BL
 {
-    public class BLImplementation : IBL
+    class BLImplementation : IBL
     {
         IDal dl = DAL_Factory.GetDL("lists");
         static Random r = new Random();
@@ -234,7 +234,8 @@ namespace BL
                             test.TestDate = newDate;
                         }
                 }
-                else throw new InvalidDataException("no close tester or no match between vehicls");                
+                else if (!closeTester.Any()) throw new InvalidDataException("no close tester");
+                    else throw new InvalidDataException("no match between vehicles");
             }
             catch (InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
@@ -282,7 +283,7 @@ namespace BL
             catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
-        public DateTime GetNewDate(DateTime hour, BO.Test test)
+        private DateTime GetNewDate(DateTime hour, BO.Test test)
         {
             DateTime temp = hour.AddDays(1);
             while (!GetTestersByDate(temp).Any()|| !IfTraineeDoTest(temp,test))
@@ -347,20 +348,20 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //---------------------------------------------------------------------
-        List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate)
+        public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate)
         {
             List<DateTime> dateTimes = new List<DateTime>();
 
-            for (int i = fromdate.DayOfYear + 365 * fromdate.Year; i < untildate.DayOfYear + 365 * untildate.Year; ++i)
+            for (int i = fromDate.DayOfYear + 365 * fromDate.Year; i < untilDate.DayOfYear + 365 * untilDate.Year; ++i)
             {
                 for (int j = 0; j <= 23; ++j)
                 {
-                    if (fromdate.Hour <= 14 && fromdate.Hour >= 9)
-                        if (GetTestersByDate(fromdate).Count > 0)
-                            dateTimes.Add(fromdate);
-                    fromdate.AddHours(1);
+                    if (fromDate.Hour <= 14 && fromDate.Hour >= 9 && (int)fromDate.DayOfWeek<5)
+                        if (GetTestersByDate(fromDate).Count > 0)
+                            dateTimes.Add(fromDate);
+                    fromDate.AddHours(1);
                 }
-                fromdate.AddDays(1);
+                fromDate.AddDays(1);
             }
             return dateTimes;
         }
@@ -446,7 +447,7 @@ namespace BL
             catch (ArgumentNullException e) { throw; }
         }
         //--------------------------------------------------------------------------
-        public Dictionary<string, object> getConfig()
+        public Dictionary<string, object> GetConfig()
         {
             return dl.getConfig();
         }
