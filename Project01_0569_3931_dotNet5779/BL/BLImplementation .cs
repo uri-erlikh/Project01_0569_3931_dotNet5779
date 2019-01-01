@@ -64,7 +64,7 @@ namespace BL
                         CheckName((string)info[0]);
                         break;
                     case "dayOfBirth":
-                        CheckDate((DateTime)info[0]);
+                        CheckDate(DateTime.Parse((string)info[0]));
                         break;
                     case "phone":
                         CheckPhone((string)info[0]);
@@ -148,35 +148,35 @@ namespace BL
             }
         }
         //--------------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, object info)
+        public void UpdateTrainee(string traineeID, string field, params object[] info)
         {
             try
             {
                 switch (field)
                 {
                     case "familyName":
-                        CheckName((string)info);
+                        CheckName((string)info[0]);
                         break;
                     case "privateName":
-                        CheckName((string)info);
+                        CheckName((string)info[0]);
                         break;
                     case "dayOfBirth":
-                        CheckDate((DateTime)info);
+                        CheckDateTrainee(DateTime.Parse((string)(info[0])));
                         break;
                     case "phone":
-                        CheckPhone((string)info);
+                        CheckPhone((string)info[0]);
                         break;
                     case "personAddress": break;
                     case "traineeVehicle":
-                        CheckVehicle((string)info);
+                        CheckVehicle((string)info[0]);
                         break;
                     case "traineeGear":
-                        CheckGear((string)info);
+                        CheckGear((string)info[0]);
                         break;
                     case "school": break;
                     case "teacher": break;
                     case "drivingLessonsNum":
-                        CheckDrivingLessonsNum((int)info);
+                        CheckDrivingLessonsNum((int)info[0]);
                         break;
                 }
             }
@@ -205,8 +205,113 @@ namespace BL
         {
             try
             {
+                ChecksToAddTest(test);
+            }
+            catch (KeyNotFoundException e) { throw; }
+            catch (InvalidDataException e) { throw; }
+            try
+            {
+                DateTime newDate = new DateTime();
+                List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
+                List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
+                if (!whoTest.Any())
+                {
+                    newDate = GetNewDate(test.TestHour,test);
+                    whoTest = GetTestersByDate(newDate);
+                }
+
+                if (whoTest.Any() && closeTester.Any())//cond
+                {
+                    //var x = WhoTest.Intersect(closeTester).ToList().First();    
+                    var x = (from item in whoTest
+                             from item1 in closeTester
+                             where item.ID == item1.ID
+                             select item).ToList();//.FirstOrDefault();
+                    foreach (var item in x)
+                        if (Convert(item).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
+                        {
+                            test.Tester.ID = item.ID;
+                            test.TestDate = newDate;
+                        }
+                }
+                else throw new InvalidDataException("no close tester or no match between vehicls");                
+            }
+            catch (InvalidDataException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            //------------
+            //try
+            //{
+            //    if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
+            //        throw new InvalidDataException("no match between tester and trainee - other vehicles");
+            //}
+            //catch (KeyNotFoundException e) { throw; }
+            //catch (InvalidDataException e) { throw; }
+            //-----------------------            
+            try
+            {
+                dl.AddTest(Convert(test));
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //-------------------------------------------------------------------
+        public List<BO.Tester> GetTestersByDate(DateTime hour)
+        {
+            try
+            {                
+                List<DO.Tester> WhoWork = (from item in dl.GetTesters()
+                                           where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek, hour.Hour - 9] == true
+                                           select item).ToList();
+                if (!WhoWork.Any())
+                    return new List<BO.Tester>();
+                var newList = (from item in WhoWork
+                               from itemTest in Convert(item).TesterTests
+                               where itemTest.TestHour == hour                              
+                               select item).ToList();
+
+                List<BO.Tester> temp = (from item in WhoWork.Except(newList)//containes
+                                        select Convert(item)).ToList();
+                for (int i = 0; i < temp.Count; ++i)
+                    if (!CheckHoursInWeek(temp[i], hour))
+                    {
+                        temp.Remove(temp[i]);
+                        --i;
+                    }
+                return temp;
+            }
+            catch (KeyNotFoundException e) { throw; }
+            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+        }
+        //-----------------------------------------------------------------
+        public DateTime GetNewDate(DateTime hour, BO.Test test)
+        {
+            DateTime temp = hour.AddDays(1);
+            while (!GetTestersByDate(temp).Any()|| !IfTraineeDoTest(temp,test))
+                if (temp.Hour < 14)
+                    temp.AddHours(1);
+                else
+                {
+                    temp.AddDays(1);
+                    temp.AddHours(-5);
+                    if ((int)temp.DayOfWeek > 4)
+                        temp.AddDays(2);
+                }
+            return temp;
+        }
+        //--------------------------------------------------------------------------
+        private bool IfTraineeDoTest(DateTime hour, BO.Test test)
+        {
+            if ((from item in dl.GetSomeTests(x => x.TestHour == hour && x.TraineeId == test.TraineeId)
+                 select item).ToList().Any())
+                return false;
+            return true;
+        }
+        //--------------------------------------------------------------------
+        private void ChecksToAddTest(BO.Test test)
+        {
+            try
+            {
                 CheckID(test.TraineeId);
-                CheckDateTrainee(test.TestDate);//נראה לי שבדחקת הקלט של הימים וכו צריך להיות בPL
+                CheckDateTrainee(test.TestDate);
                 checkHour(test.TestHour);
             }
             catch (InvalidDataException e) { throw; }
@@ -233,41 +338,6 @@ namespace BL
             //-------------
             try
             {
-                DateTime newDate = new DateTime();
-                List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
-                List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
-                if (!whoTest.Any())
-                    newDate = GetNewDate(test.TestHour);
-                whoTest = GetTestersByDate(newDate);
-
-                if (whoTest.Any() && closeTester.Any())
-                {
-                    //var x = WhoTest.Intersect(closeTester).ToList().First();    
-                    var x = (from item in whoTest
-                             from item1 in closeTester
-                             where item.ID == item1.ID
-                             select item).ToList().FirstOrDefault();
-                    test.Tester.ID = x.ID;
-                    test.TestDate = newDate;
-                }
-                else throw new InvalidDataException("no close tester");
-                if ((from item in dl.GetSomeTests(x => x.TestHour == test.TestHour && x.TraineeId == test.TraineeId)
-                     select item).ToList().Any())
-                    throw new InvalidDataException("trainee allready has a test this time");
-            }
-            catch (InvalidDataException e) { throw; }
-            catch (KeyNotFoundException e) { throw; }
-            //------------
-            try
-            {
-                if (!(dl.GetOneTester(test.Tester.ID).TesterVehicle == dl.GetOneTrainee(test.TraineeId).TraineeVehicle))
-                    throw new InvalidDataException("no match between tester and trainee - other vehicles");
-            }
-            catch (KeyNotFoundException e) { throw; }
-            catch (InvalidDataException e) { throw; }
-            //-----------------------
-            try
-            {
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
                      where item.PassedTest == true
                      where Convert(item).Tester.TesterVehicle == (BO.Vehicle)(dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
@@ -275,57 +345,8 @@ namespace BL
                     throw new InvalidDataException("trainee passed a test on this vehicle");
             }
             catch (InvalidDataException e) { throw; }
-            //---------------
-            try
-            {
-                dl.AddTest(Convert(test));
-            }
-            catch (KeyNotFoundException e) { throw; }
         }
-        //-------------------------------------------------------------------
-        public List<BO.Tester> GetTestersByDate(DateTime hour)
-        {
-            try
-            {
-                List<DO.Tester> WhoWork = (from item in dl.GetTesters()
-                                           where dl.GetSchedule(item.ID)[(int)hour.DayOfWeek, hour.Hour - 9] == true
-                                           select item).ToList();
-                //List<DO.Tester> WhoWork = dl.GetSomeTesters(x => Convert(x).Schedule[(int)hour.DayOfWeek, hour.Hour - 9] == true);
-                if (!WhoWork.Any())
-                    return new List<BO.Tester>();
-                var newList = (from item in WhoWork
-                               from itemTest in Convert(item).TesterTests
-                               where itemTest.TestHour == hour
-                               select item).ToList();
-
-                List<BO.Tester> temp = (from item in WhoWork.Except(newList)
-                                        select Convert(item)).ToList();
-                for (int i = 0; i < temp.Count; ++i)
-                    if (!CheckHoursInWeek(temp[i], hour))
-                    {
-                        temp.Remove(temp[i]);
-                        --i;
-                    }
-                return temp;
-            }
-            catch (KeyNotFoundException e) { throw; }
-            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
-        }
-        //-----------------------------------------------------------------
-        public DateTime GetNewDate(DateTime hour)
-        {
-            DateTime temp = hour.AddDays(1);
-            while (!GetTestersByDate(temp).Any())
-                if (temp.AddHours(1).Hour < 14)
-                    temp.AddHours(1);
-                else
-                {
-                    temp.AddDays(1);
-                    temp.AddHours(-9);
-                }
-            return temp;
-        }
-        //--------------------------------------------------------------------
+        //---------------------------------------------------------------------
         List<DateTime> getdateoftests(DateTime fromdate, DateTime untildate)
         {
             List<DateTime> dateTimes = new List<DateTime>();
@@ -334,7 +355,7 @@ namespace BL
             {
                 for (int j = 0; j <= 23; ++j)
                 {
-                    if (fromdate.Hour <= 15 && fromdate.Hour >= 9)
+                    if (fromdate.Hour <= 14 && fromdate.Hour >= 9)
                         if (GetTestersByDate(fromdate).Count > 0)
                             dateTimes.Add(fromdate);
                     fromdate.AddHours(1);

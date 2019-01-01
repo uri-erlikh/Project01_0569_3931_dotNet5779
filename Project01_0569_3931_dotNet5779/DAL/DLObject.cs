@@ -92,13 +92,13 @@ namespace DAL
                     tester.PrivateName = (string)info[0];
                     break;
                 case "dayOfBirth":
-                    tester.DayOfBirth = (DateTime)info[0];
+                    tester.DayOfBirth = DateTime.Parse((string)info[0]);
                     break;
                 case "phone":
                     tester.Phone = (string)info[0];
                     break;
                 case "personAddress":
-                    tester.PersonAddress = (Address)info[0];
+                        tester.PersonAddress = new Address((string)info[0],(string) info[1],(int) info[2]);                            
                     break;
                 case "testerExperience":
                     tester.TesterExperience = (int)info[0];
@@ -107,7 +107,7 @@ namespace DAL
                     tester.MaxWeeklyTests = (int)info[0];
                     break;
                 case "testerVehicle":
-                    tester.TesterVehicle = (Vehicle)info[0];
+                        tester.TesterVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]);
                     break;
                 case "rangeToTest":
                     tester.RangeToTest = (int)info[0];
@@ -170,7 +170,7 @@ namespace DAL
                 }
         }
         //--------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, object info)
+        public void UpdateTrainee(string traineeID, string field, params object[] info)
         {
             try
             {
@@ -179,34 +179,34 @@ namespace DAL
                     switch (field)
                     {
                         case "familyName":
-                            trainee.FamilyName = (string)info;//לבדוק למעלה שזה לא נאללל
+                            trainee.FamilyName = (string)info[0];
                             break;
                         case "privateName":
-                            trainee.PrivateName = (string)info;
+                            trainee.PrivateName = (string)info[0];
                             break;
                         case "dayOfBirth":
-                            trainee.DayOfBirth = (DateTime)info;
+                            trainee.DayOfBirth = DateTime.Parse((string)info[0]);
                             break;
                         case "phone":
-                            trainee.Phone = (string)info;
+                            trainee.Phone = (string)info[0];
                             break;
                         case "personAddress":
-                            trainee.PersonAddress = (Address)info;
+                            trainee.PersonAddress =new Address((string)info[0],(string)info[1],(int)info[2]);
                             break;
                         case "traineeVehicle":
-                            trainee.TraineeVehicle = (Vehicle)info;
+                            trainee.TraineeVehicle = (Vehicle)Enum.Parse(typeof(Vehicle),(string)(info[0]));
                             break;
                         case "traineeGear":
-                            trainee.TraineeGear = (GearBox)info;
+                            trainee.TraineeGear = (GearBox)Enum.Parse(typeof(GearBox), (string)(info[0]));
                             break;
                         case "school":
-                            trainee.School = (string)info;
+                            trainee.School = (string)info[0];
                             break;
                         case "teacher":
-                            trainee.Teacher = (string)info;
+                            trainee.Teacher = (string)info[0];
                             break;
                         case "drivingLessonsNum":
-                            trainee.DrivingLessonsNum = (int)info;
+                            trainee.DrivingLessonsNum = (int)info[0];
                             break;
                     }
             }
