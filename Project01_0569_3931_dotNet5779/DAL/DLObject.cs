@@ -43,20 +43,8 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-
-            for (int i = 0; i < DataSource.Testers.Count; ++i)
-                if (DataSource.Testers[i].ID == TesterID)
-                {
-                    DataSource.Testers.Remove(DataSource.Testers[i]);
-                    DataSource.Schedules.Remove(TesterID);
-                    for (int j = 0; j < DataSource.Tests.Count; ++j)
-                        if (DataSource.Tests[j].TesterId == TesterID)
-                        {
-                            DataSource.Tests.Remove(DataSource.Tests[j]);
-                            --j;
-                        }
-                    return;
-                }
+            DataSource.Testers.RemoveAll(x => x.ID == TesterID);
+            DataSource.Tests.RemoveAll(x => x.TesterId == TesterID);
         }
         //------------------------------------------------------------------        
         private bool IfExist(string ID, string type)
@@ -141,7 +129,7 @@ namespace DAL
         {
             try
             {
-                if (IfExist(trainee.ID, "trainee"))
+                if (IfExist(trainee.ID, "trainee")&&GetOneTrainee(trainee.ID).TraineeVehicle==trainee.TraineeVehicle)
                     throw new DuplicateWaitObjectException("allready exist");
             }
             catch (DuplicateWaitObjectException e) { throw; }
@@ -156,18 +144,8 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            for (int i = 0; i < DataSource.Trainies.Count; ++i)
-                if (DataSource.Trainies[i].ID == TraineeID)
-                {
-                    DataSource.Trainies.Remove(DataSource.Trainies[i]);
-                    for (int j=0;j<DataSource.Tests.Count;++j)
-                        if (DataSource.Tests[j].TraineeId==TraineeID)
-                        {
-                            DataSource.Tests.Remove(DataSource.Tests[j]);
-                            --j;
-                        }
-                    return;
-                }
+            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID);           
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(string traineeID, string field, params object[] info)
@@ -317,14 +295,14 @@ namespace DAL
         {            
             return (from item in DataSource.Tests
                     where (someFunc(item))
-                    select item).ToList();
+                    select new DO.Test(item)).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {           
             var NewList = from item in DataSource.Testers
                           where (func(item))
-                          select item;
+                          select new DO.Tester(item);
             return NewList.ToList();
         }
         //--------------------------------------------------
@@ -332,7 +310,7 @@ namespace DAL
         {            
             var NewList = from item in DataSource.Trainies
                           where (func(item))
-                          select item;
+                          select new DO.Trainee(item);
             return NewList.ToList();
         }
         //------------------------------------------------------------------

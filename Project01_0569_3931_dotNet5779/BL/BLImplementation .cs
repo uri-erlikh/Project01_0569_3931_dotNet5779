@@ -220,9 +220,9 @@ namespace BL
                     whoTest = GetTestersByDate(newDate);
                 }
 
-                if (whoTest.Any() && closeTester.Any())//cond
+                if (whoTest.Any() && closeTester.Any())
                 {
-                    //var x = WhoTest.Intersect(closeTester).ToList().First();    
+                    //var x = WhoTest.Intersect(closeTester).ToList().First();                       
                     var x = (from item in whoTest
                              from item1 in closeTester
                              where item.ID == item1.ID
@@ -480,7 +480,7 @@ namespace BL
             {
                 List<BO.Test> list = (from item in dl.GetTests()
                                       select Convert(item)).ToList();
-                return (list.Where(x => someFunc(x)).Select(x => x)).ToList();
+                return (list.Where(x => someFunc(x)).ToList());
             }
             catch (ArgumentNullException e) { throw; }
         }
