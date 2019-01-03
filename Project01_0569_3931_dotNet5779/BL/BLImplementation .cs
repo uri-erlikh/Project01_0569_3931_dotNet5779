@@ -211,13 +211,14 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
             //------------
-            var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)//לדעתי צריך להוסיך פוראיצ'
-                                          where item.TestDate < DateTime.Now
-                                          orderby item.TestDate descending
-                                          select item.TestDate).ToList().FirstOrDefault());
+            //var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)//לדעתי צריך להוסיך פוראיצ'
+            //                              where item.TestDate < DateTime.Now
+            //                              orderby item.TestDate descending
+            //                              select item.TestDate).ToList().FirstOrDefault());
             try
             {
-                if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
+                var tspan1 = Convert(dl.GetOneTrainee(test.TraineeId)).DateLastOfTest - test.TestDate;
+                if (tspan1.Days < BO.Configuration.MIN_GAP_TEST)
                     throw new InvalidDataException("test too close");
             }
             catch (InvalidDataException e) { throw; }
@@ -269,9 +270,8 @@ namespace BL
             //-----------------------
             try
             {
-                if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
-                     where item.PassedTest == true
-                     where Convert(item).Tester.TesterVehicle == (BO.Vehicle)(dl.GetOneTrainee(test.TraineeId).TraineeVehicle)
+                if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && Convert(x).Tester.TesterVehicle== test.Tester.TesterVehicle)
+                     where item.PassedTest == true                     
                      select item).ToList().Any())
                     throw new InvalidDataException("trainee passed a test on this vehicle");
             }
@@ -674,13 +674,14 @@ namespace BL
                 Teacher = trainee.Teacher,
                 DrivingLessonsNum = trainee.DrivingLessonsNum,
                 Trainee_Test = GetTraineeTests(dl.GetSomeTests(x => x.TraineeId == trainee.ID)),
+                DateLastOfTest = GetTraineeTests(dl.GetSomeTests(x => x.TraineeId == trainee.ID && x.TestDate < DateTime.Now)).FirstOrDefault().TestDate,//חדש 
             };
         }
 
         private List<BO.TraineeTest> GetTraineeTests(List<DO.Test> list)
         {
             List<BO.TraineeTest> newList = new List<TraineeTest>();
-            foreach (var item in list)
+            foreach (var item in list)//צריך לבדוק שהרשימה שקיבלנו לא ריקה
                 newList.Add(new TraineeTest()
                 {
                     TestNumber = item.TestNumber,

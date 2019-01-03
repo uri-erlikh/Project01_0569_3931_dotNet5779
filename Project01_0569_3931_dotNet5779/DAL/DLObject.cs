@@ -316,8 +316,8 @@ namespace DAL
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {            
             return (from item in DataSource.Tests
-                    where (someFunc(item))
-                    select item).ToList();
+                    where (someFunc(item))                   
+                    select  item).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)

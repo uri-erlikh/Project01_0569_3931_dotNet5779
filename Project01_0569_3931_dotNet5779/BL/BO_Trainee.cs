@@ -23,6 +23,7 @@ namespace BO
         private int drivingLessonsNum;
         public int DrivingLessonsNum { get; set; }
 
+
         public List<TraineeTest> Trainee_Test=new List<TraineeTest>();
 
         public override string ToString()
@@ -30,5 +31,10 @@ namespace BO
             return String.Format("{0}, {1} ,{2} ,at school: {3}", PrivateName, FamilyName, ID, School);
         }
         public Trainee(){}
+
+        private DateTime datelastoftest;
+        public DateTime DateLastOfTest { get; set; }
+
+
     }
 }
