@@ -42,7 +42,7 @@ namespace BO
 
         public Person()
         {
-            DayOfBirth = new DateTime();
+            DayOfBirth = new DateTime().Date;
         }
     }
     //-----------------------------------------------------------

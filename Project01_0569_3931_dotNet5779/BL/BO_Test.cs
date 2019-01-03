@@ -56,7 +56,7 @@ namespace BO
 
         public Test()
         {
-            TestDate = new DateTime();
+            TestDate = new DateTime().Date;
             TestHour = new DateTime();
         }
 

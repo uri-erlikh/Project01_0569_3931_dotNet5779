@@ -276,8 +276,7 @@ namespace UI
                                     street = Console.ReadLine();
                                     Console.WriteLine("enter Num Of Bilding: ");
                                     numofbuilding = int.Parse(Console.ReadLine());
-                                    info = new Address(city, street, numofbuilding);
-                                    bL.UpdateTester(id, "personAddress", info);
+                                    bL.UpdateTester(id, "personAddress", city,street,numofbuilding);
                                     break;
                                 case 6:
                                     Console.WriteLine("enter the Experience in years: ");
@@ -300,7 +299,7 @@ namespace UI
                                     bL.UpdateTester(id, "testerVehicle", info);
                                     break;
                                 case 10:
-                                    Console.WriteLine("enter the day to update in the number: ");
+                                    Console.WriteLine("enter the day in week to update in the number: ");
                                     info = int.Parse(Console.ReadLine());
                                     Console.WriteLine("enter the hour to update in the number: ");
                                     info1 = int.Parse(Console.ReadLine());
@@ -365,8 +364,7 @@ namespace UI
                                     street = Console.ReadLine();
                                     Console.WriteLine("enter Num Of Bilding: ");
                                     numofbuilding = int.Parse(Console.ReadLine());
-                                    infom = new Address(city, street, numofbuilding);
-                                    bL.UpdateTrainee(id, "personAddress", infom);
+                                    bL.UpdateTrainee(id, "personAddress", city,street,numofbuilding);
                                     break;
                                 case 6:
                                     Console.WriteLine("enter the Gear: ");

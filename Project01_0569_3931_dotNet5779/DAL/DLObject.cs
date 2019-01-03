@@ -43,20 +43,8 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-
-            for (int i = 0; i < DataSource.Testers.Count; ++i)
-                if (DataSource.Testers[i].ID == TesterID)
-                {
-                    DataSource.Testers.Remove(DataSource.Testers[i]);
-                    DataSource.Schedules.Remove(TesterID);
-                    for (int j = 0; j < DataSource.Tests.Count; ++j)
-                        if (DataSource.Tests[j].TesterId == TesterID)
-                        {
-                            DataSource.Tests.Remove(DataSource.Tests[j]);
-                            --j;
-                        }
-                    return;
-                }
+            DataSource.Testers.RemoveAll(x => x.ID == TesterID);
+            DataSource.Tests.RemoveAll(x => x.TesterId == TesterID);
         }
         //------------------------------------------------------------------        
         private bool IfExist(string ID, string type)
@@ -92,13 +80,13 @@ namespace DAL
                     tester.PrivateName = (string)info[0];
                     break;
                 case "dayOfBirth":
-                    tester.DayOfBirth = (DateTime)info[0];
+                    tester.DayOfBirth = DateTime.Parse((string)info[0]);
                     break;
                 case "phone":
                     tester.Phone = (string)info[0];
                     break;
                 case "personAddress":
-                    tester.PersonAddress = (Address)info[0];
+                        tester.PersonAddress = new Address((string)info[0],(string) info[1],(int) info[2]);                            
                     break;
                 case "testerExperience":
                     tester.TesterExperience = (int)info[0];
@@ -107,7 +95,7 @@ namespace DAL
                     tester.MaxWeeklyTests = (int)info[0];
                     break;
                 case "testerVehicle":
-                    tester.TesterVehicle = (Vehicle)info[0];
+                        tester.TesterVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]);
                     break;
                 case "rangeToTest":
                     tester.RangeToTest = (int)info[0];
@@ -141,7 +129,7 @@ namespace DAL
         {
             try
             {
-                if (IfExist(trainee.ID, "trainee"))
+                if (IfExist(trainee.ID, "trainee")&&GetOneTrainee(trainee.ID).TraineeVehicle==trainee.TraineeVehicle)
                     throw new DuplicateWaitObjectException("allready exist");
             }
             catch (DuplicateWaitObjectException e) { throw; }
@@ -156,21 +144,11 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            for (int i = 0; i < DataSource.Trainies.Count; ++i)
-                if (DataSource.Trainies[i].ID == TraineeID)
-                {
-                    DataSource.Trainies.Remove(DataSource.Trainies[i]);
-                    for (int j=0;j<DataSource.Tests.Count;++j)
-                        if (DataSource.Tests[j].TraineeId==TraineeID)
-                        {
-                            DataSource.Tests.Remove(DataSource.Tests[j]);
-                            --j;
-                        }
-                    return;
-                }
+            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID);           
         }
         //--------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, object info)
+        public void UpdateTrainee(string traineeID, string field, params object[] info)
         {
             try
             {
@@ -179,34 +157,34 @@ namespace DAL
                     switch (field)
                     {
                         case "familyName":
-                            trainee.FamilyName = (string)info;//לבדוק למעלה שזה לא נאללל
+                            trainee.FamilyName = (string)info[0];
                             break;
                         case "privateName":
-                            trainee.PrivateName = (string)info;
+                            trainee.PrivateName = (string)info[0];
                             break;
                         case "dayOfBirth":
-                            trainee.DayOfBirth = (DateTime)info;
+                            trainee.DayOfBirth = DateTime.Parse((string)info[0]);
                             break;
                         case "phone":
-                            trainee.Phone = (string)info;
+                            trainee.Phone = (string)info[0];
                             break;
                         case "personAddress":
-                            trainee.PersonAddress = (Address)info;
+                            trainee.PersonAddress =new Address((string)info[0],(string)info[1],(int)info[2]);
                             break;
                         case "traineeVehicle":
-                            trainee.TraineeVehicle = (Vehicle)info;
+                            trainee.TraineeVehicle = (Vehicle)Enum.Parse(typeof(Vehicle),(string)(info[0]));
                             break;
                         case "traineeGear":
-                            trainee.TraineeGear = (GearBox)info;
+                            trainee.TraineeGear = (GearBox)Enum.Parse(typeof(GearBox), (string)(info[0]));
                             break;
                         case "school":
-                            trainee.School = (string)info;
+                            trainee.School = (string)info[0];
                             break;
                         case "teacher":
-                            trainee.Teacher = (string)info;
+                            trainee.Teacher = (string)info[0];
                             break;
                         case "drivingLessonsNum":
-                            trainee.DrivingLessonsNum = (int)info;
+                            trainee.DrivingLessonsNum = (int)info[0];
                             break;
                     }
             }
@@ -316,15 +294,15 @@ namespace DAL
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {            
             return (from item in DataSource.Tests
-                    where (someFunc(item))                   
-                    select  item).ToList();
+                    where (someFunc(item))
+                    select new DO.Test(item)).ToList();
         }
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {           
             var NewList = from item in DataSource.Testers
                           where (func(item))
-                          select item;
+                          select new DO.Tester(item);
             return NewList.ToList();
         }
         //--------------------------------------------------
@@ -332,7 +310,7 @@ namespace DAL
         {            
             var NewList = from item in DataSource.Trainies
                           where (func(item))
-                          select item;
+                          select new DO.Trainee(item);
             return NewList.ToList();
         }
         //------------------------------------------------------------------
@@ -351,8 +329,8 @@ namespace DAL
         {
             try
             {
-                var asd = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
-                if (asd.Length == 0)
+                var tempArray = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
+                if (tempArray.Length == 0)
                     throw new KeyNotFoundException("key not found");
                 if (DataSource.Configuration[parm].Writable == false)
                     throw new InvalidOperationException("it is non-writeable value");
