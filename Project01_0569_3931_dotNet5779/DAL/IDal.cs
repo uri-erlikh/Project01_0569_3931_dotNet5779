@@ -16,7 +16,7 @@ namespace DAL
         void AddTrainee(DO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
         void UpdateTrainee(string traineeID, string field, params object[] info);
-        DO.Trainee GetOneTrainee(string ID);
+        DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------
         void AddTest(DO.Test test);
         void UpdateTestResult(int NumOfTest,bool[] result, string note);

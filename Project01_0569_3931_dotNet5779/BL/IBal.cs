@@ -16,7 +16,7 @@ namespace BL
         void AddTrainee(BO.Trainee trainee);
         void DeleteTrainee(string TraineeID);
         void UpdateTrainee(string traineeID, string field, params object[] info);
-        BO.Trainee GetOneTrainee(string ID);
+        BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle);
         //-------------------------------------------------------
         void AddTest(BO.Test test);
         void UpdateTestResult(int NumOfTest, bool[]result,string note);
@@ -30,8 +30,8 @@ namespace BL
         List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
         
-        int NumOfTest(string id);
-        bool IfPassed(string id);
+        int NumOfTest(string id, BO.Vehicle vehicle);
+        bool IfPassed(string id, BO.Vehicle vehicle);
         List<BO.Test> TestsPerDate(DateTime date);
         List<BO.Test> TestsPerMonth(DateTime date);
 

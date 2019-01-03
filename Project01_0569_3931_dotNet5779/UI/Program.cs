@@ -165,7 +165,7 @@ namespace UI
                     case 3:
                         try
                         {
-                            Test test = new Test();
+                            Test test = new Test();//לעדכן שדה סוג כלי רכב
                             Console.WriteLine("enter id for trainee: ");
                             test.TraineeId = Console.ReadLine();
                             test.TraineeName = bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
@@ -377,7 +377,7 @@ namespace UI
                                     bL.UpdateTrainee(id, "school", infom);
                                     break;
                                 case 8:
-                                    Console.WriteLine("enter the Vehicle: ");
+                                    Console.WriteLine("enter the Vehicle: ");//לזכור שזה סטרינג וגם למטה היחס אליו כסטרינג ולשנות
                                     infom = Console.ReadLine();
                                     bL.UpdateTrainee(id, "traineeVehicle", infom);
                                     break;
@@ -388,7 +388,7 @@ namespace UI
                                     break;
                                 case 10:
 
-                                    Console.WriteLine("enter the Number of Lessons ");
+                                    Console.WriteLine("enter the Number of Lessons ");//שינינו שיקלוט גם סוג רכב דבר ראשון. ראה בשכבה למטה 
                                     info2 = int.Parse(Console.ReadLine());
                                     bL.UpdateTrainee(id, "drivingLessonsNum", infom);
                                     break;

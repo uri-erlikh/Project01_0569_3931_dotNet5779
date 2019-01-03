@@ -26,6 +26,8 @@ namespace BO
         private string traineeName;
         public string TraineeName { get; set; }
 
+        public BO.Vehicle Vehicle { get; set; }
+
         private DateTime testDate;
         public DateTime TestDate { get; set; }
 
