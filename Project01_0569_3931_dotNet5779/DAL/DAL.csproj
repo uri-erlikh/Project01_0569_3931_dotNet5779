@@ -42,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL_Factory.cs" />
-    <Compile Include="DAL_imp.cs" />
     <Compile Include="DataSource.cs" />
     <Compile Include="DLObject.cs" />
     <Compile Include="DO.cs" />

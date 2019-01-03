@@ -55,15 +55,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddTestWindow.xaml.cs">
+      <DependentUpon>AddTestWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestersWindow.xaml.cs">
       <DependentUpon>TestersWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="TestesWindow.xaml.cs">
-      <DependentUpon>TestesWindow.xaml</DependentUpon>
+    <Compile Include="TestsWindow.xaml.cs">
+      <DependentUpon>TestsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TrainiesWindow.xaml.cs">
       <DependentUpon>TrainiesWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -80,7 +87,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TestesWindow.xaml">
+    <Page Include="TestsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

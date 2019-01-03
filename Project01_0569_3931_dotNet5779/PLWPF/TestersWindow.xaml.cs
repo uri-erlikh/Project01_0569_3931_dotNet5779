@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for Teaters.xaml
+    /// Interaction logic for Testers.xaml
     /// </summary>
-    public partial class Teaters : Window
+    public partial class TestersWindow : Window
     {
-        public Teaters()
+        public TestersWindow()
         {
             InitializeComponent();
         }

@@ -15,13 +15,28 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for Trainies.xaml
+    /// Interaction logic for Tests.xaml
     /// </summary>
-    public partial class TrainiesWindow : Window
+    public partial class TestsWindow : Window
     {
-        public TrainiesWindow()
+        public TestsWindow()
         {
             InitializeComponent();
+        }
+
+        private void ToAddaTest_Click(object sender, RoutedEventArgs e)
+        {
+            new AddTestWindow().Show();
+        }
+
+        private void ToUpdateTestResult_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+        
+        private void ToPrintTest_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

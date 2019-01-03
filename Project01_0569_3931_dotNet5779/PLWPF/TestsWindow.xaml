@@ -1,0 +1,25 @@
+﻿<Window x:Class="PLWPF.TestsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        mc:Ignorable="d"
+        Title="Tests" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="ToAddaTest" Content="Add a Test"  
+        Margin="10" FontSize="30" Grid.Row="0" Click="ToAddaTest_Click" />
+
+        <Button x:Name="ToUpdateTestResult" Content="Update a Test Result"  
+        Margin="10" FontSize="30" Grid.Row="1" Click="ToUpdateTestResult_Click" />
+
+        <Button x:Name="ToPrintTest" Content="Print a Test"  
+        Margin="10" FontSize="30" Grid.Row="2" Click="ToPrintTest_Click"  />
+
+    </Grid>
+</Window>

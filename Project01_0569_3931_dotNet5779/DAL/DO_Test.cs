@@ -18,6 +18,8 @@ namespace DO
         private string traineeId;
         public string TraineeId { get; set; }
 
+        public DO.Vehicle Vehicle { get; set; }
+
         private DateTime testDate;
         public DateTime TestDate { get; set; }
 
@@ -75,6 +77,7 @@ namespace DO
             this.TestNumber = te.TestNumber;
             this.TesterId = te.TesterId;
             this.TraineeId = te.TraineeId;
+            this.Vehicle = te.Vehicle;
             this.TestDate = te.TestDate;
             this.TestHour = te.TestHour;
             this.testAddress = te.testAddress;

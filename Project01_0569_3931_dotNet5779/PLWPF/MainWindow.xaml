@@ -8,18 +8,18 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="*"/>
+           <RowDefinition Height="*"/>
+           <RowDefinition Height="*"/>
+           <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="TestesButton" Content="Testes"  
-        Margin="10" FontSize="30" Grid.Row="0" Click="TestesButton_Click"/>
+        <Button x:Name="TestsButton" Content="Tests"  
+        Margin="10" FontSize="30" Grid.Row="0" Click="TestsButton_Click" />
 
         <Button x:Name="TrainiesButton" Content="Trainies"  
-        Margin="10" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click"/>
+        Margin="10" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click" />
 
-        <Button x:Name="TesterstButton" Content="Testers"  
-        Margin="10" FontSize="30" Grid.Row="2" Click="TesterstButton_Click"/>
+        <Button x:Name="TestersButoon" Content="Testers"  
+        Margin="10" FontSize="30" Grid.Row="2" Click="TestersButoon_Click" />
 
     </Grid>
 </Window>
