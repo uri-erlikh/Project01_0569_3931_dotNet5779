@@ -12,14 +12,14 @@
         <RowDefinition Height="*"/>
         <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Button x:Name="addStudentButton" Content="Add Student"  
-        Margin="10" FontSize="30" Grid.Row="0"/>
+        <Button x:Name="TestesButton" Content="Testes"  
+        Margin="10" FontSize="30" Grid.Row="0" Click="TestesButton_Click"/>
 
-        <Button x:Name="addCourseButton" Content="Add Course"  
-        Margin="10" FontSize="30" Grid.Row="1"/>
+        <Button x:Name="TrainiesButton" Content="Trainies"  
+        Margin="10" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click"/>
 
-        <Button x:Name="addCourseTOstudentButton" Content="Add Course To Student"  
-        Margin="10" FontSize="30" Grid.Row="2"/>
+        <Button x:Name="TesterstButton" Content="Testers"  
+        Margin="10" FontSize="30" Grid.Row="2" Click="TesterstButton_Click"/>
 
     </Grid>
 </Window>

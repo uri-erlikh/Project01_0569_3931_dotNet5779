@@ -24,5 +24,17 @@ namespace PLWPF
         {
             InitializeComponent();
         }
+
+        private void TestesButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window TrainiesWindow = new TrainiesWindow();
+            TrainiesWindow.Show();
+        }
+
+        private void TesterstButton_Click(object sender, RoutedEventArgs e)
+        {
+            Window TeatersWindow = new TeatersWindow();
+            TeatersWindow.Show();
+        }
     }
 }
