@@ -38,5 +38,11 @@ namespace PLWPF
         {
 
         }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {            
+            new MainWindow().Show();
+            this.Close();
+        }
     }
 }
