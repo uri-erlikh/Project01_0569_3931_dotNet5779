@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using BL;
 
 namespace PLWPF
 {
@@ -26,20 +27,23 @@ namespace PLWPF
         }
 
         private void TestersButoon_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             Window testersWindow = new TestersWindow();
             testersWindow.Show();
+            this.Close();
         }
 
         private void TrainiesButton_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             Window trainiesWindow = new TrainiesWindow();
             trainiesWindow.Show();
+            this.Close();
         }
 
         private void TestsButton_Click(object sender, RoutedEventArgs e)
         {
-            new TestsWindow().Show();            
+            new TestsWindow().Show();
+            this.Close();                        
         }
     }
 }

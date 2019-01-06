@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using BL;
 
 namespace PLWPF
 {
@@ -19,9 +20,29 @@ namespace PLWPF
     /// </summary>
     public partial class AddTestWindow : Window
     {
+        BO.Test test = new BO.Test();
+        BL.IBL bl;
+
         public AddTestWindow()
         {
             InitializeComponent();
+            
+            this.DataContext = test;
+            
+            bl = BL.BL_Factory.GetBL();
+
+            this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+        }
+
+        private void AddTestButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.AddTest(test);
+                test = new BO.Test();
+                this.DataContext = test;
+            }
+            catch () { }
         }
 
         //private void Window_Loaded(object sender, RoutedEventArgs e)

@@ -168,7 +168,9 @@ namespace UI
                             Test test = new Test();//לעדכן שדה סוג כלי רכב
                             Console.WriteLine("enter id for trainee: ");
                             test.TraineeId = Console.ReadLine();
-                            test.TraineeName = bL.GetOneTrainee(test.TraineeId).FamilyName + bL.GetOneTrainee(test.TraineeId).PrivateName;
+                            Console.WriteLine("enter type the Vehicle:0-4 ");
+                            Vehicle vehicle = (Vehicle)int.Parse(Console.ReadLine());
+                            test.TraineeName = bL.GetOneTrainee(test.TraineeId,vehicle).FamilyName + bL.GetOneTrainee(test.TraineeId,vehicle).PrivateName;
                             // Console.WriteLine("enter name for trainee: ");
                             //  test.TraineeName = Console.ReadLine();
                             Console.WriteLine("enter your day of test: ");
@@ -388,10 +390,11 @@ namespace UI
                                     bL.UpdateTrainee(id, "teacher", infom);
                                     break;
                                 case 10:
-
+                                    Console.WriteLine("enter type the Vehicle:0-4 ");
+                                    int info10 = int.Parse(Console.ReadLine());
                                     Console.WriteLine("enter the Number of Lessons ");//שינינו שיקלוט גם סוג רכב דבר ראשון. ראה בשכבה למטה 
                                     info2 = int.Parse(Console.ReadLine());
-                                    bL.UpdateTrainee(id, "drivingLessonsNum", infom);
+                                    bL.UpdateTrainee(id, "drivingLessonsNum", info10, info2);
                                     break;
                                 default: break;
                             }

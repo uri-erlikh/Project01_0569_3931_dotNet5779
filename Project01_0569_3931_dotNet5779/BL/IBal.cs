@@ -34,6 +34,7 @@ namespace BL
         bool IfPassed(string id, BO.Vehicle vehicle);
         List<BO.Test> TestsPerDate(DateTime date);
         List<BO.Test> TestsPerMonth(DateTime date);
+        List<BO.TesterTest> GetFutureTestForTester(string ID);
 
         //List<BO.Tester> TestersByVehicle(bool flag);
 

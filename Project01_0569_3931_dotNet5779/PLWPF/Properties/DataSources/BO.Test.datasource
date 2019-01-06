@@ -11,31 +11,17 @@
          <TypeInfo>BO.ExternalTester, BL, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</TypeInfo>
          <TypeUISetting>
             <PropertyUISettings>
+               <PropertyUISetting Name="Test.Tester">
+                  <ControlSettings>
+                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                     </ControlSetting>
+                  </ControlSettings>
+               </PropertyUISetting>
                <PropertyUISetting Name="FamilyName">
                   <ControlSettings>
                      <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
-                     </ControlSetting>
-                  </ControlSettings>
-               </PropertyUISetting>
-               <PropertyUISetting Name="ID">
-                  <ControlSettings>
-                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
-                     </ControlSetting>
-                  </ControlSettings>
-               </PropertyUISetting>
-               <PropertyUISetting Name="PrivateName">
-                  <ControlSettings>
-                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
-                     </ControlSetting>
-                  </ControlSettings>
-               </PropertyUISetting>
-               <PropertyUISetting Name="TesterVehicle">
-                  <ControlSettings>
-                     <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                        <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                        <BindableControlInfo Name="TextBox" Type="System.Windows.Controls.TextBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                      </ControlSetting>
                   </ControlSettings>
                </PropertyUISetting>
@@ -102,14 +88,21 @@
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
-         <PropertyUISetting Name="TestNumber">
+         <PropertyUISetting Name="TrafficSigns">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
                   <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
-         <PropertyUISetting Name="TrafficSigns">
+         <PropertyUISetting Name="Vinkers">
+            <ControlSettings>
+               <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
+                  <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+               </ControlSetting>
+            </ControlSettings>
+         </PropertyUISetting>
+         <PropertyUISetting Name="TestNumber">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
                   <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
@@ -123,10 +116,10 @@
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>
-         <PropertyUISetting Name="Vinkers">
+         <PropertyUISetting Name="Vehicle">
             <ControlSettings>
                <ControlSetting ArtifactName="Microsoft:System.Windows:WPF">
-                  <BindableControlInfo Name="[None]" Type="Microsoft.VSDesigner.Data.BindManager.NoneControlPlaceHolder" />
+                  <BindableControlInfo Name="ComboBox" Type="System.Windows.Controls.ComboBox" AssemblyName="PresentationFramework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
                </ControlSetting>
             </ControlSettings>
          </PropertyUISetting>

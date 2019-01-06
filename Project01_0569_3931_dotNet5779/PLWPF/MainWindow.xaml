@@ -12,6 +12,7 @@
            <RowDefinition Height="*"/>
            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <Button x:Name="TestsButton" Content="Tests"  
         Margin="10" FontSize="30" Grid.Row="0" Click="TestsButton_Click" />
 

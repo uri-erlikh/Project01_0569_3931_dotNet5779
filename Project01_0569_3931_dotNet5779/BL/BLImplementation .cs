@@ -528,6 +528,14 @@ namespace BL
             catch (ArgumentNullException e) { throw; }
         }
         //------------------------------------------------------------------
+        public List<BO.TesterTest> GetFutureTestForTester(string ID)
+        {
+            return (from item in Convert(dl.GetOneTester(ID)).TesterTests
+                    where item.TestHour > DateTime.Now
+                    orderby item.TestHour
+                    select item).ToList();
+        }
+        //----------------------------------------------------------------
         public List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)
         {
             if (flag)
