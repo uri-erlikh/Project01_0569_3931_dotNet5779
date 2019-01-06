@@ -61,7 +61,7 @@ namespace PLWPF
 
         private void ComboBoxhour_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            test.TestHour = new DateTime();
+            test.TestHour = new DateTime(test.TestDate.Year , test.TestDate.Month , test.TestDate.Day, (comboBoxhour.SelectedIndex+9), 0,0);
         }
 
 
