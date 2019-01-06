@@ -32,6 +32,16 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
 
             this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+
+            test.TestDate = DateTime.Now;
+            test.TestHour= DateTime.Now;
+
+            for(int i = 9; i < 15; ++i)
+            {
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Content ="hour: "+ i;
+                comboBoxhour.Items.Add(comboBoxItem);                
+            }
         }
 
         private void AddTestButton_Click(object sender, RoutedEventArgs e)
@@ -42,8 +52,19 @@ namespace PLWPF
                 test = new BO.Test();
                 this.DataContext = test;
             }
-            catch () { }
+            catch (KeyNotFoundException a)
+            {
+                MessageBox.Show(a.Message);
+            }
+
         }
+
+        private void ComboBoxhour_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            test.TestHour = new DateTime();
+        }
+
+
 
         //private void Window_Loaded(object sender, RoutedEventArgs e)
         //{

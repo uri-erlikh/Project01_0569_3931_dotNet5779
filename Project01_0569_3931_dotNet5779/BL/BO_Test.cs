@@ -59,7 +59,7 @@ namespace BO
         public Test()
         {
             TestDate = new DateTime().Date;
-            TestHour = new DateTime();
+            TestHour=  new DateTime();
         }
 
         public override string ToString()
