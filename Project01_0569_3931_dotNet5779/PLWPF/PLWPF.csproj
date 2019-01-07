@@ -58,6 +58,7 @@
     <Compile Include="AddTestWindow.xaml.cs">
       <DependentUpon>AddTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converter.cs" />
     <Compile Include="TestersWindow.xaml.cs">
       <DependentUpon>TestersWindow.xaml</DependentUpon>
     </Compile>

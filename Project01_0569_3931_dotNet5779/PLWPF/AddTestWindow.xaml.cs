@@ -32,6 +32,13 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
 
             this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+            test.TestDate = DateTime.Now;
+            for (int i=9; i <= 14; ++i)
+            {
+                ComboBoxItem comboItem = new ComboBoxItem();
+                comboItem.Content = i;
+                testHourComboBox.Items.Add(comboItem);                
+            }
         }
 
         private void AddTestButton_Click(object sender, RoutedEventArgs e)
@@ -41,8 +48,24 @@ namespace PLWPF
                 bl.AddTest(test);
                 test = new BO.Test();
                 this.DataContext = test;
+                MessageBox.Show("successfully completed");
             }
-            catch () { }
+            catch (KeyNotFoundException a)
+            {
+                MessageBox.Show(a.Message, "exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (BO.InvalidDataException a)
+            {
+                MessageBox.Show(a.Message, "exception", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        
+
+        private void testHourComboBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (int)testHourComboBox.SelectedItem, 0, 0);
+
         }
     }
 }
