@@ -68,6 +68,9 @@
     <Compile Include="TrainiesWindow.xaml.cs">
       <DependentUpon>TrainiesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateTestWindow.xaml.cs">
+      <DependentUpon>UpdateTestWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="AddTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TrainiesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UpdateTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -190,6 +190,7 @@ namespace UI
                             Console.WriteLine("enter Num Of Bilding of test: ");
                             numofbuilding = int.Parse(Console.ReadLine());
                             test.TestAddress = new Address(city, street, numofbuilding);
+                            //לדרוש גם סוג רכב
 
                             bL.AddTest(test);
                         }

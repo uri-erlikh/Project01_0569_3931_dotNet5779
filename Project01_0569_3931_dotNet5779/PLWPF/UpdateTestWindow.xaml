@@ -1,0 +1,70 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PLWPF"
+        xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PLWPF.UpdateTestWindow"
+        mc:Ignorable="d"
+        Title="Update Test" Height="450" Width="800">
+   
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Label Content="Fill The fields below for a update test:"  FontSize="30" Margin="0"/>
+
+        <Grid x:Name="grid1"  HorizontalAlignment="Left" Margin="224,75,0,0" VerticalAlignment="Top">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Label Content="Brakes:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <RadioButton x:Name="brakesRadioButton1" GroupName="groupa" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Brakes, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            <RadioButton x:Name="brakesRadioButton2" GroupName="groupa" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="0" VerticalAlignment="Center"/>
+            
+            <Label Content="Distance:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <RadioButton x:Name="distanceRadioButton1" GroupName="groupb" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Distance, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+            <RadioButton x:Name="distanceRadioButton2" GroupName="groupb" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
+
+            <Label Content="Mirrors:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="mirrorsRadioButton1" GroupName="groupc" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Mirrors, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+            <RadioButton x:Name="mirrorsRadioButton2" GroupName="groupc" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
+
+            <Label Content="Passed Test:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <RadioButton x:Name="passedTestRadioButton1" GroupName="groupd" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding PassedTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+            <RadioButton x:Name="passedTestRadioButton2" GroupName="groupd" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
+
+            <Label Content="Reverse Parking:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <RadioButton x:Name="reverseParkingRadioButton1" GroupName="grouph" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding ReverseParking, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+            <RadioButton x:Name="reverseParkingRadioButton2" GroupName="grouph" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
+
+            <Label Content="Tester Note:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <TextBox x:Name="testerNoteTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding TesterNote, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            
+            <Label Content="Traffic Signs:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <RadioButton x:Name="trafficSignsRadioButton1" GroupName="groupi" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding TrafficSigns, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <RadioButton x:Name="trafficSignsRadioButton2" GroupName="groupi" Content="Faild" Grid.Column="2" HorizontalAlignment="Left"  Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+
+            <Label Content="Vinkers:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <RadioButton x:Name="vinkersRadioButton1" GroupName="groupj"  Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Vinkers, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <RadioButton x:Name="vinkersRadioButton2" GroupName="groupj"  Content="Faild" Grid.Column="2" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+
+        </Grid>
+
+
+
+    </Grid>
+</Window>

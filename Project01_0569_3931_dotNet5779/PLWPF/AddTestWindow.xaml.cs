@@ -32,12 +32,15 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
 
             this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+
             test.TestDate = DateTime.Now;
-            for (int i=9; i <= 14; ++i)
+            test.TestHour= DateTime.Now;
+
+            for(int i = 9; i < 15; ++i)
             {
-                ComboBoxItem comboItem = new ComboBoxItem();
-                comboItem.Content = i;
-                testHourComboBox.Items.Add(comboItem);                
+                ComboBoxItem comboBoxItem = new ComboBoxItem();
+                comboBoxItem.Content ="hour: "+ i;
+                comboBoxhour.Items.Add(comboBoxItem);                
             }
         }
 
@@ -48,24 +51,27 @@ namespace PLWPF
                 bl.AddTest(test);
                 test = new BO.Test();
                 this.DataContext = test;
-                MessageBox.Show("successfully completed");
             }
             catch (KeyNotFoundException a)
             {
-                MessageBox.Show(a.Message, "exception", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(a.Message);
             }
-            catch (BO.InvalidDataException a)
-            {
-                MessageBox.Show(a.Message, "exception", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+
         }
 
-        
-
-        private void testHourComboBox_LostFocus(object sender, RoutedEventArgs e)
+        private void ComboBoxhour_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (int)testHourComboBox.SelectedItem, 0, 0);
-
+            test.TestHour = new DateTime(test.TestDate.Year , test.TestDate.Month , test.TestDate.Day, (comboBoxhour.SelectedIndex+9), 0,0);
         }
+
+
+
+        //private void Window_Loaded(object sender, RoutedEventArgs e)
+        //{
+
+        //    System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
+        //    // Load data by setting the CollectionViewSource.Source property:
+        //    // testViewSource.Source = [generic data source]
+        //}
     }
 }
