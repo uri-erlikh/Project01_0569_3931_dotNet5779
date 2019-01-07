@@ -212,7 +212,7 @@ namespace BL
             catch (InvalidDataException e) { throw; }
             try
             {
-                DateTime newDate = new DateTime();
+                DateTime newDate = new DateTime();//------------
                 List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
                 List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
                 if (!whoTest.Any())
@@ -232,7 +232,7 @@ namespace BL
                         if (Convert(item).TesterVehicle == dl.GetOneTrainee(test.TraineeId,(DO.Vehicle)test.Vehicle).TraineeVehicle)
                         {
                             test.Tester.ID = item.ID;
-                            test.TestDate = newDate;
+                            test.TestDate = newDate;//test hour
                         }
                 }
                 else if (!closeTester.Any()) throw new InvalidDataException("no close tester");
@@ -321,7 +321,7 @@ namespace BL
             var tspan = test.TestDate - ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
                                           where item.TestDate < DateTime.Now
                                           orderby item.TestDate descending
-                                          select item.TestDate).ToList().FirstOrDefault());
+                                          select item.TestDate).ToList().FirstOrDefault());//same vehicle
             try
             {
                 if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
@@ -375,7 +375,7 @@ namespace BL
             List<DateTime> times = (from test in tester.TesterTests
                                     where test.TestDate > DateTime.Now
                                     select test.TestHour).ToList();
-            foreach (var date in times)
+            foreach (var date in times)//all tests
                 if (date < friday && date > sunday)
                     ++counter;
 
