@@ -30,7 +30,7 @@ namespace DAL
             Configuration.Add("MIN_TRAINEE_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 16 });
             Configuration.Add("MIN_GAP_TEST", new ConfigurationParameter() { Readable = true, Writable = false, value = 30 });
             Configuration.Add("MIN_TESTER_AGE", new ConfigurationParameter() { Readable = true, Writable = false, value = 40 });
-            Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 10000000 });
+            Configuration.Add("Number", new ConfigurationParameter() { Readable = true, Writable = true, value = 10000005 });// הערך כאן הוגדל ב5 
             
             Testers.Add(new DO.Tester("305343931")
             {
@@ -220,6 +220,7 @@ namespace DAL
             //--------------------------------------------------------------------------------------------------------
             Tests.Add(new DO.Test("649843931", "784765489")
             {
+                TestNumber = 10000001,
                 TestDate = new DateTime(2018, 12, 25),
                 TestAddress = new DO.Address { City = "Tel aviv", NumOfBuilding = 50, Street = "shmaia" },
                 PassedTest = true,
@@ -234,6 +235,7 @@ namespace DAL
             });
             Tests.Add(new DO.Test("456743931", "145674664")
             {
+                TestNumber = 10000002,
                 TestDate = new DateTime(2019, 12, 25),
                 TestAddress = new DO.Address { City = "Jerusalem", NumOfBuilding = 12, Street = "Jafo" },
                 PassedTest = true,
@@ -248,6 +250,7 @@ namespace DAL
             });
             Tests.Add(new DO.Test("305343234", "098768574")
             {
+                TestNumber = 10000003,
                 TestDate = new DateTime(2018, 12, 10),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 70, Street = "shmaia" },
                 PassedTest = false,
@@ -262,6 +265,7 @@ namespace DAL
             });
             Tests.Add(new DO.Test("206543731", "657847659")
             {
+                TestNumber = 10000004,
                 TestDate = new DateTime(2020, 12, 25),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 12, Street = "Tena" },
                 PassedTest = false,
@@ -276,6 +280,7 @@ namespace DAL
             });
             Tests.Add(new DO.Test("305343931", "123543786")
             {
+                TestNumber = 10000005,
                 TestDate = new DateTime(2021, 12, 25),
                 TestAddress = new DO.Address { City = "Elad", NumOfBuilding = 78, Street = "Tena" },
                 PassedTest = true,

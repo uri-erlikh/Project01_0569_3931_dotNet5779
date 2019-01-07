@@ -31,7 +31,7 @@ namespace PLWPF
 
         private void ToUpdateTestResult_Click(object sender, RoutedEventArgs e)
         {
-            new UpdateTestWindow().Show();
+            new NumOfTestWindow().Show();
         }
         
         private void ToPrintTest_Click(object sender, RoutedEventArgs e)
