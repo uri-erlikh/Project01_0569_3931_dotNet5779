@@ -88,7 +88,7 @@ namespace DAL
                 TesterVehicle = DO.Vehicle.privateCar,
                 
             });
-            Testers.Add(new DO.Tester("649843931")
+            Testers.Add(new DO.Tester("649843931") 
             {
                 PrivateName = "Israel",
                 FamilyName = "Israeli",
