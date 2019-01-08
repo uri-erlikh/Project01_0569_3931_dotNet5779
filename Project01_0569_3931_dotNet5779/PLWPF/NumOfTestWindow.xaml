@@ -14,11 +14,13 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
 
         <Label Content="Enter NUmber Of Test" FontSize="30" FontWeight="UltraBold" Grid.Row="0"/>
-        
-        
+        <Label Content="number of test: " Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="numoftesttextbox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <Button x:Name="numoftestbutton" Content="Search" Grid.Row="2" Grid.Column="1" />
     </Grid>
 </Window>
