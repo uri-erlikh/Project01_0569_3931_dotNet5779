@@ -17,9 +17,10 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Label Content="Enter Number Of Test" Grid.Row="0" FontSize="30" Margin="0"/>
-        <Label Content="number of test:"  Grid.Column="0"  Grid.Row="1"  Margin ="3"  HorizontalAlignment="Left"  VerticalAlignment="Center"/>
-        <TextBox x:Name="numoftesttextbox"  Grid.Row="1" Grid.Column="1" Margin ="3" MaxLength="8" Height="23"   HorizontalAlignment="Stretch"  />
-        <Button x:Name="searchnumoftest" Content="Search" Grid.Column="0" Grid.Row="2" Click="Searchnumoftest_Click" />
+
+        <Label Content="Enter NUmber Of Test" FontSize="30" FontWeight="UltraBold" Grid.Row="0"/>
+        <Label Content="number of test: " Grid.Row="1" Grid.Column="0"/>
+        <TextBox x:Name="numoftesttextbox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch"/>
+        <Button x:Name="numoftestbutton" Content="Search" Grid.Row="2" Grid.Column="1" />
     </Grid>
 </Window>

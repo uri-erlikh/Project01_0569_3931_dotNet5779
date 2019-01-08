@@ -14,6 +14,8 @@ using System.Windows.Shapes;
 
 namespace PLWPF
 {
+   
+{
     /// <summary>
     /// Interaction logic for NumOfTestWindow.xaml
     /// </summary>
@@ -29,7 +31,7 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
 
         }
-
+        //
         private void Searchnumoftest_Click(object sender, RoutedEventArgs e)
         {
 
@@ -58,3 +60,4 @@ namespace PLWPF
         }
     }
 }
+
