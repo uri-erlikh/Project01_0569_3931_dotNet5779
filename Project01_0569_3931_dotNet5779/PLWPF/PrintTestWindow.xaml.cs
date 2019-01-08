@@ -55,7 +55,10 @@ namespace PLWPF
             }
         }
 
-        
-
+        private void BackToSweetHome_Click(object sender, RoutedEventArgs e)
+        {
+            new TestsWindow().Show();
+            this.Close();
+        }
     }
 }

@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
    
-{
+
     /// <summary>
     /// Interaction logic for NumOfTestWindow.xaml
     /// </summary>

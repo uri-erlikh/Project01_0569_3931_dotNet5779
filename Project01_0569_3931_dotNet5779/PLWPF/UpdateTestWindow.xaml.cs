@@ -36,7 +36,7 @@ namespace PLWPF
 
         private void Updatetestbutton_Click(object sender, RoutedEventArgs e)
         {
-            //try
+            //trya
             //{
             //   // bl.UpdateTestResult()
             //}
