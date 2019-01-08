@@ -58,8 +58,9 @@
     <Compile Include="AddTestWindow.xaml.cs">
       <DependentUpon>AddTestWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumOfTestWindow.xaml.cs">
-      <DependentUpon>NumOfTestWindow.xaml</DependentUpon>
+    <Compile Include="Converter.cs" />
+    <Compile Include="PrintTestWindow.xaml.cs">
+      <DependentUpon>PrintTestWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="TestersWindow.xaml.cs">
       <DependentUpon>TestersWindow.xaml</DependentUpon>
@@ -89,7 +90,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NumOfTestWindow.xaml">
+    <Page Include="PrintTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

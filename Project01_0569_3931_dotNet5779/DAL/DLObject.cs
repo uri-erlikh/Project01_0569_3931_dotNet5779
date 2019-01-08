@@ -219,7 +219,7 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
         }
         //--------------------------------------------------------
-        public void AddTest(DO.Test test)
+        public string AddTest(DO.Test test)
         {
             try
             {
@@ -233,6 +233,7 @@ namespace DAL
             test.TestNumber = temp;
             DataSource.Tests.Add(test);
             DataSource.Configuration["Number"].value = temp + 1;
+            return "your number test is" + temp;
         }
         //---------------------------------------------------------
         public void UpdateTestResult(int numOfTest, bool[] result, string note)
@@ -264,7 +265,7 @@ namespace DAL
             try
             {
                 if (!IfTestExist(testNum))
-                    throw new KeyNotFoundException();
+                    throw new KeyNotFoundException("no such test");
             }
             catch (KeyNotFoundException e) { throw; }
             foreach (var item in DataSource.Tests)
