@@ -14,7 +14,7 @@ namespace DAL
         DO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(DO.Trainee trainee);
-        void DeleteTrainee(string TraineeID);
+        void DeleteTrainee(string TraineeID, DO.Vehicle vehicle);
         void UpdateTrainee(string traineeID, string field, params object[] info);
         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------

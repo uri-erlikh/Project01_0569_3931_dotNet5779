@@ -141,7 +141,7 @@ namespace DAL
             catch (DuplicateWaitObjectException e) { throw; }
         }
         //------------------------------------------------------------
-        public void DeleteTrainee(string TraineeID)
+        public void DeleteTrainee(string TraineeID, DO.Vehicle vehicle)
         {
             try
             {
@@ -149,8 +149,8 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID);
-            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID);
+            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID && x.TraineeVehicle==vehicle);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID &&x.Vehicle==vehicle);
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(string traineeID, string field, params object[] info)
@@ -207,6 +207,7 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
+
             try
             {
                 foreach (var item in DataSource.Trainies)

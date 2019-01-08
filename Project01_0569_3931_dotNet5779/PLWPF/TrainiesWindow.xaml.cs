@@ -19,9 +19,47 @@ namespace PLWPF
     /// </summary>
     public partial class TrainiesWindow : Window
     {
+        BO.Trainee trainee = new BO.Trainee();
+        BL.IBL bl;
+
+
         public TrainiesWindow()
         {
             InitializeComponent();
+            bl = BL.BL_Factory.GetBL();
+            this.DataContext = trainee;
+            this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+        }
+
+        private void AddTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void UpdateTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Are you sure you want to delete the tester?");
+        }
+
+        private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new MainWindow().Show();
+            this.Close();
+        }
+
+        private void GetIDButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -64,6 +64,11 @@ namespace BO
 
         public override string ToString()
         {
+            if (this.TestHour > DateTime.Now)
+                return @"Test number: " + this.TestNumber + "\ntester: " + this.tester.ToString()
+                + "\ntrainee: " + this.TraineeId + " " + this.TraineeName + "\nat: " + this.TestAddress + "\n" + this.TestHour
+                + "\nYou can do it, Good Luck!!!";
+            else
             return @"Test number: "+this.TestNumber+ "\ntester: "+this.tester.ToString()
                 + "\ntrainee: "+this.TraineeId+" "+this.TraineeName+"\nat: "+this.TestAddress+"\n"+this.TestHour
                 + "\npassed? "+this.PassedTest+" note: "+this.TesterNote;

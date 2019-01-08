@@ -136,14 +136,16 @@ namespace BL
             { throw; }
         }
         //------------------------------------------------------------------------
-        public void DeleteTrainee(string TraineeID)
+        public void DeleteTrainee(string traineeID, BO.Vehicle vehicle)
         {
             try
             {
-                dl.DeleteTrainee(TraineeID);
+                if (!dl.GetSomeTrainies(x => x.ID == traineeID && x.TraineeVehicle == (DO.Vehicle)vehicle).Any())
+                    throw new InvalidDataException("no match between trainee and vehicle");
+                dl.DeleteTrainee(traineeID, (DO.Vehicle)vehicle);
             }
             catch (KeyNotFoundException e)
-            {
+            { 
                 throw;
             }
         }

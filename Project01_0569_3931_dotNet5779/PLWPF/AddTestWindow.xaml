@@ -54,12 +54,12 @@
             </Grid.ColumnDefinitions>
 
             <Button x:Name="AddTestButton" Content="Add"  Click="AddTestButton_Click" 
-                HorizontalAlignment="Left" Width="228"    
+                HorizontalAlignment="Left" Width="228" Margin="5"   
                 />
 
             <TextBlock x:Name="messageForUser" Grid.Column="1"/>
         </Grid>
-        <Button x:Name="BackButton" Grid.Row="3" Content="Back" Click="BackButton_Click"  />
+        <Button x:Name="BackButton" Grid.Row="3" Content="Back" Click="BackButton_Click" Margin="5"  />
 
 
     </Grid>

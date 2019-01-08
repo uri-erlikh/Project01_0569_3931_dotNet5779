@@ -14,7 +14,7 @@ namespace BL
         BO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(BO.Trainee trainee);
-        void DeleteTrainee(string TraineeID);
+        void DeleteTrainee(string TraineeID, BO.Vehicle vehicle);
         void UpdateTrainee(string traineeID, string field, params object[] info);
         BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle);
         //-------------------------------------------------------
