@@ -19,17 +19,28 @@ namespace PLWPF
     /// </summary>
     public partial class UpdateTestWindow : Window
     {
-        BO.Test test = new BO.Test();
+      //  BO.Test test = new BO.Test();
         BL.IBL bl;
 
-        public UpdateTestWindow()
+        public UpdateTestWindow(string number)
         {
             InitializeComponent();
-            this.DataContext = test;
+            //NumOfTestWindow numOfTestWindow = new NumOfTestWindow();
+           // this.DataContext = test;
 
             bl = BL.BL_Factory.GetBL();
+            numtesttextblock.Text = "number of test: " + number;
+
+           // numtesttextblock.Text= NumOfTestWindow.
         }
 
-       
+        private void Updatetestbutton_Click(object sender, RoutedEventArgs e)
+        {
+            //try
+            //{
+            //   // bl.UpdateTestResult()
+            //}
+            //catch
+        }
     }
 }

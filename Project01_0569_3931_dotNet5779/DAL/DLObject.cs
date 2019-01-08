@@ -255,7 +255,7 @@ namespace DAL
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)
         {
-            if (numOfTest <= (int)DataSource.Configuration["Number"].value && numOfTest >= 10000000)
+            if (numOfTest <= (int)DataSource.Configuration["Number"].value && numOfTest > 10000000)
                 return true;
             return false;
         }
