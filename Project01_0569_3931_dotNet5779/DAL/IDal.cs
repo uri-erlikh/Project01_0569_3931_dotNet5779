@@ -19,8 +19,9 @@ namespace DAL
         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(DO.Test test);
-        void UpdateTestResult(DO.Test test);
+        void UpdateTestResult(int numoftest);
         DO.Test GetOneTest(int TestNum);
+        void DeleteTest(int numoftest);
         //-----------------------------------------        
         List<DO.Tester> GetTesters();
         List<DO.Trainee> GetTrainees();

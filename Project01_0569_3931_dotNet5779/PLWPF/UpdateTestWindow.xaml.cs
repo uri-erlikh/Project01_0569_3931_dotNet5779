@@ -52,7 +52,7 @@ namespace PLWPF
         {
             try
             {
-                bl.UpdateTestResult(test1);
+                bl.UpdateTestResult(test1.TestNumber);
             }
             catch (KeyNotFoundException x)
             {

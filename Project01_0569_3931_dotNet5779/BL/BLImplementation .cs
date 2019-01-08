@@ -399,10 +399,11 @@ namespace BL
             return true;
         }
         //-------------------------------------------------------------------
-        public void UpdateTestResult(BO.Test test)
+        public void UpdateTestResult(int numoftest)
         {
             try
             {
+                BO.Test test = GetOneTest(numoftest);
                 //bool summary = true;
                 //DO.Test test = dl.GetOneTest(NumOfTest);
                 if (test.TestHour > DateTime.Now)
@@ -422,7 +423,7 @@ namespace BL
             catch (KeyNotFoundException e) { throw; }
             try
             {
-                dl.UpdateTestResult(Convert(test));
+                dl.UpdateTestResult(numoftest);
             }
             catch (KeyNotFoundException) { throw; }
         }
@@ -437,6 +438,15 @@ namespace BL
             {
                 throw;
             }
+        }
+        //----------------------------------------------------------------------
+        void DeleteTest(int numoftest)
+        {
+            try
+            {
+                dl.DeleteTest(numoftest);
+            }
+            catch (KeyNotFoundException) { throw; }
         }
         //---------------------------------------------------------------------
         public List<BO.Tester> GetTesters()

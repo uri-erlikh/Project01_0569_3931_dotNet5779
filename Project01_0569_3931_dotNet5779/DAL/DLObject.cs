@@ -237,10 +237,11 @@ namespace DAL
             return "your number test is" + temp;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(DO.Test test)
+        public void UpdateTestResult(int numoftest)
         {
             try
             {
+                DO.Test test = GetOneTest(numoftest);
                 int index = DataSource.Tests.FindIndex(x => x.TestNumber == test.TestNumber);
                 DataSource.Tests[index] = test;
                 //Test test = DataSource.Tests.Find(x => x.TestNumber == numOfTest);
@@ -275,6 +276,17 @@ namespace DAL
                 if (item.TestNumber == testNum)
                     return new Test(item);
             return null;
+        }
+        //---------------------------------------------------
+        void DeleteTest(int numoftest)
+        {
+            try
+            {
+               Test test= GetOneTest(numoftest);
+                DataSource.Tests.Remove(test);
+            }
+            catch (KeyNotFoundException) { throw; }
+           
         }
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()
