@@ -27,16 +27,13 @@ namespace PLWPF
         {
             InitializeComponent();
             
-            this.DataContext = test;
-            
-            bl = BL.BL_Factory.GetBL();
-
-            this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
-
+            this.DataContext = test;            
+            bl = BL.BL_Factory.GetBL();            
             test.TestDate = DateTime.Now;
             test.TestHour= DateTime.Now;
 
-            for(int i = 9; i < 15; ++i)
+            this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+            for (int i = 9; i < 15; ++i)
             {
                 ComboBoxItem comboBoxItem = new ComboBoxItem();
                 comboBoxItem.Content ="hour: "+ i;
@@ -48,30 +45,41 @@ namespace PLWPF
         {
             try
             {
-                bl.AddTest(test);
-                test = new BO.Test();
-                this.DataContext = test;
+                if (this.traineeIdTextBox.Text.Length < 9)
+                    MessageBox.Show("please insert valid ID - 9 digits","d.m.v.");
+                else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true)
+                {
+                    MessageBox.Show("please insert only digits for ID","d.m.v.");
+                    this.traineeIdTextBox.Clear();
+                }
+                else
+                {
+                    if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == null
+                        || this.streetTextBox.Text == null || this.numOfBuildingTextBox.Text == null)
+                        MessageBox.Show("please fill all fields","d.m.v.");                    
+                    else
+                    {
+                        test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
+                        MessageBox.Show(bl.AddTest(test));//ask him if agree, textbox
+                        test = new BO.Test();
+                        this.DataContext = test;
+                    }
+                }
             }
             catch (KeyNotFoundException a)
             {
                 MessageBox.Show(a.Message);
             }
-
+            catch (BO.InvalidDataException a)
+            {
+                MessageBox.Show(a.Message);
+            }
         }
 
-        private void ComboBoxhour_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            test.TestHour = new DateTime(test.TestDate.Year , test.TestDate.Month , test.TestDate.Day, (comboBoxhour.SelectedIndex+9), 0,0);
+            new TestsWindow().Show();
+            this.Close();
         }
-
-
-
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-
-        //    System.Windows.Data.CollectionViewSource testViewSource = ((System.Windows.Data.CollectionViewSource)(this.FindResource("testViewSource")));
-        //    // Load data by setting the CollectionViewSource.Source property:
-        //    // testViewSource.Source = [generic data source]
-        //}
     }
 }

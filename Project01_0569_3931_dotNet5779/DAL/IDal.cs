@@ -18,7 +18,7 @@ namespace DAL
         void UpdateTrainee(string traineeID, string field, params object[] info);
         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------
-        void AddTest(DO.Test test);
+        string AddTest(DO.Test test);
         void UpdateTestResult(int NumOfTest,bool[] result, string note);
         DO.Test GetOneTest(int TestNum);
         //-----------------------------------------        
