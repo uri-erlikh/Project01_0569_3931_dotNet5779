@@ -428,7 +428,7 @@ namespace UI
                         note = Console.ReadLine();
                         try
                         {
-                            bL.UpdateTestResult(numOfTest, result, note);
+                  //          bL.UpdateTestResult(numOfTest, result, note);
                         }
                         catch (KeyNotFoundException e)
                         {

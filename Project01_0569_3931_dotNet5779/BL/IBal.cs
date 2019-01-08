@@ -19,7 +19,7 @@ namespace BL
         BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(BO.Test test);
-        void UpdateTestResult(int NumOfTest, bool[]result,string note);
+        void UpdateTestResult(BO.Test test);
         BO.Test GetOneTest(int TestNum);
         //-----------------------------------------
         List<BO.Tester> GetTesters();

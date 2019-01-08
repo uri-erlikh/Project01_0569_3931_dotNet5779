@@ -12,35 +12,56 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
+
 namespace PLWPF
 {
+
+
     /// <summary>
     /// Interaction logic for UpdateTestWindow.xaml
     /// </summary>
     public partial class UpdateTestWindow : Window
     {
-      //  BO.Test test = new BO.Test();
+        BO.Test test1;
         BL.IBL bl;
 
-        public UpdateTestWindow(string number)
+        public UpdateTestWindow(string number, BO.Test test)
         {
             InitializeComponent();
-            //NumOfTestWindow numOfTestWindow = new NumOfTestWindow();
-           // this.DataContext = test;
-
             bl = BL.BL_Factory.GetBL();
+            try
+            {
+                test1 = bl.GetOneTest(test.TestNumber);
+            }
+            catch(KeyNotFoundException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            this.DataContext = test1;
+            //NumOfTestWindow numOfTestWindow = new NumOfTestWindow();
+            // this.DataContext = test;
+
+           
             numtesttextblock.Text = "number of test: " + number;
 
-           // numtesttextblock.Text= NumOfTestWindow.
+            // numtesttextblock.Text= NumOfTestWindow.
         }
 
         private void Updatetestbutton_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //   // bl.UpdateTestResult()
-            //}
-            //catch
+            try
+            {
+                bl.UpdateTestResult(test1);
+            }
+            catch (KeyNotFoundException x)
+            {
+                MessageBox.Show(x.Message);
+            }
+            catch (BO.InvalidDataException r)
+            {
+                MessageBox.Show(r.Message);
+            }
         }
     }
 }

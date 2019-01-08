@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
    
-{
+
     /// <summary>
     /// Interaction logic for NumOfTestWindow.xaml
     /// </summary>
@@ -32,7 +32,9 @@ namespace PLWPF
 
         }
         //
-        private void Searchnumoftest_Click(object sender, RoutedEventArgs e)
+        
+
+        private void Numoftestbutton_Click(object sender, RoutedEventArgs e)
         {
 
             int num;
@@ -42,8 +44,8 @@ namespace PLWPF
                 try
                 {
                     test = bl.GetOneTest(num);
-                    UpdateTestWindow updateTestWindow = new UpdateTestWindow(numoftesttextbox.Text);
-                    updateTestWindow.Show();
+                     new UpdateTestWindow(numoftesttextbox.Text, test).Show();
+                   // updateTestWindow.Show();
                     this.Close();
                 }
                 catch (KeyNotFoundException r)
