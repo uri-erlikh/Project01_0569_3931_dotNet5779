@@ -27,6 +27,7 @@ namespace PLWPF
         private void ToAddaTest_Click(object sender, RoutedEventArgs e)
         {
             new AddTestWindow().Show();
+            this.Close();
         }
 
         private void ToUpdateTestResult_Click(object sender, RoutedEventArgs e)
@@ -36,7 +37,8 @@ namespace PLWPF
         
         private void ToPrintTest_Click(object sender, RoutedEventArgs e)
         {
-
+            new PrintTestWindow().Show();
+            this.Close();
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
