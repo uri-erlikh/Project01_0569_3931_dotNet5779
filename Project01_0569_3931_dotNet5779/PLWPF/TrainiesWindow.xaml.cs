@@ -72,7 +72,8 @@ namespace PLWPF
         //---------------------------------------------------------------------------
         private void UpdateTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            new UpdateTraineeWindow().Show();
+            this.Close();
         }
         //-------------------------------------------------------------------------
         private void DeleteTraineeButton_Click(object sender, RoutedEventArgs e)
