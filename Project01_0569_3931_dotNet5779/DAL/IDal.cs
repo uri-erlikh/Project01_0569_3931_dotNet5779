@@ -21,7 +21,7 @@ namespace DAL
         string AddTest(DO.Test test);
         void UpdateTestResult(int numoftest);
         DO.Test GetOneTest(int TestNum);
-        void DeleteTest(int numoftest);
+        void DeleteTest(int numOfTest);
         //-----------------------------------------        
         List<DO.Tester> GetTesters();
         List<DO.Trainee> GetTrainees();

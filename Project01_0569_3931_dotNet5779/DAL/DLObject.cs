@@ -278,15 +278,14 @@ namespace DAL
             return null;
         }
         //---------------------------------------------------
-        void DeleteTest(int numoftest)
+        public void DeleteTest(int numOfTest)
         {
             try
             {
-               Test test= GetOneTest(numoftest);
+               Test test= GetOneTest(numOfTest);
                 DataSource.Tests.Remove(test);
             }
-            catch (KeyNotFoundException) { throw; }
-           
+            catch (KeyNotFoundException) { throw; }           
         }
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()

@@ -21,7 +21,7 @@ namespace BL
         string AddTest(BO.Test test);
         void UpdateTestResult(int numoftest);
         BO.Test GetOneTest(int TestNum);
-        void DeleteTest(int numoftest);
+        void DeleteTest(int numOfTest);
         //-----------------------------------------
         List<BO.Tester> GetTesters();
         List<BO.Trainee> GetTrainees();

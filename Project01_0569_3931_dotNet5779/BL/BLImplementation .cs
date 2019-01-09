@@ -444,11 +444,11 @@ namespace BL
             }
         }
         //----------------------------------------------------------------------
-        void DeleteTest(int numoftest)
+        public void DeleteTest(int numOfTest)
         {
             try
             {
-                dl.DeleteTest(numoftest);
+                dl.DeleteTest(numOfTest);
             }
             catch (KeyNotFoundException) { throw; }
         }
