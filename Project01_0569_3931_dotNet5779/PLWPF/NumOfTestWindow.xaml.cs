@@ -58,9 +58,9 @@ namespace PLWPF
                     {
                         MessageBox.Show(r.Message);
                         numOfTestTextBox.Clear();
-                    }                    
+                    }
                     break;
-                case "delete":
+                case "delete or print":
                     try
                     {
                         test = bl.GetOneTest(num);
@@ -71,24 +71,11 @@ namespace PLWPF
                     {
                         MessageBox.Show(r.Message);
                         numOfTestTextBox.Clear();
-                    }            
+                    }
                     break;
-                case "print":                    
-                try
-                {
-                    test = bl.GetOneTest(num);
-                    new PrintTestWindow(numOfTestTextBox.Text, test).Show();
-                    this.Close();
-                }
-                catch (KeyNotFoundException r)
-                {
-                    MessageBox.Show(r.Message);
-                        numOfTestTextBox.Clear();
-                }            
-                break;
-        }
+            }
 
-    }
+        }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
@@ -99,7 +86,6 @@ namespace PLWPF
 }
 
 
-//}
 
 
 

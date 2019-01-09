@@ -76,11 +76,13 @@ namespace PLWPF
                     {
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
                         MessageBox.Show(bl.AddTest(test));//ask him if agree, textbox
-                        test = new BO.Test();
-                        this.traineeIdTextBox.Clear();
-                        test.TestDate = DateTime.Now;
-                        test.TestHour = DateTime.Now;
-                        this.DataContext = test;
+                        new TestsWindow().Show();
+                        this.Close();
+                        //test = new BO.Test();
+                        //this.traineeIdTextBox.Clear();
+                        //test.TestDate = DateTime.Now;
+                        //test.TestHour = DateTime.Now;
+                        //this.DataContext = test;
                     }
                 }
             }
