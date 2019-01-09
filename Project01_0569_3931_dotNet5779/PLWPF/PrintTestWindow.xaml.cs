@@ -28,8 +28,15 @@ namespace PLWPF
             InitializeComponent();
             test1 = test;
             bl = BL.BL_Factory.GetBL();
-            insertTestNumberTextBox.Text = "Number Test:" + number;
-            GetTestTextBox.Text = test.ToString();
+            GetTestTextBlock.Text = "Number Test:" + number;
+            try
+            {
+                GetTestTextBlock.Text = test.ToString();
+            }
+            catch(NullReferenceException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }        
         //private void TestNumberTextBox_KeyDown(object sender, KeyEventArgs e)
         //{

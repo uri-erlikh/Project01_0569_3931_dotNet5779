@@ -282,8 +282,7 @@ namespace DAL
         {
             try
             {
-               Test test= GetOneTest(numOfTest);
-                DataSource.Tests.Remove(test);
+                DataSource.Tests.RemoveAll(x => x.TestNumber == numOfTest);                
             }
             catch (KeyNotFoundException) { throw; }           
         }

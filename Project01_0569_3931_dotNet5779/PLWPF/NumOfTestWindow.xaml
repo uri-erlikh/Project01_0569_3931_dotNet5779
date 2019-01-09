@@ -20,7 +20,7 @@
 
         <Label Content="Enter Number Of Test" FontSize="30" FontWeight="UltraBold" Grid.Row="0"/>
         <Label Content="number of test: " Grid.Row="1" Grid.Column="0"/>
-        <TextBox x:Name="numoftesttextbox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" MaxLength="8"/>
-        <Button x:Name="numoftestbutton" Content="Search" Grid.Row="2" Grid.Column="1" Click="Numoftestbutton_Click" />
+        <TextBox x:Name="numOfTestTextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" MaxLength="8"/>
+        <Button x:Name="numOfTestButton" Content="Search" Grid.Row="2" Grid.Column="1" Click="Numoftestbutton_Click" />
     </Grid>
 </Window>
