@@ -145,7 +145,11 @@ namespace BL
                 dl.DeleteTrainee(traineeID, (DO.Vehicle)vehicle);
             }
             catch (KeyNotFoundException e)
-            { 
+            {
+                throw;
+            }
+            catch (InvalidDataException e)
+            {
                 throw;
             }
         }
@@ -230,9 +234,9 @@ namespace BL
                 if (whoTest.Any() && closeTester.Any())
                 {
                     var finalList = (from item in whoTest
-                             from item1 in closeTester
-                             where item.ID == item1.ID
-                             select item).ToList();
+                                     from item1 in closeTester
+                                     where item.ID == item1.ID
+                                     select item).ToList();
                     foreach (var item in finalList)
                         if (item.TesterVehicle == test.Vehicle)
                         {
@@ -242,15 +246,15 @@ namespace BL
                             flag = true;
                         }
                 }
-                if (!flag)                    
-                 throw new InvalidDataException("no match between vehicles");
+                if (!flag)
+                    throw new InvalidDataException("no match between vehicles");
             }
             catch (InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
-                       
+
             try
             {
-                return dl.AddTest(Convert(test))+ "\n your test date: "+ test.TestHour+"\n good luck!";                
+                return dl.AddTest(Convert(test)) + "\n your test date: " + test.TestHour + "\n good luck!";
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -281,7 +285,7 @@ namespace BL
                         --i;
                     }
                 return (from item in whoWork
-                       select Convert(item)).ToList();
+                        select Convert(item)).ToList();
             }
             catch (KeyNotFoundException e) { throw; }
             catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
@@ -321,18 +325,19 @@ namespace BL
             }
             catch (InvalidDataException e) { throw; }
             //------------
-            /*var tspan = test.TestDate -*/ try
+            /*var tspan = test.TestDate -*/
+            try
             {
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
-                    let temp = test.TestDate - item.TestDate
-                    where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
-                    select item).ToList().Any())
+                     let temp = test.TestDate - item.TestDate
+                     where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
+                     select item).ToList().Any())
                     throw new InvalidDataException("test too close");
             }
-        
-                                         //where item.TestDate < DateTime.Now
-                                         // orderby item.TestDate descending
-                                          //select item.TestDate).ToList().FirstOrDefault();//same vehicle
+
+            //where item.TestDate < DateTime.Now
+            // orderby item.TestDate descending
+            //select item.TestDate).ToList().FirstOrDefault();//same vehicle
             //try
             //{
             //    if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
@@ -343,7 +348,7 @@ namespace BL
             //-------------
             try
             {
-                if (dl.GetOneTrainee(test.TraineeId,(DO.Vehicle)test.Vehicle).DrivingLessonsNum < Configuration.MIN_LESSONS)
+                if (dl.GetOneTrainee(test.TraineeId, (DO.Vehicle)test.Vehicle).DrivingLessonsNum < Configuration.MIN_LESSONS)
                     throw new InvalidDataException("not enough lessons");
             }
             catch (InvalidDataException e) { throw; }
@@ -355,7 +360,7 @@ namespace BL
                     throw new InvalidDataException("you don't study this vehicle");
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
                      where item.PassedTest == true
-                     where item.Vehicle == (DO.Vehicle)test.Vehicle 
+                     where item.Vehicle == (DO.Vehicle)test.Vehicle
                      select item).ToList().Any())
                     throw new InvalidDataException("trainee passed a test on this vehicle");
             }
@@ -513,8 +518,8 @@ namespace BL
         {
             try
             {
-                return (from item in (Convert(dl.GetOneTrainee(id,(DO.Vehicle)vehicle))).Trainee_Test
-                        where item.PassedTest == true && item.Vehicle==vehicle
+                return (from item in (Convert(dl.GetOneTrainee(id, (DO.Vehicle)vehicle))).Trainee_Test
+                        where item.PassedTest == true && item.Vehicle == vehicle
                         select item).ToList().Any();
             }
             catch (KeyNotFoundException e) { throw; }
@@ -544,10 +549,27 @@ namespace BL
         //------------------------------------------------------------------
         public List<BO.TesterTest> GetFutureTestForTester(string ID)
         {
-            return (from item in Convert(dl.GetOneTester(ID)).TesterTests
-                    where item.TestHour > DateTime.Now
-                    orderby item.TestHour
-                    select item).ToList();
+            try
+            {
+                return (from item in Convert(dl.GetOneTester(ID)).TesterTests
+                        where item.TestHour > DateTime.Now
+                        orderby item.TestHour
+                        select item).ToList();
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //----------------------------------------------------------------
+        public List<BO.TraineeTest> GetFutureTestForTrainee(string ID, BO.Vehicle vehicle)
+        {
+            try
+            {
+                return (from item in Convert(dl.GetOneTrainee(ID, (DO.Vehicle)vehicle)).Trainee_Test
+                        where item.TestHour > DateTime.Now
+                        orderby item.TestHour
+                        select item).ToList();
+            }
+            catch (KeyNotFoundException e)
+            { throw new InvalidDataException(e.Message); }
         }
         //----------------------------------------------------------------
         public List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)

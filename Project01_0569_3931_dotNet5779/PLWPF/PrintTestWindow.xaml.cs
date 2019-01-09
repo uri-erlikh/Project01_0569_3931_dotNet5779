@@ -28,6 +28,7 @@ namespace PLWPF
             InitializeComponent();
             bl = BL.BL_Factory.GetBL();
         }
+        //------------------------------------------------------------------------
         private void TestNumberTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -54,7 +55,7 @@ namespace PLWPF
                 }
             }
         }
-
+        //----------------------------------------------------------------------------
         private void BackToSweetHome_Click(object sender, RoutedEventArgs e)
         {
             new TestsWindow().Show();
