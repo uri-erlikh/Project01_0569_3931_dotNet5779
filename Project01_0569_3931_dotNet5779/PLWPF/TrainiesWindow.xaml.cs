@@ -35,10 +35,10 @@ namespace PLWPF
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.GetIDTextBox.Text.Length < 9)
-                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.");
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Warning);
             else if (int.TryParse(this.GetIDTextBox.Text, out int number) != true)
             {
-                MessageBox.Show("please insert only digits for ID", "d.m.v.");
+                MessageBox.Show("please insert only digits for ID", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Error);
                 this.GetIDTextBox.Clear();
             }
             else
@@ -48,7 +48,6 @@ namespace PLWPF
                     vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
                     traineeID = GetIDTextBox.Text;
                     trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
-                    this.AddTraineeButton.IsEnabled = true;
                     this.UpdateTraineeButton.IsEnabled = true;
                     this.DeleteTraineeButton.IsEnabled = true;
                     this.PrintTraineeButton.IsEnabled = true;
@@ -67,7 +66,8 @@ namespace PLWPF
         //--------------------------------------------------------------------------
         private void AddTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            new AddTraineeWindow().Show();
+            this.Close();
         }
         //---------------------------------------------------------------------------
         private void UpdateTraineeButton_Click(object sender, RoutedEventArgs e)

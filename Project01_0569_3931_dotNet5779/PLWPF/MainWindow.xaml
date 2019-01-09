@@ -21,13 +21,13 @@
         </Grid.RowDefinitions>
         
         <Button x:Name="TestsButton" Content="Tests"  
-        Width="300" Height="50" FontSize="30" Grid.Row="0" Click="TestsButton_Click" />
+        Width="300" Height="50" FontSize="30" Grid.Row="0" BorderBrush="Azure" BorderThickness="2" Click="TestsButton_Click" />
 
         <Button x:Name="TrainiesButton" Content="Trainies"  
-       Width="300" Height="50" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click" />
+       Width="300" Height="50" FontSize="30" Grid.Row="1" BorderBrush="Azure" BorderThickness="2" Click="TrainiesButton_Click" />
 
         <Button x:Name="TestersButoon" Content="Testers"  
-        Width="300" Height="50" FontSize="30" Grid.Row="2" Click="TestersButoon_Click" />
+        Width="300" Height="50" FontSize="30" Grid.Row="2" BorderBrush="Azure" BorderThickness="2" Click="TestersButoon_Click" />
 
     </Grid>
 </Window>

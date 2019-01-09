@@ -58,6 +58,9 @@
     <Compile Include="AddTestWindow.xaml.cs">
       <DependentUpon>AddTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AddTraineeWindow.xaml.cs">
+      <DependentUpon>AddTraineeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converter.cs" />
     <Compile Include="NumOfTestWindow.xaml.cs">
       <DependentUpon>NumOfTestWindow.xaml</DependentUpon>
@@ -78,6 +81,10 @@
       <DependentUpon>UpdateTestWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="AddTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddTraineeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -137,6 +144,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\DataSources\BO.Test.datasource" />
+    <None Include="Properties\DataSources\BO.Trainee.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
