@@ -403,23 +403,33 @@ namespace BL
             return true;
         }
         //-------------------------------------------------------------------
-        public void UpdateTestResult(int NumOfTest, bool[] result, string note = "")
+        public void UpdateTestResult(int numoftest)
         {
             try
             {
-                bool summary = true;
-                DO.Test test = dl.GetOneTest(NumOfTest);
+                BO.Test test = GetOneTest(numoftest);
+                //bool summary = true;
+                //DO.Test test = dl.GetOneTest(NumOfTest);
                 if (test.TestHour > DateTime.Now)
                     throw new InvalidDataException("Test didn't occur yet");
-                for (int i = 0; i < result.Length - 1; ++i)
-                    if (result[i] == false)
-                        summary = false;
-                if (summary != result[result.Length - 1])
+                //for (int i = 0; i < result.Length - 1; ++i)
+                //    if (result[i] == false)
+                //        summary = false;
+                //if (summary != result[result.Length - 1])
+                if (test.PassedTest == false && test.Brakes == true && test.Mirrors == true && test.Vinkers == true && test.ReverseParking == true && test.Distance == true && test.TrafficSigns == true)
                     throw new InvalidDataException("data and result are not matched");
+
+                if (test.PassedTest == true)
+                    if (test.Brakes == false || test.Mirrors == false || test.Vinkers == false || test.ReverseParking == false || test.Distance == false || test.TrafficSigns == false)
+                        throw new InvalidDataException("data and result are not matched");
             }
             catch (InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
-            dl.UpdateTestResult(NumOfTest, result, note);
+            try
+            {
+                dl.UpdateTestResult(numoftest);
+            }
+            catch (KeyNotFoundException) { throw; }
         }
         //------------------------------------------------------------
         public BO.Test GetOneTest(int TestNum)
@@ -432,6 +442,15 @@ namespace BL
             {
                 throw;
             }
+        }
+        //----------------------------------------------------------------------
+        void DeleteTest(int numoftest)
+        {
+            try
+            {
+                dl.DeleteTest(numoftest);
+            }
+            catch (KeyNotFoundException) { throw; }
         }
         //---------------------------------------------------------------------
         public List<BO.Tester> GetTesters()

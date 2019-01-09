@@ -237,19 +237,22 @@ namespace DAL
             return "your number test is" + temp;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(int numOfTest, bool[] result, string note)
+        public void UpdateTestResult(int numoftest)
         {
             try
             {
-                Test test = DataSource.Tests.Find(x => x.TestNumber == numOfTest);
-                test.Mirrors = result[0];
-                test.Brakes = result[1];
-                test.ReverseParking = result[2];
-                test.Distance = result[3];
-                test.Vinkers = result[4];
-                test.TrafficSigns = result[5];
-                test.PassedTest = result[6];
-                test.TesterNote = note;
+                DO.Test test = GetOneTest(numoftest);
+                int index = DataSource.Tests.FindIndex(x => x.TestNumber == test.TestNumber);
+                DataSource.Tests[index] = test;
+                //Test test = DataSource.Tests.Find(x => x.TestNumber == numOfTest);
+                //test.Mirrors = result[0];
+                //test.Brakes = result[1];
+                //test.ReverseParking = result[2];
+                //test.Distance = result[3];
+                //test.Vinkers = result[4];
+                //test.TrafficSigns = result[5];
+                //test.PassedTest = result[6];
+                //test.TesterNote = note;
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -273,6 +276,17 @@ namespace DAL
                 if (item.TestNumber == testNum)
                     return new Test(item);
             return null;
+        }
+        //---------------------------------------------------
+        void DeleteTest(int numoftest)
+        {
+            try
+            {
+               Test test= GetOneTest(numoftest);
+                DataSource.Tests.Remove(test);
+            }
+            catch (KeyNotFoundException) { throw; }
+           
         }
         //--------------------------------------------------
         public List<DO.Tester> GetTesters()
