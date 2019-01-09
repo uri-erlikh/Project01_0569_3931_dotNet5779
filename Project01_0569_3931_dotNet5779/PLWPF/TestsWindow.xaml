@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
         <Button x:Name="ToAddaTest" Content="Add a Test"  
         Margin="10" FontSize="30" Grid.Row="0" Click="ToAddaTest_Click" />
@@ -26,14 +26,14 @@
         <Button x:Name="ToDeleteTest" Content="Delete a Test"  
         Margin="10" FontSize="30" Grid.Row="3" Click="ToDeleteTest_Click" />
         
-        <Grid x:Name="BackGrid" Grid.Row="3">
+        <Grid x:Name="BackGrid" Grid.Row="4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="70"/>
             </Grid.ColumnDefinitions>
 
             <Button x:Name="BackButton" Content="Back"  Margin="0" FontSize="20" 
-                    Grid.Column="1" Click="BackButton_Click"/>
+                    Grid.Column="1" Grid.Row="4" Click="BackButton_Click"/>
         </Grid>
 
     </Grid>

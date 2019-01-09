@@ -403,11 +403,11 @@ namespace BL
             return true;
         }
         //-------------------------------------------------------------------
-        public void UpdateTestResult(int numoftest)
+        public void UpdateTestResult(BO.Test test)
         {
             try
             {
-                BO.Test test = GetOneTest(numoftest);
+               // BO.Test test = GetOneTest(test1.TestNumber);
                 //bool summary = true;
                 //DO.Test test = dl.GetOneTest(NumOfTest);
                 if (test.TestHour > DateTime.Now)
@@ -423,13 +423,13 @@ namespace BL
                     if (test.Brakes == false || test.Mirrors == false || test.Vinkers == false || test.ReverseParking == false || test.Distance == false || test.TrafficSigns == false)
                         throw new InvalidDataException("data and result are not matched");
             }
-            catch (InvalidDataException e) { throw; }
-            catch (KeyNotFoundException e) { throw; }
+            catch (InvalidDataException ) { throw; }
+            catch (KeyNotFoundException ) { throw; }
             try
             {
-                dl.UpdateTestResult(numoftest);
+                dl.UpdateTestResult(Convert(test));
             }
-            catch (KeyNotFoundException) { throw; }
+            catch (ArgumentNullException) { throw; }
         }
         //------------------------------------------------------------
         public BO.Test GetOneTest(int TestNum)
@@ -685,6 +685,7 @@ namespace BL
         {
             return new DO.Test(test.Tester.ID, test.TraineeId)
             {
+                TestNumber = test.TestNumber,
                 Vehicle = (DO.Vehicle)test.Vehicle,
                 TestDate = test.TestDate,
                 TestHour = test.TestHour,
