@@ -161,8 +161,8 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
                 int index=DataSource.Trainies.FindIndex(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
                 DataSource.Trainies[index] = trainee;
-                List<Trainee> trainies = DataSource.Trainies.FindAll(x => x.ID == trainee.ID);
-                if(trainies.Count>1)
+                List<Trainee> trainies = DataSource.Trainies.FindAll(x => x.ID == trainee.ID && x.TraineeVehicle != trainee.TraineeVehicle);
+                if(trainies.Any())
                 foreach (var _trainee in trainies)
                 {                                                                        
                             _trainee.PrivateName = trainee.PrivateName;
