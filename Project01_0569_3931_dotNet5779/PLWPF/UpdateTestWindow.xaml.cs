@@ -43,12 +43,12 @@ namespace PLWPF
             // this.DataContext = test;
 
            
-            numtesttextblock.Text = "number of test: " + number;
+            numTestTextBlock.Text = "number of test: " + number;
 
             // numtesttextblock.Text= NumOfTestWindow.
         }
 
-        private void Updatetestbutton_Click(object sender, RoutedEventArgs e)
+        private void UpdateTestButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {

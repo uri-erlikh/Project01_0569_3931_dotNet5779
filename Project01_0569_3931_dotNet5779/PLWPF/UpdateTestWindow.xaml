@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="Fill The fields below for a update test:"  FontSize="30" Margin="0" Grid.Row="0"/>
-        <TextBlock x:Name="numtesttextblock"  FontSize="20" Margin="0" Grid.Row="1"/>
+        <TextBlock x:Name="numTestTextBlock"  FontSize="20" Margin="0" Grid.Row="1"/>
 
         <Grid x:Name="grid1"  HorizontalAlignment="Left" Margin="224,75,0,0" VerticalAlignment="Top" Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -62,7 +62,7 @@
 
         </Grid>
 
-        <Button x:Name="updatetestbutton" Content="Update" Grid.Row="2" Click="Updatetestbutton_Click"  />
+        <Button x:Name="updateTestButton" Content="Update" Grid.Row="2" Click="UpdateTestButton_Click"  />
 
     </Grid>
 </Window>

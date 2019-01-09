@@ -5,7 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" >
+    <Window.Background>
+        <ImageBrush>
+            <ImageBrush.ImageSource>
+                <BitmapImage UriSource="C:\Users\Home\source\repos\Project01_0569_3931_dotNet5779\Project01_0569_3931_dotNet5779\PLWPF\images\sky.jpg"/>
+            </ImageBrush.ImageSource>
+        </ImageBrush>
+    </Window.Background>
     <Grid>
         <Grid.RowDefinitions>
            <RowDefinition Height="*"/>
@@ -14,13 +21,13 @@
         </Grid.RowDefinitions>
         
         <Button x:Name="TestsButton" Content="Tests"  
-        Margin="10" FontSize="30" Grid.Row="0" Click="TestsButton_Click" />
+        Width="300" Height="50" FontSize="30" Grid.Row="0" Click="TestsButton_Click" />
 
         <Button x:Name="TrainiesButton" Content="Trainies"  
-        Margin="10" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click" />
+       Width="300" Height="50" FontSize="30" Grid.Row="1" Click="TrainiesButton_Click" />
 
         <Button x:Name="TestersButoon" Content="Testers"  
-        Margin="10" FontSize="30" Grid.Row="2" Click="TestersButoon_Click" />
+        Width="300" Height="50" FontSize="30" Grid.Row="2" Click="TestersButoon_Click" />
 
     </Grid>
 </Window>
