@@ -28,12 +28,13 @@ namespace BO
 
         public override string ToString()
         {
-            return String.Format("{0}, {1} ,{2} ,at school: {3}", PrivateName, FamilyName, ID, School);
+            return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle + " at school: " + this.School
+                + "\nallready get " + this.DrivingLessonsNum + " lessons";
         }
         public Trainee(){}
 
-        private DateTime datelastoftest;
-        public DateTime DateLastOfTest { get; set; }
+        //private DateTime datelastoftest;
+        //public DateTime DateLastOfTest { get; set; }
 
 
     }

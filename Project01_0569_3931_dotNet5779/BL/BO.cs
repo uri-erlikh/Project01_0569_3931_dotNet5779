@@ -51,7 +51,7 @@ namespace BO
         protected InvalidDataException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
     //---------------------------------------------------
-    public struct Address
+    public class Address
     {
         private string city;
         public string City { get; set; }
@@ -59,6 +59,8 @@ namespace BO
         public string Street { get; set; }
         private int numOfBuilding;
         public int NumOfBuilding { get; set; }
+
+        public Address() { }
 
         public Address(string myCity, string myStreet, int myNumOfBuilding)
         {

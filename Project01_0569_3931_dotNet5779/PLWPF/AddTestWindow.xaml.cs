@@ -40,7 +40,7 @@ namespace PLWPF
                 comboBoxhour.Items.Add(comboBoxItem);                
             }
         }
-
+        //-----------------------------------------------------------------------
         private void AddTestButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -61,8 +61,12 @@ namespace PLWPF
                     {
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
                         MessageBox.Show(bl.AddTest(test));//ask him if agree, textbox
-                        test = new BO.Test();
-                        this.DataContext = test;
+                       // test = new BO.Test();
+                       // this.traineeIdTextBox.Clear();
+                       // //this.DataContext = test;
+                       // test.TestDate = DateTime.Now;
+                       // test.TestHour = DateTime.Now;
+                       //this.DataContext = test;
                     }
                 }
             }
@@ -75,11 +79,12 @@ namespace PLWPF
                 MessageBox.Show(a.Message);
             }
         }
-
+        //---------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new TestsWindow().Show();
             this.Close();
         }
+
     }
 }

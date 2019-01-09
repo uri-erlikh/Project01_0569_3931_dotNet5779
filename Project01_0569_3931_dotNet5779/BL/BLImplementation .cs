@@ -145,7 +145,11 @@ namespace BL
                 dl.DeleteTrainee(traineeID, (DO.Vehicle)vehicle);
             }
             catch (KeyNotFoundException e)
-            { 
+            {
+                throw;
+            }
+            catch (InvalidDataException e)
+            {
                 throw;
             }
         }
@@ -564,10 +568,27 @@ namespace BL
         //------------------------------------------------------------------
         public List<BO.TesterTest> GetFutureTestForTester(string ID)
         {
-            return (from item in Convert(dl.GetOneTester(ID)).TesterTests
-                    where item.TestHour > DateTime.Now
-                    orderby item.TestHour
-                    select item).ToList();
+            try
+            {
+                return (from item in Convert(dl.GetOneTester(ID)).TesterTests
+                        where item.TestHour > DateTime.Now
+                        orderby item.TestHour
+                        select item).ToList();
+            }
+            catch (KeyNotFoundException e) { throw; }
+        }
+        //----------------------------------------------------------------
+        public List<BO.TraineeTest> GetFutureTestForTrainee(string ID, BO.Vehicle vehicle)
+        {
+            try
+            {
+                return (from item in Convert(dl.GetOneTrainee(ID, (DO.Vehicle)vehicle)).Trainee_Test
+                        where item.TestHour > DateTime.Now
+                        orderby item.TestHour
+                        select item).ToList();
+            }
+            catch (KeyNotFoundException e)
+            { throw new InvalidDataException(e.Message); }
         }
         //----------------------------------------------------------------
         public List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)

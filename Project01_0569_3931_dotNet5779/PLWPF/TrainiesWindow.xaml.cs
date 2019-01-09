@@ -21,7 +21,8 @@ namespace PLWPF
     {
         BO.Trainee trainee = new BO.Trainee();
         BL.IBL bl;
-
+        string traineeID;
+        BO.Vehicle vehicle;
 
         public TrainiesWindow()
         {
@@ -31,35 +32,91 @@ namespace PLWPF
             this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
         }
 
+        private void GetDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.GetIDTextBox.Text.Length < 9)
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.");
+            else if (int.TryParse(this.GetIDTextBox.Text, out int number) != true)
+            {
+                MessageBox.Show("please insert only digits for ID", "d.m.v.");
+                this.GetIDTextBox.Clear();
+            }
+            else
+            {
+                try
+                {
+                    vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
+                    traineeID = GetIDTextBox.Text;
+                    trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
+                    this.AddTraineeButton.IsEnabled = true;
+                    this.UpdateTraineeButton.IsEnabled = true;
+                    this.DeleteTraineeButton.IsEnabled = true;
+                    this.PrintTraineeButton.IsEnabled = true;
+                    this.GetTestOfTTraineeButton.IsEnabled = true;
+                }
+                catch (KeyNotFoundException a)
+                {
+                    MessageBox.Show(a.Message);
+                }
+                catch (BO.InvalidDataException a)
+                {
+                    MessageBox.Show(a.Message);
+                }
+            }
+        }
+        //--------------------------------------------------------------------------
         private void AddTraineeButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
+        //---------------------------------------------------------------------------
         private void UpdateTraineeButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
+        //-------------------------------------------------------------------------
         private void DeleteTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Are you sure you want to delete the tester?");
+            MessageBoxResult result;
+            result = MessageBox.Show("Are you sure you want to delete the tester?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+                bl.DeleteTrainee(traineeID, vehicle);
+            MessageBox.Show("Trainee is deleted from list","d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
         }
-
+        //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            DataTextBlock.Visibility = Visibility;
+            DataTextBlock.Background = Brushes.DarkSeaGreen;
+            DataTextBlock.Text = trainee.ToString();
         }
-
+        //-------------------------------------------------------------------
+        private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTextBlock.Visibility = Visibility;
+                DataTextBlock.Background = Brushes.Gold;
+                foreach (var item in bl.GetFutureTestForTrainee(traineeID, vehicle))
+                {
+                    string str = item.ToString();
+                    DataTextBlock.Text+=item.ToString();
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (BO.InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message, "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        //----------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new MainWindow().Show();
             this.Close();
-        }
-
-        private void GetIDButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        }       
     }
 }
