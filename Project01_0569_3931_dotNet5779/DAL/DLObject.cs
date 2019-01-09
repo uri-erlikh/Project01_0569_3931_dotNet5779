@@ -278,7 +278,7 @@ namespace DAL
             return null;
         }
         //---------------------------------------------------
-        void DeleteTest(int numoftest)
+        public void DeleteTest(int numoftest)
         {
             try
             {

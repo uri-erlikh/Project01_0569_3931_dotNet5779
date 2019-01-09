@@ -32,12 +32,12 @@ namespace PLWPF
 
         private void ToUpdateTestResult_Click(object sender, RoutedEventArgs e)
         {
-            new NumOfTestWindow().Show();
+            new NumOfTestWindow("update").Show();
         }
         
         private void ToPrintTest_Click(object sender, RoutedEventArgs e)
         {
-            new PrintTestWindow().Show();
+            new NumOfTestWindow("print").Show();
             this.Close();
         }
 
@@ -45,6 +45,11 @@ namespace PLWPF
         {            
             new MainWindow().Show();
             this.Close();
+        }
+
+        private void ToDeleteTest_Click(object sender, RoutedEventArgs e)
+        {
+            new NumOfTestWindow("delete").Show();
         }
     }
 }

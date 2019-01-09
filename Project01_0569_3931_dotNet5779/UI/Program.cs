@@ -220,7 +220,7 @@ namespace UI
                         id = Console.ReadLine();
                         try
                         {
-                            bL.DeleteTrainee(id);
+                          //  bL.DeleteTrainee(id);
                         }
                         catch (KeyNotFoundException e)
                         {

@@ -440,7 +440,7 @@ namespace BL
             }
         }
         //----------------------------------------------------------------------
-        void DeleteTest(int numoftest)
+        public void DeleteTest(int numoftest)
         {
             try
             {

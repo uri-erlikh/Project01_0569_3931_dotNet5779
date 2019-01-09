@@ -11,6 +11,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
         <Button x:Name="ToAddaTest" Content="Add a Test"  
@@ -22,6 +23,9 @@
         <Button x:Name="ToPrintTest" Content="Print a Test"  
         Margin="10" FontSize="30" Grid.Row="2" Click="ToPrintTest_Click"  />
 
+        <Button x:Name="ToDeleteTest" Content="Delete a Test"  
+        Margin="10" FontSize="30" Grid.Row="3" Click="ToDeleteTest_Click" />
+        
         <Grid x:Name="BackGrid" Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
