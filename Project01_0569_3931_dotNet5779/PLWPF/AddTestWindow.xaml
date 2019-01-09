@@ -3,11 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PLWPF"
+        xmlns:local="clr-namespace:PLWPF" 
         xmlns:BO="clr-namespace:BO;assembly=BL" x:Class="PLWPF.AddTestWindow"
         mc:Ignorable="d"
         Title="AddTest" Height="450" Width="800" >
-
+    <Window.Resources>
+        <local:ConvertNumOfBilding
+             x:Key="convertNumOfBilding"/>
+    </Window.Resources>
     <Grid >
 
         <Grid.RowDefinitions>
@@ -43,7 +46,7 @@
             <Label Content="City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <TextBox x:Name="cityTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="4" Text="{Binding TestAddress.City, Mode=OneWayToSource, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             <Label Content="Num Of Building:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-            <TextBox x:Name="numOfBuildingTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" Text="{Binding TestAddress.NumOfBuilding, Mode=OneWayToSource, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <TextBox x:Name="numOfBuildingTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="6" Text="{Binding TestAddress.NumOfBuilding , Converter={StaticResource convertNumOfBilding}, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             <Label Content="Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3,3,0,-20" Grid.Row="5" VerticalAlignment="Center" Grid.ColumnSpan="2" Height="49" Width="151"/>
             <TextBox x:Name="streetTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding TestAddress.Street, Mode=OneWayToSource, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>

@@ -15,9 +15,24 @@ using BL;
 
 namespace PLWPF
 {
+
     /// <summary>
     /// Interaction logic for AddTest.xaml
     /// </summary>
+    /// 
+    public class ConvertNumOfBilding : IValueConverter
+    {
+        object IValueConverter.Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            int num = (int)value;
+            return num;
+        }
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture) 
+        {
+            return (string)value;
+        }
+    }
+    //-----------------------------------------------------
     public partial class AddTestWindow : Window
     {
         BO.Test test = new BO.Test();
