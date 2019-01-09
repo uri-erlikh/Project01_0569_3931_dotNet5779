@@ -258,10 +258,10 @@ namespace DAL
         }
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)
-        {
-            if (numOfTest <= (int)DataSource.Configuration["Number"].value && numOfTest >= 10000000)
-                return true;
-            return false;
+        {            
+            if (DataSource.Tests.Find(x => x.TestNumber == numOfTest) == null)
+                return false;
+            return true;
         }
         //----------------------------------------------------
         public DO.Test GetOneTest(int testNum)

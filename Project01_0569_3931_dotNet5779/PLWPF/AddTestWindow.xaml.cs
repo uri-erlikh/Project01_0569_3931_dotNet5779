@@ -26,18 +26,18 @@ namespace PLWPF
         public AddTestWindow()
         {
             InitializeComponent();
-            
-            this.DataContext = test;            
-            bl = BL.BL_Factory.GetBL();            
+
+            this.DataContext = test;
+            bl = BL.BL_Factory.GetBL();
             test.TestDate = DateTime.Now;
-            test.TestHour= DateTime.Now;
+            test.TestHour = DateTime.Now;
 
             this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
             for (int i = 9; i < 15; ++i)
             {
                 ComboBoxItem comboBoxItem = new ComboBoxItem();
-                comboBoxItem.Content ="hour: "+ i;
-                comboBoxhour.Items.Add(comboBoxItem);                
+                comboBoxItem.Content = "hour: " + i;
+                comboBoxhour.Items.Add(comboBoxItem);
             }
         }
         //-----------------------------------------------------------------------
@@ -46,27 +46,26 @@ namespace PLWPF
             try
             {
                 if (this.traineeIdTextBox.Text.Length < 9)
-                    MessageBox.Show("please insert valid ID - 9 digits","d.m.v.");
+                    MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.");
                 else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true)
                 {
-                    MessageBox.Show("please insert only digits for ID","d.m.v.");
+                    MessageBox.Show("please insert only digits for ID", "d.m.v.");
                     this.traineeIdTextBox.Clear();
                 }
                 else
                 {
                     if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == null
                         || this.streetTextBox.Text == null || this.numOfBuildingTextBox.Text == null)
-                        MessageBox.Show("please fill all fields","d.m.v.");                    
+                        MessageBox.Show("please fill all fields", "d.m.v.");
                     else
                     {
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
                         MessageBox.Show(bl.AddTest(test));//ask him if agree, textbox
-                       // test = new BO.Test();
-                       // this.traineeIdTextBox.Clear();
-                       // //this.DataContext = test;
-                       // test.TestDate = DateTime.Now;
-                       // test.TestHour = DateTime.Now;
-                       //this.DataContext = test;
+                        test = new BO.Test();
+                        this.traineeIdTextBox.Clear();
+                        test.TestDate = DateTime.Now;
+                        test.TestHour = DateTime.Now;
+                        this.DataContext = test;
                     }
                 }
             }

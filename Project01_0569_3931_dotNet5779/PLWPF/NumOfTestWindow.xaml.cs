@@ -58,7 +58,7 @@ namespace PLWPF
                     {
                         MessageBox.Show(r.Message);
                         numOfTestTextBox.Clear();
-                    }
+                    }                    
                     break;
                 case "delete":
                     try

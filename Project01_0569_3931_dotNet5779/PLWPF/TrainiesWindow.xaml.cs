@@ -99,8 +99,7 @@ namespace PLWPF
                 DataTextBlock.Background = Brushes.Gold;
                 foreach (var item in bl.GetFutureTestForTrainee(traineeID, vehicle))
                 {
-                    string str = item.ToString();
-                    DataTextBlock.Text+=item.ToString();
+                    DataTextBlock.Text+=item.ToString()+"\n";
                 }
             }
             catch (KeyNotFoundException ex)
