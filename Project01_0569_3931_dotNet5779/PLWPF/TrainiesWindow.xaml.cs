@@ -88,7 +88,7 @@ namespace PLWPF
         {
             DataTextBlock.Visibility = Visibility;
             DataTextBlock.Background = Brushes.DarkSeaGreen;
-            DataTextBlock.Text = trainee.ToString();
+            DataTextBlock.Text = trainee.ToString(); 
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)
