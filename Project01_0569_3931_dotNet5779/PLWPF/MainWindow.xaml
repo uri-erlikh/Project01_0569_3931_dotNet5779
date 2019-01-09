@@ -6,13 +6,13 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" >
-    <Window.Background>
+    <!--<Window.Background>
         <ImageBrush>
             <ImageBrush.ImageSource>
                 <BitmapImage UriSource="C:\Users\Home\source\repos\Project01_0569_3931_dotNet5779\Project01_0569_3931_dotNet5779\PLWPF\images\sky.jpg"/>
             </ImageBrush.ImageSource>
         </ImageBrush>
-    </Window.Background>
+    </Window.Background>-->
     <Grid>
         <Grid.RowDefinitions>
            <RowDefinition Height="*"/>

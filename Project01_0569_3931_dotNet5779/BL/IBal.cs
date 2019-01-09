@@ -19,7 +19,7 @@ namespace BL
         BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(BO.Test test);
-        void UpdateTestResult(int numoftest);
+        void UpdateTestResult(BO.Test test);
         BO.Test GetOneTest(int TestNum);
         void DeleteTest(int numOfTest);
         //-----------------------------------------

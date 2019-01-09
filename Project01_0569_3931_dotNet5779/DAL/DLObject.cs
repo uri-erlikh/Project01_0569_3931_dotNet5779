@@ -237,13 +237,12 @@ namespace DAL
             return "your number test is" + temp;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(int numoftest)
+        public void UpdateTestResult(DO.Test test1)
         {
             try
-            {
-                DO.Test test = GetOneTest(numoftest);
-                int index = DataSource.Tests.FindIndex(x => x.TestNumber == test.TestNumber);
-                DataSource.Tests[index] = test;
+            {               
+                int index = DataSource.Tests.FindIndex(x => x.TestNumber == test1.TestNumber);
+                DataSource.Tests[index] = test1;
                 //Test test = DataSource.Tests.Find(x => x.TestNumber == numOfTest);
                 //test.Mirrors = result[0];
                 //test.Brakes = result[1];
@@ -254,7 +253,7 @@ namespace DAL
                 //test.PassedTest = result[6];
                 //test.TesterNote = note;
             }
-            catch (KeyNotFoundException e) { throw; }
+            catch (ArgumentNullException e) { throw; }
         }
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)

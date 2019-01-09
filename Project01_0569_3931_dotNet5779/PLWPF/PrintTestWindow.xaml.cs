@@ -22,60 +22,63 @@ namespace PLWPF
     {
         BO.Test test1 = new BO.Test();
         BL.IBL bl;
-        
+
         public PrintTestWindow(string number, BO.Test test)
         {
             InitializeComponent();
             test1 = test;
             bl = BL.BL_Factory.GetBL();
-            GetTestTextBlock.Text = "Number Test:" + number;
+            insertTestNumberTextBox.Text = "Number Test:" + number;
             try
             {
                 GetTestTextBlock.Text = test.ToString();
             }
-            catch(NullReferenceException ex)
+            catch (NullReferenceException ex)
             {
                 MessageBox.Show(ex.Message);
             }
-        }        
+        }
         //private void TestNumberTextBox_KeyDown(object sender, KeyEventArgs e)
         //{
-            //    //if (e.Key == Key.Enter)
-            //    //{
-            //    //    if (this.TestNumberTextBox.Text.Length < 8)
-            //    //        MessageBox.Show("please insert valid number - 8 digits", "d.m.v.");
-            //    //    else if (int.TryParse(this.TestNumberTextBox.Text, out int number) != true)
-            //    //    {
-            //    //        MessageBox.Show("please insert only digits for testNumber", "d.m.v.");
-            //    //        this.TestNumberTextBox.Clear();
-            //    //    }
-            //    //else
-            //    //{
-            //try
-            //{
-                //this.GetTestTextBox.Text =
-                //this.GetTestTextBox.Visibility = Visibility.Visible;
-              
-           // }
-            //catch (KeyNotFoundException a)
-            //{
-            //    MessageBox.Show(a.Message);
-            //}
+        //    //if (e.Key == Key.Enter)
+        //    //{
+        //    //    if (this.TestNumberTextBox.Text.Length < 8)
+        //    //        MessageBox.Show("please insert valid number - 8 digits", "d.m.v.");
+        //    //    else if (int.TryParse(this.TestNumberTextBox.Text, out int number) != true)
+        //    //    {
+        //    //        MessageBox.Show("please insert only digits for testNumber", "d.m.v.");
+        //    //        this.TestNumberTextBox.Clear();
+        //    //    }
+        //    //else
+        //    //{
+        //try
+        //{
+        //this.GetTestTextBox.Text =
+        //this.GetTestTextBox.Visibility = Visibility.Visible;
 
-      //  }
+        // }
+        //catch (KeyNotFoundException a)
+        //{
+        //    MessageBox.Show(a.Message);
+        //}
+
+        //  }
 
         private void Deletebutton_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                bl.DeleteTest(test1.TestNumber);
-                new TestsWindow().Show();
-                this.Close();
-            }
-            catch (KeyNotFoundException r)
-            {
-                MessageBox.Show(r.Message);
-            }
+            MessageBoxResult result;
+            result = MessageBox.Show("Are you sure you want to delete the test?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+                try
+                {
+                    bl.DeleteTest(test1.TestNumber);
+                    new TestsWindow().Show();
+                    this.Close();
+                }
+                catch (KeyNotFoundException r)
+                {
+                    MessageBox.Show(r.Message);
+                }
         }
 
 

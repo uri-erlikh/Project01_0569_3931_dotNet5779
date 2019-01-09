@@ -33,6 +33,7 @@ namespace PLWPF
         private void ToUpdateTestResult_Click(object sender, RoutedEventArgs e)
         {
             new NumOfTestWindow("update").Show();
+            this.Close();
         }
         
         private void ToPrintTest_Click(object sender, RoutedEventArgs e)
@@ -50,6 +51,7 @@ namespace PLWPF
         private void ToDeleteTest_Click(object sender, RoutedEventArgs e)
         {
             new NumOfTestWindow("delete").Show();
+            this.Close();
         }
     }
 }

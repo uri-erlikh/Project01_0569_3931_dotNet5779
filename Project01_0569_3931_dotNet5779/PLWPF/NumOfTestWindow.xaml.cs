@@ -89,7 +89,13 @@ namespace PLWPF
         }
 
     }
-}
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new TestsWindow().Show();
+            this.Close();
+        }
+    }
 }
 
 

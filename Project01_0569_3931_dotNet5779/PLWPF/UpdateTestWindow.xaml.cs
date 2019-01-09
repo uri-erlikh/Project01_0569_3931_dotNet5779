@@ -52,9 +52,16 @@ namespace PLWPF
         {
             try
             {
-                bl.UpdateTestResult(test1.TestNumber);
+                bl.UpdateTestResult(test1);
+                MessageBox.Show("update is Succeeded");
+                new TestsWindow().Show();
+                this.Close();
             }
-            catch (KeyNotFoundException x)
+            catch(KeyNotFoundException t)
+            {
+                MessageBox.Show(t.Message);
+            }
+            catch (ArgumentNullException x)
             {
                 MessageBox.Show(x.Message);
             }
@@ -62,6 +69,12 @@ namespace PLWPF
             {
                 MessageBox.Show(r.Message);
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new TestsWindow().Show();
+            this.Close();
         }
     }
 }

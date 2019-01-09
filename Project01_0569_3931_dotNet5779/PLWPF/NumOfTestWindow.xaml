@@ -11,16 +11,19 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <Label Content="Enter Number Of Test" FontSize="30" FontWeight="UltraBold" Grid.Row="0"/>
         <Label Content="number of test: " Grid.Row="1" Grid.Column="0"/>
-        <TextBox x:Name="numOfTestTextBox" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" MaxLength="8"/>
-        <Button x:Name="numOfTestButton" Content="Search" Grid.Row="2" Grid.Column="1" Click="NumOfTestButton_Click" />
+        <TextBox x:Name="numOfTestTextBox" Margin="3" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" MaxLength="8"/>
+        <Button x:Name="numOfTestButton" Content="Search" Grid.Row="1" Grid.Column="2" Margin="3" Click="NumOfTestButton_Click" />
+        <Button x:Name="BackButton" Content="Back"  Margin="3" 
+                    Grid.Column="2" Grid.Row="2" Click="BackButton_Click"  />
     </Grid>
 </Window>

@@ -19,7 +19,7 @@ namespace DAL
         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(DO.Test test);
-        void UpdateTestResult(int numoftest);
+        void UpdateTestResult(DO.Test test);
         DO.Test GetOneTest(int TestNum);
         void DeleteTest(int numOfTest);
         //-----------------------------------------        

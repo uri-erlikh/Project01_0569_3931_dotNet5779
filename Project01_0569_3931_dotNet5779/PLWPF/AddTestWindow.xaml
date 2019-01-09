@@ -9,6 +9,7 @@
         Title="AddTest" Height="450" Width="800" >
 
     <Grid >
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="4*"/>
@@ -36,7 +37,7 @@
             <Label Content="Test Date:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
             <DatePicker x:Name="testDateDatePicker" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Grid.Row="1"  SelectedDate="{Binding TestDate, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center"/>
             <Label Content="Test Hour:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
-            <ComboBox x:Name="comboBoxhour"  Grid.Column="1"  Grid.Row="2" />
+            <ComboBox x:Name="comboBoxhour"  Grid.Column="1" Margin="3" Grid.Row="2" />
             <Label Content="Vehicle:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <ComboBox x:Name="vehicleComboBox" Grid.Column="1" SelectedItem="{Binding Vehicle}"   Margin="3" Grid.Row="3" />
             <Label Content="City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
@@ -52,14 +53,18 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
             <Button x:Name="AddTestButton" Content="Add"  Click="AddTestButton_Click" 
-                HorizontalAlignment="Left" Width="228" Margin="5"   
-                />
+                HorizontalAlignment="Left" Width="228" Grid.Row="0"  Margin="3"                   />
 
             <TextBlock x:Name="messageForUser" Grid.Column="1"/>
+            <Button x:Name="BackButton" Grid.Row="1" Content="Back" Click="BackButton_Click" Margin="3"  />
+
+
         </Grid>
-        <Button x:Name="BackButton" Grid.Row="3" Content="Back" Click="BackButton_Click" Margin="5"  />
 
 
     </Grid>

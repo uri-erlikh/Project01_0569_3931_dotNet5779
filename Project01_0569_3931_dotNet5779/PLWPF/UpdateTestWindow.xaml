@@ -11,7 +11,9 @@
    
 
     <Grid>
+        
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -45,24 +47,24 @@
             <Label Content="Mirrors:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
             <CheckBox x:Name="mirrorsRadioButton1"  Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=Mirrors, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
 
-            <Label Content="Passed Test:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
-            <CheckBox x:Name="passedTestRadioButton1"  Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=PassedTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <Label Content="Passed Test:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <CheckBox x:Name="passedTestRadioButton1"  Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=PassedTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
 
             <Label Content="Reverse Parking:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
             <CheckBox x:Name="reverseParkingRadioButton1" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=ReverseParking, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="4" VerticalAlignment="Center"/>
 
-            <Label Content="Tester Note:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
-            <TextBox x:Name="testerNoteTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="5" Text="{Binding Path=TesterNote, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+            <Label Content="Tester Note:" Grid.Column="0"  HorizontalAlignment="Left" Margin="3" Grid.Row="7" VerticalAlignment="Center"/>
+            <TextBox x:Name="testerNoteTextBox"  Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="7" Text="{Binding Path=TesterNote, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             
-            <Label Content="Traffic Signs:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
-            <CheckBox x:Name="trafficSignsRadioButton1" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=TrafficSigns, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="6" VerticalAlignment="Center"/>
+            <Label Content="Traffic Signs:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
+            <CheckBox x:Name="trafficSignsRadioButton1" Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=TrafficSigns, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="5" VerticalAlignment="Center"/>
 
             <Label Content="Vinkers:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
             <CheckBox x:Name="vinkersRadioButton1"   Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=Vinkers, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
 
         </Grid>
-
-        <Button x:Name="updateTestButton" Content="Update" Grid.Row="2" Click="UpdateTestButton_Click"  />
+        <Button x:Name="BackButton" Content="Back"  Margin="3"  Grid.Row="3" Click="BackButton_Click"/>
+        <Button x:Name="updateTestButton" Content="Update" Margin="3" Grid.Row="2"  Click="UpdateTestButton_Click"  />
 
     </Grid>
 </Window>
