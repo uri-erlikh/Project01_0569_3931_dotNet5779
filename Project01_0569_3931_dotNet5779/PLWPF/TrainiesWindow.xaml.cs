@@ -72,7 +72,7 @@ namespace PLWPF
         //---------------------------------------------------------------------------
         private void UpdateTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-            new UpdateTraineeWindow().Show();
+            new UpdateTraineeWindow(trainee).Show();
             this.Close();
         }
         //-------------------------------------------------------------------------
