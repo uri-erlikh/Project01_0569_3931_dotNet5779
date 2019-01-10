@@ -156,24 +156,26 @@ namespace BL
         //--------------------------------------------------------------------
         public void UpdateTrainee(BO.Trainee trainee)
         {
-            try { 
-                
-                        CheckName(trainee.FamilyName);
-                        CheckName(trainee.PrivateName);
-                        CheckDateTrainee(trainee.DayOfBirth);
-                        CheckPhone(trainee.Phone);
-                    //case "traineeVehicle":
-                    //    CheckVehicle(trainee.TraineeVehicle);
-                    //    break;
-                    //case "traineeGear":
-                    //    CheckGear(trainee.TraineeGear);
-                      //  break;
-                    //case "school": break;
-                    //case "teacher": break;
-                    //case "drivingLessonsNum":
-                    //    CheckVehicle((string)info[0]);
-                        CheckDrivingLessonsNum(trainee.DrivingLessonsNum);
-                
+            try
+            {
+
+                CheckName(trainee.FamilyName);
+                CheckName(trainee.PrivateName);
+                CheckDateTrainee(trainee.DayOfBirth);
+                CheckPhone(trainee.Phone);
+                CheckDrivingLessonsNum(trainee.DrivingLessonsNum);
+                //case "traineeVehicle":
+                //    CheckVehicle(trainee.TraineeVehicle);
+                //    break;
+                //case "traineeGear":
+                //    CheckGear(trainee.TraineeGear);
+                //  break;
+                //case "school": break;
+                //case "teacher": break;
+                //case "drivingLessonsNum":
+                //    CheckVehicle((string)info[0]);
+
+
             }
             catch (InvalidDataException) { throw; }
 
@@ -395,7 +397,7 @@ namespace BL
         {
             try
             {
-               // BO.Test test = GetOneTest(test1.TestNumber);
+                // BO.Test test = GetOneTest(test1.TestNumber);
                 //bool summary = true;
                 //DO.Test test = dl.GetOneTest(NumOfTest);
                 if (test.TestHour > DateTime.Now)
@@ -411,8 +413,8 @@ namespace BL
                     if (test.Brakes == false || test.Mirrors == false || test.Vinkers == false || test.ReverseParking == false || test.Distance == false || test.TrafficSigns == false)
                         throw new InvalidDataException("data and result are not matched");
             }
-            catch (InvalidDataException ) { throw; }
-            catch (KeyNotFoundException ) { throw; }
+            catch (InvalidDataException) { throw; }
+            catch (KeyNotFoundException) { throw; }
             try
             {
                 dl.UpdateTestResult(Convert(test));

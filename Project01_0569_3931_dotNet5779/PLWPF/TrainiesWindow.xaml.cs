@@ -35,10 +35,10 @@ namespace PLWPF
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.GetIDTextBox.Text.Length < 9)
-                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Warning);
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
             else if (int.TryParse(this.GetIDTextBox.Text, out int number) != true)
             {
-                MessageBox.Show("please insert only digits for ID", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Error);
+                MessageBox.Show("please insert only digits for ID", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.GetIDTextBox.Clear();
             }
             else
@@ -83,7 +83,7 @@ namespace PLWPF
             if (result == MessageBoxResult.Yes)
             {
                 bl.DeleteTrainee(traineeID, vehicle);
-                MessageBox.Show("Trainee is deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         //------------------------------------------------------------------------------
@@ -91,7 +91,7 @@ namespace PLWPF
         {
             DataTextBlock.Visibility = Visibility;
             DataTextBlock.Background = Brushes.DarkSeaGreen;
-            DataTextBlock.Text = trainee.ToString(); 
+            DataTextBlock.Text = trainee.ToString();
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)
@@ -101,10 +101,14 @@ namespace PLWPF
                 DataTextBlock.Visibility = Visibility;
                 DataTextBlock.Background = Brushes.Gold;
                 DataTextBlock.Text = "";
-                foreach (var item in bl.GetFutureTestForTrainee(traineeID, vehicle))
-                {
-                    DataTextBlock.Text+=item.ToString()+"\n";
-                }
+                List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
+                if (!list.Any())
+                    DataTextBlock.Text = "no tests is found";
+                else
+                    foreach (var item in list)
+                    {
+                        DataTextBlock.Text += item.ToString() + "\n";
+                    }
             }
             catch (KeyNotFoundException ex)
             {

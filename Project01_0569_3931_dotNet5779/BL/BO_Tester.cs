@@ -66,7 +66,7 @@ namespace BO
 
         public override string ToString()
         {
-            return String.Format("{0} {1} ,{2} ,{3}", PrivateName, FamilyName, PersonAddress, TesterVehicle);
+            return this.PrivateName + " " + this.FamilyName + " ID: " + this.ID + "\nvehicle: " + this.TesterVehicle;
         }
 
         public Tester()

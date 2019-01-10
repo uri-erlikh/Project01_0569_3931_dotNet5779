@@ -29,7 +29,7 @@ namespace BO
         public override string ToString()
         {
             return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle + " at school: " + this.School
-                + "\nallready get " + this.DrivingLessonsNum + " lessons";
+                + "\nallready got " + this.DrivingLessonsNum + " lessons";
         }
         public Trainee(){}
 
