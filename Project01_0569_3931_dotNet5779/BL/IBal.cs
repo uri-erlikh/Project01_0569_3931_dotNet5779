@@ -10,7 +10,7 @@ namespace BL
     {
         void AddTester(BO.Tester tester, bool[,] matrix);
         void DeleteTester(string TesterID);
-        void UpdateTester(string testerID, string field, params object[] info);
+        void UpdateTester(BO.Tester tester);
         BO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(BO.Trainee trainee);

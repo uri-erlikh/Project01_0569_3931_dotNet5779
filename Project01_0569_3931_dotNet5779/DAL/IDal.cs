@@ -10,12 +10,12 @@ namespace DAL
     {
         void AddTester(DO.Tester tester, bool [,]matrix);
         void DeleteTester(string TesterID);
-        void UpdateTester(string testerID,string field, params object[] info);        
+        void UpdateTester(DO.Tester tester);        
         DO.Tester GetOneTester(string ID);
         //---------------------------------------------
         void AddTrainee(DO.Trainee trainee);
         void DeleteTrainee(string TraineeID, DO.Vehicle vehicle);
-        void UpdateTrainee( DO.Trainee trainee);
+        void UpdateTrainee(DO.Trainee trainee);
         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(DO.Test test);

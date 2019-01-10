@@ -68,7 +68,7 @@ namespace PLWPF
         //---------------------------------------------------------------------------
         private void UpdateTesterButton_Click(object sender, RoutedEventArgs e)
         {
-            //new UpdateTesterWindow().Show();
+            new UpdateTesterWindow(tester).Show();
             this.Close();
         }
         //-------------------------------------------------------------------------

@@ -77,6 +77,9 @@
     <Compile Include="TrainiesWindow.xaml.cs">
       <DependentUpon>TrainiesWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UpdateTesterWindow.xaml.cs">
+      <DependentUpon>UpdateTesterWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UpdateTestWindow.xaml.cs">
       <DependentUpon>UpdateTestWindow.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UpdateTesterWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UpdateTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -151,6 +158,7 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="Properties\DataSources\BO.Test.datasource" />
+    <None Include="Properties\DataSources\BO.Tester.datasource" />
     <None Include="Properties\DataSources\BO.Trainee.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
