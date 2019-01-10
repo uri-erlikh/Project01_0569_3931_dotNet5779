@@ -19,9 +19,33 @@ namespace PLWPF
     /// </summary>
     public partial class UpdateTraineeWindow : Window
     {
-        public UpdateTraineeWindow()
+        BL.IBL bl;
+        BO.Trainee trainee = new BO.Trainee();
+        public UpdateTraineeWindow(BO.Trainee trainee1)
         {
             InitializeComponent();
+            bl = BL.BL_Factory.GetBL();
+            trainee = trainee1;
+            this.DataContext = trainee;
+
+
+        }
+
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bl.UpdateTrainee(trainee);
+            }
+            catch (BO.InvalidDataException r)
+            {
+                MessageBox.Show(r.Message);
+            }
+            catch(KeyNotFoundException x)
+            {
+                MessageBox.Show(x.Message);
+
+            }
         }
     }
 }
