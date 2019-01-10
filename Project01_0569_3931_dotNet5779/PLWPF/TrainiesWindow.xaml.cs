@@ -79,10 +79,12 @@ namespace PLWPF
         private void DeleteTraineeButton_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result;
-            result = MessageBox.Show("Are you sure you want to delete the tester?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+            result = MessageBox.Show("Are you sure you want to delete the trainee?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
+            {
                 bl.DeleteTrainee(traineeID, vehicle);
-            MessageBox.Show("Trainee is deleted from list","d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
+                MessageBox.Show("Trainee is deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
@@ -98,6 +100,7 @@ namespace PLWPF
             {
                 DataTextBlock.Visibility = Visibility;
                 DataTextBlock.Background = Brushes.Gold;
+                DataTextBlock.Text = "";
                 foreach (var item in bl.GetFutureTestForTrainee(traineeID, vehicle))
                 {
                     DataTextBlock.Text+=item.ToString()+"\n";
@@ -117,6 +120,17 @@ namespace PLWPF
         {
             new MainWindow().Show();
             this.Close();
-        }       
+        }
+        //-------------------------------------------------------------
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.DataTextBlock.Visibility = Visibility.Hidden;
+            this.GetIDTextBox.Clear();
+            this.GetVehicleTypeComboBox.SelectedIndex = 0;
+            this.PrintTraineeButton.IsEnabled = false;
+            this.GetTestOfTTraineeButton.IsEnabled = false;
+            this.DeleteTraineeButton.IsEnabled = false;
+            this.UpdateTraineeButton.IsEnabled = false;
+        }
     }
 }

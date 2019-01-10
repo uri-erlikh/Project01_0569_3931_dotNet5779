@@ -61,28 +61,27 @@ namespace PLWPF
             try
             {
                 if (this.traineeIdTextBox.Text.Length < 9)
-                    MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.");
-                else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true)
+                    MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Warning);
+                else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true||
+                   int.TryParse(this.numOfBuildingTextBox.Text, out int number1) != true)
                 {
-                    MessageBox.Show("please insert only digits for ID", "d.m.v.");
+                    MessageBox.Show("please insert only digits for ID", "d.m.v.",MessageBoxButton.OK,MessageBoxImage.Error);
                     this.traineeIdTextBox.Clear();
                 }
                 else
                 {
-                    if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == null
-                        || this.streetTextBox.Text == null || this.numOfBuildingTextBox.Text == null)
-                        MessageBox.Show("please fill all fields", "d.m.v.");
+                    if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == ""
+                        || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "")
+                        MessageBox.Show("please fill all fields", "d.m.v.",MessageBoxButton.OKCancel,MessageBoxImage.Warning);
                     else
                     {
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
-                        MessageBox.Show(bl.AddTest(test));//ask him if agree, textbox
-                        new TestsWindow().Show();
-                        this.Close();
-                        //test = new BO.Test();
-                        //this.traineeIdTextBox.Clear();
-                        //test.TestDate = DateTime.Now;
-                        //test.TestHour = DateTime.Now;
-                        //this.DataContext = test;
+                        MessageBox.Show(bl.AddTest(test));
+                        test = new BO.Test();
+                        this.traineeIdTextBox.Clear();
+                        test.TestDate = DateTime.Now;
+                        test.TestHour = DateTime.Now;
+                        this.DataContext = test;
                     }
                 }
             }

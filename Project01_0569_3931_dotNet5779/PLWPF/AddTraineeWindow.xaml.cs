@@ -26,15 +26,73 @@ namespace PLWPF
         {
             InitializeComponent();
 
-            myTrainee.DayOfBirth = DateTime.Now;
+            myTrainee.DayOfBirth = new DateTime(1999,01,01);
             this.DataContext = myTrainee;
             bl = BL.BL_Factory.GetBL();
             this.traineeVehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
             this.traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.personGenderComboBox.ItemsSource = Enum.GetValues(typeof(BO.Gender));
         }
-
-
-
+        //-------------------------------------------------------------------
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (this.IDTextBox.Text.Length < 9)
+                    MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
+                else if (int.TryParse(this.IDTextBox.Text, out int number) != true ||
+                    int.TryParse(this.phoneTextBox.Text, out int number1) != true||
+                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true)
+                    MessageBox.Show("please insert only digits for: ID, phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);                
+                else
+                {
+                    if (this.traineeGearComboBox.SelectedItem == null || this.traineeVehicleComboBox.Text == null
+                        || this.traineeGearComboBox.SelectedItem == null || this.privateNameTextBox.Text == "" || this.familyNameTextBox.Text == ""
+                       || this.phoneTextBox.Text == "" || this.schoolTextBox.Text == "" || this.teacherTextBox.Text == "" || this.cityTextBox.Text == ""
+                       || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "" || this.drivingLessonsNumTextBox.Text == "")
+                        MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    else
+                    {
+                        bl.AddTrainee(myTrainee);
+                        MessageBox.Show("Welcome to our system. Good Luck!!", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
+                        myTrainee = new BO.Trainee();
+                        myTrainee.DayOfBirth = new DateTime(1999, 01, 01);
+                        this.IDTextBox.Clear();
+                        this.DataContext = myTrainee;
+                    }
+                }
+            }
+            catch (DuplicateWaitObjectException a)
+            {
+                MessageBox.Show(a.Message);
+            }
+            catch (BO.InvalidDataException a)
+            {
+                MessageBox.Show(a.Message);
+            }
+        }
+        //--------------------------------------------------------------------
+        private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.traineeGearComboBox.SelectedIndex = 0;
+            this.traineeVehicleComboBox.SelectedIndex = 0;
+            this.traineeGearComboBox.SelectedIndex = 0;
+            this.IDTextBox.Clear();
+            this.privateNameTextBox.Clear();
+            this.familyNameTextBox.Clear();
+            this.phoneTextBox.Clear();
+            this.schoolTextBox.Clear();
+            this.teacherTextBox.Clear();
+            this.cityTextBox.Clear();
+            this.drivingLessonsNumTextBox.Clear();
+            this.numOfBuildingTextBox.Clear();
+            this.streetTextBox.Clear();
+        }
+        //------------------------------------------------------------------
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new TrainiesWindow().Show();
+            this.Close();
+        }
     }
 }

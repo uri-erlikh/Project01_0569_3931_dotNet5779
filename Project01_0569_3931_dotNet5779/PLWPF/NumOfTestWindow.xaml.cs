@@ -29,7 +29,6 @@ namespace PLWPF
         {
             InitializeComponent();
             value1 = value;
-            // this.DataContext = test;
             bl = BL.BL_Factory.GetBL();
         }
 
