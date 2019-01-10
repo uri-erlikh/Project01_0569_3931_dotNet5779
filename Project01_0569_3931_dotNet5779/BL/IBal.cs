@@ -15,7 +15,7 @@ namespace BL
         //---------------------------------------------
         void AddTrainee(BO.Trainee trainee);
         void DeleteTrainee(string TraineeID, BO.Vehicle vehicle);
-        void UpdateTrainee(string traineeID, string field, params object[] info);
+        void UpdateTrainee(BO.Trainee trainee);
         BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle);
         //-------------------------------------------------------
         string AddTest(BO.Test test);

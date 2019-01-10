@@ -153,50 +153,60 @@ namespace DAL
             DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID &&x.Vehicle==vehicle);
         }
         //--------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, params object[] info)
+        public void UpdateTrainee(DO.Trainee trainee)
         {
             try
             {
-                if (!IfExist(traineeID, "trainee"))
+                if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
-                List<Trainee> trainies = DataSource.Trainies.FindAll(x => x.ID == traineeID);
-                foreach (var trainee in trainies)
-                    switch (field)
-                    {
-                        case "familyName":
-                            trainee.FamilyName = (string)info[0];
-                            break;
-                        case "privateName":
-                            trainee.PrivateName = (string)info[0];
-                            break;
-                        case "dayOfBirth":
-                            trainee.DayOfBirth = DateTime.Parse((string)info[0]);
-                            break;
-                        case "phone":
-                            trainee.Phone = (string)info[0];
-                            break;
-                        case "personAddress":
-                            trainee.PersonAddress = new Address((string)info[0], (string)info[1], (int)info[2]);
-                            break;
-                        case "traineeVehicle":
-                            trainee.TraineeVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)(info[0]));
-                            break;
-                        case "traineeGear":
-                            trainee.TraineeGear = (GearBox)Enum.Parse(typeof(GearBox), (string)(info[0]));
-                            break;
-                        case "school":
-                            trainee.School = (string)info[0];
-                            break;
-                        case "teacher":
-                            trainee.Teacher = (string)info[0];
-                            break;
-                        case "drivingLessonsNum":
-                            if (trainee.TraineeVehicle == (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]))
-                                trainee.DrivingLessonsNum = (int)info[1];
-                            break;
-                    }
+                int index=DataSource.Trainies.FindIndex(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
+                DataSource.Trainies[index] = trainee;
+                List<Trainee> trainies = DataSource.Trainies.FindAll(x => x.ID == trainee.ID && x.TraineeVehicle != trainee.TraineeVehicle);
+                if(trainies.Any())
+                foreach (var _trainee in trainies)
+                {                                                                        
+                            _trainee.PrivateName = trainee.PrivateName;
+                            _trainee.FamilyName = trainee.FamilyName;
+                            _trainee.PersonAddress = trainee.PersonAddress;
+                            _trainee.Phone = trainee.Phone;                        
+                }
             }
             catch (KeyNotFoundException e) { throw; }
+            //switch (field)
+            //{
+            //    case "familyName":
+            //        trainee.FamilyName = (string)info[0];
+            //        break;
+            //    case "privateName":
+            //        trainee.PrivateName = (string)info[0];
+            //        break;
+            //    case "dayOfBirth":
+            //        trainee.DayOfBirth = DateTime.Parse((string)info[0]);
+            //        break;
+            //    case "phone":
+            //        trainee.Phone = (string)info[0];
+            //        break;
+            //    case "personAddress":
+            //        trainee.PersonAddress = new Address((string)info[0], (string)info[1], (int)info[2]);
+            //        break;
+            //    case "traineeVehicle":
+            //        trainee.TraineeVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)(info[0]));
+            //        break;
+            //    case "traineeGear":
+            //        trainee.TraineeGear = (GearBox)Enum.Parse(typeof(GearBox), (string)(info[0]));
+            //        break;
+            //    case "school":
+            //        trainee.School = (string)info[0];
+            //        break;
+            //    case "teacher":
+            //        trainee.Teacher = (string)info[0];
+            //        break;
+            //    case "drivingLessonsNum":
+            //        if (trainee.TraineeVehicle == (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]))
+            //            trainee.DrivingLessonsNum = (int)info[1];
+            //        break;
+            //}
+
         }
         //--------------------------------------------------
         public DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)

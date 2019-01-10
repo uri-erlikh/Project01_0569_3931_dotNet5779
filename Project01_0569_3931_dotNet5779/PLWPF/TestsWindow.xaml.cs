@@ -38,7 +38,7 @@ namespace PLWPF
         
         private void ToPrintTest_Click(object sender, RoutedEventArgs e)
         {
-            new NumOfTestWindow("print").Show();
+            new NumOfTestWindow("delete or print").Show();
             this.Close();
         }
 
@@ -48,10 +48,6 @@ namespace PLWPF
             this.Close();
         }
 
-        private void ToDeleteTest_Click(object sender, RoutedEventArgs e)
-        {
-            new NumOfTestWindow("delete").Show();
-            this.Close();
-        }
+       
     }
 }

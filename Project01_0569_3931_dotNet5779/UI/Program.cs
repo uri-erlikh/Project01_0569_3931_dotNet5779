@@ -318,92 +318,92 @@ namespace UI
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 7:
-                        object infom = new object();
-                        int number1;
-                        Console.WriteLine("Enter the ID Trainee's ");
-                        id = Console.ReadLine();
-                        Console.WriteLine(@"select what you want to update:
-1:first name
-2:last name
-3:day Of Birth
-4:phone
-5:Address
-6:Gear
-7:school
-8: Vehicle
-9:teacher
-10:Number of Lessons
-");
-                        number1 = int.Parse(Console.ReadLine());
-                        try
-                        {
-                            switch (number1)
-                            {
-                                case 1:
-                                    Console.WriteLine("enter the first name ");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "privateName", infom);
-                                    break;
-                                case 2:
-                                    Console.WriteLine("enter the last name ");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "familyName", infom);
-                                    break;
-                                case 3:
-                                    Console.WriteLine("enter the dayOfBirth");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "dayOfBirth", infom);
-                                    break;
-                                case 4:
-                                    Console.WriteLine("enter the phone");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "phone", infom);
-                                    break;
-                                case 5:
-                                    Console.WriteLine("enter City: ");
-                                    city = Console.ReadLine();
-                                    Console.WriteLine("enter Street: ");
-                                    street = Console.ReadLine();
-                                    Console.WriteLine("enter Num Of Bilding: ");
-                                    numofbuilding = int.Parse(Console.ReadLine());
-                                    bL.UpdateTrainee(id, "personAddress", city,street,numofbuilding);
-                                    break;
-                                case 6:
-                                    Console.WriteLine("enter the Gear: ");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "traineeGear", infom);
-                                    break;
-                                case 7:
-                                    Console.WriteLine("enter the name of school: ");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "school", infom);
-                                    break;
-                                case 8:
-                                    Console.WriteLine("enter the Vehicle: ");//לזכור שזה סטרינג וגם למטה היחס אליו כסטרינג ולשנות
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "traineeVehicle", infom);
-                                    break;
-                                case 9:
-                                    Console.WriteLine("enter the name of teacher: ");
-                                    infom = Console.ReadLine();
-                                    bL.UpdateTrainee(id, "teacher", infom);
-                                    break;
-                                case 10:
-                                    Console.WriteLine("enter type the Vehicle:0-4 ");
-                                    int info10 = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("enter the Number of Lessons ");//שינינו שיקלוט גם סוג רכב דבר ראשון. ראה בשכבה למטה 
-                                    info2 = int.Parse(Console.ReadLine());
-                                    bL.UpdateTrainee(id, "drivingLessonsNum", info10, info2);
-                                    break;
-                                default: break;
-                            }
-                        }
-                        catch (KeyNotFoundException e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
-                        break;
+//                    case 7:
+//                        object infom = new object();
+//                        int number1;
+//                        Console.WriteLine("Enter the ID Trainee's ");
+//                        id = Console.ReadLine();
+//                        Console.WriteLine(@"select what you want to update:
+//1:first name
+//2:last name
+//3:day Of Birth
+//4:phone
+//5:Address
+//6:Gear
+//7:school
+//8: Vehicle
+//9:teacher
+//10:Number of Lessons
+//");
+//                        number1 = int.Parse(Console.ReadLine());
+//                        try
+//                        {
+//                            switch (number1)
+//                            {
+//                                case 1:
+//                                    Console.WriteLine("enter the first name ");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "privateName", infom);
+//                                    break;
+//                                case 2:
+//                                    Console.WriteLine("enter the last name ");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "familyName", infom);
+//                                    break;
+//                                case 3:
+//                                    Console.WriteLine("enter the dayOfBirth");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "dayOfBirth", infom);
+//                                    break;
+//                                case 4:
+//                                    Console.WriteLine("enter the phone");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "phone", infom);
+//                                    break;
+//                                case 5:
+//                                    Console.WriteLine("enter City: ");
+//                                    city = Console.ReadLine();
+//                                    Console.WriteLine("enter Street: ");
+//                                    street = Console.ReadLine();
+//                                    Console.WriteLine("enter Num Of Bilding: ");
+//                                    numofbuilding = int.Parse(Console.ReadLine());
+//                                    bL.UpdateTrainee(id, "personAddress", city,street,numofbuilding);
+//                                    break;
+//                                case 6:
+//                                    Console.WriteLine("enter the Gear: ");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "traineeGear", infom);
+//                                    break;
+//                                case 7:
+//                                    Console.WriteLine("enter the name of school: ");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "school", infom);
+//                                    break;
+//                                case 8:
+//                                    Console.WriteLine("enter the Vehicle: ");//לזכור שזה סטרינג וגם למטה היחס אליו כסטרינג ולשנות
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "traineeVehicle", infom);
+//                                    break;
+//                                case 9:
+//                                    Console.WriteLine("enter the name of teacher: ");
+//                                    infom = Console.ReadLine();
+//                                    bL.UpdateTrainee(id, "teacher", infom);
+//                                    break;
+//                                case 10:
+//                                    Console.WriteLine("enter type the Vehicle:0-4 ");
+//                                    int info10 = int.Parse(Console.ReadLine());
+//                                    Console.WriteLine("enter the Number of Lessons ");//שינינו שיקלוט גם סוג רכב דבר ראשון. ראה בשכבה למטה 
+//                                    info2 = int.Parse(Console.ReadLine());
+//                                    bL.UpdateTrainee(id, "drivingLessonsNum", info10, info2);
+//                                    break;
+//                                default: break;
+//                            }
+//                        }
+//                        catch (KeyNotFoundException e)
+//                        {
+//                            Console.WriteLine(e.Message);
+//                        }
+//                        break;
                     case 8:
 
 

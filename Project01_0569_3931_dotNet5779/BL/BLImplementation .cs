@@ -154,46 +154,34 @@ namespace BL
             }
         }
         //--------------------------------------------------------------------
-        public void UpdateTrainee(string traineeID, string field, params object[] info)
+        public void UpdateTrainee(BO.Trainee trainee)
         {
-            try
-            {
-                switch (field)
-                {
-                    case "familyName":
-                        CheckName((string)info[0]);
-                        break;
-                    case "privateName":
-                        CheckName((string)info[0]);
-                        break;
-                    case "dayOfBirth":
-                        CheckDateTrainee(DateTime.Parse((string)(info[0])));
-                        break;
-                    case "phone":
-                        CheckPhone((string)info[0]);
-                        break;
-                    case "personAddress": break;
-                    case "traineeVehicle":
-                        CheckVehicle((string)info[0]);
-                        break;
-                    case "traineeGear":
-                        CheckGear((string)info[0]);
-                        break;
-                    case "school": break;
-                    case "teacher": break;
-                    case "drivingLessonsNum":
-                        CheckVehicle((string)info[0]);
-                        CheckDrivingLessonsNum((int)info[1]);
-                        break;
-                }
+            try { 
+                
+                        CheckName(trainee.FamilyName);
+                        CheckName(trainee.PrivateName);
+                        CheckDateTrainee(trainee.DayOfBirth);
+                        CheckPhone(trainee.Phone);
+                    //case "traineeVehicle":
+                    //    CheckVehicle(trainee.TraineeVehicle);
+                    //    break;
+                    //case "traineeGear":
+                    //    CheckGear(trainee.TraineeGear);
+                      //  break;
+                    //case "school": break;
+                    //case "teacher": break;
+                    //case "drivingLessonsNum":
+                    //    CheckVehicle((string)info[0]);
+                        CheckDrivingLessonsNum(trainee.DrivingLessonsNum);
+                
             }
-            catch (InvalidDataException e) { throw; }
+            catch (InvalidDataException) { throw; }
 
             try
             {
-                dl.UpdateTrainee(traineeID, field, info);
+                dl.UpdateTrainee(Convert(trainee));
             }
-            catch (KeyNotFoundException e) { throw; }
+            catch (KeyNotFoundException) { throw; }
         }
         //---------------------------------------------------------------------
         public BO.Trainee GetOneTrainee(string ID, BO.Vehicle vehicle)
