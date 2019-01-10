@@ -17,6 +17,13 @@ namespace PLWPF
     /// <summary>
     /// Interaction logic for AddTraineeWindow.xaml
     /// </summary>
+    /// 
+    //class Date
+    //{
+    //    DateTime date = new DateTime();
+    //    DateTime dateTime = new DateTime();
+    //    dateTime= DateTime.Now-date
+    //}
     public partial class AddTraineeWindow : Window
     {
         BO.Trainee myTrainee = new BO.Trainee();
@@ -32,6 +39,7 @@ namespace PLWPF
             this.traineeVehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
             this.traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.personGenderComboBox.ItemsSource = Enum.GetValues(typeof(BO.Gender));
+         //   dayOfBirthDatePicker.BlackoutDates.Add(new CalendarDateRange())
         }
         //-------------------------------------------------------------------
         private void AddButton_Click(object sender, RoutedEventArgs e)

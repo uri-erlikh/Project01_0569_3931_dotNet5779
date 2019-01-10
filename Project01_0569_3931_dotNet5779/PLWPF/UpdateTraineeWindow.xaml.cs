@@ -17,6 +17,8 @@ namespace PLWPF
     /// <summary>
     /// Interaction logic for UpdateTraineeWindow.xaml
     /// </summary>
+    /// 
+    
     public partial class UpdateTraineeWindow : Window
     {
         BL.IBL bl;
@@ -24,10 +26,11 @@ namespace PLWPF
         public UpdateTraineeWindow(BO.Trainee trainee1)
         {
             InitializeComponent();
+            numTraineeTextBlock.Text = "ID: " + trainee1.ID;
             bl = BL.BL_Factory.GetBL();
             trainee = trainee1;
+            traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.DataContext = trainee;
-
 
         }
 
@@ -35,7 +38,18 @@ namespace PLWPF
         {
             try
             {
-                bl.UpdateTrainee(trainee);
+                trainee.TraineeGear = (BO.GearBox)this.traineeGearComboBox.SelectedIndex;
+
+                if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
+                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true)
+                    MessageBox.Show("please insert only digits for: phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                else
+                {
+                    bl.UpdateTrainee(trainee);
+                    MessageBox.Show("update is Succeeded");
+                    new TrainiesWindow().Show();
+                    this.Close();
+                }
             }
             catch (BO.InvalidDataException r)
             {
@@ -46,6 +60,12 @@ namespace PLWPF
                 MessageBox.Show(x.Message);
 
             }
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            new TrainiesWindow().Show();
+            this.Close();
         }
     }
 }
