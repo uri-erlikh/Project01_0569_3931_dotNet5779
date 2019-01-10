@@ -53,6 +53,9 @@ namespace PLWPF
                         MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                     else
                     {
+                        myTrainee.TraineeVehicle = (BO.Vehicle)this.traineeVehicleComboBox.SelectedIndex;
+                        myTrainee.PersonGender = (BO.Gender)this.personGenderComboBox.SelectedIndex;
+                        myTrainee.TraineeGear = (BO.GearBox)this.traineeGearComboBox.SelectedIndex;
                         bl.AddTrainee(myTrainee);
                         MessageBox.Show("Welcome to our system. Good Luck!!", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
                         myTrainee = new BO.Trainee();

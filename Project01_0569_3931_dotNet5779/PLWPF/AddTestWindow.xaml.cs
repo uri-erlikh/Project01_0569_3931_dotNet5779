@@ -76,6 +76,7 @@ namespace PLWPF
                     else
                     {
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
+                        test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
                         MessageBox.Show(bl.AddTest(test));
                         test = new BO.Test();
                         this.traineeIdTextBox.Clear();
