@@ -33,7 +33,7 @@ namespace PLWPF
             {
                 GetTestTextBlock.Text = test.ToString();
             }
-            catch (NullReferenceException ex)
+            catch (NullReferenceException ex)//if user delete the test just now
             {
                 MessageBox.Show(ex.Message);
             }
@@ -72,6 +72,7 @@ namespace PLWPF
                 try
                 {
                     bl.DeleteTest(test1.TestNumber);
+                    MessageBox.Show("test was deleted successfully", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
                     new TestsWindow().Show();
                     this.Close();
                 }
