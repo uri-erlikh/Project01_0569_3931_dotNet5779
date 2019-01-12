@@ -15,11 +15,12 @@
     </Window.Background>-->
     <Grid>
         <Grid.RowDefinitions>
-           <RowDefinition Height="*"/>
-           <RowDefinition Height="*"/>
-           <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <Button x:Name="TestsButton" Content="Tests"  
         Width="300" Height="50" FontSize="30" Grid.Row="0" BorderBrush="Azure" BorderThickness="2" Click="TestsButton_Click" />
 
@@ -28,6 +29,8 @@
 
         <Button x:Name="TestersButoon" Content="Testers"  
         Width="300" Height="50" FontSize="30" Grid.Row="2" BorderBrush="Azure" BorderThickness="2" Click="TestersButoon_Click" />
+        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Right" BorderBrush="Azure" BorderThickness="2"
+                Grid.Row="3" Height="22" Width="75" Click="ExitButton_Click" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
