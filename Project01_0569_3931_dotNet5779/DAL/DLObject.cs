@@ -66,50 +66,59 @@ namespace DAL
             return check1;
         }
         //----------------------------------------------------------------------------
-        public void UpdateTester(string testerID, string field, params object[] info)
+        public void UpdateTester(DO.Tester tester)
         {
             try
             {
-
-                Tester tester = DataSource.Testers.Find(x => x.ID == testerID);
-                if (tester == null)
+                if (!IfExist(tester.ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
-                switch (field)
-                {
-                    case "familyName":
-                        tester.FamilyName = (string)info[0];
-                        break;
-                    case "privateName":
-                        tester.PrivateName = (string)info[0];
-                        break;
-                    case "dayOfBirth":
-                        tester.DayOfBirth = DateTime.Parse((string)info[0]);
-                        break;
-                    case "phone":
-                        tester.Phone = (string)info[0];
-                        break;
-                    case "personAddress":
-                        tester.PersonAddress = new Address((string)info[0], (string)info[1], (int)info[2]);
-                        break;
-                    case "testerExperience":
-                        tester.TesterExperience = (int)info[0];
-                        break;
-                    case "maxWeeklyTests":
-                        tester.MaxWeeklyTests = (int)info[0];
-                        break;
-                    case "testerVehicle":
-                        tester.TesterVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]);
-                        break;
-                    case "rangeToTest":
-                        tester.RangeToTest = (int)info[0];
-                        break;
-                    case "schedule":
-                        DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
-                        break;
-                }
+                int index = DataSource.Testers.FindIndex(x => x.ID == tester.ID );
+                DataSource.Testers[index] = tester;
+               
             }
-            catch (KeyNotFoundException e)
-            { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            //try
+            //{
+
+            //    Tester tester1 = DataSource.Testers.Find(x => x.ID == tester.ID);
+            //    if (tester == null)
+            //        throw new KeyNotFoundException("ID not found");
+            //    switch (field)
+            //    {
+            //        case "familyName":
+            //            tester.FamilyName = (string)info[0];
+            //            break;
+            //        case "privateName":
+            //            tester.PrivateName = (string)info[0];
+            //            break;
+            //        case "dayOfBirth":
+            //            tester.DayOfBirth = DateTime.Parse((string)info[0]);
+            //            break;
+            //        case "phone":
+            //            tester.Phone = (string)info[0];
+            //            break;
+            //        case "personAddress":
+            //            tester.PersonAddress = new Address((string)info[0], (string)info[1], (int)info[2]);
+            //            break;
+            //        case "testerExperience":
+            //            tester.TesterExperience = (int)info[0];
+            //            break;
+            //        case "maxWeeklyTests":
+            //            tester.MaxWeeklyTests = (int)info[0];
+            //            break;
+            //        case "testerVehicle":
+            //            tester.TesterVehicle = (Vehicle)Enum.Parse(typeof(Vehicle), (string)info[0]);
+            //            break;
+            //        case "rangeToTest":
+            //            tester.RangeToTest = (int)info[0];
+            //            break;
+            //        case "schedule":
+            //            DataSource.Schedules[testerID][(int)info[0] - 1, (int)info[1] - 9] = (bool)info[2];
+            //            break;
+            //    }
+            //}
+            //catch (KeyNotFoundException e)
+            //{ throw; }
         }
         //--------------------------------------------------------
         public DO.Tester GetOneTester(string ID)

@@ -227,97 +227,97 @@ namespace UI
                             Console.WriteLine(e.Message);
                         }
                         break;
-                    case 6:
-                        object info = new object();
-                        object info1 = new object();
-                        object info2 = new object();
-                        int number;
-                        Console.WriteLine("Enter the ID Tester's ");
-                        id = Console.ReadLine();
-                        Console.WriteLine(@"select what you want to update:
-1:first name
-2:last name
-3:day Of Birth
-4:phone
-5:Address
-6:tester Experience
-7:max Weekly Tests
-8:tester Vehicle
-9:range To Test
-10:schedule
-");
-                        number = int.Parse(Console.ReadLine());
-                        try
-                        {
+//                    case 6:
+//                        object info = new object();
+//                        object info1 = new object();
+//                        object info2 = new object();
+//                        int number;
+//                        Console.WriteLine("Enter the ID Tester's ");
+//                        id = Console.ReadLine();
+//                        Console.WriteLine(@"select what you want to update:
+//1:first name
+//2:last name
+//3:day Of Birth
+//4:phone
+//5:Address
+//6:tester Experience
+//7:max Weekly Tests
+//8:tester Vehicle
+//9:range To Test
+//10:schedule
+//");
+//                        number = int.Parse(Console.ReadLine());
+//                        try
+//                        {
 
-                            switch (number)
-                            {
-                                case 1:
-                                    Console.WriteLine("enter the first name ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "privateName", info);
-                                    break;
-                                case 2:
-                                    Console.WriteLine("enter the last name ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "familyName", info);
-                                    break;
-                                case 3:
-                                    Console.WriteLine("enter the dayOfBirth");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "dayOfBirth", info);
-                                    break;
-                                case 4:
-                                    Console.WriteLine("enter the phone");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "phone", info);
-                                    break;
-                                case 5:
-                                    Console.WriteLine("enter City: ");
-                                    city = Console.ReadLine();
-                                    Console.WriteLine("enter Street: ");
-                                    street = Console.ReadLine();
-                                    Console.WriteLine("enter Num Of Bilding: ");
-                                    numofbuilding = int.Parse(Console.ReadLine());
-                                    bL.UpdateTester(id, "personAddress", city,street,numofbuilding);
-                                    break;
-                                case 6:
-                                    Console.WriteLine("enter the Experience in years: ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "testerExperience", info);
-                                    break;
-                                case 7:
-                                    Console.WriteLine("enter the max Weekly Tests: ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "maxWeeklyTests", info);
-                                    break;
-                                case 8:
-                                    Console.WriteLine("enter the Vehicle: ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "testerVehicle", info);
-                                    break;
-                                case 9:
-                                    Console.WriteLine("enter the Vehicle: ");
-                                    info = Console.ReadLine();
-                                    bL.UpdateTester(id, "testerVehicle", info);
-                                    break;
-                                case 10:
-                                    Console.WriteLine("enter the day in week to update in the number: ");
-                                    info = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("enter the hour to update in the number: ");
-                                    info1 = int.Parse(Console.ReadLine());
-                                    Console.WriteLine("enter the update for true: enter 1 , for false: enter 0 ");
-                                    info2 = int.Parse(Console.ReadLine());
-                                    bL.UpdateTester(id, "schedule", info, info1, info2);
-                                    break;
-                                default: break;
-                            }
-                        }
-                        catch (KeyNotFoundException e)
-                        {
-                            Console.WriteLine(e.Message);
-                        }
-                        break;
+//                            switch (number)
+//                            {
+//                                case 1:
+//                                    Console.WriteLine("enter the first name ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "privateName", info);
+//                                    break;
+//                                case 2:
+//                                    Console.WriteLine("enter the last name ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "familyName", info);
+//                                    break;
+//                                case 3:
+//                                    Console.WriteLine("enter the dayOfBirth");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "dayOfBirth", info);
+//                                    break;
+//                                case 4:
+//                                    Console.WriteLine("enter the phone");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "phone", info);
+//                                    break;
+//                                case 5:
+//                                    Console.WriteLine("enter City: ");
+//                                    city = Console.ReadLine();
+//                                    Console.WriteLine("enter Street: ");
+//                                    street = Console.ReadLine();
+//                                    Console.WriteLine("enter Num Of Bilding: ");
+//                                    numofbuilding = int.Parse(Console.ReadLine());
+//                                    bL.UpdateTester(id, "personAddress", city,street,numofbuilding);
+//                                    break;
+//                                case 6:
+//                                    Console.WriteLine("enter the Experience in years: ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "testerExperience", info);
+//                                    break;
+//                                case 7:
+//                                    Console.WriteLine("enter the max Weekly Tests: ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "maxWeeklyTests", info);
+//                                    break;
+//                                case 8:
+//                                    Console.WriteLine("enter the Vehicle: ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "testerVehicle", info);
+//                                    break;
+//                                case 9:
+//                                    Console.WriteLine("enter the Vehicle: ");
+//                                    info = Console.ReadLine();
+//                                    bL.UpdateTester(id, "testerVehicle", info);
+//                                    break;
+//                                case 10:
+//                                    Console.WriteLine("enter the day in week to update in the number: ");
+//                                    info = int.Parse(Console.ReadLine());
+//                                    Console.WriteLine("enter the hour to update in the number: ");
+//                                    info1 = int.Parse(Console.ReadLine());
+//                                    Console.WriteLine("enter the update for true: enter 1 , for false: enter 0 ");
+//                                    info2 = int.Parse(Console.ReadLine());
+//                                    bL.UpdateTester(id, "schedule", info, info1, info2);
+//                                    break;
+//                                default: break;
+//                            }
+//                        }
+//                        catch (KeyNotFoundException e)
+//                        {
+//                            Console.WriteLine(e.Message);
+//                        }
+//                        break;
 //                    case 7:
 //                        object infom = new object();
 //                        int number1;

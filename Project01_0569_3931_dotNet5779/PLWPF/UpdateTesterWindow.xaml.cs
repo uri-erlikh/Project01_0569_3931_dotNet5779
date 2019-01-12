@@ -15,39 +15,34 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for UpdateTraineeWindow.xaml
+    /// Interaction logic for UpdateTesterWindow.xaml
     /// </summary>
-    /// 
-    
-    public partial class UpdateTraineeWindow : Window
+    public partial class UpdateTesterWindow : Window
     {
         BL.IBL bl;
-        BO.Trainee trainee = new BO.Trainee();
-        public UpdateTraineeWindow(BO.Trainee trainee1)
+        BO.Tester tester = new BO.Tester();
+        public UpdateTesterWindow(BO.Tester tester1)
         {
             InitializeComponent();
-            numTraineeTextBlock.Text = "ID: " + trainee1.ID;
             bl = BL.BL_Factory.GetBL();
-            trainee = trainee1;
-            traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
-            this.DataContext = trainee;
-
+            tester = tester1;
+            numTesterTextBlock.Text = "ID: " + tester.ID;
+            this.DataContext = tester;
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                trainee.TraineeGear = (BO.GearBox)this.traineeGearComboBox.SelectedIndex;
 
                 if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
                         int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true)
                     MessageBox.Show("please insert only digits for: phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
-                    bl.UpdateTrainee(trainee);
+                    bl.UpdateTester(tester);
                     MessageBox.Show("update is Succeeded");
-                    new TrainiesWindow().Show();
+                    new TestersWindow().Show();
                     this.Close();
                 }
             }
@@ -55,7 +50,7 @@ namespace PLWPF
             {
                 MessageBox.Show(r.Message);
             }
-            catch(KeyNotFoundException x)
+            catch (KeyNotFoundException x)
             {
                 MessageBox.Show(x.Message);
 
@@ -64,7 +59,7 @@ namespace PLWPF
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            new TrainiesWindow().Show();
+            new TestersWindow().Show();
             this.Close();
         }
     }

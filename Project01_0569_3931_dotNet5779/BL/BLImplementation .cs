@@ -51,45 +51,22 @@ namespace BL
             { throw; }
         }
         //--------------------------------------------------------------------
-        public void UpdateTester(string testerID, string field, params object[] info)
+        public void UpdateTester(BO.Tester tester)
         {
             try
             {
-                switch (field)
-                {
-                    case "familyName":
-                        CheckName((string)info[0]);
-                        break;
-                    case "privateName":
-                        CheckName((string)info[0]);
-                        break;
-                    case "dayOfBirth":
-                        CheckDate(DateTime.Parse((string)info[0]));
-                        break;
-                    case "phone":
-                        CheckPhone((string)info[0]);
-                        break;
-                    case "personAddress": break;
-                    case "testerExperience":
-                        CheckTesterExperience((int)info[0]);
-                        break;
-                    case "maxWeeklyTests":
-                        CheckMaxWeeekltTests((int)info[0]);
-                        break;
-                    case "testerVehicle":
-                        CheckVehicle((string)info[0]);
-                        break;
-                    case "rangeToTest": break;
-                    case "schedule":
-                        CheckScheduale((int)info[0], (int)info[1]);
-                        break;
-                    default: throw new InvalidDataException("no such field");
-                }
+                CheckName(tester.FamilyName);
+                CheckName(tester.PrivateName);
+                CheckDate(tester.DayOfBirth);
+                CheckPhone(tester.Phone);
+                CheckTesterExperience(tester.TesterExperience);
+                CheckMaxWeeekltTests(tester.MaxWeeklyTests);
+                //  CheckScheduale(tester.Schedule);
             }
             catch (InvalidDataException e) { throw; }
             try
             {
-                dl.UpdateTester(testerID, field, info);
+                dl.UpdateTester(Convert(tester));
             }
             catch (KeyNotFoundException e) { throw; }
         }
