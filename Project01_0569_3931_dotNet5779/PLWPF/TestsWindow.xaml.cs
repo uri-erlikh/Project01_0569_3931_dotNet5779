@@ -61,7 +61,7 @@ namespace PLWPF
         //--------------------------------------------------------------------------
         private void AddTestButton_Click(object sender, RoutedEventArgs e)
         {
-            new AddTesterWindow().Show();
+            new AddTestWindow().Show();
             this.Close();
         }
         //---------------------------------------------------------------------------
@@ -109,11 +109,26 @@ namespace PLWPF
             this.DeleteTestButton.IsEnabled = false;
             this.UpdateTestButton.IsEnabled = false;
         }
+        //---------------------------------------------------------
+        private void PasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.NumLabel.Visibility = Visibility.Visible;
+            this.GetTestNumTextBox.Visibility = Visibility.Visible;
+            this.GetDataButton.Visibility = Visibility.Visible;
+            this.ResetButton.Visibility = Visibility.Visible;
+            this.AddTestButton.Visibility = Visibility.Visible;
+            this.UpdateTestButton.Visibility = Visibility.Visible;
+            this.DeleteTestButton.Visibility = Visibility.Visible;
+            this.PrintTestButton.Visibility = Visibility.Visible;
+            this.passwordBox.Visibility = Visibility.Hidden;
+            this.passwordLabel.Visibility = Visibility.Hidden;
+            this.PasswordButton.Visibility = Visibility.Hidden;
+        }
     }
 
     //public TestsWindow()
     //{
-    //    InitializeComponent();
+    //    InitializeComponent();.
     //}
 
 
