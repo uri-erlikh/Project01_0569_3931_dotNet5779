@@ -64,10 +64,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Button x:Name="AddTestButton" Content="Add"  Click="AddTestButton_Click" 
-                HorizontalAlignment="Left" Width="228" Grid.Row="0"  Margin="3"                   />
+                HorizontalAlignment="Left" MinWidth="228" Grid.Row="0"  Margin="3"                   />
 
             <TextBlock x:Name="messageForUser" Grid.Column="1"/>
-            <Button x:Name="BackButton" Grid.Row="1" Content="Back" Click="BackButton_Click" Margin="3"  />
+            <Button x:Name="BackButton" Grid.Row="1" Content="Back" Click="BackButton_Click" Margin="5" MinWidth="228"  />
 
             <!--<TextBlock x:Name="MoreDatesTextBlock" Grid.Column="3" Grid.Row="2" Visibility="Hidden"/>
             <DatePicker x:Name="FromDate" Grid.Column="1" Grid.Row="2"  SelectedDate="{Binding Source={StaticResource dates}, Path=StartDate}" />

@@ -79,9 +79,9 @@
                     <Label Content="Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="1" VerticalAlignment="Center"/>
                     <TextBox x:Name="streetTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="1" Text="{Binding PersonAddress.Street, Mode=OneWayToSource, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 </Grid>
-            <Button x:Name="AddButton" Content="Add" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,18,-210,0" VerticalAlignment="Top" Width="75" Click="AddButton_Click"/>
-            <Button x:Name="ResetButton" Content="Reset form" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,83,-207.6,0" VerticalAlignment="Top" Width="75" Click="ResetButton_Click"/>
-            <Button x:Name="BackButton" Content="Back" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,142,-205.2,0" VerticalAlignment="Top" Width="75" Click="BackButton_Click"/>
+            <Button x:Name="AddButton" Content="Add" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,18,-210,0" VerticalAlignment="Top" MinWidth="75" Click="AddButton_Click"/>
+            <Button x:Name="ResetButton" Content="Reset form" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,83,-207.6,0" VerticalAlignment="Top" MinWidth="75" Click="ResetButton_Click"/>
+            <Button x:Name="BackButton" Content="Back" FontWeight="Bold" FontStyle="Italic" Grid.Column="1" HorizontalAlignment="Left" Margin="370.2,148,-205.2,0" VerticalAlignment="Top" MinWidth="75" Click="BackButton_Click"/>
 
         </Grid>
     </Grid>

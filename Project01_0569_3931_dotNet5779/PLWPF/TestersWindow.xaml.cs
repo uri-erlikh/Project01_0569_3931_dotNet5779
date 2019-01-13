@@ -62,7 +62,7 @@ namespace PLWPF
         //--------------------------------------------------------------------------
         private void AddTesterButton_Click(object sender, RoutedEventArgs e)
         {
-            // new AddTesterWindow().Show();
+            new AddTesterWindow().Show();
             this.Close();
         }
         //---------------------------------------------------------------------------
@@ -80,6 +80,7 @@ namespace PLWPF
             {
                 bl.DeleteTester(testerID);
                 MessageBox.Show("Tester was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                reset();                
             }
         }
         //------------------------------------------------------------------------------
@@ -123,6 +124,11 @@ namespace PLWPF
         }
         //-------------------------------------------------------------
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            reset();
+        }
+        //------------------------------------------------------------
+        private void reset()
         {
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();

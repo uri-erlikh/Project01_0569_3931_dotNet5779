@@ -6,6 +6,16 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" >
+    <Window.Resources>
+        <Style x:Key="myButtonStyle"
+         TargetType="Button">
+            <Setter Property="FontSize" Value="30" />
+            <Setter Property="Width" Value="300" />
+            <Setter Property="BorderBrush" Value="Azure" />
+            <Setter Property="BorderThickness" Value="2"/>
+            <Setter Property="Height" Value="50"/>
+        </Style>
+    </Window.Resources>
     <!--<Window.Background>
         <ImageBrush>
             <ImageBrush.ImageSource>
@@ -15,19 +25,17 @@
     </Window.Background>-->
     <Grid>
         <Grid.RowDefinitions>
-           <RowDefinition Height="*"/>
-           <RowDefinition Height="*"/>
-           <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
-        <Button x:Name="TestsButton" Content="Tests"  
-        Width="300" Height="50" FontSize="30" Grid.Row="0" BorderBrush="Azure" BorderThickness="2" Click="TestsButton_Click" />
 
-        <Button x:Name="TrainiesButton" Content="Trainies"  
-       Width="300" Height="50" FontSize="30" Grid.Row="1" BorderBrush="Azure" BorderThickness="2" Click="TrainiesButton_Click" />
-
-        <Button x:Name="TestersButoon" Content="Testers"  
-        Width="300" Height="50" FontSize="30" Grid.Row="2" BorderBrush="Azure" BorderThickness="2" Click="TestersButoon_Click" />
+        <Button x:Name="TestsButton" Content="Tests" Style="{StaticResource myButtonStyle}" Grid.Row="0" Click="TestsButton_Click" />
+        <Button x:Name="TrainiesButton" Content="Trainies" Style="{StaticResource myButtonStyle}" Grid.Row="1" Click="TrainiesButton_Click" />
+        <Button x:Name="TestersButoon" Content="Testers" Style="{StaticResource myButtonStyle}" Grid.Row="2" Click="TestersButoon_Click" />
+        <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Right" BorderBrush="Azure" BorderThickness="2"
+                Grid.Row="3" MinHeight="22" MinWidth="75" Click="ExitButton_Click" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

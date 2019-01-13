@@ -84,6 +84,7 @@ namespace PLWPF
             {
                 bl.DeleteTrainee(traineeID, vehicle);
                 MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                reset();
             }
         }
         //------------------------------------------------------------------------------
@@ -127,6 +128,11 @@ namespace PLWPF
         }
         //-------------------------------------------------------------
         private void ResetButton_Click(object sender, RoutedEventArgs e)
+        {
+            reset();
+        }
+
+        private void reset()
         {
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();

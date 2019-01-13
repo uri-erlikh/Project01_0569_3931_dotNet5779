@@ -61,7 +61,7 @@ namespace BL
                 CheckPhone(tester.Phone);
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
-                //  CheckScheduale(tester.Schedule);
+                //CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (InvalidDataException e) { throw; }
             try
@@ -289,6 +289,8 @@ namespace BL
                 CheckID(test.TraineeId);
                 CheckDateTrainee(test.TestDate);
                 CheckHour(test.TestHour);
+                if (test.TestHour < DateTime.Now)
+                    throw new InvalidDataException("your date allready passed");
             }
             catch (InvalidDataException e) { throw; }
             //------------
@@ -299,7 +301,7 @@ namespace BL
                      let temp = test.TestDate - item.TestDate
                      where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
                      select item).ToList().Any())
-                    throw new InvalidDataException("test too close");
+                    throw new InvalidDataException("tests are too close");
             }
 
             //where item.TestDate < DateTime.Now
@@ -985,5 +987,6 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //-------------------------------------------------------------------------------
+        
     }
 }

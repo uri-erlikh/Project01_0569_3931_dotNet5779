@@ -18,12 +18,7 @@ namespace PLWPF
     /// Interaction logic for AddTraineeWindow.xaml
     /// </summary>
     /// 
-    //class Date
-    //{
-    //    DateTime date = new DateTime();
-    //    DateTime dateTime = new DateTime();
-    //    dateTime= DateTime.Now-date
-    //}
+    
     public partial class AddTraineeWindow : Window
     {
         BO.Trainee myTrainee = new BO.Trainee();
@@ -39,7 +34,6 @@ namespace PLWPF
             this.traineeVehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
             this.traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.personGenderComboBox.ItemsSource = Enum.GetValues(typeof(BO.Gender));
-         //   dayOfBirthDatePicker.BlackoutDates.Add(new CalendarDateRange())
         }
         //-------------------------------------------------------------------
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -54,8 +48,8 @@ namespace PLWPF
                     MessageBox.Show("please insert only digits for: ID, phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);                
                 else
                 {
-                    if (this.traineeGearComboBox.SelectedItem == null || this.traineeVehicleComboBox.Text == null
-                        || this.traineeGearComboBox.SelectedItem == null || this.privateNameTextBox.Text == "" || this.familyNameTextBox.Text == ""
+                    if (this.traineeGearComboBox.SelectedItem == null || this.traineeVehicleComboBox.Text == null||
+                       this.personGenderComboBox.SelectedItem==null || this.privateNameTextBox.Text == "" || this.familyNameTextBox.Text == ""
                        || this.phoneTextBox.Text == "" || this.schoolTextBox.Text == "" || this.teacherTextBox.Text == "" || this.cityTextBox.Text == ""
                        || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "" || this.drivingLessonsNumTextBox.Text == "")
                         MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
@@ -87,7 +81,7 @@ namespace PLWPF
         {
             this.traineeGearComboBox.SelectedIndex = 0;
             this.traineeVehicleComboBox.SelectedIndex = 0;
-            this.traineeGearComboBox.SelectedIndex = 0;
+            this.personGenderComboBox.SelectedIndex = 0;
             this.IDTextBox.Clear();
             this.privateNameTextBox.Clear();
             this.familyNameTextBox.Clear();
