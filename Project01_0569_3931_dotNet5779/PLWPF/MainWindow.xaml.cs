@@ -27,10 +27,14 @@ namespace PLWPF
         }
 
         private void TestersButoon_Click(object sender, RoutedEventArgs e)
-        {            
-            Window testersWindow = new TestersWindow();
-            testersWindow.Show();
-            this.Close();
+        {
+            MessageBoxResult result = MessageBox.Show("Are you the admin??", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Window testersWindow = new TestersWindow();
+                testersWindow.Show();
+                this.Close();
+            }
         }
 
         private void TrainiesButton_Click(object sender, RoutedEventArgs e)
