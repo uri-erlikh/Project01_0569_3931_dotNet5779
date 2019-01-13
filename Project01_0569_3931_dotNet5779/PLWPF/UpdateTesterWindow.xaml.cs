@@ -36,14 +36,20 @@ namespace PLWPF
             {
 
                 if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
-                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true)
+                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true ||
+                        int.TryParse(maxWeeklyTestsTextBox.Text,out int number3) != true ||int.TryParse( rangeToTestTextBox.Text, out int number4)!= true || int.TryParse(testerExperienceTextBox.Text,out int number5)!=true )
                     MessageBox.Show("please insert only digits for: phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
-                    bl.UpdateTester(tester);
-                    MessageBox.Show("update is Succeeded");
-                    new TestersWindow().Show();
-                    this.Close();
+                    if (familyNameTextBox.Text == "" || privateNameTextBox.Text == "" || cityTextBox.Text == "" || streetTextBox.Text == "")
+                        MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    else
+                    {
+                        bl.UpdateTester(tester);
+                        MessageBox.Show("update is Succeeded");
+                        new TestersWindow().Show();
+                        this.Close();
+                    }
                 }
             }
             catch (BO.InvalidDataException r)

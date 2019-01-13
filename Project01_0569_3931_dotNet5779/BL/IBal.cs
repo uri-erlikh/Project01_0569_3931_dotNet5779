@@ -30,23 +30,24 @@ namespace BL
         List<BO.Tester> GetCloseTester(BO.Address address, double x);
         List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
-        
+        List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, BO.Test test);
+
         int NumOfTest(string id, BO.Vehicle vehicle);
         bool IfPassed(string id, BO.Vehicle vehicle);
         List<BO.Test> TestsPerDate(DateTime date);
         List<BO.Test> TestsPerMonth(DateTime date);
         List<BO.TesterTest> GetFutureTestForTester(string ID);
-        List<BO.TraineeTest> GetFutureTestForTrainee(string ID,BO.Vehicle vehicle);
+        List<BO.TraineeTest> GetFutureTestForTrainee(string ID, BO.Vehicle vehicle);
 
         //List<BO.Tester> TestersByVehicle(bool flag);
 
         Dictionary<string, object> GetConfig();
         void SetConfig(string parm, object value);
-        List<IGrouping<BO.Vehicle, BO.Tester> > TestersByVehicle(bool flag);
-        List<IGrouping<string, BO.Trainee>> TraineesBySchool (bool flag);
+        List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag);
+        List<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag);
         List<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag);
         List<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag);
     }
-    
+
 }
 

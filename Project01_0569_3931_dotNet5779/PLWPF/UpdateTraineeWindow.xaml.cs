@@ -41,14 +41,21 @@ namespace PLWPF
                 trainee.TraineeGear = (BO.GearBox)this.traineeGearComboBox.SelectedIndex;
 
                 if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
-                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true)
+                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true ||
+                        int.TryParse(this.drivingLessonsNumTextBox.Text ,out int number3)!=true)
                     MessageBox.Show("please insert only digits for: phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
-                    bl.UpdateTrainee(trainee);
-                    MessageBox.Show("update is Succeeded");
-                    new TrainiesWindow().Show();
-                    this.Close();
+                    if (familyNameTextBox.Text == "" || privateNameTextBox.Text == "" || schoolTextBox.Text == "" ||
+                        traineeGearComboBox.ItemsSource == null || cityTextBox.Text == "" || streetTextBox.Text == "")
+                        MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                    else
+                    {
+                        bl.UpdateTrainee(trainee);
+                        MessageBox.Show("update is Succeeded");
+                        new TrainiesWindow().Show();
+                        this.Close();
+                    }
                 }
             }
             catch (BO.InvalidDataException r)
