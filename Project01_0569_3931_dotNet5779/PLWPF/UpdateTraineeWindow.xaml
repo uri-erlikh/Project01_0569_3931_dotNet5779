@@ -20,8 +20,8 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Row="0">
-            <Label Content="Fill The fields below for a update trainee:"  FontSize="30" Margin="0" />
-        <TextBlock x:Name="numTraineeTextBlock"  FontSize="20" Margin="0" Grid.Row="1"/>
+            <Label Content="Fill The fields below for a update trainee:" FontWeight="Bold" FontStyle="Italic"  FontSize="30" Margin="0" />
+            <TextBlock x:Name="numTraineeTextBlock" FontWeight="Bold" FontStyle="Italic" FontSize="20" Margin="0" Grid.Row="1"/>
             </StackPanel>
                 <Grid x:Name="grid1" HorizontalAlignment="Left" Margin="270,75,0,0" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
@@ -63,8 +63,8 @@
             <TextBox x:Name="streetTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="23" Margin="3" Grid.Row="9" Text="{Binding PersonAddress.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
         </Grid>
         <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
-        <Button x:Name="UpdateButton" Content="Update" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Margin="3" Click="UpdateButton_Click"/>
-            <Button x:Name="BackButton" Content="Back" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Click="BackButton_Click"/>
+            <Button x:Name="UpdateButton" FontWeight="Bold" FontStyle="Italic" Content="Update" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Margin="3" Click="UpdateButton_Click"/>
+            <Button x:Name="BackButton" FontWeight="Bold" FontStyle="Italic" Content="Back" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Right" Margin="3" Click="BackButton_Click"/>
         </StackPanel>
 
     </Grid>

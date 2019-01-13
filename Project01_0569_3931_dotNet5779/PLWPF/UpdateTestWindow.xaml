@@ -11,17 +11,22 @@
    
 
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Fill The fields below for a update test:"  FontSize="30" Margin="0" Grid.Row="0"/>
-        <TextBlock x:Name="numTestTextBlock"  FontSize="20" Margin="0" Grid.Row="1"/>
+        <StackPanel>
+        <Label Content="Fill The fields below for a update test:" FontWeight="Bold" FontStyle="Italic"  FontSize="30" Margin="0" Grid.Row="0"/>
+        <TextBlock x:Name="numTestTextBlock" FontWeight="Bold" FontStyle="Italic"  FontSize="20" Margin="0" Grid.Row="1"/>
 
-        <Grid x:Name="grid1"  HorizontalAlignment="Left" Margin="224,75,0,0" VerticalAlignment="Top" Grid.Row="1">
+        <Grid x:Name="grid1"  HorizontalAlignment="Left" Margin="5" VerticalAlignment="Top" Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
@@ -63,8 +68,10 @@
             <CheckBox x:Name="vinkersRadioButton1"   Content="Past" Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Path=Vinkers, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
 
         </Grid>
-        <Button x:Name="BackButton" Content="Back"  Margin="3"  Grid.Row="3" Click="BackButton_Click"/>
-        <Button x:Name="updateTestButton" Content="Update" Margin="3" Grid.Row="2"  Click="UpdateTestButton_Click"  />
-
+            <StackPanel Orientation="Horizontal">
+        <Button x:Name="BackButton" Content="Back" FontWeight="Bold" FontStyle="Italic"  Margin="3"  Grid.Row="3" Click="BackButton_Click"/>
+        <Button x:Name="updateTestButton" Content="Update" FontWeight="Bold" FontStyle="Italic" Margin="3" Grid.Row="2"  Click="UpdateTestButton_Click"  />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

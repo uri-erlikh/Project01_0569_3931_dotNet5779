@@ -85,8 +85,8 @@
             <CheckBox Grid.Row="5" Grid.Column="6" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
         <StackPanel Margin="0,0,0,0.333">
-            <Label Content="Fill The fields below for a update tester:"  FontSize="18" Margin="0" Width="Auto" />
-            <TextBlock x:Name="numTesterTextBlock"  FontSize="20" Margin="0" Grid.Row="1"/>
+            <Label Content="Fill The fields below for a update tester:" FontWeight="Bold" FontStyle="Italic"  FontSize="18" Margin="0" Width="Auto" />
+            <TextBlock x:Name="numTesterTextBlock" FontWeight="Bold" FontStyle="Italic"  FontSize="20" Margin="0" Grid.Row="1"/>
             <Grid x:Name="grid1" VerticalAlignment="Top" Margin="5" HorizontalAlignment="Left" Grid.Row="1">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -125,8 +125,8 @@
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,0.333,31,-0.333">
-            <Button x:Name="UpdateButton" Content="Update" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Margin="3" Click="UpdateButton_Click" />
-            <Button x:Name="BackButton" Content="Back" Grid.Row="1"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Click="BackButton_Click" />
+            <Button x:Name="UpdateButton" FontWeight="Bold" FontStyle="Italic" Content="Update" Grid.Row="1" Grid.Column="0" HorizontalAlignment="Left"  Margin="3" Click="UpdateButton_Click" />
+            <Button x:Name="BackButton" FontWeight="Bold" FontStyle="Italic" Content="Back" Grid.Row="1"  Grid.Column="0" HorizontalAlignment="Right" Margin="3" Click="BackButton_Click" />
         </StackPanel>
 
     </Grid>

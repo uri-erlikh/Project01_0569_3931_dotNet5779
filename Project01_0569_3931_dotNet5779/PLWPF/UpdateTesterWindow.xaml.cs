@@ -28,6 +28,12 @@ namespace PLWPF
             tester = tester1;
             numTesterTextBlock.Text = "ID: " + tester.ID;
             this.DataContext = tester;
+            foreach (var item in ScheduleGrid.Children.OfType<CheckBox>().ToList())
+            {
+                int row = Grid.GetRow(item) - 1;
+                int column = Grid.GetColumn(item) - 1;
+                item.IsChecked = tester.Schedule[row, column];
+            }
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -45,7 +51,12 @@ namespace PLWPF
                         MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                     else
                     {
-                        
+                        foreach (var item in ScheduleGrid.Children.OfType<CheckBox>().ToList())
+                        {
+                            int row = Grid.GetRow(item) - 1;
+                            int column = Grid.GetColumn(item) - 1;
+                            tester.Schedule[row, column] = (bool)item.IsChecked;
+                        }
                         bl.UpdateTester(tester);
                         MessageBox.Show("update is Succeeded");
                         new TestersWindow().Show();
