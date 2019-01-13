@@ -395,7 +395,7 @@ namespace BL
                         catch (KeyNotFoundException) { }
                         catch (IndexOutOfRangeException) { }
 
-                    fromDate.AddHours(+1.0);
+                    fromDate.AddHours(1);
 
                 }               
                     fromDate.AddDays(+1);

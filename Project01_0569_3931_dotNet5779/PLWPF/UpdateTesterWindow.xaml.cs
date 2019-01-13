@@ -45,6 +45,7 @@ namespace PLWPF
                         MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                     else
                     {
+                        
                         bl.UpdateTester(tester);
                         MessageBox.Show("update is Succeeded");
                         new TestersWindow().Show();
