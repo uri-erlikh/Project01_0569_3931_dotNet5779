@@ -29,7 +29,6 @@ namespace BL
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
                 CheckVehicle(tester.TesterVehicle.ToString());
-                CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (BO.InvalidDataException e) { throw; }
             try
@@ -62,7 +61,7 @@ namespace BL
                 CheckPhone(tester.Phone);
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
-                CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
+                //CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (InvalidDataException e) { throw; }
             try
@@ -936,19 +935,6 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //-------------------------------------------------------------------------------
-        private void CheckSchedule(bool[,] schedule, int maxWeeklyTests)
-        {
-            try
-            {
-                int counter = 0;
-                for (int i = 0; i < 5; ++i)
-                    for (int j = 0; j < 6; ++j)
-                        if (schedule[i, j] == true)
-                            ++counter;
-                if (counter > maxWeeklyTests)
-                    throw new InvalidDataException("The examiner exceeded his maximum hours");
-            }
-            catch (InvalidDataException e) { throw; }
-        }
+        
     }
 }
