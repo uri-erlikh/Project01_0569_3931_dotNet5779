@@ -65,6 +65,9 @@
       <DependentUpon>AddTraineeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converter.cs" />
+    <Compile Include="MoreDatesWindow.xaml.cs">
+      <DependentUpon>MoreDatesWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NumOfTestWindow.xaml.cs">
       <DependentUpon>NumOfTestWindow.xaml</DependentUpon>
     </Compile>
@@ -113,6 +116,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="MoreDatesWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="NumOfTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

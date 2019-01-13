@@ -135,9 +135,9 @@
                 <Label Content="Max Weekly Tests:" Grid.Column="0"  Grid.Row="13" VerticalAlignment="Center"/>
                 <TextBox x:Name="maxWeeklyTestsTextBox" Grid.Column="1" HorizontalAlignment="Left" Height="24"  Grid.Row="13" MaxLength="2" Text="{Binding MaxWeeklyTests, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
             </Grid>
-            <Button x:Name="AddButton" Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="371,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="AddButton_Click"/>
-            <Button x:Name="ResetButton" Content="ResetForm" Grid.Column="1" HorizontalAlignment="Left" Margin="503,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="ResetButton_Click" />
-            <Button x:Name="BackButton" Content="Back" Grid.Column="1" HorizontalAlignment="Left" Margin="630,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="BackButton_Click"/>
+            <Button x:Name="AddButton" FontWeight="Bold" FontStyle="Italic" Content="Add" Grid.Column="1" HorizontalAlignment="Left" Margin="371,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="AddButton_Click"/>
+            <Button x:Name="ResetButton" FontWeight="Bold" FontStyle="Italic" Content="ResetForm" Grid.Column="1" HorizontalAlignment="Left" Margin="503,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="ResetButton_Click" />
+            <Button x:Name="BackButton" FontWeight="Bold" FontStyle="Italic" Content="Back" Grid.Column="1" HorizontalAlignment="Left" Margin="630,339,0,0" VerticalAlignment="Top" Width="75" Height="24" RenderTransformOrigin="0.5,0.5" Click="BackButton_Click"/>
         </Grid>
     </Grid>
 </Window>

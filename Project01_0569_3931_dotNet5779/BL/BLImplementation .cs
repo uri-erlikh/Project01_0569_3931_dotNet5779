@@ -197,7 +197,7 @@ namespace BL
                     whoTest = GetTestersByDate(newDate);
                 }
 
-                bool flag = false;
+                bool flag = false;//למה לא לעשות בTRY
                 if (whoTest.Any() && closeTester.Any())
                 {
                     var finalList = (from item in whoTest
@@ -297,7 +297,7 @@ namespace BL
             /*var tspan = test.TestDate -*/
             try
             {
-                if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+                if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle)//הוספתי תנאי של כלי רכב לשים לב שזה אכן נצרך
                      let temp = test.TestDate - item.TestDate
                      where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
                      select item).ToList().Any())
@@ -336,22 +336,74 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //---------------------------------------------------------------------
-        public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate)
+        public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, BO.Test test)
         {
+            if (fromDate < DateTime.Now)
+                throw new InvalidDataException("Choose a bigset start date");
+            if (fromDate > untilDate)
+                throw new InvalidDataException("Choose a smaller start date");
+
+            //if((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle)//הוספתי תנאי של כלי רכב לשים לב שזה אכן נצרך
+            //    let temp = untilDate - item.TestDate
+            //    where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
+            //    select item).ToList().Any())
+            //     throw new InvalidDataException("test too close");
+
+            //if (dl.GetOneTrainee(test.TraineeId, (DO.Vehicle)test.Vehicle).DrivingLessonsNum < Configuration.MIN_LESSONS)
+            //    throw new InvalidDataException("not enough lessons");
+
+            DateTime newDate = test.TestHour;
+            List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
+            if (!closeTester.Any())
+                throw new InvalidDataException("no close tester");
+
+            //if(!dl.GetSomeTrainies(x => x.ID == test.TraineeId && x.TraineeVehicle == (DO.Vehicle)test.Vehicle).Any())
+            //        throw new InvalidDataException("you don't study this vehicle");
+            //if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
+            //     where item.PassedTest == true
+            //     where item.Vehicle == (DO.Vehicle)test.Vehicle
+            //     select item).ToList().Any())
+            //    throw new InvalidDataException("trainee passed a test on this vehicle");
+
+            List<BO.Tester> whoTest = new List<BO.Tester>();
             List<DateTime> dateTimes = new List<DateTime>();
 
-            for (int i = fromDate.DayOfYear + 365 * fromDate.Year; i < untilDate.DayOfYear + 365 * untilDate.Year; ++i)
+            for (int i = fromDate.DayOfYear + 365 * fromDate.Year; i <= untilDate.DayOfYear + 365 * untilDate.Year; ++i)
             {
+                if (fromDate.Hour == 23)
+                    fromDate.AddHours(-14);
                 for (int j = 0; j <= 23; ++j)
                 {
-                    if (fromDate.Hour <= 14 && fromDate.Hour >= 9 && (int)fromDate.DayOfWeek < 5)
-                        if (GetTestersByDate(fromDate).Count > 0)
-                            dateTimes.Add(fromDate);
+                    if (fromDate.Hour <= 14 && (int)fromDate.DayOfWeek < 5)
+                        try
+                        {
+                            //   test.TestDate = fromDate;
+                            // if  (ChecksToAddTest(test)){
+                            whoTest = GetTestersByDate(fromDate);
+                            if (whoTest.Any() && closeTester.Any())
+                            {
+                                var finalList = (from item in whoTest
+                                                 from item1 in closeTester
+                                                 where item.ID == item1.ID
+                                                 select item).ToList();
+                                foreach (var item in finalList)
+                                    if (item.TesterVehicle == test.Vehicle)
+                                        dateTimes.Add(fromDate);
+                            }
+                            //  }
+                        }
+                        catch (KeyNotFoundException) { }
+                        catch (IndexOutOfRangeException) { }
+
                     fromDate.AddHours(1);
-                }
-                fromDate.AddDays(1);
+
+                }               
+                    fromDate.AddDays(+1);
             }
-            return dateTimes;
+            if (dateTimes.Any())
+                return dateTimes;
+            else
+                throw new IndexOutOfRangeException("no tests");
         }
         //------------------------------------------------------------------
         private bool CheckHoursInWeek(BO.Tester tester, DateTime hour)
