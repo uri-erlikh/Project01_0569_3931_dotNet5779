@@ -46,7 +46,7 @@ namespace PLWPF
                         int.TryParse(this.testerExperienceTextBox.Text, out int number4) != true ||
                         int.TryParse(this.maxWeeklyTestsTextBox.Text, out int number5) != true)
                     MessageBox.Show("please insert only digits for: ID, phone and num of building, range to test, tester experience years, max weekly work hours", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
-                else
+                else//
                 {
                     if (this.testerVehicleComboBox.Text == null
                         || this.personGenderComboBox.SelectedItem == null || this.privateNameTextBox.Text == "" || this.familyNameTextBox.Text == ""
