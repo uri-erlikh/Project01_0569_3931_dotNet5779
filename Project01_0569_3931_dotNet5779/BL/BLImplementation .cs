@@ -29,6 +29,7 @@ namespace BL
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
                 CheckVehicle(tester.TesterVehicle.ToString());
+                CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (BO.InvalidDataException e) { throw; }
             try
@@ -61,7 +62,7 @@ namespace BL
                 CheckPhone(tester.Phone);
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
-                //  CheckScheduale(tester.Schedule);
+                CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (InvalidDataException e) { throw; }
             try
@@ -289,6 +290,8 @@ namespace BL
                 CheckID(test.TraineeId);
                 CheckDateTrainee(test.TestDate);
                 CheckHour(test.TestHour);
+                if (test.TestHour < DateTime.Now)
+                    throw new InvalidDataException("your date allready passed");
             }
             catch (InvalidDataException e) { throw; }
             //------------
@@ -299,7 +302,7 @@ namespace BL
                      let temp = test.TestDate - item.TestDate
                      where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
                      select item).ToList().Any())
-                    throw new InvalidDataException("test too close");
+                    throw new InvalidDataException("tests are too close");
             }
 
             //where item.TestDate < DateTime.Now
@@ -933,5 +936,19 @@ namespace BL
             catch (InvalidDataException e) { throw; }
         }
         //-------------------------------------------------------------------------------
+        private void CheckSchedule(bool[,] schedule, int maxWeeklyTests)
+        {
+            try
+            {
+                int counter = 0;
+                for (int i = 0; i < 5; ++i)
+                    for (int j = 0; j < 6; ++j)
+                        if (schedule[i, j] == true)
+                            ++counter;
+                if (counter > maxWeeklyTests)
+                    throw new InvalidDataException("The examiner exceeded his maximum hours");
+            }
+            catch (InvalidDataException e) { throw; }
+        }
     }
 }
