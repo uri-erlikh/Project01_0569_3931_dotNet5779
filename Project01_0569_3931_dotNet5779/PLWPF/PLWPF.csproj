@@ -64,7 +64,9 @@
     <Compile Include="AddTraineeWindow.xaml.cs">
       <DependentUpon>AddTraineeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converter.cs" />
+    <Compile Include="DataWindow.xaml.cs">
+      <DependentUpon>DataWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MoreDatesWindow.xaml.cs">
       <DependentUpon>MoreDatesWindow.xaml</DependentUpon>
     </Compile>
@@ -95,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AddTraineeWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DataWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

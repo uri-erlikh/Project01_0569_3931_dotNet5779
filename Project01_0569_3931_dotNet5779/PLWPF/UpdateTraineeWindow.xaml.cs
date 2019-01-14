@@ -43,7 +43,7 @@ namespace PLWPF
                 if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
                         int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true ||
                         int.TryParse(this.drivingLessonsNumTextBox.Text ,out int number3)!=true)
-                    MessageBox.Show("please insert only digits for: phone and num of building", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show("please insert only digits for: phone, num of building and number of lessons", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
                 else
                 {
                     if (familyNameTextBox.Text == "" || privateNameTextBox.Text == "" || schoolTextBox.Text == "" ||
@@ -52,7 +52,7 @@ namespace PLWPF
                     else
                     {
                         bl.UpdateTrainee(trainee);
-                        MessageBox.Show("update is Succeeded");
+                        MessageBox.Show("Update is succeeded");
                         new TrainiesWindow().Show();
                         this.Close();
                     }

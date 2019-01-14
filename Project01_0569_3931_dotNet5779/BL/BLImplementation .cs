@@ -263,13 +263,13 @@ namespace BL
             DateTime temp = date.AddDays(1);
             while (!GetTestersByDate(temp).Any() || !IfTraineeDoTest(temp, test))
                 if (temp.Hour < 14)
-                    temp.AddHours(1);
+                    temp=temp.AddHours(1);
                 else
                 {
-                    temp.AddDays(1);
-                    temp.AddHours(-5);
+                    temp=temp.AddDays(1);
+                    temp=temp.AddHours(-5);
                     if ((int)temp.DayOfWeek > 4)
-                        temp.AddDays(2);
+                        temp=temp.AddDays(2);
                 }
             return temp;
         }
