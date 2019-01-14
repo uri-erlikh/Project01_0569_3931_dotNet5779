@@ -45,7 +45,7 @@ namespace PLWPF
         public MoreDatesWindow(BO.Test test1)
         {
             InitializeComponent();
-            DataContext = dates;
+            this.DataContext = dates;
             test = test1;
             bl = BL.BL_Factory.GetBL();
             dates.EndDate = DateTime.Now;

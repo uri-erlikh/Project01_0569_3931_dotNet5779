@@ -104,7 +104,7 @@ namespace PLWPF
                 DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
-                    DataTextBlock.Text = "no tests is found";
+                    DataTextBlock.Text = "no tests were found";
                 else
                     foreach (var item in list)
                     {

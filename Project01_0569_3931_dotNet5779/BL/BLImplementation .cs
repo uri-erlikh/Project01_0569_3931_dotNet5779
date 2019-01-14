@@ -255,7 +255,7 @@ namespace BL
                         select Convert(item)).ToList();
             }
             catch (KeyNotFoundException e) { throw; }
-            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+           catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         private DateTime GetNewDate(DateTime date, BO.Test test)
@@ -339,9 +339,9 @@ namespace BL
         public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, BO.Test test)
         {
             if (fromDate < DateTime.Now)
-                throw new InvalidDataException("Choose a bigset start date");
+                throw new InvalidDataException("Choose later start date");
             if (fromDate > untilDate)
-                throw new InvalidDataException("Choose a smaller start date");
+                throw new InvalidDataException("Choose smaller start date");
 
             //if((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle)//הוספתי תנאי של כלי רכב לשים לב שזה אכן נצרך
             //    let temp = untilDate - item.TestDate

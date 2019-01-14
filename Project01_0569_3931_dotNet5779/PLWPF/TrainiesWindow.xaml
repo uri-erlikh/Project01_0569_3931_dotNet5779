@@ -8,22 +8,14 @@
         Title="Trainies" Height="450" Width="800">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF74FF00" Offset="0"/>
-            <GradientStop Color="#FFF014CA" Offset="1"/>
-            <GradientStop Color="#FF0A0DFC" Offset="0.472"/>
+            <GradientStop Color="#FF0B8319" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+            <GradientStop Color="#FFCEC438" Offset="0.515"/>
+            <GradientStop Color="#FF818181" Offset="0.51"/>
+            <GradientStop Color="#FF3527B0" Offset="0.982"/>
         </LinearGradientBrush>
     </Window.Background>
-    <Window.Resources>
-
-        <LinearGradientBrush x:Key="Button">
-            <GradientStop Color="#FF74FF00" Offset="0"/>
-            <GradientStop Color="#FFF014CA" Offset="1"/>
-            <GradientStop Color="#FF0A0DFC" Offset="0.472"/>
-        </LinearGradientBrush>
-        <Style TargetType="Button">
-            <Setter Property="Background" Value="{StaticResource Button}"/>
-        </Style>
-    </Window.Resources>
+   
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -68,12 +68,6 @@
     <Compile Include="MoreDatesWindow.xaml.cs">
       <DependentUpon>MoreDatesWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="NumOfTestWindow.xaml.cs">
-      <DependentUpon>NumOfTestWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="PrintTestWindow.xaml.cs">
-      <DependentUpon>PrintTestWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="TestersWindow.xaml.cs">
       <DependentUpon>TestersWindow.xaml</DependentUpon>
     </Compile>
@@ -117,14 +111,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="MoreDatesWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="NumOfTestWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrintTestWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
