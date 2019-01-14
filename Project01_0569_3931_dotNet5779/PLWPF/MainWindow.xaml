@@ -28,14 +28,16 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Button x:Name="TestsButton" Content="Tests" Style="{StaticResource myButtonStyle}" Grid.Row="0" Click="TestsButton_Click" />
         <Button x:Name="TrainiesButton" Content="Trainies" Style="{StaticResource myButtonStyle}" Grid.Row="1" Click="TrainiesButton_Click" />
         <Button x:Name="TestersButoon" Content="Testers" Style="{StaticResource myButtonStyle}" Grid.Row="2" Click="TestersButoon_Click" />
+        <Button x:Name="DataButton" Content="Data" Style="{StaticResource myButtonStyle}" Grid.Row="3" Click="DataButton_Click"/>
         <Button x:Name="ExitButton" Content="Exit" HorizontalAlignment="Right" BorderBrush="Azure" BorderThickness="2"
-                Grid.Row="3" MinHeight="22" MinWidth="75" Click="ExitButton_Click" VerticalAlignment="Top"/>
+                Grid.Row="4" MinHeight="22" MinWidth="75" Click="ExitButton_Click" VerticalAlignment="Top"/>
 
     </Grid>
 </Window>

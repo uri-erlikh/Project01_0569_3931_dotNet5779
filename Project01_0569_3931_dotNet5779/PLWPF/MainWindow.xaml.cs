@@ -50,9 +50,16 @@ namespace PLWPF
             this.Close();                        
         }
 
+        private void DataButton_Click(object sender, RoutedEventArgs e)
+        {
+            new DataWindow().Show();
+            this.Close();
+        }
+
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
+        
     }
 }

@@ -255,7 +255,7 @@ namespace BL
                         select Convert(item)).ToList();
             }
             catch (KeyNotFoundException e) { throw; }
-            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+           catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         private DateTime GetNewDate(DateTime date, BO.Test test)
@@ -263,13 +263,13 @@ namespace BL
             DateTime temp = date.AddDays(1);
             while (!GetTestersByDate(temp).Any() || !IfTraineeDoTest(temp, test))
                 if (temp.Hour < 14)
-                    temp.AddHours(1);
+                    temp=temp.AddHours(1);
                 else
                 {
-                    temp.AddDays(1);
-                    temp.AddHours(-5);
+                    temp=temp.AddDays(1);
+                    temp=temp.AddHours(-5);
                     if ((int)temp.DayOfWeek > 4)
-                        temp.AddDays(2);
+                        temp=temp.AddDays(2);
                 }
             return temp;
         }
@@ -339,9 +339,9 @@ namespace BL
         public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbilding, BO.Vehicle vehicle)
         {
             if (fromDate < DateTime.Now)
-                throw new InvalidDataException("Choose a bigset start date");
+                throw new InvalidDataException("Choose later start date");
             if (fromDate > untilDate)
-                throw new InvalidDataException("Choose a smaller start date");
+                throw new InvalidDataException("Choose smaller start date");
 
             BO.Address address = new BO.Address(city, street, numbilding);            
             List<BO.Tester> closeTester = GetCloseTester(address, 30);
