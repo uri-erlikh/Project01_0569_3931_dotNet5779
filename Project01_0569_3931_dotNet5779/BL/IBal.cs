@@ -30,7 +30,7 @@ namespace BL
         List<BO.Tester> GetCloseTester(BO.Address address, double x);
         List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
-        List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, BO.Test test);
+         List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbilding, BO.Vehicle vehicle);
 
         int NumOfTest(string id, BO.Vehicle vehicle);
         bool IfPassed(string id, BO.Vehicle vehicle);

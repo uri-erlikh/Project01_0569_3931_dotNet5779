@@ -27,10 +27,14 @@ namespace PLWPF
         public DateTime StartDate { get; set; }
         DateTime endtDate = new DateTime();
         public DateTime EndDate { get; set; }
+        public string Street { get; set; }
+        public string City { get; set; }
+        public int NumOfBilding { get; set; }
+        public BO.Vehicle vehicle { get; set; }
         public override string ToString()
         {
             foreach (var item in Times)
-                date = item.Day + "." + item.Month + "." + item.Year + "   ";
+                date += item.Day + "." + item.Month + "." + item.Year + " at: " + item.Hour+":" + "00  "+ "\n" ;
             return date;
         }
 
@@ -38,41 +42,50 @@ namespace PLWPF
     //---------------------------------------
     public partial class MoreDatesWindow : Window
     {
-        BO.Test test = new BO.Test();
         BL.IBL bl;
         Dates dates = new Dates();
-
-        public MoreDatesWindow(BO.Test test1)
+        public MoreDatesWindow()
         {
             InitializeComponent();
             DataContext = dates;
-            test = test1;
             bl = BL.BL_Factory.GetBL();
             dates.EndDate = DateTime.Now;
             dates.StartDate= DateTime.Now;
+            this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
         }
         private void SearchButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                dates.Times = bl.GetDateOfTests(dates.StartDate, dates.EndDate, test);
-                MoreDatesTextBlock.Text = dates.ToString();
-
+                if (cityTextBox.Text == "" || streetTextBox.Text == "" || GetVehicleTypeComboBox.ItemsSource == null)
+                    MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+                else
+                {
+                    if (int.TryParse(numOfBuildingTextBox.Text, out int number) != true)
+                        MessageBox.Show("please insert only digits for Number of bilding", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    else
+                    {
+                        dates.vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
+                        dates.Times = bl.GetDateOfTests(dates.StartDate, dates.EndDate, dates.City, dates.Street, dates.NumOfBilding, dates.vehicle);
+                        MoreDatesTextBlock.Text = dates.ToString();
+                    }
+                }
             }
             catch (KeyNotFoundException a)
             {
-                MessageBox.Show(a.Message);
-                
-
-
+                MessageBox.Show(a.Message);                
             }
             catch (BO.InvalidDataException a)
             {
-                MessageBox.Show(a.Message);
-               
-
+                MessageBox.Show(a.Message);               
             }
 
+        }
+
+        private void BackButtom_Click(object sender, RoutedEventArgs e)
+        {
+            new AddTestWindow().Show();
+            this.Close();
         }
     }
 }

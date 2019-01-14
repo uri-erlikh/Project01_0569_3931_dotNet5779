@@ -151,7 +151,7 @@ namespace DAL
             {
                 PrivateName = "Noam",
                 FamilyName = "Atias",
-                Phone = "05325674653",
+                Phone = "0532567465",
                 DayOfBirth = new DateTime(1998, 07, 13),
                 School = "keren",
                 Teacher = "Gil Dan",

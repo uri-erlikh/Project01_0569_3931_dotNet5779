@@ -95,10 +95,10 @@ namespace PLWPF
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
                         test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
                         MessageBox.Show(bl.AddTest(test));
-                        MessageBoxResult result;
-                        result = MessageBox.Show("If you want more dates press YES", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                        if (result == MessageBoxResult.Yes)
-                            MoreDatesButton.IsEnabled = true;
+                        //MessageBoxResult result;
+                        //result = MessageBox.Show("If you want more dates press YES", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                        //if (result == MessageBoxResult.Yes)
+                        //    MoreDatesButton.IsEnabled = true;
                         test = new BO.Test();
                         this.traineeIdTextBox.Clear();
                         test.TestDate = DateTime.Now;
@@ -127,7 +127,8 @@ namespace PLWPF
 
         private void MoreDatesButton_Click(object sender, RoutedEventArgs e)
         {
-            new MoreDatesWindow(test).Show();
+            new MoreDatesWindow().Show();
+            
         }
         //  try
         //    {
