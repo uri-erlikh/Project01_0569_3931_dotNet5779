@@ -5,19 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="MoreDatesWindow" Height="450" Width="800">
+        Title="MoreDatesWindow" Height="450" Width="800" >
     <Window.Resources>
         <local:Dates x:Key="dates" />
     </Window.Resources>
-    <Grid>
-        
-        <Grid.RowDefinitions>
-        <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Label Content="Fill The fields below for a dates:" FontWeight="Bold" FontStyle="Italic" FontSize="30"/>
-        <Grid Grid.Row="1">
+    <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
@@ -27,33 +19,52 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
+        <Label Content="Fill The fields below for a dates:" FontWeight="Bold" FontStyle="Italic" FontSize="12"/>
+        <ListView  Grid.Row="1" Grid.Column="1" Margin="3" Name="DatesListView">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="dayesgrid" Width="80" Header="Date" DisplayMemberBinding="{Binding Path=DayTime}"/>
+                    <GridViewColumn x:Name="hourgrid"  Width="80" Header="Hour" DisplayMemberBinding="{Binding Path=HourTime}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <WrapPanel Grid.Row="0" Orientation="Vertical">
                 <Label Content="City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  Grid.Row="1" VerticalAlignment="Center"/>
-                <TextBox x:Name="cityTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="1" Text="{Binding Path=City, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
+                <TextBox x:Name="cityTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="1" Text="{Binding  Path=City, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
                 <TextBox x:Name="streetTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="2" Text="{Binding Path=Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Num Of Building:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
                 <TextBox x:Name="numOfBuildingTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="3" MaxLength="3" Text="{Binding Path=NumOfBilding, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Vehicle:" HorizontalAlignment="Left"  Grid.Row="3" Margin="3" VerticalAlignment="Center" />
                 <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="5" MinWidth="100"/>
-            </StackPanel >
-            <StackPanel Grid.Column="1" Grid.Row="0">
+
                 <Label Content="From: " Margin="3" />
                 <DatePicker x:Name="FromDate" Grid.Column="1" Grid.Row="0" Margin="3" SelectedDate="{Binding Path=StartDate}" />
                 <Label Content="until: " Margin="3"/>
                 <DatePicker x:Name="UntillDate" Grid.Column="2"  Grid.Row="0" Margin="3" SelectedDate="{Binding Path=EndDate}" />
-            </StackPanel>
-            <StackPanel Grid.Column="2" Orientation="Horizontal">
-            <Button x:Name="SearchButton" FontWeight="Bold" FontStyle="Italic" Grid.Row="1" Grid.Column="2" Content="Search"  Margin="80"  Click="SearchButton_Click"  />
-            <Button x:Name="BackButtom" FontWeight="Bold" FontStyle="Italic" Content="Back"  Margin="80" Click="BackButtom_Click"/>
-                <TextBlock x:Name="MoreDatesTextBlock"  Grid.Row="1" />
-            </StackPanel>
-        </Grid>
-        
+            </WrapPanel>
+            <DockPanel Grid.Column="0" Grid.Row="3" >
+                <Button x:Name="BackButtom" FontWeight="Bold" FontStyle="Italic" Content="Back"   Margin="3" Click="BackButtom_Click"/>
+                <Button x:Name="SearchButton" FontWeight="Bold" FontStyle="Italic" Grid.Row="1" Grid.Column="1" Content="Search"  Margin="3"  Click="SearchButton_Click"  />
 
+            </DockPanel>
+
+        </Grid>
     </Grid>
-    
+
 
 </Window>

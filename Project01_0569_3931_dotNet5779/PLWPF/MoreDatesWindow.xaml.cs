@@ -21,7 +21,8 @@ namespace PLWPF
     /// 
     public class Dates
     {
-        string date;
+        public string DayTime { get; set; }
+        public string HourTime { get; set; }
         public List<DateTime> Times = new List<DateTime>();
         DateTime startDate = new DateTime();
         public DateTime StartDate { get; set; }
@@ -31,17 +32,18 @@ namespace PLWPF
         public string City { get; set; }
         public int NumOfBilding { get; set; }
         public BO.Vehicle vehicle { get; set; }
-        public override string ToString()
-        {
-                foreach (var item in Times)
-                    date += item.Day + "." + item.Month + "." + item.Year + " at: " + item.Hour + ":" + "00  " + "\n";
-            return date;
-        }
+        //public override List<string> ToString()
+        //{
+        //        foreach (var item in Times)
+        //            date1.Add( item.Day + "." + item.Month + "." + item.Year + " at: " + item.Hour + ":" + "00  ");
+        //    return date1;
+        //}
 
     }
     //---------------------------------------
     public partial class MoreDatesWindow : Window
     {
+        List<Dates> dates1 = new List<Dates>();
         BL.IBL bl;
         Dates dates = new Dates();
         public MoreDatesWindow()
@@ -67,7 +69,14 @@ namespace PLWPF
                     {
                         dates.vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
                         dates.Times = bl.GetDateOfTests(dates.StartDate, dates.EndDate, dates.City, dates.Street, dates.NumOfBilding, dates.vehicle);
-                        MoreDatesTextBlock.Text = dates.ToString();
+                        foreach(var item in dates.Times)
+                        {
+                            dates.DayTime = item.Day + "." + item.Month + "." + item.Year;
+                            dates.HourTime =  item.Hour + ":" + "00  ";
+                            dates1.Add(new Dates() { DayTime = dates.DayTime, HourTime = dates.HourTime });
+                        }
+                        
+                        DatesListView.ItemsSource = dates1;
                     }
                 }
             }
@@ -90,5 +99,7 @@ namespace PLWPF
             new AddTestWindow().Show();
             this.Close();
         }
+
+       
     }
 }
