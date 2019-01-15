@@ -128,6 +128,7 @@ namespace PLWPF
         private void MoreDatesButton_Click(object sender, RoutedEventArgs e)
         {
             new MoreDatesWindow().Show();
+            this.Close();
             
         }
         //  try

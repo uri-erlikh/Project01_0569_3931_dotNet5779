@@ -166,6 +166,7 @@
     <None Include="Properties\DataSources\BO.Test.datasource" />
     <None Include="Properties\DataSources\BO.Tester.datasource" />
     <None Include="Properties\DataSources\BO.Trainee.datasource" />
+    <None Include="Properties\DataSources\Dates.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
