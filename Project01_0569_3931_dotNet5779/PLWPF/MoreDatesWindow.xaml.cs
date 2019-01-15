@@ -51,8 +51,8 @@ namespace PLWPF
             InitializeComponent();
             DataContext = dates;
             bl = BL.BL_Factory.GetBL();
-            dates.EndDate = DateTime.Now;
-            dates.StartDate= DateTime.Now;
+            dates.EndDate = DateTime.Now.AddDays(1);
+            dates.StartDate= DateTime.Now.AddDays(2);
             this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
         }
         private void SearchButton_Click(object sender, RoutedEventArgs e)
