@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Label Content="Fill The fields below for a dates:" FontWeight="Bold" FontStyle="Italic" FontSize="12"/>
+        <Label Content="Fill The fields below for a dates:" FontWeight="Bold" FontStyle="Italic" FontSize="15"/>
         <ListView  Grid.Row="1" Grid.Column="1" Margin="1" Name="DatesListView">
             <ListView.View>
                 <GridView>
