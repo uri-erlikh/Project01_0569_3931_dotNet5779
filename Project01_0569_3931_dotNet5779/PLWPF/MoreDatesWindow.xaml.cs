@@ -33,11 +33,8 @@ namespace PLWPF
         public BO.Vehicle vehicle { get; set; }
         public override string ToString()
         {
-            if (Times.Any())
                 foreach (var item in Times)
                     date += item.Day + "." + item.Month + "." + item.Year + " at: " + item.Hour + ":" + "00  " + "\n";
-            else
-                date = "No Tests";
             return date;
         }
 
@@ -82,7 +79,10 @@ namespace PLWPF
             {
                 MessageBox.Show(a.Message);               
             }
-
+            catch(IndexOutOfRangeException a)
+            {
+                MessageBox.Show(a.Message);
+            }
         }
 
         private void BackButtom_Click(object sender, RoutedEventArgs e)
