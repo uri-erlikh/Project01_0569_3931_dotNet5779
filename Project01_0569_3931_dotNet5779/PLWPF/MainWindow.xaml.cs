@@ -25,37 +25,51 @@ namespace PLWPF
         {
             InitializeComponent();
         }
-
+        //-------------------------------------------------------------------
         private void TestersButoon_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you the admin??", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
             {
-                Window testersWindow = new TestersWindow();
+                Window testersWindow = new TestersWindow("admin");
                 testersWindow.Show();
                 this.Close();
             }
+            else if (result == MessageBoxResult.No)
+            {
+                new TestersWindow("tester").Show();
+                this.Close();
+            }
         }
-
+        //---------------------------------------------------------------------
         private void TrainiesButton_Click(object sender, RoutedEventArgs e)
-        {            
-            Window trainiesWindow = new TrainiesWindow();
-            trainiesWindow.Show();
-            this.Close();
+        {
+            MessageBoxResult result = MessageBox.Show("Are you the admin??", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                Window trainiesWindow = new TrainiesWindow("admin");
+                trainiesWindow.Show();
+                this.Close();
+            }
+            else if (result == MessageBoxResult.No)
+            {
+                new TrainiesWindow("trainee").Show();
+                this.Close();
+            }
         }
-
+        //-------------------------------------------------------------------------
         private void TestsButton_Click(object sender, RoutedEventArgs e)
         {
             new TestsWindow().Show();
             this.Close();                        
         }
-
+        //------------------------------------------------------------------------
         private void DataButton_Click(object sender, RoutedEventArgs e)
         {
             new DataWindow().Show();
             this.Close();
         }
-
+        //------------------------------------------------------------------------
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();

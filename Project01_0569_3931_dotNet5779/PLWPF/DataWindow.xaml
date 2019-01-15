@@ -7,6 +7,32 @@
         mc:Ignorable="d"
         Title="DataWindow" Height="450" Width="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ListBox x:Name="DataListBox"   Margin="5,5,635,0">
+            <ListBox.Items>
+                <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected"   />
+                <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected"/>
+                <ListBoxItem x:Name="traineesPerTeacher" Content="Get trainees per teacher" FontWeight="Bold" Selected="traineesPerTeacher_Selected" />
+                <ListBoxItem x:Name="traineesPerTests"  Content="Get trainees per tests" FontWeight="Bold" Selected="traineesPerTests_Selected" />
+            </ListBox.Items>
+        </ListBox>
+        <!--<TabControl>
+            <TabControl.Items>
+                <TabItem Header="functions">
+                    <TabItem.Content>
+                        <StackPanel>
+                            <Button Content="this button is part of tab 1" />
+                        </StackPanel>
+                    </TabItem.Content>
+                </TabItem>
+                </TabControl.Items>
+               </TabControl>--> 
+                <TextBlock x:Name="dataTextBlock" Grid.Row="1"/>
+        <Button x:Name="BackButton" Grid.Row="2" HorizontalAlignment="Left" MinWidth="120" Content="Back" FontStyle="Italic" FontWeight="Heavy" Click="BackButton_Click" />
+        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="219,23,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>

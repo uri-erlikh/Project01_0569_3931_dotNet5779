@@ -57,7 +57,7 @@ namespace PLWPF
         {
             try
             {
-                if (cityTextBox.Text == "" || streetTextBox.Text == "" || GetVehicleTypeComboBox.ItemsSource == null)
+                if (this.cityTextBox.Text == "" || streetTextBox.Text == "" || GetVehicleTypeComboBox.ItemsSource == null)
                     MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 else
                 {
@@ -79,7 +79,10 @@ namespace PLWPF
             {
                 MessageBox.Show(a.Message);               
             }
-
+            catch(IndexOutOfRangeException ex)
+            {
+                MessageBox.Show(ex.Message, "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BackButtom_Click(object sender, RoutedEventArgs e)

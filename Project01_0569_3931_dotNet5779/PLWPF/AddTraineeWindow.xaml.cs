@@ -96,7 +96,7 @@ namespace PLWPF
         //------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            new TrainiesWindow().Show();
+            new TrainiesWindow("admin").Show();
             this.Close();
         }
     }

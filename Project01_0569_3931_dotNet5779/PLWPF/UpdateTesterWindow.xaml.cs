@@ -58,8 +58,8 @@ namespace PLWPF
                             tester.Schedule[row, column] = (bool)item.IsChecked;
                         }
                         bl.UpdateTester(tester);
-                        MessageBox.Show("update is Succeeded");
-                        new TestersWindow().Show();
+                        MessageBox.Show("Update is succeeded");
+                        new TestersWindow("admin").Show();
                         this.Close();
                     }
                 }
@@ -77,7 +77,7 @@ namespace PLWPF
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            new TestersWindow().Show();
+            new TestersWindow("admin").Show();
             this.Close();
         }
     }

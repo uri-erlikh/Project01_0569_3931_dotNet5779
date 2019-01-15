@@ -23,10 +23,16 @@ namespace PLWPF
         BL.IBL bl;
         string testerID;
 
-        public TestersWindow()
+        public TestersWindow(string identifier)
         {
             InitializeComponent();
             bl = BL.BL_Factory.GetBL();
+            if (identifier == "admin")
+            {
+                this.AddTesterButton.Visibility = Visibility.Visible;
+                this.UpdateTesterButton.Visibility = Visibility.Visible;
+                this.DeleteTesterButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -44,10 +50,13 @@ namespace PLWPF
                 {
                     testerID = GetIDTextBox.Text;
                     tester = bl.GetOneTester(GetIDTextBox.Text);
-                    this.UpdateTesterButton.IsEnabled = true;
-                    this.DeleteTesterButton.IsEnabled = true;
                     this.PrintTesterButton.IsEnabled = true;
                     this.GetTestOfTTesterButton.IsEnabled = true;
+                    if (this.AddTesterButton.Visibility == Visibility.Visible)
+                    {
+                        this.UpdateTesterButton.IsEnabled = true;
+                        this.DeleteTesterButton.IsEnabled = true;
+                    }
                 }
                 catch (KeyNotFoundException ex)
                 {

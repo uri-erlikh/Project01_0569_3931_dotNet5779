@@ -341,7 +341,7 @@ namespace BL
             if (fromDate < DateTime.Now)
                 throw new InvalidDataException("Choose later start date");
             if (fromDate > untilDate)
-                throw new InvalidDataException("Choose smaller start date");
+                throw new InvalidDataException("Choose earlier start date");
 
             BO.Address address = new BO.Address(city, street, numbilding);            
             List<BO.Tester> closeTester = GetCloseTester(address, 30);
@@ -592,59 +592,59 @@ namespace BL
             { throw new InvalidDataException(e.Message); }
         }
         //----------------------------------------------------------------
-        public List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)
+        public IEnumerable<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)
         {
             if (flag)
             {
                 return (from item in dl.GetTesters()
                         orderby item.FamilyName
-                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+                        group Convert(item) by Convert(item).TesterVehicle);
             }
             else
                 return (from item in dl.GetTesters()
-                        group Convert(item) by Convert(item).TesterVehicle).ToList();
+                        group Convert(item) by Convert(item).TesterVehicle);
         }
         //----------------------------------------------------------------------------
-        public List<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag)
+        public IEnumerable<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag)
         {
             if (flag)
             {
                 return (from item in dl.GetTrainees()
                         orderby item.FamilyName
-                        group Convert(item) by Convert(item).School).ToList();
+                        group Convert(item) by Convert(item).School);
             }
             else
                 return (from item in dl.GetTrainees()
-                        group Convert(item) by Convert(item).School).ToList();
+                        group Convert(item) by Convert(item).School);
 
         }
         //-----------------------------------------------------------------------
-        public List<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag)
+        public IEnumerable<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag)
         {
             if (flag)
             {
                 return (from item in dl.GetTrainees()
                         orderby item.FamilyName
-                        group Convert(item) by Convert(item).Teacher).ToList();// into g
+                        group Convert(item) by Convert(item).Teacher);// into g
                                                                                //   select new { teacher = g.Key, name = g };
 
             }
             else
                 return (from item in dl.GetTrainees()
-                        group Convert(item) by Convert(item).Teacher).ToList();
+                        group Convert(item) by Convert(item).Teacher);
         }
         //------------------------------------------------------------------------
-        public List<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag)
+        public IEnumerable<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag)
         {
             if (flag)
             {
                 return (from item in dl.GetTrainees()
                         orderby item.FamilyName
-                        group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
+                        group Convert(item) by Convert(item).Trainee_Test.Count);
             }
             else
                 return (from item in dl.GetTrainees()
-                        group Convert(item) by Convert(item).Trainee_Test.Count).ToList();
+                        group Convert(item) by Convert(item).Trainee_Test.Count);
         }
         //-----------------------------------------------------------------
         private DO.Tester Convert(BO.Tester tester)

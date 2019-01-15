@@ -39,7 +39,7 @@ namespace PLWPF
             {
                 if (this.IDTextBox.Text.Length < 9)
                     MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                else if (int.TryParse(this.IDTextBox.Text, out int number) != true ||
+                else if (
                     int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
                         int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true||
                         int.TryParse(this.rangeToTestTextBox.Text, out int number3) != true ||
@@ -102,8 +102,64 @@ namespace PLWPF
         //-----------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
-            new TestersWindow().Show();
+            new TestersWindow("admin").Show();
             this.Close();
         }
-    }
-}
+        //------------------------------------------------------------------
+        //private void IDTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (int.TryParse(this.IDTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.IDTextBox.Clear();
+        //    }
+        //}
+
+        //private void phoneTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (int.TryParse(this.phoneTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.phoneTextBox.Clear();
+        //    }
+        //}
+
+        //private void numOfBuildingTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //    if (int.TryParse(this.numOfBuildingTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.numOfBuildingTextBox.Clear();
+        //    }
+        //}
+
+        //private void rangeToTestTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (int.TryParse(this.rangeToTestTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.rangeToTestTextBox.Clear();
+        //    }
+        //}
+
+        //private void testerExperienceTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (int.TryParse(this.testerExperienceTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.testerExperienceTextBox.Clear();
+        //    }
+        //}
+
+        //private void maxWeeklyTestsTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    if (int.TryParse(this.maxWeeklyTestsTextBox.Text, out int number) != true)
+        //    {
+        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+        //        this.maxWeeklyTestsTextBox.Clear();
+        //    }
+        //}
+        ////-------------------------------------------------------------------------
+    }       
+ }

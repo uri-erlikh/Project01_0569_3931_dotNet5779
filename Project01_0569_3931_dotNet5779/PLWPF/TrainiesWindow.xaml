@@ -8,11 +8,9 @@
         Title="Trainies" Height="450" Width="800">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="#FF0B8319" Offset="0"/>
-            <GradientStop Color="White" Offset="1"/>
-            <GradientStop Color="#FFCEC438" Offset="0.515"/>
-            <GradientStop Color="#FF818181" Offset="0.51"/>
-            <GradientStop Color="#FF3527B0" Offset="0.982"/>
+            <GradientStop Color="Black" Offset="0"/>
+            <GradientStop Color="#FF14857F" Offset="1"/>
+            <GradientStop Color="#FF80CA22" Offset="0.515"/>
         </LinearGradientBrush>
     </Window.Background>
    
@@ -25,9 +23,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5">
-            <Label Content="Insert ID of trainee:" FontWeight="Bold" Margin="5" />
+            <Label Content="Insert ID of a trainee:" Foreground="Yellow" FontWeight="Bold" Margin="5" />
             <TextBox x:Name="GetIDTextBox" Margin="5" MaxLength="9" MinWidth="193" IsEnabled="True" />
-            <Label Content="Chose type of vehicle:" FontWeight="Bold" Margin="5"/>
+            <Label Content="Chose type of vehicle:" Foreground="Yellow" FontWeight="Bold" Margin="5"/>
             <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="5" MinWidth="100"/>
             <Button x:Name="GetDataButton" Margin="5" Content="Insert" MinWidth="100" Click="GetDataButton_Click" />
         </StackPanel>
@@ -36,8 +34,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="AddTraineeButton"  Margin="5" Content="Add Trainee" FontSize="20"  FontWeight="Bold" Click="AddTraineeButton_Click" />
-            <Button x:Name="UpdateTraineeButton" Grid.Column="1" Margin="5" Content="Update Trainee" FontSize="20" IsEnabled="False"  FontWeight="Bold" Click="UpdateTraineeButton_Click" />
+            <Button x:Name="PrintTraineeButton"  Margin="5" Content="Print Trainee Details" FontSize="20" IsEnabled="False" FontWeight="Bold" Click="PrintTraineeButton_Click" />
+            <Button x:Name= "GetTestOfTTraineeButton" Grid.Column="1" Margin="5" Content="Get Future Tests Of Trainee" FontSize="20" IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTraineeButton_Click"/>
         </Grid>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
@@ -46,10 +44,10 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <Button x:Name="DeleteTraineeButton"  Margin="5" Content="Delete Trainee" FontWeight="Bold" IsEnabled="False"  Click="DeleteTraineeButton_Click"  />
-            <Button x:Name="PrintTraineeButton"  Grid.Column="1" Margin="5" Content="Print Trainee Details" IsEnabled="False"  FontWeight="Bold" Click="PrintTraineeButton_Click"/>
-            <Button x:Name="GetTestOfTTraineeButton" Grid.Column="2" Margin="5" Content="Get Future Tests Of Trainee"
-                     IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTraineeButton_Click"/>
+            <Button x:Name="AddTraineeButton"  Margin="5" Content= "Add Trainee" FontWeight="Bold" Visibility="Hidden" Click= "AddTraineeButton_Click"  />
+            <Button x:Name="DeleteTraineeButton"  Grid.Column="1" Margin="5" Content="Delete Trainee" IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="DeleteTraineeButton_Click"/>
+            <Button x:Name="UpdateTraineeButton" Grid.Column="2" Margin="5" Content="Update Trainee" 
+                     IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="UpdateTraineeButton_Click" />
         </Grid>
         <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" Background="Black" />
         <Button x:Name="BackButton" Grid.Row="4" Margin="5" Content="Back" 

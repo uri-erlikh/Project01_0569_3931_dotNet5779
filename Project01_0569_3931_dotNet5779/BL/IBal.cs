@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BO;
 
 namespace BL
 {
@@ -28,6 +29,7 @@ namespace BL
         List<BO.Test> GetTests();
         //---------------------------------------------
         List<BO.Tester> GetCloseTester(BO.Address address, double x);
+       // IEnumerable<IGrouping<Vehicle, Tester>> TestersByVehicle();
         List<BO.Tester> GetTestersByDate(DateTime hour);
         List<BO.Test> GetSomeTests(Predicate<BO.Test> someFunc);
          List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbilding, BO.Vehicle vehicle);
@@ -43,10 +45,10 @@ namespace BL
 
         Dictionary<string, object> GetConfig();
         void SetConfig(string parm, object value);
-        List<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag);
-        List<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag);
-        List<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag);
-        List<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag);
+        IEnumerable<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag);
+        IEnumerable<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag);
+        IEnumerable<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag);
+        IEnumerable<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag);
     }
 
 }

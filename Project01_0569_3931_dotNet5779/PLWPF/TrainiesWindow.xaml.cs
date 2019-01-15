@@ -24,12 +24,18 @@ namespace PLWPF
         string traineeID;
         BO.Vehicle vehicle;
 
-        public TrainiesWindow()
+        public TrainiesWindow(string identifier)
         {
             InitializeComponent();
             bl = BL.BL_Factory.GetBL();
             this.DataContext = trainee;
             this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+            if (identifier == "admin")
+            {
+                this.AddTraineeButton.Visibility = Visibility.Visible;
+                this.DeleteTraineeButton.Visibility = Visibility.Visible;
+                this.UpdateTraineeButton.Visibility = Visibility.Visible;
+            }
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -47,11 +53,14 @@ namespace PLWPF
                 {
                     vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
                     traineeID = GetIDTextBox.Text;
-                    trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
-                    this.UpdateTraineeButton.IsEnabled = true;
-                    this.DeleteTraineeButton.IsEnabled = true;
+                    trainee = bl.GetOneTrainee(traineeID, vehicle);
                     this.PrintTraineeButton.IsEnabled = true;
                     this.GetTestOfTTraineeButton.IsEnabled = true;
+                    if (this.AddTraineeButton.Visibility == Visibility.Visible)
+                    {
+                        this.UpdateTraineeButton.IsEnabled = true;
+                        this.DeleteTraineeButton.IsEnabled = true;
+                    }
                 }
                 catch (KeyNotFoundException a)
                 {
