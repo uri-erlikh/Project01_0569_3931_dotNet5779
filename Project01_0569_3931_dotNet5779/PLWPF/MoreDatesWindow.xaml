@@ -22,7 +22,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Label Content="Fill The fields below for a dates:" FontWeight="Bold" FontStyle="Italic" FontSize="12"/>
-        <ListView  Grid.Row="1" Grid.Column="1" Margin="3" Name="DatesListView">
+        <ListView  Grid.Row="1" Grid.Column="1" Margin="1" Name="DatesListView">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="dayesgrid" Width="80" Header="Date" DisplayMemberBinding="{Binding Path=DayTime}"/>
@@ -48,7 +48,6 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <!--<WrapPanel Grid.Row="0" Orientation="Vertical">-->
                 <Label Content="City:" Grid.Column="0" HorizontalAlignment="Left" Margin="3"  Grid.Row="1" VerticalAlignment="Center"/>
                 <TextBox x:Name="cityTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="1" Text="{Binding  Path=City, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Street:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="2" VerticalAlignment="Center"/>
@@ -56,13 +55,12 @@
                 <Label Content="Num Of Building:" Grid.Column="0" HorizontalAlignment="Left" Margin="3" Grid.Row="3" VerticalAlignment="Center"/>
                 <TextBox x:Name="numOfBuildingTextBox" Grid.Column="1" HorizontalAlignment="Left" Margin="3" Height="24"  Grid.Row="3" MaxLength="3" Text="{Binding Path=NumOfBilding, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" VerticalAlignment="Center" Width="120"/>
                 <Label Content="Vehicle:" HorizontalAlignment="Left"  Grid.Row="4" Margin="3" VerticalAlignment="Center" Grid.Column="0"/>
-            <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="5" MinWidth="100" Grid.Column="1" Grid.Row="4"/>
+            <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="3" MinWidth="100" Grid.Column="1" Grid.Row="4"/>
 
                 <Label Content="From: " Margin="3" Grid.Column="0" Grid.Row="5" />
                 <DatePicker x:Name="FromDate" Grid.Column="1" Grid.Row="5" Margin="3" SelectedDate="{Binding Path=StartDate}" />
             <Label Content="until: " Margin="3" Grid.Column="0" Grid.Row="6"/>
                 <DatePicker x:Name="UntillDate" Grid.Column="1"  Grid.Row="6" Margin="3" SelectedDate="{Binding Path=EndDate}" />
-            <!--</WrapPanel>-->
         </Grid>
         <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" >
                 <Button x:Name="BackButtom" FontWeight="Bold" FontStyle="Italic" Content="Back"   Margin="3" Click="BackButtom_Click"/>
