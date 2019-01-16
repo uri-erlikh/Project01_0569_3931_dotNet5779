@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace PLWPF
 {
@@ -43,7 +44,8 @@ namespace PLWPF
     //---------------------------------------
     public partial class MoreDatesWindow : Window
     {
-        List<Dates> dates1 = new List<Dates>();
+        //List<Dates> dates1 = new List<Dates>();
+        private ObservableCollection<Dates> dates1 = new ObservableCollection<Dates>();
         BL.IBL bl;
         Dates dates = new Dates();
         public MoreDatesWindow()
@@ -59,6 +61,7 @@ namespace PLWPF
         {
             try
             {
+                dates1.Clear();
                 if (cityTextBox.Text == "" || streetTextBox.Text == "" || GetVehicleTypeComboBox.ItemsSource == null)
                     MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 else

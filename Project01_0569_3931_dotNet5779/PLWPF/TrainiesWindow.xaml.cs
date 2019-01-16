@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace PLWPF
 {
@@ -23,7 +24,7 @@ namespace PLWPF
         BL.IBL bl;
         string traineeID;
         BO.Vehicle vehicle;
-        List<BO.Trainee> trainees = new List<BO.Trainee>();
+        private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
 
         public TrainiesWindow(string identifier)
         {
@@ -100,22 +101,26 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
+            trainees.Clear();
             DataTextBlock.Visibility= Visibility.Hidden;
             DeatilsTestListView.Visibility = Visibility.Hidden;
-            DeatilsListView.Visibility = Visibility;
+            DeatilsListView.Visibility = Visibility.Visible;
+
             // DataTextBlock.Visibility = Visibility;
             //DataTextBlock.Background = Brushes.DarkSeaGreen;
-            trainees.Add(new BO.Trainee()
-            {
-                PrivateName = trainee.PrivateName,
-                FamilyName = trainee.FamilyName,
-                TraineeVehicle = trainee.TraineeVehicle,
-                TraineeGear = trainee.TraineeGear,
-                Phone = trainee.Phone,
-                DrivingLessonsNum = trainee.DrivingLessonsNum,
-                Teacher = trainee.Teacher,
-                School = trainee.School
-            });
+            //trainees.Add(new BO.Trainee()
+            //{
+            //    PrivateName = trainee.PrivateName,
+            //    FamilyName = trainee.FamilyName,
+            //    TraineeVehicle = trainee.TraineeVehicle,
+            //    TraineeGear = trainee.TraineeGear,
+            //    Phone = trainee.Phone,
+            //    DrivingLessonsNum = trainee.DrivingLessonsNum,
+            //    Teacher = trainee.Teacher,
+            //    School = trainee.School
+            //});
+
+            trainees.Add(trainee);
             DeatilsListView.ItemsSource = trainees;
             //  DataTextBlock.Text = trainee.ToString();
         }
@@ -129,14 +134,13 @@ namespace PLWPF
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
                 {
-                    DataTextBlock.Visibility = Visibility;
+                    DataTextBlock.Visibility = Visibility.Visible;
                     DataTextBlock.Background = Brushes.Gold;
                     DataTextBlock.Text = "no tests were found";
                 }
                 else
                 {
-                    DeatilsTestListView.Visibility = Visibility;
-
+                    DeatilsTestListView.Visibility = Visibility.Visible;
                     DeatilsTestListView.ItemsSource = list;
                 }
                 //foreach (var item in list)
