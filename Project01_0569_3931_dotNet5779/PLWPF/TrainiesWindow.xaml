@@ -50,8 +50,8 @@
                      IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="UpdateTraineeButton_Click" />
         </Grid>
         <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" Background="Black" />
-        
-        <ListView Grid.Row="3" Name="DeatilsListView" Margin="5" Visibility="Hidden">
+
+        <ListView Grid.Row="3" Name="DetailsTraineeListView" Margin="5" Visibility="Hidden">
             <ListView.View>
                 <GridView>
                     <GridViewColumn x:Name="firstnamegrid" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" Header="First Name"/>
@@ -66,7 +66,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView Grid.Row="3" Name="DeatilsTestListView" Margin="5" Visibility="Hidden">
+        <ListView Grid.Row="3" Name="DetailsTestListView" Margin="5" Visibility="Hidden">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
