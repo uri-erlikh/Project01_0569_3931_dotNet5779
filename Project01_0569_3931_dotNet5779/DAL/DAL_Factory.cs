@@ -12,8 +12,8 @@ namespace DAL
         {
             switch (type)
             {
-                case "lists": return DLObject.GetInstance();
-               // case "xml": return DAL_XML_IMP.GetInstance();
+                case "lists":return DLObject.GetInstance();
+              //  case "XML":return DAL_XML_IMP.GetInstance();
             }
             return null;
         }

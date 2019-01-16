@@ -147,7 +147,7 @@ namespace DAL
                });
             //==
             //------------------------------------------------------------------------------------------------------------------
-            Trainies.Add(new DO.Trainee("123543786")
+            Trainies.Add(new DO.Trainee("111111111")
             {
                 PrivateName = "Noam",
                 FamilyName = "Atias",
@@ -282,7 +282,7 @@ namespace DAL
                 Vinkers = true,
                 TrafficSigns = false
             });
-            Tests.Add(new DO.Test("305343931", "123543786")
+            Tests.Add(new DO.Test("305343931", "111111111")
             {
                 TestNumber = 10000004,
                 Vehicle = DO.Vehicle.privateCar
