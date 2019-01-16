@@ -105,14 +105,21 @@ namespace PLWPF
             new TestersWindow("admin").Show();
             this.Close();
         }
+        //---------------------------------------------------------------
+        private void IDTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (this.IDTextBox.Text.Length < 9)
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
+            if (int.TryParse(this.IDTextBox.Text, out int number) != true)
+            {
+                MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.IDTextBox.Clear();
+            }
+        }
         //------------------------------------------------------------------
         //private void IDTextBox_TextChanged(object sender, TextChangedEventArgs e)
         //{
-        //    if (int.TryParse(this.IDTextBox.Text, out int number) != true)
-        //    {
-        //        MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
-        //        this.IDTextBox.Clear();
-        //    }
+        //    
         //}
 
         //private void phoneTextBox_TextChanged(object sender, TextChangedEventArgs e)

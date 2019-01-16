@@ -21,7 +21,7 @@
             <RowDefinition Height="2*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="5">
-            <Label x:Name="NumLabel" Content="Insert number of test:" Visibility="Hidden" FontWeight="Bold" FontStyle="Italic" Margin="5" />
+            <Label x:Name="NumLabel" Content="Insert number of test:" Foreground="Yellow" Visibility="Hidden" FontWeight="Bold" FontStyle="Italic" Margin="5" />
             <TextBox x:Name="GetTestNumTextBox" Visibility="Hidden" BorderThickness="2" Margin="5" MaxLength="8" MinWidth="100" IsEnabled="True" />
             <Button x:Name="GetDataButton" Margin="5" Visibility="Hidden" Content="Insert" BorderThickness="2" MinWidth="100" Click="GetDataButton_Click"/>
             <Button x:Name="BackButton"  Margin="5" Content="Back"  BorderThickness="2"

@@ -47,7 +47,7 @@ namespace PLWPF
 
             // numtesttextblock.Text= NumOfTestWindow.
         }
-
+        //--------------------------------------------------------------
         private void UpdateTestButton_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -70,11 +70,35 @@ namespace PLWPF
                 MessageBox.Show(r.Message);
             }
         }
-
+        //--------------------------------------------------------------------
+        private void GObutton_Click(object sender, RoutedEventArgs e)
+        {
+            if (this.IDTestertextBox.Text.Length < 9)
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
+            else
+            {
+                if (int.TryParse(this.IDTestertextBox.Text, out int number) != true)
+                {
+                    MessageBox.Show("Please enter only numbers", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.IDTestertextBox.Clear();
+                }
+                else if (test1.Tester.ID != this.IDTestertextBox.Text)
+                {
+                    MessageBox.Show("You aren't allowed to update the test", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Stop);
+                    this.IDTestertextBox.Clear();
+                }
+                else
+                {
+                    this.updateTestButton.Visibility = Visibility.Visible;
+                    this.grid1.IsEnabled = true;
+                }
+            }
+        }
+        //-----------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new TestsWindow().Show();
             this.Close();
-        }
+        }        
     }
 }
