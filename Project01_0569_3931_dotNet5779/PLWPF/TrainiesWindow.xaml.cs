@@ -101,8 +101,8 @@ namespace PLWPF
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
             DataTextBlock.Visibility= Visibility.Hidden;
-            DeatilsTestListView.Visibility = Visibility.Hidden;
-            DeatilsListView.Visibility = Visibility;
+            DetailsTestListView.Visibility = Visibility.Hidden;
+            DetailsTraineeListView.Visibility = Visibility;
             // DataTextBlock.Visibility = Visibility;
             //DataTextBlock.Background = Brushes.DarkSeaGreen;
             trainees.Add(new BO.Trainee()
@@ -116,7 +116,7 @@ namespace PLWPF
                 Teacher = trainee.Teacher,
                 School = trainee.School
             });
-            DeatilsListView.ItemsSource = trainees;
+            DetailsTraineeListView.ItemsSource = trainees;
             //  DataTextBlock.Text = trainee.ToString();
         }
         //-------------------------------------------------------------------
@@ -124,7 +124,7 @@ namespace PLWPF
         {
             try
             {
-                DeatilsListView.Visibility = Visibility.Hidden;                
+                DetailsTraineeListView.Visibility = Visibility.Hidden;                
                 DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
@@ -135,9 +135,8 @@ namespace PLWPF
                 }
                 else
                 {
-                    DeatilsTestListView.Visibility = Visibility;
-
-                    DeatilsTestListView.ItemsSource = list;
+                    DetailsTestListView.Visibility = Visibility;
+                    DetailsTestListView.ItemsSource = list;
                 }
                 //foreach (var item in list)
                 //{
@@ -167,8 +166,8 @@ namespace PLWPF
 
         private void reset()
         {
-            DeatilsListView.Visibility = Visibility.Hidden;
-            DeatilsTestListView.Visibility = Visibility.Hidden;
+            DetailsTraineeListView.Visibility = Visibility.Hidden;
+            DetailsTestListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
             this.GetVehicleTypeComboBox.SelectedIndex = 0;
