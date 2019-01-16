@@ -27,8 +27,8 @@ namespace DAL
         {
             try
             {
-                if (IfExist(tester.ID, "tester"))
-                    throw new DuplicateWaitObjectException("allready exist");
+                if (IfExist(tester.ID, "tester") || IfExist(tester.ID, "trainee"))
+                    throw new DuplicateWaitObjectException("allready exist");                
             }
             catch (DuplicateWaitObjectException e) { throw; }
             DataSource.Testers.Add(tester);
@@ -142,7 +142,7 @@ namespace DAL
             try
             {
                 DO.Trainee tr = DataSource.Trainies.Find(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
-                if (tr != null)
+                if (tr != null || IfExist(trainee.ID, "tester"))
                     throw new DuplicateWaitObjectException("allready exist");
                 else
                     DataSource.Trainies.Add(trainee);
