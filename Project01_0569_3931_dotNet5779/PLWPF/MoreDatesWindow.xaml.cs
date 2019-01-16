@@ -90,7 +90,7 @@ namespace PLWPF
             }
             catch(IndexOutOfRangeException a)
             {
-                MessageBox.Show(a.Message);
+                MessageBox.Show("no tests at weekend","d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
             }
         }
 
