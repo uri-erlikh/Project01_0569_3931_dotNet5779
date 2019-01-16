@@ -50,6 +50,33 @@
                      IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="UpdateTraineeButton_Click" />
         </Grid>
         <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" Background="Black" />
+        
+        <ListView Grid.Row="3" Name="DeatilsListView" Margin="5" Visibility="Hidden">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn x:Name="firstnamegrid" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" Header="First Name"/>
+                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
+                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TraineeVehicle}" />
+                    <GridViewColumn Header="Gear" Width="80" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
+                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
+                    <GridViewColumn Header="Number Of Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
+                    <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
+                    <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListView Grid.Row="3" Name="DeatilsTestListView" Margin="5" Visibility="Hidden">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
+                    <GridViewColumn Header="Date" Width="155" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                    <GridViewColumn Header="City" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.City}"/>
+                    <GridViewColumn Header="Street" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.Street}"/>
+                    <GridViewColumn Header="Number of bilding" Width="120" DisplayMemberBinding="{Binding Path=TestAddress.NumOfBuilding}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Button x:Name="BackButton" Grid.Row="4" Margin="5" Content="Back" 
                 Height="Auto" HorizontalAlignment="Right" MinWidth="100"  Click="BackButton_Click"/>
         <Button x:Name="ResetButton" Content="Reset form" HorizontalAlignment="Left" Margin="564,5,5,5" Height="Auto"  Grid.Row="4" VerticalAlignment="Top" MinWidth="100" Click="ResetButton_Click"/>

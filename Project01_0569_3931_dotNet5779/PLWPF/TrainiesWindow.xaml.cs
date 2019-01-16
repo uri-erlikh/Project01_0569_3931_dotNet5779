@@ -23,6 +23,7 @@ namespace PLWPF
         BL.IBL bl;
         string traineeID;
         BO.Vehicle vehicle;
+        List<BO.Trainee> trainees = new List<BO.Trainee>();
 
         public TrainiesWindow(string identifier)
         {
@@ -99,26 +100,49 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-            DataTextBlock.Visibility = Visibility;
-            DataTextBlock.Background = Brushes.DarkSeaGreen;
-            DataTextBlock.Text = trainee.ToString();
+            DataTextBlock.Visibility= Visibility.Hidden;
+            DeatilsTestListView.Visibility = Visibility.Hidden;
+            DeatilsListView.Visibility = Visibility;
+            // DataTextBlock.Visibility = Visibility;
+            //DataTextBlock.Background = Brushes.DarkSeaGreen;
+            trainees.Add(new BO.Trainee()
+            {
+                PrivateName = trainee.PrivateName,
+                FamilyName = trainee.FamilyName,
+                TraineeVehicle = trainee.TraineeVehicle,
+                TraineeGear = trainee.TraineeGear,
+                Phone = trainee.Phone,
+                DrivingLessonsNum = trainee.DrivingLessonsNum,
+                Teacher = trainee.Teacher,
+                School = trainee.School
+            });
+            DeatilsListView.ItemsSource = trainees;
+            //  DataTextBlock.Text = trainee.ToString();
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DataTextBlock.Visibility = Visibility;
-                DataTextBlock.Background = Brushes.Gold;
+                DeatilsListView.Visibility = Visibility.Hidden;                
                 DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
+                {
+                    DataTextBlock.Visibility = Visibility;
+                    DataTextBlock.Background = Brushes.Gold;
                     DataTextBlock.Text = "no tests were found";
+                }
                 else
-                    foreach (var item in list)
-                    {
-                        DataTextBlock.Text += item.ToString() + "\n";
-                    }
+                {
+                    DeatilsTestListView.Visibility = Visibility;
+
+                    DeatilsTestListView.ItemsSource = list;
+                }
+                //foreach (var item in list)
+                //{
+                //    DataTextBlock.Text += item.ToString() + "\n";
+                //}
             }
             catch (KeyNotFoundException ex)
             {
@@ -143,6 +167,8 @@ namespace PLWPF
 
         private void reset()
         {
+            DeatilsListView.Visibility = Visibility.Hidden;
+            DeatilsTestListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
             this.GetVehicleTypeComboBox.SelectedIndex = 0;
