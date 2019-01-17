@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DAL
 {
-    class DAL_XML_IMP 
+    class DAL_XML_IMP //:IDal
     {
         static DAL_XML_IMP instance = null;
         
@@ -27,7 +27,10 @@ namespace DAL
         XElement testRoot;
         string testPath = @"TestXml.xml";
 
-        private DAL_XML_IMP() { }
+        private DAL_XML_IMP()
+        {
+            
+        }
 
  
 
