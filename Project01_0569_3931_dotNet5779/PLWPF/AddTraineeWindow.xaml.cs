@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -93,11 +94,42 @@ namespace PLWPF
             this.numOfBuildingTextBox.Clear();
             this.streetTextBox.Clear();
         }
-        //------------------------------------------------------------------
-        private void BackButton_Click(object sender, RoutedEventArgs e)
+        //----------------------------------------------------------------------
+        private void IDTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+
+        private void phoneTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+
+        private void drivingLessonsNumTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+            //------------------------------------------------------------------
+            private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new TrainiesWindow("admin").Show();
             this.Close();
-        }
+        }        
+        
     }
 }

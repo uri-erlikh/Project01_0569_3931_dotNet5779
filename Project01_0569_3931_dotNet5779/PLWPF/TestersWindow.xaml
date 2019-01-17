@@ -5,14 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="Testers" Height="450" Width="800">
-    <Window.Background>
-        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-            <GradientStop Color="Black" Offset="0"/>
-            <GradientStop Color="#FF14857F" Offset="1"/>
-            <GradientStop Color="#FF80CA22" Offset="0.515"/>
-        </LinearGradientBrush>
-    </Window.Background>
+        Title="Testers" Height="450" Width="800" Background="{StaticResource windowBackGround}">
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

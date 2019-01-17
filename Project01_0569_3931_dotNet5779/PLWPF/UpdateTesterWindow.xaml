@@ -21,7 +21,7 @@
         <StackPanel Grid.Row="0" Margin="0,0,0,0.333">
 
         </StackPanel>
-        <Grid x:Name="ScheduleGrid" HorizontalAlignment="Left" ShowGridLines="True" Height="200" Margin="5,0,0,5.333" Grid.Column="1" VerticalAlignment="Bottom" Width="427" >
+        <Grid x:Name="ScheduleGrid" HorizontalAlignment="Left" ShowGridLines="True" Height="200" Margin="5,0,0,130" Grid.Column="1" VerticalAlignment="Bottom" Width="427" RenderTransformOrigin="0.502,0.542" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition/>
@@ -104,24 +104,25 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Family Name:"/>
-                <TextBox x:Name="familyNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding FamilyName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-                <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max Weekly Tests:"/>
-                <TextBox x:Name="maxWeeklyTestsTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MaxWeeklyTests, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-                <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Phone:" />
-                <TextBox x:Name="phoneTextBox" Width="120" VerticalAlignment="Center" MaxLength="10" Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-                <Label VerticalAlignment="Center" Grid.Row="4" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Private Name:"/>
-                <TextBox x:Name="privateNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="4" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+
+                <Label VerticalAlignment="Center" Grid.Row="0" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Private Name:"/>
+                <TextBox x:Name="privateNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PrivateName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="0" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label VerticalAlignment="Center" Grid.Row="1" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Family Name:"/>
+                <TextBox x:Name="familyNameTextBox" Width="120" VerticalAlignment="Center" Text="{Binding FamilyName, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="1" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label VerticalAlignment="Center" Grid.Row="3" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Max Weekly Tests:"/>
+                <TextBox x:Name="maxWeeklyTestsTextBox" Width="120" VerticalAlignment="Center" Text="{Binding MaxWeeklyTests, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="3" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label VerticalAlignment="Center" Grid.Row="2" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Phone:" />
+                <TextBox x:Name="phoneTextBox" Width="120" VerticalAlignment="Center" MaxLength="10" Text="{Binding Phone, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="2" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="phoneTextBox_PreviewTextInput" />
                 <Label VerticalAlignment="Center" Grid.Row="5" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Range To Test:"/>
-                <TextBox x:Name="rangeToTestTextBox" Width="120" VerticalAlignment="Center" Text="{Binding RangeToTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <TextBox x:Name="rangeToTestTextBox" Width="120" VerticalAlignment="Center" Text="{Binding RangeToTest, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="5" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="rangeToTestTextBox_PreviewTextInput" />
                 <Label VerticalAlignment="Center" Grid.Row="6" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Tester Experience:"/>
-                <TextBox x:Name="testerExperienceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding TesterExperience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <TextBox x:Name="testerExperienceTextBox" Width="120" VerticalAlignment="Center" Text="{Binding TesterExperience, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="6" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1" PreviewTextInput="testerExperienceTextBox_PreviewTextInput" />
                 <Label VerticalAlignment="Center" Grid.Row="7" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="City:"/>
                 <TextBox x:Name="cityTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PersonAddress.City, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="7" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-                <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Num Of Building:"/>
-                <TextBox x:Name="numOfBuildingTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PersonAddress.NumOfBuilding, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
-                <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Street:"/>
-                <TextBox x:Name="streetTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PersonAddress.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="9" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label VerticalAlignment="Center" Grid.Row="8" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Street:"/>
+                <TextBox x:Name="streetTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PersonAddress.Street, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="8" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
+                <Label VerticalAlignment="Center" Grid.Row="9" Margin="3" HorizontalAlignment="Left" Grid.Column="0" Content="Num Of Building:"/>
+                <TextBox x:Name="numOfBuildingTextBox" Width="120" VerticalAlignment="Center" Text="{Binding PersonAddress.NumOfBuilding, Mode=TwoWay, NotifyOnValidationError=true, ValidatesOnExceptions=true}" Grid.Row="9" Margin="3" Height="23" HorizontalAlignment="Left" Grid.Column="1"/>
             </Grid>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="0" Orientation="Horizontal" Margin="0,0.333,31,-0.333">

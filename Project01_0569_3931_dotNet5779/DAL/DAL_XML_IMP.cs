@@ -60,10 +60,10 @@ namespace DAL
         {
             try
             {
-                DO.Tester myTester = GetOneTester(tester.ID);
-                DO.Trainee myTrainee = GetOneTrainee(tester.ID);
-                if (myTester != null || myTrainee!=null)
-                    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
+               // DO.Tester myTester = GetOneTester(tester.ID);
+               // DO.Trainee myTrainee = GetOneTrainee(tester.ID);
+                //if (myTester != null || myTrainee!=null)
+                //    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
             }
             catch(DuplicateWaitObjectException e) { throw; }
 

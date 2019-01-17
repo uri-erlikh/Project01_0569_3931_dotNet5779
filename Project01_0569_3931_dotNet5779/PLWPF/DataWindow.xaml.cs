@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
 
 namespace PLWPF
 {
@@ -27,7 +28,7 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
         }
         //----------------------------------------------------------------------------
-
+        ObservableCollection<BO.Tester> testers;
         IEnumerable<IGrouping<BO.Vehicle, BO.Tester>> tmp;
         private void testersPerVehicle_Selected(object sender, RoutedEventArgs e)
         {
@@ -35,8 +36,25 @@ namespace PLWPF
             if (result == MessageBoxResult.Yes)
                 tmp = bl.TestersByVehicle(true);
             List<BO.Vehicle> myKey = (from item in tmp select item.Key).ToList();
+
+           
             comboBox.ItemsSource = myKey;
-            
+        }
+
+        private void comboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            foreach (var item in tmp)
+            {
+                if (comboBox.SelectedItem != null)
+                {
+                    if (item.Key == (BO.Vehicle)comboBox.SelectedItem)
+                    {
+                        testers = new ObservableCollection<BO.Tester>(item);
+                        forgroup.ItemsSource = testers;
+                    }
+                }
+            }
+         
         }
         //----------------------------------------------------------------------------
         private void traineesPerSchool_Selected(object sender, RoutedEventArgs e)
@@ -59,5 +77,7 @@ namespace PLWPF
             new MainWindow().Show();
             this.Close();
         }
+
+       
     }
 }
