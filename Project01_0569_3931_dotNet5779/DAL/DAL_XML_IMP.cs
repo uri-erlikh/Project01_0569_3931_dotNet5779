@@ -7,7 +7,7 @@ using System.Xml.Linq;
 
 namespace DAL
 {
-   
+
     class DAL_XML_IMP
     {
         static DAL_XML_IMP instance = null;
@@ -31,7 +31,7 @@ namespace DAL
 
         private DAL_XML_IMP()
         {
-           if (!File.Exists(testerPath))
+            if (!File.Exists(testerPath))
                 CreateFiles();
             else
                 LoadData();
@@ -39,7 +39,7 @@ namespace DAL
 
         private void CreateFiles()
         {
-            testerRoot = new XElement("testrs");
+            testerRoot = new XElement("testers");
             testerRoot.Save(testerPath);
         }
 
@@ -51,7 +51,8 @@ namespace DAL
             }
             catch
             {
-                throw new Exception("File upload problem");
+                throw new KeyNotFoundException("File upload problem");
             }
         }
+    }
 }
