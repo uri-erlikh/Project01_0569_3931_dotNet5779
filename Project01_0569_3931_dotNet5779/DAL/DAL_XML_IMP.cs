@@ -7,10 +7,11 @@ using System.Xml.Linq;
 
 namespace DAL
 {
-    class DAL_XML_IMP //:IDal
+
+    class DAL_XML_IMP
     {
         static DAL_XML_IMP instance = null;
-        
+
         public static DAL_XML_IMP GetInstance()
         {
             if (instance == null)
@@ -27,13 +28,31 @@ namespace DAL
         XElement testRoot;
         string testPath = @"TestXml.xml";
 
+
         private DAL_XML_IMP()
         {
-            
+            if (!File.Exists(testerPath))
+                CreateFiles();
+            else
+                LoadData();
         }
 
- 
+        private void CreateFiles()
+        {
+            testerRoot = new XElement("testers");
+            testerRoot.Save(testerPath);
+        }
 
-
+        private void LoadData()
+        {
+            try
+            {
+                testerRoot = XElement.Load(testerPath);
+            }
+            catch
+            {
+                throw new KeyNotFoundException("File upload problem");
+            }
+        }
     }
 }
