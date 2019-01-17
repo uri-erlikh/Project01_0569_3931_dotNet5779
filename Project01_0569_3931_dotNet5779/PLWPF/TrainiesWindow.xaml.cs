@@ -25,7 +25,7 @@ namespace PLWPF
         string traineeID;
         BO.Vehicle vehicle;
         private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
-
+        //--------------------------------------------------------------------
         public TrainiesWindow(string identifier)
         {
             InitializeComponent();
@@ -39,7 +39,7 @@ namespace PLWPF
                 this.UpdateTraineeButton.Visibility = Visibility.Visible;
             }
         }
-
+        //-------------------------------------------------------------------
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
         {
             if (this.GetIDTextBox.Text.Length < 9)
@@ -103,8 +103,8 @@ namespace PLWPF
         {
             trainees.Clear();
             DataTextBlock.Visibility= Visibility.Hidden;
-            DeatilsTestListView.Visibility = Visibility.Hidden;
-            DeatilsListView.Visibility = Visibility.Visible;
+            DetailsTestListView.Visibility = Visibility.Hidden;
+            DetailsTraineeListView.Visibility = Visibility.Visible;
 
             // DataTextBlock.Visibility = Visibility;
             //DataTextBlock.Background = Brushes.DarkSeaGreen;
@@ -121,7 +121,7 @@ namespace PLWPF
             //});
 
             trainees.Add(trainee);
-            DeatilsListView.ItemsSource = trainees;
+            DetailsTraineeListView.ItemsSource = trainees;
             //  DataTextBlock.Text = trainee.ToString();
         }
         //-------------------------------------------------------------------
@@ -129,7 +129,7 @@ namespace PLWPF
         {
             try
             {
-                DeatilsListView.Visibility = Visibility.Hidden;                
+                DetailsTraineeListView.Visibility = Visibility.Hidden;                
                 DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
@@ -140,8 +140,8 @@ namespace PLWPF
                 }
                 else
                 {
-                    DeatilsTestListView.Visibility = Visibility.Visible;
-                    DeatilsTestListView.ItemsSource = list;
+                    DetailsTestListView.Visibility = Visibility.Visible;
+                    DetailsTestListView.ItemsSource = list;
                 }
                 //foreach (var item in list)
                 //{
@@ -171,8 +171,8 @@ namespace PLWPF
 
         private void reset()
         {
-            DeatilsListView.Visibility = Visibility.Hidden;
-            DeatilsTestListView.Visibility = Visibility.Hidden;
+            DetailsTraineeListView.Visibility = Visibility.Hidden;
+            DetailsTestListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
             this.GetVehicleTypeComboBox.SelectedIndex = 0;

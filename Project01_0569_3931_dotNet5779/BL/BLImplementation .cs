@@ -364,8 +364,8 @@ namespace BL
                         {                            
                             whoTest = GetTestersByDate(fromDate);
                         }
-                        catch (KeyNotFoundException) { }
-                        catch (IndexOutOfRangeException) { }
+                        catch (KeyNotFoundException) { throw; }
+                        catch (IndexOutOfRangeException) { throw; }
                         if (whoTest.Any() && closeTester.Any())
                         {
                             var finalList = (from item in whoTest
