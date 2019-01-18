@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,7 +19,7 @@ namespace PLWPF
     /// Interaction logic for UpdateTraineeWindow.xaml
     /// </summary>
     /// 
-    
+
     public partial class UpdateTraineeWindow : Window
     {
         BL.IBL bl;
@@ -31,7 +32,6 @@ namespace PLWPF
             trainee = trainee1;
             traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.DataContext = trainee;
-
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
@@ -39,36 +39,57 @@ namespace PLWPF
             try
             {
                 trainee.TraineeGear = (BO.GearBox)this.traineeGearComboBox.SelectedIndex;
-
-                if (int.TryParse(this.phoneTextBox.Text, out int number1) != true ||
-                        int.TryParse(this.numOfBuildingTextBox.Text, out int number2) != true ||
-                        int.TryParse(this.drivingLessonsNumTextBox.Text ,out int number3)!=true)
-                    MessageBox.Show("please insert only digits for: phone, num of building and number of lessons", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                if (familyNameTextBox.Text == "" || privateNameTextBox.Text == "" || schoolTextBox.Text == "" ||
+                    traineeGearComboBox.ItemsSource == null || cityTextBox.Text == "" || streetTextBox.Text == "")
+                    MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 else
                 {
-                    if (familyNameTextBox.Text == "" || privateNameTextBox.Text == "" || schoolTextBox.Text == "" ||
-                        traineeGearComboBox.ItemsSource == null || cityTextBox.Text == "" || streetTextBox.Text == "")
-                        MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    else
-                    {
-                        bl.UpdateTrainee(trainee);
-                        MessageBox.Show("Update is succeeded");
-                        new TrainiesWindow("admin").Show();
-                        this.Close();
-                    }
+                    bl.UpdateTrainee(trainee);
+                    MessageBox.Show("Update is succeeded");
+                    new TrainiesWindow("admin").Show();
+                    this.Close();
                 }
             }
             catch (BO.InvalidDataException r)
             {
-                MessageBox.Show(r.Message);
+                MessageBox.Show(r.Message,"d.m.v",MessageBoxButton.OK,MessageBoxImage.Stop);
             }
-            catch(KeyNotFoundException x)
+            catch (KeyNotFoundException x)
             {
                 MessageBox.Show(x.Message);
-
+            }
+        }
+        //------------------------------------------------------------------------
+        private void drivingLessonsNumTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
             }
         }
 
+        private void phoneTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+
+        private void numOfBuildingTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+        //-----------------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             new TrainiesWindow("admin").Show();

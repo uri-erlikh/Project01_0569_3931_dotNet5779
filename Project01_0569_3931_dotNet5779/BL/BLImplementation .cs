@@ -49,6 +49,10 @@ namespace BL
             }
             catch (KeyNotFoundException e)
             { throw; }
+            catch (InvalidOperationException e)
+            {
+                throw;
+            }
         }
         //--------------------------------------------------------------------
         public void UpdateTester(BO.Tester tester)

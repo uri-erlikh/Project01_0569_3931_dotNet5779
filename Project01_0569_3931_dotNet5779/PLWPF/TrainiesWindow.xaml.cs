@@ -24,7 +24,8 @@ namespace PLWPF
         BL.IBL bl;
         string traineeID;
         BO.Vehicle vehicle;
-        private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
+       private List<BO.Trainee> trainees = new List<BO.Trainee>();
+//private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
         //--------------------------------------------------------------------
         public TrainiesWindow(string identifier)
         {
@@ -56,6 +57,7 @@ namespace PLWPF
                     vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
                     traineeID = GetIDTextBox.Text;
                     trainee = bl.GetOneTrainee(traineeID, vehicle);
+                    trainees.Add(trainee);
                     this.PrintTraineeButton.IsEnabled = true;
                     this.GetTestOfTTraineeButton.IsEnabled = true;
                     if (this.AddTraineeButton.Visibility == Visibility.Visible)
@@ -101,28 +103,13 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-            trainees.Clear();
+           // trainees.Clear();
             DataTextBlock.Visibility= Visibility.Hidden;
             DetailsTestListView.Visibility = Visibility.Hidden;
             DetailsTraineeListView.Visibility = Visibility.Visible;
 
-            // DataTextBlock.Visibility = Visibility;
-            //DataTextBlock.Background = Brushes.DarkSeaGreen;
-            //trainees.Add(new BO.Trainee()
-            //{
-            //    PrivateName = trainee.PrivateName,
-            //    FamilyName = trainee.FamilyName,
-            //    TraineeVehicle = trainee.TraineeVehicle,
-            //    TraineeGear = trainee.TraineeGear,
-            //    Phone = trainee.Phone,
-            //    DrivingLessonsNum = trainee.DrivingLessonsNum,
-            //    Teacher = trainee.Teacher,
-            //    School = trainee.School
-            //});
-
-            trainees.Add(trainee);
+           //rainees.Add(trainee);
             DetailsTraineeListView.ItemsSource = trainees;
-            //  DataTextBlock.Text = trainee.ToString();
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)

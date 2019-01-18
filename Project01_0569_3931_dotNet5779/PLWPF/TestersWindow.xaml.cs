@@ -83,13 +83,20 @@ namespace PLWPF
         //-------------------------------------------------------------------------
         private void DeleteTesterButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result;
-            result = MessageBox.Show("Are you sure you want to delete the tester?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
+            try
             {
-                bl.DeleteTester(testerID);
-                MessageBox.Show("Tester was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
-                reset();                
+                MessageBoxResult result;
+                result = MessageBox.Show("Are you sure you want to delete the tester?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+                if (result == MessageBoxResult.Yes)
+                {
+                    bl.DeleteTester(testerID);
+                    MessageBox.Show("Tester was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                    reset();
+                }
+            }
+            catch(InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
         //------------------------------------------------------------------------------

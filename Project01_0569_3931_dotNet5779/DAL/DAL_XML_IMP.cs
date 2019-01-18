@@ -9,7 +9,7 @@ using System.Xml.Linq;
 namespace DAL
 {
 
-    class DAL_XML_IMP// : IDal
+    class DAL_XML_IMP//:IDal
     {
         static DAL_XML_IMP instance = null;
 
@@ -37,13 +37,13 @@ namespace DAL
             else
                 LoadData();
         }
-        //------------------------------------------------------------
+        //---------------------------------------------------------
         private void CreateFiles()
         {
             testerRoot = new XElement("testers");
             testerRoot.Save(testerPath);
         }
-
+        //-----------------------------------------------------------
         private void LoadData()
         {
             try
@@ -55,29 +55,57 @@ namespace DAL
                 throw new KeyNotFoundException("File upload problem");
             }
         }
-        //-----------------------------------------------------------------------------
-        public void AddTester(DO.Tester tester, bool[,] matrix)
+        //-----------------------------------------------------------------
+        public void AddTester(DO.Tester tester, bool[,] matrix)//
         {
-            XElement id = new XElement("id", tester.ID);
-            XElement privateName = new XElement("privateName", tester.PrivateName);
-            XElement familyName = new XElement("familyName", tester.FamilyName);
-            XElement dayOfBirth = new XElement("dayOfBirth", tester.DayOfBirth);
-            XElement personGender = new XElement("personGender", tester.PersonGender);
-            XElement phone = new XElement("phone", tester.Phone);
+            try
+            {
+               // DO.Tester myTester = GetOneTester(tester.ID);
+               // DO.Trainee myTrainee = GetOneTrainee(tester.ID);
+                //if (myTester != null || myTrainee!=null)
+                //    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
+            }
+            catch(DuplicateWaitObjectException e) { throw; }
+
+            XElement iD = new XElement("ID", tester.ID);
+            XElement familyName = new XElement("FamilyName", tester.FamilyName);
+            XElement privateName = new XElement("PrivateName", tester.PrivateName);
+            XElement dayOfBirth = new XElement("DayOfBirth", tester.DayOfBirth);
+            XElement personGender = new XElement("PersonGender", tester.PersonGender);
+            XElement phone = new XElement("Phone", tester.Phone);
+            XElement city = new XElement("City", tester.PersonAddress.City);
+            XElement street = new XElement("Street", tester.PersonAddress.Street);
+            XElement numOfBuilding = new XElement("NomOfBuilding", tester.PersonAddress.NumOfBuilding);
+            XElement personAddress = new XElement("personAddress", city, street, numOfBuilding); 
+             XElement person = new XElement("person", iD, familyName, privateName, dayOfBirth, personGender, phone,personAddress);           
             XElement testerExperience = new XElement("testerExperience", tester.TesterExperience);
-            XElement maxWeeklyTests = new XElement("maxWeeklyTests", tester.MaxWeeklyTests);
+            XElement maxWeeklyTests = new XElement("mawWeeklyTests", tester.MaxWeeklyTests);
             XElement testerVehicle = new XElement("testerVehicle", tester.TesterVehicle);
             XElement rangeToTest = new XElement("rangeToTest", tester.RangeToTest);
-            XElement city = new XElement("city", tester.PersonAddress.City);
-            XElement street = new XElement("street", tester.PersonAddress.Street);
-            XElement numOfBuilding = new XElement("numOfBuilding", tester.PersonAddress.NumOfBuilding);
-            XElement personAddress = new XElement("personAddress", city, street, numOfBuilding);
-            XElement person = new XElement("person", id, privateName, familyName, dayOfBirth, personGender, phone, personAddress);
-            XElement schdule = new XElement("schdule", matrix);
+            XElement schdule = new XElement("schedule", matrix); 
 
-            testerRoot.Add(new XElement("tester", person, testerExperience, maxWeeklyTests, testerVehicle, rangeToTest));
-            testerRoot.Save(testerPath);
+            testerRoot.Add(new XElement("tester", person,testerExperience,maxWeeklyTests,testerVehicle,rangeToTest));
+            testerRoot.Save(testPath);
         }
-        //---------------------------------------------------------------------------------------------------------------------------
-    }
+        //--------------------------------------------------------------------
+        public void DeleteTester(string TesterID)
+        {
+            XElement testerElement;
+            try
+            {
+                testerElement = (from tester in testerRoot.Elements()
+                                  where tester.Element("id").Value == TesterID
+                                 select tester).FirstOrDefault();
+                testerElement.Remove();
+                testerRoot.Save(testerPath);
+            }
+            catch
+            {
+                throw new InvalidOperationException("ID not found");
+            }
+        }
+    };
+
+
+    
 }

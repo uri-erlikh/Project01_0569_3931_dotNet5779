@@ -30,9 +30,11 @@
                     </TabItem.Content>
                 </TabItem>
                 </TabControl.Items>
-               </TabControl>--> 
-                <TextBlock x:Name="dataTextBlock" Grid.Row="1"/>
+               </TabControl>-->
+        <TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
+                        <ListBox x:Name="forgroup" Height="284" Width="346"/>
+                    </InlineUIContainer></TextBlock>
         <Button x:Name="BackButton" Grid.Row="2" HorizontalAlignment="Left" MinWidth="120" Content="Back" FontStyle="Italic" FontWeight="Heavy" Click="BackButton_Click" />
-        <ComboBox x:Name="comboBox" HorizontalAlignment="Left" Margin="219,23,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="comboBox" SelectionChanged="comboBox_SelectionChanged" HorizontalAlignment="Left" Margin="219,23,0,0" VerticalAlignment="Top" Width="120"/>
     </Grid>
 </Window>
