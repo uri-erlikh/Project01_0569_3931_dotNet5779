@@ -50,7 +50,24 @@
             <Button x:Name="PrintTestButton"  Visibility="Hidden" Grid.Column="2" Margin="5" Content="Print Test Details" IsEnabled="False"  FontWeight="Bold" FontStyle="Italic" BorderThickness="2" Click="PrintTestButton_Click"/>
 
         </Grid>
-        <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" />
+        <!--<TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" />-->
+
+        <ListView Grid.Row="3" Name="DetailsTestListView" Margin="5" Visibility="Hidden" >
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Number of test" Width="100" DisplayMemberBinding="{Binding Path=TestNumber}"/>
+                    <GridViewColumn Header="ID of trainee" DisplayMemberBinding="{Binding Path=TraineeId}"  Width="70"/>
+                    <GridViewColumn Header="Name of trainee" DisplayMemberBinding="{Binding Path=TraineeName}" Width="100"/>
+                    <GridViewColumn Header="ID of tester"  Width="70" DisplayMemberBinding="{Binding Path=Tester.ID}"/>
+                    <GridViewColumn Header="Vehicle"  Width="70" DisplayMemberBinding="{Binding Path=Vehicle}" />
+                    <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                    <GridViewColumn Header="Adress" Width="110" DisplayMemberBinding="{Binding Path=TestAddress}"/>
+                    <GridViewColumn Header="Pased" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
+                    <GridViewColumn Header="Note" Width="80" DisplayMemberBinding="{Binding Path=TesterNote}" />
+
+                </GridView>
+            </ListView.View>
+        </ListView>
 
     </Grid>
 </Window>

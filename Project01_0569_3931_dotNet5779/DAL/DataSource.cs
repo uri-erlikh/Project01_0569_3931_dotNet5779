@@ -74,7 +74,7 @@ namespace DAL
                 TesterVehicle = DO.Vehicle.motorcycle,
              
             });
-            Testers.Add(new DO.Tester("456743931")
+            Testers.Add(new DO.Tester("222222222")
             {
                 PrivateName = "Sara",
                 FamilyName = "Cohen",
@@ -129,7 +129,7 @@ namespace DAL
                     { true, false, true,true,false,true},
                     {true, true, false,true,false,true }
                });
-            Schedules.Add("456743931", new bool[5, 6]
+            Schedules.Add("222222222", new bool[5, 6]
                {
                     { true, false, false,true,false ,false},
                     {true, true, false,true,true ,true},
@@ -234,7 +234,7 @@ namespace DAL
                 Vinkers = false,
                 TrafficSigns = true
             });
-            Tests.Add(new DO.Test("456743931", "145674664")
+            Tests.Add(new DO.Test("222222222", "145674664")
             {
                 TestNumber = 10000001,
                 Vehicle = DO.Vehicle.privateCar,

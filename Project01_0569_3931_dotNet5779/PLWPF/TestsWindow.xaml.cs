@@ -22,11 +22,13 @@ namespace PLWPF
         BO.Test test = new BO.Test();
         BL.IBL bl;
         int testNumber;
+        List<BO.Test> tests = new List<BO.Test>();
 
         public TestsWindow()
         {
             InitializeComponent();
             bl = BL.BL_Factory.GetBL();
+            DataContext = test;
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -44,6 +46,7 @@ namespace PLWPF
                 {
                     testNumber = int.Parse(GetTestNumTextBox.Text);
                     test = bl.GetOneTest(testNumber);
+                    tests.Add(test);
                     this.UpdateTestButton.IsEnabled = true;
                     this.DeleteTestButton.IsEnabled = true;
                     this.PrintTestButton.IsEnabled = true;
@@ -85,9 +88,11 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTestButton_Click(object sender, RoutedEventArgs e)
         {
-            DataTextBlock.Visibility = Visibility;
-            DataTextBlock.Background = Brushes.DarkSeaGreen;
-            DataTextBlock.Text = test.ToString();
+            DetailsTestListView.Visibility = Visibility.Visible;
+            // DataTextBlock.Visibility = Visibility;
+            // DataTextBlock.Background = Brushes.DarkSeaGreen;
+            //DataTextBlock.Text = test.ToString();
+            DetailsTestListView.ItemsSource = tests;
         }
         //-------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -103,7 +108,8 @@ namespace PLWPF
         //------------------------------------------------------------
         private void reset()
         {
-            this.DataTextBlock.Visibility = Visibility.Hidden;
+            this.DetailsTestListView.Visibility = Visibility.Hidden;
+         //   this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetTestNumTextBox.Clear();
             this.PrintTestButton.IsEnabled = false;
             this.DeleteTestButton.IsEnabled = false;
