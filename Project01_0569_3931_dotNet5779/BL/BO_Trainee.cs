@@ -26,11 +26,11 @@ namespace BO
 
         public List<TraineeTest> Trainee_Test=new List<TraineeTest>();
 
-        public override string ToString()
-        {
-            return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle + " at school: " + this.School
-                + "\nallready got " + this.DrivingLessonsNum + " lessons";
-        }
+        //public override string ToString()
+        //{
+        //    return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle + " at school: " + this.School
+        //        + "\nallready got " + this.DrivingLessonsNum + " lessons";
+        //}
         public Trainee(){}
 
         //private DateTime datelastoftest;

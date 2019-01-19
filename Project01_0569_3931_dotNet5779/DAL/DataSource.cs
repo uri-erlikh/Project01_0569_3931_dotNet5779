@@ -203,7 +203,7 @@ namespace DAL
                 TraineeGear = GearBox.auto,
                 TraineeVehicle = Vehicle.privateCar
             });
-            Trainies.Add(new DO.Trainee("784765489")
+            Trainies.Add(new DO.Trainee("333333333")
             {
                 PrivateName = "Dani",
                 FamilyName = "Atias",
@@ -218,7 +218,7 @@ namespace DAL
                 TraineeVehicle = Vehicle.heavyTruck
             });
             //--------------------------------------------------------------------------------------------------------
-            Tests.Add(new DO.Test("649843931", "784765489")
+            Tests.Add(new DO.Test("649843931", "333333333")
             {
                 TestNumber = 10000000,
                 Vehicle=Vehicle.heavyTruck,

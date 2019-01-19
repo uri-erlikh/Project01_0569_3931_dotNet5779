@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
 
 namespace PLWPF
 {
@@ -22,7 +24,7 @@ namespace PLWPF
         BO.Test test = new BO.Test();
         BL.IBL bl;
         int testNumber;
-        List<BO.Test> tests = new List<BO.Test>();
+        ObservableCollection<BO.Test> tests = new ObservableCollection<BO.Test>();
 
         public TestsWindow()
         {
@@ -46,7 +48,11 @@ namespace PLWPF
                 {
                     testNumber = int.Parse(GetTestNumTextBox.Text);
                     test = bl.GetOneTest(testNumber);
-                    tests.Add(test);
+                    if (!tests.Any() || tests[0].TraineeId != test.TraineeId || tests[0].Vehicle != test.Vehicle)
+                    {
+                        tests.Clear();
+                        tests.Add(test);
+                    }
                     this.UpdateTestButton.IsEnabled = true;
                     this.DeleteTestButton.IsEnabled = true;
                     this.PrintTestButton.IsEnabled = true;
@@ -111,6 +117,7 @@ namespace PLWPF
             this.DetailsTestListView.Visibility = Visibility.Hidden;
          //   this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetTestNumTextBox.Clear();
+            tests.Clear();
             this.PrintTestButton.IsEnabled = false;
             this.DeleteTestButton.IsEnabled = false;
             this.UpdateTestButton.IsEnabled = false;

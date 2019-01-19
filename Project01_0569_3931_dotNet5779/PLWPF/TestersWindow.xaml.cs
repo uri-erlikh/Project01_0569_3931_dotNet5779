@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
 
 namespace PLWPF
 {
@@ -22,7 +24,7 @@ namespace PLWPF
         BO.Tester tester = new BO.Tester();
         BL.IBL bl;
         string testerID;
-        List<BO.Tester> testers = new List<BO.Tester>();
+        ObservableCollection<BO.Tester> testers = new ObservableCollection<BO.Tester>();
 
         public TestersWindow(string identifier)
         {
@@ -51,7 +53,11 @@ namespace PLWPF
                 {
                     testerID = GetIDTextBox.Text;
                     tester = bl.GetOneTester(GetIDTextBox.Text);
-                    testers.Add(tester);
+                    if (!testers.Any() || testers[0].ID != tester.ID)
+                    {
+                        testers.Clear();
+                        testers.Add(tester);
+                    }
                     this.PrintTesterButton.IsEnabled = true;
                     this.GetTestOfTTesterButton.IsEnabled = true;
                     if (this.AddTesterButton.Visibility == Visibility.Visible)
@@ -158,6 +164,7 @@ namespace PLWPF
             this.DetailsTesterListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
+            testers.Clear();
             this.PrintTesterButton.IsEnabled = false;
             this.GetTestOfTTesterButton.IsEnabled = false;
             this.DeleteTesterButton.IsEnabled = false;
