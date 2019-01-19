@@ -20,21 +20,24 @@
                 <ListBoxItem x:Name="traineesPerTests"  Content="Get trainees per tests" FontWeight="Bold" Selected="traineesPerTests_Selected" />
             </ListBox.Items>
         </ListBox>
-        <!--<TabControl>
-            <TabControl.Items>
-                <TabItem Header="functions">
-                    <TabItem.Content>
-                        <StackPanel>
-                            <Button Content="this button is part of tab 1" />
-                        </StackPanel>
-                    </TabItem.Content>
-                </TabItem>
-                </TabControl.Items>
-               </TabControl>-->
+
         <TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
-                        <ListBox x:Name="forgroup" Height="284" Width="346"/>
+                        <ListBox x:Name="forgroup" Height="308" Width="400"/>
                     </InlineUIContainer></TextBlock>
         <Button x:Name="BackButton" Grid.Row="2" HorizontalAlignment="Left" MinWidth="120" Content="Back" FontStyle="Italic" FontWeight="Heavy" Click="BackButton_Click" />
-        <ComboBox x:Name="comboBox" SelectionChanged="comboBox_SelectionChanged" HorizontalAlignment="Left" Margin="219,23,0,0" VerticalAlignment="Top" Width="120"/>
+        <ComboBox x:Name="vehicleComboBox" SelectionChanged="vehicleComboBox_SelectionChanged" IsEnabled="False" HorizontalAlignment="Left" Margin="164,5,0,0" VerticalAlignment="Top" MinWidth="120" RenderTransformOrigin="-0.134,-0.267"/>
+        <ComboBox x:Name="schoolComboBox" IsEnabled="False" HorizontalAlignment="Left" Margin="164,27,0,0" VerticalAlignment="Top" Width="120" Height="20" SelectionChanged="schoolComboBox_SelectionChanged"/>
+        <ComboBox x:Name="teacherComboBox" IsEnabled="False" HorizontalAlignment="Left" Margin="164,47,0,0" VerticalAlignment="Top" MinWidth="120" RenderTransformOrigin="-0.049,0.216" MinHeight="19" SelectionChanged="teacherComboBox_SelectionChanged"/>
+        <ComboBox x:Name="NumberOfTestsComboBox" IsEnabled="False" HorizontalAlignment="Left" Margin="164,66,0,0" VerticalAlignment="Top" MinWidth="120" RenderTransformOrigin="0.473,0.486" MinHeight="23" Grid.RowSpan="2" SelectionChanged="NumberOfTestsComboBox_SelectionChanged" />
+        <ListBox x:Name="GetAlllistBox" HorizontalAlignment="Left" MinHeight="83" Margin="298,5,0,0" VerticalAlignment="Top" MinWidth="101">
+            <ListBoxItem x:Name="getTesters" Content="Get all testers" FontWeight="Bold" Selected="getTesters_Selected" />
+            <ListBoxItem x:Name="getTrainees" Content="Get all trainees" FontWeight="Bold" Selected="getTraineess_Selected" />
+            <ListBoxItem x:Name="getTests" Content="Get all tests" FontWeight="Bold" Selected="getTests_Selected"  />
+        </ListBox>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="418,5,0,0" TextWrapping="Wrap" Text="Enter ID of trainee" FontWeight="Bold" VerticalAlignment="Top" Height="22" Width="Auto"/>
+        <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" MinHeight="22" Margin="521,5,0,0" TextWrapping="Wrap" MaxLength="9" VerticalAlignment="Top" MinWidth="125" PreviewTextInput="textBox_PreviewTextInput" PreviewKeyDown="textBox_PreviewKeyDown"/>
+        <ComboBox x:Name="VehicleTraineeComboBox" HorizontalAlignment="Left" Margin="521,27,0,0" IsEnabled="False" SelectedItem="{Binding BO.Vehicle}" VerticalAlignment="Top" MinWidth="125" SelectionChanged="VehicleTraineeComboBox_SelectionChanged"/>
+        <TextBlock x:Name="VehicletextBlock" HorizontalAlignment="Left" Margin="418,27,0,0" TextWrapping="Wrap" Text="Chose vehicle type" FontWeight="Bold" VerticalAlignment="Top" Width="103" Height="22"/>
+        <TextBlock x:Name="InfoTextBlock" HorizontalAlignment="Left" Margin="418,49,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="228" Height="20"/>
     </Grid>
 </Window>

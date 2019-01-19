@@ -78,7 +78,7 @@ namespace PLWPF
                             dates.HourTime =  item.Hour + ":" + "00  ";
                             dates1.Add(new Dates() { DayTime = dates.DayTime, HourTime = dates.HourTime });
                         }
-                        
+                     
                         DatesListView.ItemsSource = dates1;
                     }
                 }

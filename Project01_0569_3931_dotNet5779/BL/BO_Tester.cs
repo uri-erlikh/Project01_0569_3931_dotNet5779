@@ -57,22 +57,23 @@ namespace BO
         private Vehicle testerVehicle;
         public Vehicle TesterVehicle { get; set; }
 
-        public bool[,] Schedule;//אתחלתי בבנאי
+        public bool[,] Schedule = new bool[5, 6];
+
 
         private double rangeToTest;
         public double RangeToTest { get; set; }
 
-        public List<TesterTest> TesterTests; //אותחל בבנאי
+        public List<TesterTest> TesterTests = new List<TesterTest>();
+; 
 
         public override string ToString()
         {
-            return this.PrivateName + " " + this.FamilyName + " ID: " + this.ID + "\nvehicle: " + this.TesterVehicle;
+            return this.PrivateName + " " + this.FamilyName + " ID: " + this.ID + "\nvehicle: " + this.TesterVehicle+" range: "
+                +RangeToTest +" km, ";
         }
 
         public Tester()
         {
-            Schedule = new bool[5, 6];
-            TesterTests = new List<TesterTest>();
         }
     }   
 }
