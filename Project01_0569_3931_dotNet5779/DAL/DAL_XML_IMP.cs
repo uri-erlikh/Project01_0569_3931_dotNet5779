@@ -51,7 +51,7 @@ namespace DAL
         {
             testerRoot = new XElement("testers");
             testerRoot.Save(testerPath);
-        }        
+        }
         //-----------------------------------------------------------
         private void LoadTesters()
         {
@@ -133,7 +133,7 @@ namespace DAL
             }
         }
         //-------------------------------------------------------------------
-         void AddTrainee(DO.Trainee trainee)
+        void AddTrainee(DO.Trainee trainee)
         {
             FileStream file = new FileStream(traineePath, FileMode.Create);
             XmlSerializer xmlSerializer = new XmlSerializer(trainee.GetType());
@@ -142,7 +142,7 @@ namespace DAL
             file.Close();
         }
         //-----------------------------------------------------------------------
-         DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
+        DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
         {
             FileStream file = new FileStream(traineePath, FileMode.Open);
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DO.Trainee));
@@ -159,12 +159,12 @@ namespace DAL
             try
             {
                 _trainee = (from trainee in traineeRoot.Elements()
-                           where trainee.Element("id").Value == ID
-                           select (DO.Trainee)xmlSerializer.Deserialize(file)
-                           
-                               //FamilyName = trainee.Element("FamilyName").Value,
-                               //PrivateName = trainee.Element("PrivateName").Value,
-                               //DayOfBirth= trainee.Element
+                            where trainee.Element("id").Value == ID
+                            select (DO.Trainee)xmlSerializer.Deserialize(file)
+
+                           //FamilyName = trainee.Element("FamilyName").Value,
+                           //PrivateName = trainee.Element("PrivateName").Value,
+                           //DayOfBirth= trainee.Element
 
                            ).FirstOrDefault();
             }
@@ -172,6 +172,7 @@ namespace DAL
             {
                 throw new InvalidOperationException("ID not found");
             }
+            file.Close();
             return _trainee;
 
 
@@ -212,9 +213,44 @@ namespace DAL
                 traineeRoot.Save(traineePath);
             }
             catch
-            {                
+            {
                 throw new InvalidOperationException("ID not found");
             }
+        }
+        //-------------------------------------------------------------------------
+        void UpdateTrainee(DO.Trainee trainee)
+        {
+            try
+            {
+                LoadTrainees();
+            }
+            catch (KeyNotFoundException)
+            {
+                throw;
+            }
+            FileStream file = new FileStream(traineePath, FileMode.Create);
+            XmlSerializer xmlSerializer = new XmlSerializer(trainee.GetType());
+
+            XElement traineeElement = (from _trainee in traineeRoot.Elements()
+                                       where _trainee.Element("id").Value == trainee.ID
+                                       where _trainee.Element("TraineeVehicle").Value == trainee.TraineeVehicle.ToString()
+                                       select _trainee).FirstOrDefault();
+            traineeElement.Remove();
+            xmlSerializer.Serialize(file, trainee);
+            file.Close();
+
+            XElement _traineeElement = (from _trainee in traineeRoot.Elements()
+                                        where _trainee.Element("id").Value == trainee.ID
+                                        where _trainee.Element("TraineeVehicle").Value != trainee.TraineeVehicle.ToString()
+                                        select _trainee).FirstOrDefault();
+            _traineeElement.Element("PrivateName").Value = trainee.PrivateName;
+            _traineeElement.Element("FamilyName").Value = trainee.FamilyName;
+            _traineeElement.Element("City").Value = trainee.PersonAddress.City;
+            _traineeElement.Element("Street").Value = trainee.PersonAddress.Street;
+            // _traineeElement.Element("NumOfBuilding").Value = trainee.PersonAddress.NumOfBuilding;
+            _traineeElement.Element("Phone").Value = trainee.Phone;
+
+            traineeRoot.Save(traineePath);
         }
 
 

@@ -107,11 +107,11 @@ namespace PLWPF
                 {
                     bl.DeleteTrainee(traineeID, vehicle);
                 }
-                catch (InvalidOperationException a)
+                 catch (InvalidOperationException a)
                 {
                     MessageBox.Show(a.Message);
                 }
-                MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
                 reset();
             }
         }
