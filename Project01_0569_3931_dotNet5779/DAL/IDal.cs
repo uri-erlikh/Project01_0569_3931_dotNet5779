@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DAL
 {
     public interface IDal
-    {
+    {//
         void AddTester(DO.Tester tester, bool [,]matrix);
         void DeleteTester(string TesterID);
         void UpdateTester(DO.Tester tester);        

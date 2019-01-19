@@ -24,8 +24,8 @@ namespace PLWPF
         BL.IBL bl;
         string traineeID;
         BO.Vehicle vehicle;
-       private List<BO.Trainee> trainees = new List<BO.Trainee>();
-//private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
+        // private List<BO.Trainee> trainees = new List<BO.Trainee>();
+         private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
         //--------------------------------------------------------------------
         public TrainiesWindow(string identifier)
         {
@@ -57,7 +57,11 @@ namespace PLWPF
                     vehicle = (BO.Vehicle)GetVehicleTypeComboBox.SelectedIndex;
                     traineeID = GetIDTextBox.Text;
                     trainee = bl.GetOneTrainee(traineeID, vehicle);
-                    trainees.Add(trainee);
+                    if (!trainees.Any() || trainees[0].ID != trainee.ID || trainees[0].TraineeVehicle != trainee.TraineeVehicle)
+                    {
+                        trainees.Clear();
+                        trainees.Add(trainee);
+                    }
                     this.PrintTraineeButton.IsEnabled = true;
                     this.GetTestOfTTraineeButton.IsEnabled = true;
                     if (this.AddTraineeButton.Visibility == Visibility.Visible)
@@ -71,6 +75,10 @@ namespace PLWPF
                     MessageBox.Show(a.Message);
                 }
                 catch (BO.InvalidDataException a)
+                {
+                    MessageBox.Show(a.Message);
+                }
+                catch (InvalidOperationException a)
                 {
                     MessageBox.Show(a.Message);
                 }
@@ -95,8 +103,15 @@ namespace PLWPF
             result = MessageBox.Show("Are you sure you want to delete the trainee?", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
             if (result == MessageBoxResult.Yes)
             {
-                bl.DeleteTrainee(traineeID, vehicle);
-                MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                try
+                {
+                    bl.DeleteTrainee(traineeID, vehicle);
+                }
+                 catch (InvalidOperationException a)
+                {
+                    MessageBox.Show(a.Message);
+                }
+            MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
                 reset();
             }
         }
@@ -162,6 +177,7 @@ namespace PLWPF
             DetailsTestListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
+            trainees.Clear();
             this.GetVehicleTypeComboBox.SelectedIndex = 0;
             this.PrintTraineeButton.IsEnabled = false;
             this.GetTestOfTTraineeButton.IsEnabled = false;

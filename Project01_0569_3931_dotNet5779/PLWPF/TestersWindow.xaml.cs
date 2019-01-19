@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.ObjectModel;
+
 
 namespace PLWPF
 {
@@ -22,6 +24,7 @@ namespace PLWPF
         BO.Tester tester = new BO.Tester();
         BL.IBL bl;
         string testerID;
+        ObservableCollection<BO.Tester> testers = new ObservableCollection<BO.Tester>();
 
         public TestersWindow(string identifier)
         {
@@ -50,6 +53,11 @@ namespace PLWPF
                 {
                     testerID = GetIDTextBox.Text;
                     tester = bl.GetOneTester(GetIDTextBox.Text);
+                    if (!testers.Any() || testers[0].ID != tester.ID)
+                    {
+                        testers.Clear();
+                        testers.Add(tester);
+                    }
                     this.PrintTesterButton.IsEnabled = true;
                     this.GetTestOfTTesterButton.IsEnabled = true;
                     if (this.AddTesterButton.Visibility == Visibility.Visible)
@@ -102,26 +110,33 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTesterButton_Click(object sender, RoutedEventArgs e)
         {
-            DataTextBlock.Visibility = Visibility;
-            DataTextBlock.Background = Brushes.DarkSeaGreen;
-            DataTextBlock.Text = tester.ToString();
+            DetailsTestListView.Visibility = Visibility.Hidden;
+            DetailsTesterListView.Visibility = Visibility.Visible;
+            DetailsTesterListView.ItemsSource = testers;
+          //  DataTextBlock.Visibility = Visibility;
+          // DataTextBlock.Background = Brushes.DarkSeaGreen;
+          //DataTextBlock.Text = tester.ToString();
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTesterButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DataTextBlock.Visibility = Visibility;
-                DataTextBlock.Background = Brushes.Gold;
-                DataTextBlock.Text = "";
+                DetailsTesterListView.Visibility = Visibility.Hidden;
+               
+               // DataTextBlock.Text = "";
                 List<BO.TesterTest> list = bl.GetFutureTestForTester(testerID);
                 if (!list.Any())
+                {
+                    DataTextBlock.Visibility = Visibility;
+                    DataTextBlock.Background = Brushes.Gold;
                     DataTextBlock.Text = "no tests";
+                }
                 else
-                    foreach (var item in list)
-                    {
-                        DataTextBlock.Text += item.ToString() + "\n";
-                    }
+                {
+                    DetailsTestListView.Visibility = Visibility.Visible;
+                    DetailsTestListView.ItemsSource = list;
+                }
             }
             catch (KeyNotFoundException ex)
             {
@@ -146,8 +161,10 @@ namespace PLWPF
         //------------------------------------------------------------
         private void reset()
         {
+            this.DetailsTesterListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
+            testers.Clear();
             this.PrintTesterButton.IsEnabled = false;
             this.GetTestOfTTesterButton.IsEnabled = false;
             this.DeleteTesterButton.IsEnabled = false;

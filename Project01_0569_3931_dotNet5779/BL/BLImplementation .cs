@@ -132,6 +132,10 @@ namespace BL
             catch (InvalidDataException e)
             {
                 throw;
+            }              
+            catch(InvalidOperationException)
+            {
+                throw;
             }
         }
         //--------------------------------------------------------------------
