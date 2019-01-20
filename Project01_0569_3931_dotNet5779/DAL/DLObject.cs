@@ -150,16 +150,16 @@ namespace DAL
             catch (DuplicateWaitObjectException e) { throw; }
         }
         //------------------------------------------------------------
-        public void DeleteTrainee(string TraineeID, DO.Vehicle vehicle)
+        public void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
         {
             try
             {
-                if (!IfExist(TraineeID, "trainee"))
+                if (!IfExist(traineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID && x.TraineeVehicle==vehicle);
-            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID &&x.Vehicle==vehicle);
+            DataSource.Trainies.RemoveAll(x => x.ID == traineeID && x.TraineeVehicle==vehicle);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == traineeID &&x.Vehicle==vehicle);
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(DO.Trainee trainee)
@@ -181,6 +181,7 @@ namespace DAL
                 }
             }
             catch (KeyNotFoundException e) { throw; }
+            catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee don't study this vehicle"); }
             //switch (field)
             //{
             //    case "familyName":
