@@ -138,7 +138,7 @@ namespace DAL
             FileStream file = new FileStream(traineePath, FileMode.Create);
             XmlSerializer xmlSerializer = new XmlSerializer(trainee.GetType());
             xmlSerializer.Serialize(file, trainee);
-            traineeRoot.Save(traineePath);//???
+            traineeRoot.Save(traineePath);//????
             file.Close();
         }
         //-----------------------------------------------------------------------
@@ -243,6 +243,7 @@ namespace DAL
                                         where _trainee.Element("id").Value == trainee.ID
                                         where _trainee.Element("TraineeVehicle").Value != trainee.TraineeVehicle.ToString()
                                         select _trainee).FirstOrDefault();
+            //foreach(var tra in _traineeElement)
             _traineeElement.Element("PrivateName").Value = trainee.PrivateName;
             _traineeElement.Element("FamilyName").Value = trainee.FamilyName;
             _traineeElement.Element("City").Value = trainee.PersonAddress.City;
