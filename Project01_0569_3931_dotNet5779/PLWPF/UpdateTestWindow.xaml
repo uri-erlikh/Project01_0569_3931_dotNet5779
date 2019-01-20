@@ -73,6 +73,6 @@
         </StackPanel>
         <Label x:Name="label" Grid.Column="2" HorizontalAlignment="Left" Width="Auto" Content="insert your ID:" FontStyle="Italic" FontWeight="Bold" FontSize="15" VerticalAlignment="Top" Margin="23.2,0,-20.8,0"/>
         <TextBox x:Name="IDTestertextBox" Grid.Column="2" HorizontalAlignment="Left" Height="23" Margin="138.2,7,-143,0" TextWrapping="Wrap" MaxLength="9" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="GObutton" Content="GO!" FontStyle="Italic" FontWeight="ExtraBold" Grid.Column="2" HorizontalAlignment="Left" Margin="263.2,7,-219.8,0" VerticalAlignment="Top" Width="Auto" Click="GObutton_Click"/>
+        <Button x:Name="GObutton" Content="GO!" FontStyle="Italic" FontWeight="ExtraBold" Grid.Column="2" HorizontalAlignment="Left" Margin="263.2,7,-173.2,0" VerticalAlignment="Top" Width="Auto" Click="GObutton_Click" Height="23"/>
     </Grid>
 </Window>
