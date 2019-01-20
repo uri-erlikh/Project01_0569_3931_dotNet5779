@@ -34,80 +34,83 @@ namespace DAL
         private DAL_XML_IMP()
         {
             if (!File.Exists(testerPath))
-                CreateFilesTesers();
+                CreateFiles("testers");
             else
-                LoadTesters();
+                LoadData("testers");
 
             if (!File.Exists(traineePath))
-                CreateFilesTrainees();
+                CreateFiles("trainees");
             else
-                LoadTrainees();
+                LoadData("trainees");
 
             if (!File.Exists(testPath))
-                CreateFilesTests();
+                CreateFiles("tests");
             else
-                LoadTests();
+                LoadData("tests");
         }
         //---------------------------------------------------------
-        private void CreateFilesTesers()
+        private void CreateFiles(string identifier)
         {
-            testerRoot = new XElement("testers");
-            testerRoot.Save(testerPath);
+            switch (identifier)
+            {
+                case "testers":
+                    testerRoot = new XElement("testers");
+                    testerRoot.Save(testerPath);
+                    break;
+                case "trainees":
+                    traineeRoot = new XElement("trainees");
+                    traineeRoot.Save(traineePath);
+                    break;
+                case "tests":
+                    testRoot = new XElement("tests");
+                    testRoot.Save(testPath);
+                    break;
+            }            
         }
         //-----------------------------------------------------------
-        private void LoadTesters()
+        private void LoadData(string identifier)
         {
-            try
+            switch (identifier)
             {
-                testerRoot = XElement.Load(testerPath);
-            }
-            catch
-            {
-                throw new KeyNotFoundException("File upload problem");
-            }
-        }
-        //-----------------------------------------------------------------
-        private void CreateFilesTrainees()
-        {
-            traineeRoot = new XElement("trainees");
-            traineeRoot.Save(traineePath);
-        }
-        //----------------------------------------------------------------
-        private void LoadTrainees()
-        {
-            try
-            {
-                traineeRoot = XElement.Load(traineePath);
-            }
-            catch
-            {
-                throw new KeyNotFoundException("File upload problem");
-            }
-        }
-        //---------------------------------------------------------------
-        private void CreateFilesTests()
-        {
-            testRoot = new XElement("tests");
-            testRoot.Save(testPath);
-        }
-        //----------------------------------------------------------------
-        private void LoadTests()
-        {
-            try
-            {
-                testRoot = XElement.Load(testPath);
-            }
-            catch
-            {
-                throw new KeyNotFoundException("File upload problem");
-            }
-        }
-        //------------------------------------------------------------------
+                case "testers":
+                    try
+                    {
+
+                        testerRoot = XElement.Load(testerPath);
+                        break;
+                    }
+                    catch
+                    {
+                        throw new KeyNotFoundException("File upload problem - testers");
+                    }
+                case "trainees":
+                    try
+                    {
+                        traineeRoot = XElement.Load(traineePath);
+                        break;
+                    }
+                    catch
+                    {
+                        throw new KeyNotFoundException("File upload problem - trainees");
+                    }
+                case "tests":
+                    try
+                    {
+                        testRoot = XElement.Load(testPath);
+                        break;
+                    }
+                    catch
+                    {
+                        throw new KeyNotFoundException("File upload problem - tests");
+                    }
+            }           
+        }       
+        //----------------------------------------------------------------       
         public void AddTester(DO.Tester tester, bool[,] matrix)
         {
             try
             {
-                LoadTesters();
+                LoadData("testers");
                 // DO.Tester myTester = GetOneTester(tester.ID);
                 // DO.Trainee myTrainee = GetOneTrainee(tester.ID);
                 //if (myTester != null || myTrainee!=null)
@@ -116,14 +119,14 @@ namespace DAL
             catch (DuplicateWaitObjectException e) { throw; }
 
             XElement iD = new XElement("ID", tester.ID);
-            XElement familyName = new XElement("FamilyName", tester.FamilyName);
-            XElement privateName = new XElement("PrivateName", tester.PrivateName);
-            XElement dayOfBirth = new XElement("DayOfBirth", tester.DayOfBirth);
-            XElement personGender = new XElement("PersonGender", tester.PersonGender);
-            XElement phone = new XElement("Phone", tester.Phone);
-            XElement city = new XElement("City", tester.PersonAddress.City);
-            XElement street = new XElement("Street", tester.PersonAddress.Street);
-            XElement numOfBuilding = new XElement("NomOfBuilding", tester.PersonAddress.NumOfBuilding);
+            XElement familyName = new XElement("familyName", tester.FamilyName);
+            XElement privateName = new XElement("privateName", tester.PrivateName);
+            XElement dayOfBirth = new XElement("dayOfBirth", tester.DayOfBirth);
+            XElement personGender = new XElement("personGender", tester.PersonGender);
+            XElement phone = new XElement("phone", tester.Phone);
+            XElement city = new XElement("city", tester.PersonAddress.City);
+            XElement street = new XElement("street", tester.PersonAddress.Street);
+            XElement numOfBuilding = new XElement("numOfBuilding", tester.PersonAddress.NumOfBuilding);
             XElement personAddress = new XElement("personAddress", city, street, numOfBuilding);
             XElement person = new XElement("person", iD, familyName, privateName, dayOfBirth, personGender, phone, personAddress);
             XElement testerExperience = new XElement("testerExperience", tester.TesterExperience);
@@ -138,25 +141,27 @@ namespace DAL
         //--------------------------------------------------------------------
         public void DeleteTester(string testerID)
         {
-            LoadTesters();
+            LoadData("testers");
             XElement testerElement;
             try
             {
                 testerElement = (from tester in testerRoot.Elements()
                                  where tester.Element("ID").Value == testerID
                                  select tester).FirstOrDefault();
+                if (testerElement == null)
+                    throw new KeyNotFoundException("ID not found");
                 testerElement.Remove();
                 testerRoot.Save(testerPath);
             }
-            catch
+            catch(KeyNotFoundException)
             {
-                throw new KeyNotFoundException("ID not found");
+                throw; 
             }
         }
         //-------------------------------------------------------------------
         public DO.Tester GetOneTester(string testerID)
         {
-            LoadTesters();
+            LoadData("testers");
             DO.Tester myTester;
             try
             {
@@ -166,7 +171,13 @@ namespace DAL
                            {
                                FamilyName = tester.Element("person").Element("familyName").Value,
                                PrivateName=tester.Element("person").Element("privateName").Value,
-                               DayOfBirth=new DateTime(tester.Element("person").Element("dayOfBirth").Value),
+                               DayOfBirth=DateTime.Parse(tester.Element("person").Element("dayOfBirth").Value),
+                               PersonGender= (DO.Gender)Enum.Parse(typeof(DO.Gender),tester.Element("person").Element("personGender").Value),
+                               Phone=tester.Element("Phone").Value,
+                               PersonAddress=new DO.Address(tester.Element("person").Element("personAddress").Element("city").Value,
+                               tester.Element("person").Element("personAddress").Element("street").Value,
+                               int.Parse(tester.Element("person").Element("personAddress").Element("numOfBuilding").Value)),
+
                            }).FirstOrDefault();
                 if (myTester.)
             }
