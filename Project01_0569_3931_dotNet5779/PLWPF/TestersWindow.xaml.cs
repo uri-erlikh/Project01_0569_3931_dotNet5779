@@ -102,7 +102,7 @@ namespace PLWPF
                     reset();
                 }
             }
-            catch(InvalidOperationException ex)
+            catch(KeyNotFoundException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -110,9 +110,9 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTesterButton_Click(object sender, RoutedEventArgs e)
         {
-            DetailsTestListView.Visibility = Visibility.Hidden;
-            DetailsTesterListView.Visibility = Visibility.Visible;
-            DetailsTesterListView.ItemsSource = testers;
+            this.DetailsTestListView.Visibility = Visibility.Hidden;
+            this.DetailsTesterListView.Visibility = Visibility.Visible;
+            this.DetailsTesterListView.ItemsSource = testers;
           //  DataTextBlock.Visibility = Visibility;
           // DataTextBlock.Background = Brushes.DarkSeaGreen;
           //DataTextBlock.Text = tester.ToString();
@@ -122,20 +122,20 @@ namespace PLWPF
         {
             try
             {
-                DetailsTesterListView.Visibility = Visibility.Hidden;
+                this.DetailsTesterListView.Visibility = Visibility.Hidden;
                
                // DataTextBlock.Text = "";
                 List<BO.TesterTest> list = bl.GetFutureTestForTester(testerID);
                 if (!list.Any())
                 {
-                    DataTextBlock.Visibility = Visibility;
-                    DataTextBlock.Background = Brushes.Gold;
-                    DataTextBlock.Text = "no tests";
+                    this.DataTextBlock.Visibility = Visibility;
+                    this.DataTextBlock.Background = Brushes.Gold;
+                    this.DataTextBlock.Text = "no tests";
                 }
                 else
                 {
-                    DetailsTestListView.Visibility = Visibility.Visible;
-                    DetailsTestListView.ItemsSource = list;
+                    this.DetailsTestListView.Visibility = Visibility.Visible;
+                    this.DetailsTestListView.ItemsSource = list;
                 }
             }
             catch (KeyNotFoundException ex)

@@ -118,32 +118,32 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
-           // trainees.Clear();
-            DataTextBlock.Visibility= Visibility.Hidden;
-            DetailsTestListView.Visibility = Visibility.Hidden;
-            DetailsTraineeListView.Visibility = Visibility.Visible;
+            // trainees.Clear();
+            this.DataTextBlock.Visibility= Visibility.Hidden;
+            this.DetailsTestListView.Visibility = Visibility.Hidden;
+            this.DetailsTraineeListView.Visibility = Visibility.Visible;
 
-           //rainees.Add(trainee);
-            DetailsTraineeListView.ItemsSource = trainees;
+            //rainees.Add(trainee);
+            this.DetailsTraineeListView.ItemsSource = trainees;
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTraineeButton_Click(object sender, RoutedEventArgs e)
         {
             try
             {
-                DetailsTraineeListView.Visibility = Visibility.Hidden;                
-                DataTextBlock.Text = "";
+                this.DetailsTraineeListView.Visibility = Visibility.Hidden;                
+                this.DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
                 {
-                    DataTextBlock.Visibility = Visibility.Visible;
-                    DataTextBlock.Background = Brushes.Gold;
-                    DataTextBlock.Text = "no tests were found";
+                    this.DataTextBlock.Visibility = Visibility.Visible;
+                    this.DataTextBlock.Background = Brushes.Gold;
+                    this.DataTextBlock.Text = "no tests were found";
                 }
                 else
                 {
-                    DetailsTestListView.Visibility = Visibility.Visible;
-                    DetailsTestListView.ItemsSource = list;
+                    this.DetailsTestListView.Visibility = Visibility.Visible;
+                    this. DetailsTestListView.ItemsSource = list;
                 }
                 //foreach (var item in list)
                 //{
@@ -173,12 +173,12 @@ namespace PLWPF
 
         private void reset()
         {
-            DetailsTraineeListView.Visibility = Visibility.Hidden;
-            DetailsTestListView.Visibility = Visibility.Hidden;
+            this.DetailsTraineeListView.Visibility = Visibility.Hidden;
+            this.DetailsTestListView.Visibility = Visibility.Hidden;
             this.DataTextBlock.Visibility = Visibility.Hidden;
             this.GetIDTextBox.Clear();
             trainees.Clear();
-            this.GetVehicleTypeComboBox.SelectedIndex = 0;
+            this.GetVehicleTypeComboBox.SelectedItem = null;
             this.PrintTraineeButton.IsEnabled = false;
             this.GetTestOfTTraineeButton.IsEnabled = false;
             this.DeleteTraineeButton.IsEnabled = false;

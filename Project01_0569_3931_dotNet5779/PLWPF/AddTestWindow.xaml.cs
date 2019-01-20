@@ -94,7 +94,7 @@ namespace PLWPF
                        
                         test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
                         test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
-                        MessageBox.Show(bl.AddTest(test));
+                        MessageBox.Show(bl.AddTest(test),"d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
                         //MessageBoxResult result;
                         //result = MessageBox.Show("If you want more dates press YES", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
                         //if (result == MessageBoxResult.Yes)

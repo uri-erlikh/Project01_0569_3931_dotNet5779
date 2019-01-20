@@ -48,11 +48,7 @@ namespace BL
                 dl.DeleteTester(TesterID);
             }
             catch (KeyNotFoundException e)
-            { throw; }
-            catch (InvalidOperationException e)
-            {
-                throw;
-            }
+            { throw; }            
         }
         //--------------------------------------------------------------------
         public void UpdateTester(BO.Tester tester)
@@ -229,7 +225,8 @@ namespace BL
 
             try
             {
-                return dl.AddTest(Convert(test)) + "\n your test date: " + test.TestHour + "\n good luck!";
+                return dl.AddTest(Convert(test)) + "\n your test date: " + test.TestHour +"\nyour tester: ID- "+test.Tester.ID
+                    +", "+"\n good luck!";
             }
             catch (KeyNotFoundException e) { throw; }
         }

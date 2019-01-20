@@ -44,7 +44,7 @@
         </Grid>
         <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" />
 
-        <ListView Grid.Row="3" Name="DetailsTesterListView" Margin="5" Visibility="Hidden">
+        <ListView Grid.Row="3" x:Name="DetailsTesterListView" Margin="5" Visibility="Hidden">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="ID"  Width="80" DisplayMemberBinding="{Binding Path=ID}"/>
@@ -59,7 +59,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView Grid.Row="3" Name="DetailsTestListView" Margin="5" Visibility="Hidden">
+        <ListView Grid.Row="3" x:Name="DetailsTestListView" Margin="5" Visibility="Hidden">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />

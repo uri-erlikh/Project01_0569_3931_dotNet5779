@@ -63,8 +63,7 @@ namespace BO
         private double rangeToTest;
         public double RangeToTest { get; set; }
 
-        public List<TesterTest> TesterTests = new List<TesterTest>();
-; 
+        public List<TesterTest> TesterTests = new List<TesterTest>(); 
 
         public override string ToString()
         {

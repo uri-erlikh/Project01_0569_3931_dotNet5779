@@ -37,14 +37,16 @@ namespace DAL
                 CreateFilesTesers();
             else
                 LoadTesters();
+
             if (!File.Exists(traineePath))
-                CreateFilesTesers();
+                CreateFilesTrainees();
             else
-                LoadTesters();
+                LoadTrainees();
+
             if (!File.Exists(testPath))
-                CreateFilesTesers();
+                CreateFilesTests();
             else
-                LoadTesters();
+                LoadTests();
         }
         //---------------------------------------------------------
         private void CreateFilesTesers()
@@ -68,14 +70,14 @@ namespace DAL
         private void CreateFilesTrainees()
         {
             traineeRoot = new XElement("trainees");
-            traineeRoot.Save(testerPath);
+            traineeRoot.Save(traineePath);
         }
         //----------------------------------------------------------------
         private void LoadTrainees()
         {
             try
             {
-                traineeRoot = XElement.Load(testerPath);
+                traineeRoot = XElement.Load(traineePath);
             }
             catch
             {
@@ -83,6 +85,24 @@ namespace DAL
             }
         }
         //---------------------------------------------------------------
+        private void CreateFilesTests()
+        {
+            testRoot = new XElement("tests");
+            testRoot.Save(testPath);
+        }
+        //----------------------------------------------------------------
+        private void LoadTests()
+        {
+            try
+            {
+                testRoot = XElement.Load(testPath);
+            }
+            catch
+            {
+                throw new KeyNotFoundException("File upload problem");
+            }
+        }
+        //------------------------------------------------------------------
         public void AddTester(DO.Tester tester, bool[,] matrix)
         {
             try
@@ -116,25 +136,50 @@ namespace DAL
             testerRoot.Save(testPath);
         }
         //--------------------------------------------------------------------
-        public void DeleteTester(string TesterID)
+        public void DeleteTester(string testerID)
         {
+            LoadTesters();
             XElement testerElement;
             try
             {
                 testerElement = (from tester in testerRoot.Elements()
-                                 where tester.Element("id").Value == TesterID
+                                 where tester.Element("ID").Value == testerID
                                  select tester).FirstOrDefault();
                 testerElement.Remove();
                 testerRoot.Save(testerPath);
             }
             catch
             {
-                throw new InvalidOperationException("ID not found");
+                throw new KeyNotFoundException("ID not found");
             }
         }
         //-------------------------------------------------------------------
-        void AddTrainee(DO.Trainee trainee)
+        public DO.Tester GetOneTester(string testerID)
         {
+            LoadTesters();
+            DO.Tester myTester;
+            try
+            {
+                myTester = (from tester in testerRoot.Elements()
+                           where tester.Element("ID").Value == testerID
+                           select new DO.Tester(testerID)
+                           {
+                               FamilyName = tester.Element("person").Element("familyName").Value,
+                               PrivateName=tester.Element("person").Element("privateName").Value,
+                               DayOfBirth=new DateTime(tester.Element("person").Element("dayOfBirth").Value),
+                           }).FirstOrDefault();
+                if (myTester.)
+            }
+            catch
+            {
+                throw new KeyNotFoundException("ID not found");
+            }
+            return myTester;
+        }
+        //----------------------------------------------------------------------
+        public void AddTrainee(DO.Trainee trainee)
+        {
+            LoadTrainees();
             FileStream file = new FileStream(traineePath, FileMode.Create);
             XmlSerializer xmlSerializer = new XmlSerializer(trainee.GetType());
             xmlSerializer.Serialize(file, trainee);
@@ -142,8 +187,8 @@ namespace DAL
             file.Close();
         }
         //-----------------------------------------------------------------------
-        DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
-        {
+        public DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
+        {           
             FileStream file = new FileStream(traineePath, FileMode.Open);
             XmlSerializer xmlSerializer = new XmlSerializer(typeof(DO.Trainee));
 
@@ -200,13 +245,14 @@ namespace DAL
             //return trainee;
         }
         //-----------------------------------------------------------------------
-        void DeleteTrainee(string TraineeID, DO.Vehicle vehicle)
+        public void DeleteTrainee(string TraineeID, DO.Vehicle vehicle)
         {
+            LoadTrainees();
             XElement traineeElement;
             try
             {
                 traineeElement = (from trainee in traineeRoot.Elements()
-                                  where trainee.Element("id").Value == TraineeID
+                                  where trainee.Element("ID").Value == TraineeID
                                   where trainee.Element("TraineeVehicle").Value == vehicle.ToString()
                                   select trainee).FirstOrDefault();
                 traineeElement.Remove();
@@ -218,7 +264,7 @@ namespace DAL
             }
         }
         //-------------------------------------------------------------------------
-        void UpdateTrainee(DO.Trainee trainee)
+        public void UpdateTrainee(DO.Trainee trainee)
         {
             try
             {
