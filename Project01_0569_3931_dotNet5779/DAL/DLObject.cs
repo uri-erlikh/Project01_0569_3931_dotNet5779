@@ -150,16 +150,16 @@ namespace DAL
             catch (DuplicateWaitObjectException e) { throw; }
         }
         //------------------------------------------------------------
-        public void DeleteTrainee(string TraineeID, DO.Vehicle vehicle)
+        public void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
         {
             try
             {
-                if (!IfExist(TraineeID, "trainee"))
+                if (!IfExist(traineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            DataSource.Trainies.RemoveAll(x => x.ID == TraineeID && x.TraineeVehicle==vehicle);
-            DataSource.Tests.RemoveAll(x => x.TraineeId == TraineeID &&x.Vehicle==vehicle);
+            DataSource.Trainies.RemoveAll(x => x.ID == traineeID && x.TraineeVehicle==vehicle);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == traineeID &&x.Vehicle==vehicle);
         }
         //--------------------------------------------------------------
         public void UpdateTrainee(DO.Trainee trainee)
@@ -181,6 +181,7 @@ namespace DAL
                 }
             }
             catch (KeyNotFoundException e) { throw; }
+            catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee don't study this vehicle"); }
             //switch (field)
             //{
             //    case "familyName":
@@ -261,16 +262,7 @@ namespace DAL
             try
             {               
                 int index = DataSource.Tests.FindIndex(x => x.TestNumber == test1.TestNumber);
-                DataSource.Tests[index] = test1;
-                //Test test = DataSource.Tests.Find(x => x.TestNumber == numOfTest);
-                //test.Mirrors = result[0];
-                //test.Brakes = result[1];
-                //test.ReverseParking = result[2];
-                //test.Distance = result[3];
-                //test.Vinkers = result[4];
-                //test.TrafficSigns = result[5];
-                //test.PassedTest = result[6];
-                //test.TesterNote = note;
+                DataSource.Tests[index] = test1;                
             }
             catch (ArgumentNullException e) { throw; }
         }

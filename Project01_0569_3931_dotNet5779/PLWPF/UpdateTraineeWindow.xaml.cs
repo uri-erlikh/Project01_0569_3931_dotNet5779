@@ -32,6 +32,7 @@ namespace PLWPF
             trainee = trainee1;
             traineeGearComboBox.ItemsSource = Enum.GetValues(typeof(BO.GearBox));
             this.DataContext = trainee;
+            this.traineeGearComboBox.SelectedValue = trainee.TraineeGear;
         }
 
         private void UpdateButton_Click(object sender, RoutedEventArgs e)
