@@ -34,6 +34,9 @@ namespace DAL
         string testPath = @"TestXml.xml";
         List<DO.Test> tests = new List<DO.Test>();
 
+        XElement configRoot;
+        string configPath = @"Config.xml";
+
         private DAL_XML_IMP()
         {
             if (!File.Exists(testerPath))
@@ -50,6 +53,11 @@ namespace DAL
                 CreateFiles("tests");
             else
                 LoadData("tests");
+
+            if (!File.Exists(configPath))
+                CreateConfig();
+            else
+                LoadData("config");
         }
         //---------------------------------------------------------
         private void CreateFiles(string identifier)
@@ -67,8 +75,18 @@ namespace DAL
                 case "tests":
                     testRoot = new XElement("tests");
                     testRoot.Save(testPath);
-                    break;
+                    break;               
             }
+        }
+        //------------------------------------------------------------
+        private void CreateConfig()
+        {
+            XElement minLessons = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
+            XElement maxTesterAge = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
+            XElement minTraineeAge = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
+            XElement minGapTest = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
+            XElement minTesterAge = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
+            XElement numberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
         }
         //-----------------------------------------------------------
         private void LoadData(string identifier)
@@ -102,12 +120,24 @@ namespace DAL
                     try
                     {
                         testRoot = XElement.Load(testPath);
+                        tests = GetTestsList();
                         break;
                     }
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - tests");
                     }
+
+                case "config":
+                    try
+                    {
+
+                    }
+                    catch
+                    {
+                        throw new KeyNotFoundException("File upload problem - config");
+                    }
+                    break;
             }
         }
         //-------------------------------------------------------------------
@@ -162,7 +192,7 @@ namespace DAL
                                  int.Parse(tester.Element("person").Element("personAddress").Element("numOfBuilding").Value)),
                                  TesterExperience = int.Parse(tester.Element("testerExperience").Value),
                                  MaxWeeklyTests = int.Parse(tester.Element("maxWeeklyTests").Value),
-                                 TesterVehicle = (DO.Vehicle)Enum.Parse(typeof(DO.Gender), tester.Element("testerVehicle").Value),
+                                 TesterVehicle = (DO.Vehicle)Enum.Parse(typeof(DO.Vehicle), tester.Element("testerVehicle").Value),
                                  RangeToTest = int.Parse(tester.Element("rangeToTest").Value),
                                  //schedule
                              }).ToList();
@@ -236,6 +266,74 @@ namespace DAL
             return myTrainees;
         }
         //---------------------------------------------------------------
+        private void SaveTestList(List<DO.Test> testsList)
+        {
+            testRoot = new XElement("tests");
+            foreach (var test in testsList)
+            {
+                SaveOneTest(test);
+            }
+            testRoot.Save(testPath);
+        }
+
+        private void SaveOneTest(DO.Test test)
+        {
+            XElement testNumber = new XElement("testNumber", test.TestNumber);
+            XElement IDTester = new XElement("IDTester", test.TesterId);
+            XElement IDTrainee = new XElement("IDTrainee", test.TraineeId);
+            XElement vehicle = new XElement("Vehicle", test.Vehicle.ToString());
+            XElement testDate = new XElement("testDate", test.TestDate);
+            XElement testHour = new XElement("testHour", test.TestHour);            
+            XElement city = new XElement("city", test.TestAddress.City);
+            XElement street = new XElement("street", test.TestAddress.Street);
+            XElement numOfBuilding = new XElement("numOfBuilding", test.TestAddress.NumOfBuilding);
+            XElement testAddress = new XElement("testAddress", city, street, numOfBuilding);
+            XElement mirrors = new XElement("mirrors", test.Mirrors);
+            XElement brakes = new XElement("brakes", test.Brakes);
+            XElement reverseParking = new XElement("reverseParking", test.ReverseParking);
+            XElement distance = new XElement("distance", test.Distance);
+            XElement vinkers = new XElement("vinkers", test.Vinkers);
+            XElement trafficSigns = new XElement("trafficSigns", test.TrafficSigns);
+            XElement passedTest = new XElement("passedTest", test.PassedTest);
+            XElement testerNote = new XElement("testerNote", test.TesterNote);
+            testerRoot.Add(new XElement("test",))
+           
+            testerRoot.Add(new XElement("tester", testNumber,IDTester,IDTrainee,vehicle,testDate,testHour,
+                testAddress,mirrors,brakes,reverseParking,distance,vinkers,trafficSigns,passedTest,testerNote));
+        }
+        //---------------------------------------------------------------
+        private List<DO.Test> GetTestsList()
+        {
+            List<DO.Test> myTests = new List<DO.Test>();
+            try
+            {
+                myTests = (from test in testRoot.Elements()
+                           select new DO.Test(test.Element("IDTester").Value, test.Element("IDTrainee").Value)
+                           {
+                               TestNumber = int.Parse(test.Element("testNumber").Value),
+                               Vehicle = (DO.Vehicle)Enum.Parse(typeof(DO.Vehicle), test.Element("vehicle").Value),
+                               TestDate = DateTime.Parse(test.Element("testDate").Value),
+                               TestHour = DateTime.Parse(test.Element("testHour").Value),
+                               TestAddress = new DO.Address(test.Element("testAddress").Element("city").Value,
+                                 test.Element("testAddress").Element("street").Value,
+                                 int.Parse(test.Element("testAddress").Element("numOfBuilding").Value)),
+                               Mirrors=bool.Parse(test.Element("mirrors").Value),
+                               Brakes= bool.Parse(test.Element("brakes").Value),
+                               ReverseParking= bool.Parse(test.Element("reverseParking").Value),
+                               Distance= bool.Parse(test.Element("distance").Value),
+                               Vinkers= bool.Parse(test.Element("vinkers").Value),
+                               TrafficSigns= bool.Parse(test.Element("trafficSigns").Value),
+                               PassedTest= bool.Parse(test.Element("passedTest").Value),
+                               TesterNote=test.Element("testerNote").Value,
+                           }).ToList();
+            }
+            catch (FileLoadException e)
+            {
+                throw new KeyNotFoundException(e.Message);
+            }
+            return myTests;
+        }
+        //----------------------------------------------------------------
         private bool IfExist(string ID, string type)
         {
             bool check1 = false;
@@ -259,10 +357,10 @@ namespace DAL
         {
             try
             {
-                // DO.Tester myTester = GetOneTester(tester.ID);
-                // DO.Trainee myTrainee = GetOneTrainee(tester.ID);
-                //if (myTester != null || myTrainee!=null)
-                //    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
+                DO.Tester myTester = GetOneTester(tester.ID);
+                DO.Trainee myTrainee = GetOneTrainee(tester.ID,tester.TesterVehicle);
+                if (myTester != null || myTrainee != null)
+                    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
             }
             catch (DuplicateWaitObjectException e) { throw; }
 
@@ -326,6 +424,7 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
                 testerElement.Remove();
                 SaveOneTester(tester);
+                testerRoot.Save(testerPath);
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -458,7 +557,7 @@ namespace DAL
                 SaveTraineeList(trainees);
             }
             catch (KeyNotFoundException e) { throw; }
-            catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee don't study this vehicle"); }
+            catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee doesn't study this vehicle"); }
             //try
             //{
             //    // LoadTrainees();
@@ -492,7 +591,125 @@ namespace DAL
             //traineeRoot.Save(traineePath);
         }
         //---------------------------------------------------------------------------
+        public string AddTest(DO.Test test)
+        {
+            try
+            {
+                if (!IfExist(test.TesterId, "tester"))
+                    throw new KeyNotFoundException("TesterID not found");
+                if (!IfExist(test.TraineeId, "trainee"))
+                    throw new KeyNotFoundException("TraineeID not found");
+            }
+            catch (KeyNotFoundException e) { throw; }
+            //int temp = (int)DataSource.Configuration["Number"].value;
+            test.TestNumber = temp;
+            this.tests.Add(test);
+            //DataSource.Configuration["Number"].value = temp + 1;
+            SaveOneTest(test);
+            testRoot.Save(testPath);
+            return "your number test is" + temp;
+        }
+        //-------------------------------------------------------------------------
+        public void UpdateTestResult(DO.Test test1)
+        {
+            try
+            {
+                int index = this.tests.FindIndex(x => x.TestNumber == test1.TestNumber);
+                this.tests[index] = test1;
 
+                XElement testElement = (from myTest in testRoot.Elements()
+                                          where int.Parse(myTest.Element("testNumber").Value) == test1.TestNumber
+                                          select myTest).FirstOrDefault();
+                if (testElement == null)
+                    throw new KeyNotFoundException("test not found in xml");
+                testElement.Remove();
+                SaveOneTest(test1);
+                testRoot.Save(testPath);
+            }
+            catch (ArgumentNullException e) { throw; }
+            catch(KeyNotFoundException e) { throw; }
+        }
+        //------------------------------------------------------------------------------
+        private bool IfTestExist(int numOfTest)
+        {
+            if (this.tests.Find(x => x.TestNumber == numOfTest) == null)
+                return false;
+            return true;
+        }
+        //------------------------------------------------------------------------------
+        public DO.Test GetOneTest(int testNum)
+        {
+            try
+            {
+                if (!IfTestExist(testNum))
+                    throw new KeyNotFoundException("no such test");
+            }
+            catch (KeyNotFoundException e) { throw; }
+            foreach (var item in this.tests)
+                if (item.TestNumber == testNum)
+                    return new DO.Test(item);
+            return null;
+        }
+        //-------------------------------------------------------------------------------
+        public void DeleteTest(int numOfTest)
+        {           
+                this.tests.RemoveAll(x => x.TestNumber == numOfTest);
+                XElement testElement;
+                try
+                {
+                    testElement = (from test in testRoot.Elements()
+                                     where int.Parse(test.Element("testNumber").Value) == numOfTest
+                                     select test).FirstOrDefault();
+                    if (testElement == null)
+                        throw new KeyNotFoundException("test not found in xml");
+                    testElement.Remove();                    
+                }
+                catch (KeyNotFoundException e) { throw; }
+                                
+                testRoot.Save(testPath);           
+        }
+        //---------------------------------------------------------------------------------
+        public List<DO.Tester> GetTesters()
+        {            
+            return (from item in this.testers
+                    select new DO.Tester(item)).ToList();
+        }
+        //-------------------------------------------------------------------------
+        public List<DO.Trainee> GetTrainees()
+        {
+            return (from item in this.trainees
+                    select new DO.Trainee(item)).ToList();
+        }
+        //----------------------------------------------------
+        public List<DO.Test> GetTests()
+        {
+            return (from item in this.tests
+                    select new DO.Test(item)).ToList();
+        }
+        //---------------------------------------------------------
+        public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
+        {
+            return (from item in this.tests
+                    where (someFunc(item))
+                    select new DO.Test(item)).ToList();
+        }
+        //--------------------------------------------------
+        public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
+        {
+            var NewList = from item in this.testers
+                          where (func(item))
+                          select new DO.Tester(item);
+            return NewList.ToList();
+        }
+        //--------------------------------------------------
+        public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
+        {
+            var NewList = from item in this.trainees
+                          where (func(item))
+                          select new DO.Trainee(item);
+            return NewList.ToList();
+        }
+        //------------------------------------------------------------------
 
 
 
