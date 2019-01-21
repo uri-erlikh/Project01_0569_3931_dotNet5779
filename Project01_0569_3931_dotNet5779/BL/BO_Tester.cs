@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,12 +68,16 @@ namespace BO
 
         public override string ToString()
         {
-            return this.PrivateName + " " + this.FamilyName + " ID: " + this.ID + "\nvehicle: " + this.TesterVehicle+" range: "
-                +RangeToTest +" km, ";
+            return this.PrivateName + " " + this.FamilyName + " ID: " + this.ID + "\nvehicle: " + this.TesterVehicle;               
         }
 
         public Tester()
         {
         }
-    }   
+
+        public static List<Tester> testersRecentlyopened = new List<Tester>();
+      //  public static ObservableCollection<BO.Tester> testers = new ObservableCollection<BO.Tester>();
+
+
+    }
 }

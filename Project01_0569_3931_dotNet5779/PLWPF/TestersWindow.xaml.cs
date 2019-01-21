@@ -21,11 +21,12 @@ namespace PLWPF
     /// </summary>
     public partial class TestersWindow : Window
     {
-        BO.Tester tester = new BO.Tester();
+        BO.Tester tester;
         BL.IBL bl;
         string testerID;
         ObservableCollection<BO.Tester> testers = new ObservableCollection<BO.Tester>();
-
+        ObservableCollection<string> _testersID = new ObservableCollection<string>();//
+        bool check = true;
         public TestersWindow(string identifier)
         {
             InitializeComponent();
@@ -36,6 +37,17 @@ namespace PLWPF
                 this.UpdateTesterButton.Visibility = Visibility.Visible;
                 this.DeleteTesterButton.Visibility = Visibility.Visible;
             }
+
+            if (BO.Tester.testersRecentlyopened.Any())
+            {
+                foreach (var item in BO.Tester.testersRecentlyopened)
+                {
+                    _testersID.Add(item.ID);
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Content = item;
+                    DeatielsListBox.Items.Add(listBoxItem);
+                }
+            }           
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -57,7 +69,22 @@ namespace PLWPF
                     {
                         testers.Clear();
                         testers.Add(tester);
+                      //  BO.Tester.testersRecentlyopened.Add(tester);
+                        foreach (var item in _testersID)
+                        {
+                            if (testerID == item)
+                                check = false;
+                        }
+                        if (check)
+                        {
+                            BO.Tester.testersRecentlyopened.Add(tester);
+                            _testersID.Add(tester.ID);
+                            ListBoxItem listBoxItem = new ListBoxItem();
+                            listBoxItem.Content = tester;
+                            DeatielsListBox.Items.Add(listBoxItem);
+                        }
                     }
+
                     this.PrintTesterButton.IsEnabled = true;
                     this.GetTestOfTTesterButton.IsEnabled = true;
                     if (this.AddTesterButton.Visibility == Visibility.Visible)
@@ -102,7 +129,7 @@ namespace PLWPF
                     reset();
                 }
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 MessageBox.Show(ex.Message);
             }
@@ -113,9 +140,9 @@ namespace PLWPF
             this.DetailsTestListView.Visibility = Visibility.Hidden;
             this.DetailsTesterListView.Visibility = Visibility.Visible;
             this.DetailsTesterListView.ItemsSource = testers;
-          //  DataTextBlock.Visibility = Visibility;
-          // DataTextBlock.Background = Brushes.DarkSeaGreen;
-          //DataTextBlock.Text = tester.ToString();
+            //  DataTextBlock.Visibility = Visibility;
+            // DataTextBlock.Background = Brushes.DarkSeaGreen;
+            //DataTextBlock.Text = tester.ToString();
         }
         //-------------------------------------------------------------------
         private void GetTestOfTTesterButton_Click(object sender, RoutedEventArgs e)
@@ -123,8 +150,8 @@ namespace PLWPF
             try
             {
                 this.DetailsTesterListView.Visibility = Visibility.Hidden;
-               
-               // DataTextBlock.Text = "";
+
+                // DataTextBlock.Text = "";
                 List<BO.TesterTest> list = bl.GetFutureTestForTester(testerID);
                 if (!list.Any())
                 {
@@ -169,6 +196,33 @@ namespace PLWPF
             this.GetTestOfTTesterButton.IsEnabled = false;
             this.DeleteTesterButton.IsEnabled = false;
             this.UpdateTesterButton.IsEnabled = false;
+        }
+
+        private void DeatielsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            reset();
+            testerID = _testersID[DeatielsListBox.SelectedIndex];
+            GetIDTextBox.Text = testerID;
+            try
+            {
+                tester = bl.GetOneTester(GetIDTextBox.Text);
+                testers.Add(tester);
+                this.PrintTesterButton.IsEnabled = true;
+                this.GetTestOfTTesterButton.IsEnabled = true;
+                if (this.AddTesterButton.Visibility == Visibility.Visible)
+                {
+                    this.UpdateTesterButton.IsEnabled = true;
+                    this.DeleteTesterButton.IsEnabled = true;
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (BO.InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

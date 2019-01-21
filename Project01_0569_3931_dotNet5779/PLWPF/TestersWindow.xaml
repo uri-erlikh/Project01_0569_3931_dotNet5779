@@ -6,70 +6,88 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="Testers" Height="450" Width="800" Background="{StaticResource windowBackGround}">
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <Label Content="Insert ID of a tester:" Foreground="Yellow" FontWeight="Bold" FontStyle="Italic" Margin="5" />
-            <TextBox x:Name="GetIDTextBox" BorderThickness="2" Margin="5" MaxLength="9" MinWidth="100" IsEnabled="True" />
-            <Button x:Name="GetDataButton" Margin="5" Content="Insert" BorderThickness="2" MinWidth="100" Click="GetDataButton_Click" />
-            <Button x:Name="BackButton"  Margin="5" Content="Back"  BorderThickness="2"
+    <TabControl x:Name="tabControl" Background="{StaticResource windowBackGround}">
+        <TabControl.Items>
+            <TabItem x:Name="MainTab" Header="Main" >
+                <TabItem.Content>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Insert ID of a tester:" Foreground="Yellow" FontWeight="Bold" FontStyle="Italic" Margin="5" />
+                            <TextBox x:Name="GetIDTextBox" BorderThickness="2" Margin="5" MaxLength="9" MinWidth="100" IsEnabled="True" />
+                            <Button x:Name="GetDataButton" Margin="5" Content="Insert" BorderThickness="2" MinWidth="100" Click="GetDataButton_Click" />
+                            <Button x:Name="BackButton"  Margin="5" Content="Back"  BorderThickness="2"
                 Height="Auto" HorizontalAlignment="Right" Width="100"  Click="BackButton_Click"/>
-            <Button x:Name="ResetButton" Content="Reset form"  BorderThickness="2" HorizontalAlignment="Left" Margin="5" Height="Auto"   MinWidth="100" Click="ResetButton_Click" />
-        </StackPanel>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="PrintTesterButton"  Margin="5" Content="Print Tester Details" FontSize="20" FontStyle="Italic" FontWeight="Bold"  BorderThickness="2" IsEnabled="False" Click="PrintTesterButton_Click" />
-            <Button x:Name="GetTestOfTTesterButton" Grid.Column="1" Margin="5" Content="Get Future Tests Of Tester"  FontSize="20" FontStyle="Italic" BorderThickness="2" IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTesterButton_Click"  />
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                            <Button x:Name="ResetButton" Content="Reset form"  BorderThickness="2" HorizontalAlignment="Left" Margin="5" Height="Auto"   MinWidth="100" Click="ResetButton_Click" />
+                        </StackPanel>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PrintTesterButton"  Margin="5" Content="Print Tester Details" FontSize="20" FontStyle="Italic" FontWeight="Bold"  BorderThickness="2" IsEnabled="False" Click="PrintTesterButton_Click" />
+                            <Button x:Name="GetTestOfTTesterButton" Grid.Column="1" Margin="5" Content="Get Future Tests Of Tester"  FontSize="20" FontStyle="Italic" BorderThickness="2" IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTesterButton_Click"  />
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button x:Name="AddTesterButton"  Margin="5" Content="Add new Tester" FontWeight="Bold" FontStyle="Italic" BorderThickness="2" Visibility="Hidden" Click="AddTesterButton_Click"  />
-            <Button x:Name="DeleteTesterButton"  Grid.Column="1" Margin="5" Content="Delete Tester" IsEnabled="False"  FontWeight="Bold" FontStyle="Italic" Visibility="Hidden" BorderThickness="2" Click="DeleteTesterButton_Click" />
-            <Button x:Name="UpdateTesterButton" Grid.Column="2" Margin="5" Content="Update Tester" Visibility="Hidden"
+                            <Button x:Name="AddTesterButton"  Margin="5" Content="Add new Tester" FontWeight="Bold" FontStyle="Italic" BorderThickness="2" Visibility="Hidden" Click="AddTesterButton_Click"  />
+                            <Button x:Name="DeleteTesterButton"  Grid.Column="1" Margin="5" Content="Delete Tester" IsEnabled="False"  FontWeight="Bold" FontStyle="Italic" Visibility="Hidden" BorderThickness="2" Click="DeleteTesterButton_Click" />
+                            <Button x:Name="UpdateTesterButton" Grid.Column="2" Margin="5" Content="Update Tester" Visibility="Hidden"
                      IsEnabled="False" FontStyle="Italic" BorderThickness="2" FontWeight="Bold"  Click="UpdateTesterButton_Click" />
-        </Grid>
-        <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" />
+                        </Grid>
+                        <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" />
 
-        <ListView Grid.Row="3" x:Name="DetailsTesterListView" Margin="5" Visibility="Hidden">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="ID"  Width="80" DisplayMemberBinding="{Binding Path=ID}"/>
-                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" />
-                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
-                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TesterVehicle}" />
-                    <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
-                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
-                    <GridViewColumn Header="Day Of Birth" Width="150" DisplayMemberBinding="{Binding Path=DayOfBirth}"/>
-                    <GridViewColumn Header="Max Weekly  Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        <ListView Grid.Row="3" x:Name="DetailsTesterListView" Margin="5" Visibility="Hidden">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID"  Width="80" DisplayMemberBinding="{Binding Path=ID}"/>
+                                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" />
+                                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
+                                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TesterVehicle}" />
+                                    <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
+                                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
+                                    <GridViewColumn Header="Day Of Birth" Width="145" DisplayMemberBinding="{Binding Path=DayOfBirth}"/>
+                                    <GridViewColumn Header="Max Weekly  Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-        <ListView Grid.Row="3" x:Name="DetailsTestListView" Margin="5" Visibility="Hidden">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
-                    <GridViewColumn Header="Date" Width="155" DisplayMemberBinding="{Binding Path=TestHour}"/>
-                    <GridViewColumn Header="City" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.City}"/>
-                    <GridViewColumn Header="Street" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.Street}"/>
-                    <GridViewColumn Header="Number of bilding" Width="120" DisplayMemberBinding="{Binding Path=TestAddress.NumOfBuilding}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        <ListView Grid.Row="3" x:Name="DetailsTestListView" Margin="5" Visibility="Hidden">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
+                                    <GridViewColumn Header="Date" Width="155" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                                    <GridViewColumn Header="City" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.City}"/>
+                                    <GridViewColumn Header="Street" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.Street}"/>
+                                    <GridViewColumn Header="Number of bilding" Width="120" DisplayMemberBinding="{Binding Path=TestAddress.NumOfBuilding}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-    </Grid>
+                    </Grid>
+
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="RecentlyopenedTab" Header="Recently opened">
+                <TabItem.Content>
+                    <WrapPanel>
+                        <ListBox x:Name="DeatielsListBox" SelectionMode="Single" SelectionChanged="DeatielsListBox_SelectionChanged" />
+                    </WrapPanel>
+
+
+                </TabItem.Content>
+            </TabItem>
+            
+        </TabControl.Items>
+    </TabControl>
 </Window>

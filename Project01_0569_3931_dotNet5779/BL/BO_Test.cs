@@ -73,5 +73,8 @@ namespace BO
                 + "\ntrainee: "+this.TraineeId+" "+this.TraineeName+"\nat: "+this.TestAddress+"\n"+this.TestHour
                 + "\npassed? "+this.PassedTest+" note: "+this.TesterNote;
         }
+
+        public static List<Test> testsRecentlyopened = new List<Test>();
+
     }
 }

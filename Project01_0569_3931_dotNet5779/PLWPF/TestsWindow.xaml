@@ -6,7 +6,10 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="Tests" Height="450" Width="800" Background="{StaticResource windowBackGround}">
-    
+    <TabControl x:Name="tabControl" Background="{StaticResource windowBackGround}">
+        <TabControl.Items>
+            <TabItem x:Name="MainTab" Header="Main" >
+                <TabItem.Content>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -70,4 +73,18 @@
         </ListView>
 
     </Grid>
+
+                </TabItem.Content>
+            </TabItem>
+            <TabItem x:Name="RecentlyopenedTab" Header="Recently opened" Visibility="Hidden">
+                <TabItem.Content>
+                    
+                    <WrapPanel>
+                        <ListBox x:Name="DeatielsListBox" SelectionMode="Single" SelectionChanged="DeatielsListBox_SelectionChanged"  />
+                    </WrapPanel>
+
+                </TabItem.Content>
+            </TabItem>
+        </TabControl.Items>
+    </TabControl>
 </Window>

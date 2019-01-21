@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +50,8 @@ namespace BL
         IEnumerable<IGrouping<string, BO.Trainee>> TraineesBySchool(bool flag);
         IEnumerable<IGrouping<string, BO.Trainee>> TraineesByTeacher(bool flag);
         IEnumerable<IGrouping<int, BO.Trainee>> TraineesByTests(bool flag);
+
+
     }
 
 }
