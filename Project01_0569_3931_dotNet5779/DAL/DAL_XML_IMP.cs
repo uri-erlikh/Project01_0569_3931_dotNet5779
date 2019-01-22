@@ -729,7 +729,24 @@ namespace DAL
             return dictionary;
         }
         //-----------------------------------------------------------------------
-
+        public void SetConfig(string parm, object value)
+        {
+            try
+            {
+                var tempArray = (from item in configRoot.Elements()
+                                 where item.Name == parm//לבדוק ת'עניין הזה אם זה בר השוואה
+                                 select item.Name).ToArray();
+                //var tempArray = DataSource.Configuration.Keys.Where(x => x == parm).Select(x => x).ToArray();
+                if (tempArray.Length == 0)
+                    throw new KeyNotFoundException("key not found");
+                if (DataSource.Configuration[parm].Writable == false)
+                    throw new InvalidOperationException("it is non-writeable value");
+            }
+            catch (InvalidOperationException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            //DataSource.Configuration[parm].value = value;
+            this.configRoot.Element(parm).Element("value").SetValue(value);
+        }
 
 
     };
