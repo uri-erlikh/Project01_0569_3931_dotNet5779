@@ -350,7 +350,7 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-        public Dictionary<String, Object> getConfig()
+        public Dictionary<String, Object> GetConfig()
         {
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             var newDict = from item in DataSource.Configuration

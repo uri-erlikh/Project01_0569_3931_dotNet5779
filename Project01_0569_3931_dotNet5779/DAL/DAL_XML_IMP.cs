@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-
+//tVezKd2ywDz9DAzMAwVhzCecXPSErYc4
 namespace DAL
 {
 
@@ -81,12 +81,14 @@ namespace DAL
         //------------------------------------------------------------
         private void CreateConfig()
         {
-            XElement minLessons = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
-            XElement maxTesterAge = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
-            XElement minTraineeAge = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
-            XElement minGapTest = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
-            XElement minTesterAge = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
-            XElement numberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
+            XElement MIN_LESSONS = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
+            XElement MAX_TESTER_AGE = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
+            XElement MIN_TRAINEE_AGE = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
+            XElement MIN_GAP_TEST = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
+            XElement MIN_TESTER_AGE = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
+            XElement NumberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
+            configRoot.Add(MIN_LESSONS, MAX_TESTER_AGE, MIN_TRAINEE_AGE, MIN_GAP_TEST, MIN_TESTER_AGE, NumberTest);
+            configRoot.Save(configPath);
         }
         //-----------------------------------------------------------
         private void LoadData(string identifier)
@@ -131,7 +133,7 @@ namespace DAL
                 case "config":
                     try
                     {
-
+                        configRoot = XElement.Load(configPath);
                     }
                     catch
                     {
@@ -233,7 +235,7 @@ namespace DAL
             XElement school = new XElement("school", trainee.School);
             XElement teacher = new XElement("teacher", trainee.Teacher);
             XElement drivingLessonsNum = new XElement("drivingLessonsNum", trainee.DrivingLessonsNum);
-            traineeRoot.Add(new XElement("trainee", person,, traineeVehicle, traineeGear, school, teacher, drivingLessonsNum));
+            traineeRoot.Add(new XElement("trainee", person,traineeVehicle, traineeGear, school, teacher, drivingLessonsNum));
         }
         //---------------------------------------------------------------- 
         private List<DO.Trainee> GetTraineesList()
@@ -602,12 +604,14 @@ namespace DAL
             }
             catch (KeyNotFoundException e) { throw; }
             //int temp = (int)DataSource.Configuration["Number"].value;
-            test.TestNumber = temp;
+            LoadData("config");
+            test.TestNumber = int.Parse(configRoot.Element("NumberTest").Element("value").Value);
             this.tests.Add(test);
+            configRoot.Element("NumberTest").Element("value").SetValue(int.Parse(configRoot.Element("NumberTest").Element("value").Value) + 1);
             //DataSource.Configuration["Number"].value = temp + 1;
             SaveOneTest(test);
             testRoot.Save(testPath);
-            return "your number test is" + temp;
+            return "your number test is" + test.TestNumber;
         }
         //-------------------------------------------------------------------------
         public void UpdateTestResult(DO.Test test1)
@@ -710,7 +714,21 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-
+        public Dictionary<String, Object> GetConfig()
+        {
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            LoadData("config");
+            var newDict = from item in configRoot.Elements()
+                          where bool.Parse(item.Element("Readable").Value)==true
+                          select new { key = item.Name, value=item.Element("value").Value};
+            //var newDict = from item in DataSource.Configuration
+            //              where (item.Value.Readable == true)
+            //              select new { key = item.Key, item.Value.value };
+            foreach (var item in newDict)
+                dictionary.Add(item.key.ToString(), item.value);//לבדוק ת'עניין
+            return dictionary;
+        }
+        //-----------------------------------------------------------------------
 
 
 
