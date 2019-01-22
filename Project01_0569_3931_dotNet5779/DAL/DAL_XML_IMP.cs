@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace DAL
 {
 
-    class DAL_XML_IMP//:IDal
+    class DAL_XML_IMP:IDal
     {
         static DAL_XML_IMP instance = null;
 
@@ -790,7 +790,7 @@ namespace DAL
             this.configRoot.Element(parm).Element("value").SetValue(value);
         }
         //---------------------------------------------------------------------
-        bool[,] GetSchedule(string ID)
+        public bool[,] GetSchedule(string ID)
         {
             try {
                 LoadData("testers");
@@ -814,7 +814,7 @@ namespace DAL
             return mat;
         }
         //-----------------------------------------------------------------------
-        void SetSchedule(bool[,] matrix, string testerID)
+        public void SetSchedule(bool[,] matrix, string testerID)
         {
             try
             {
