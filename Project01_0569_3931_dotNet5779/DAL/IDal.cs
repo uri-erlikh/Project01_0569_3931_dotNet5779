@@ -34,6 +34,7 @@ namespace DAL
         Dictionary<string, object> GetConfig();
         void SetConfig(string parm, object value);
         bool[,] GetSchedule(string ID);
+        void SetSchedule(bool[,] schedule, string testerID);
     }
 }
 
