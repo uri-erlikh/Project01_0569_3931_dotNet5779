@@ -23,14 +23,26 @@ namespace PLWPF
     {
         BO.Test test = new BO.Test();
         BL.IBL bl;
-        int testNumber;
+        int testNumber;        
         ObservableCollection<BO.Test> tests = new ObservableCollection<BO.Test>();
-
+        ObservableCollection<string> _Numtest = new ObservableCollection<string>();//
+        bool check = true;
         public TestsWindow()
         {
             InitializeComponent();
             bl = BL.BL_Factory.GetBL();
             DataContext = test;
+
+            if (BO.Test.testsRecentlyopened.Any())
+            {
+                foreach (var item in BO.Test.testsRecentlyopened)
+                {
+                    _Numtest.Add(item.TestNumber.ToString());
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Content = item;
+                    DeatielsListBox.Items.Add(listBoxItem);
+                }
+            }
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -52,6 +64,20 @@ namespace PLWPF
                     {
                         tests.Clear();
                         tests.Add(test);
+                       // BO.Test.testsRecentlyopened.Add(test);
+                        foreach (var item in _Numtest)
+                        {
+                            if (testNumber == int.Parse(item))
+                                check = false;
+                        }
+                        if (check)
+                        {
+                            BO.Test.testsRecentlyopened.Add(test);
+                            _Numtest.Add(GetTestNumTextBox.Text);
+                            ListBoxItem listBoxItem = new ListBoxItem();
+                            listBoxItem.Content = test;
+                            DeatielsListBox.Items.Add(listBoxItem);
+                        }
                     }
                     this.UpdateTestButton.IsEnabled = true;
                     this.DeleteTestButton.IsEnabled = true;
@@ -136,6 +162,38 @@ namespace PLWPF
             this.passwordBox.Visibility = Visibility.Hidden;
             this.passwordLabel.Visibility = Visibility.Hidden;
             this.PasswordButton.Visibility = Visibility.Hidden;
+            RecentlyopenedTab.Visibility = Visibility.Visible;
+        }
+
+        private void DeatielsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            reset();
+            try
+            {
+                testNumber = int.Parse(_Numtest[DeatielsListBox.SelectedIndex]);
+            }
+            catch (OverflowException ex)//יש פה המרה בגלל זה בוצע קטץ' לבדוק איזה קאטצים צריך להוסיף
+            {
+                MessageBox.Show(ex.Message);
+
+            }
+            GetTestNumTextBox.Text = _Numtest[DeatielsListBox.SelectedIndex];
+            try
+            {
+                test = bl.GetOneTest(testNumber);
+                tests.Add(test);
+                this.UpdateTestButton.IsEnabled = true;
+                this.DeleteTestButton.IsEnabled = true;
+                this.PrintTestButton.IsEnabled = true;
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (BO.InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }        
         }
     }
 
