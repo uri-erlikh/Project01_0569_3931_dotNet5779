@@ -387,9 +387,10 @@ namespace DAL
             }
             catch (DuplicateWaitObjectException e) { throw; }
 
+
             SaveOneTester(tester);
-            SetSchedule(matrix, tester.ID);
             testerRoot.Save(testerPath);
+            SetSchedule(matrix, tester.ID);
         }
         //--------------------------------------------------------------------
         public void DeleteTester(string testerID)
@@ -444,7 +445,7 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
 
                 XElement testerElement = (from myTester in testerRoot.Elements()
-                                          where myTester.Element("ID").Value == tester.ID
+                                          where myTester.Element("person").Element("ID").Value == tester.ID
                                           select myTester).FirstOrDefault();
                 //if (testerElement == null)
                 //    throw new KeyNotFoundException("ID not found");
@@ -558,7 +559,7 @@ namespace DAL
                 if (!IfExist(traineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
                 (from trainee in traineeRoot.Elements()
-                 where trainee.Element("ID").Value == traineeID
+                 where trainee.Element("person").Element("ID").Value == traineeID
                  where trainee.Element("traineeVehicle").Value == vehicle.ToString()
                  select trainee).FirstOrDefault().Remove();
             }
@@ -582,7 +583,7 @@ namespace DAL
         {
             try
             {
-                LoadData("trainee");
+                LoadData("trainees");
                 if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
 
@@ -647,6 +648,8 @@ namespace DAL
             try
             {
                 LoadData("tests");
+                LoadData("testers");
+                LoadData("trainees");
                 if (!IfExist(test.TesterId, "tester"))
                     throw new KeyNotFoundException("TesterID not found");
                 if (!IfExist(test.TraineeId, "trainee"))
@@ -655,7 +658,7 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
             LoadData("config");
             test.TestNumber = int.Parse(configRoot.Element("NumberTest").Element("value").Value);
-            this.tests.Add(test);
+           // this.tests.Add(test);
             configRoot.Element("NumberTest").Element("value").SetValue(int.Parse(configRoot.Element("NumberTest").Element("value").Value) + 1);
             SaveOneTest(test);
             testRoot.Save(testPath);
@@ -829,7 +832,9 @@ namespace DAL
             try
             {
                 LoadData("testers");
-                if (IfExist(testerID, "tester"))
+                LoadData("schedule");
+
+                if (IfExist(testerID, "tester") && scheduleRoot.Elements().Any())
                     (from item in scheduleRoot.Elements()
                      where item.Element("testerID").Value == testerID
                      select item).Remove();
