@@ -43,17 +43,17 @@ namespace DAL
         private DAL_XML_IMP()
         {
             //File.Delete(traineePath);
-           // File.Delete(testerPath);
+           //File.Delete(testerPath);
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
 
             if (!File.Exists(traineePath))
                 CreateFiles("trainees");
 
-            // File.Delete(testerPath);
             if (!File.Exists(testPath))
                 CreateFiles("tests");
 
+           // File.Delete(schedulePath);
             if (!File.Exists(schedulePath))
                 CreateFiles("schedule");
 
@@ -405,7 +405,7 @@ namespace DAL
                 if (IfExist(testerID, "tester"))
                 {
                     (from tester in testerRoot.Elements()
-                     where tester.Element("ID").Value == testerID
+                     where tester.Element("person").Element("ID").Value == testerID
                      select tester).FirstOrDefault().Remove();
                 }
                 else
@@ -842,7 +842,7 @@ namespace DAL
                 LoadData("testers");
                 LoadData("schedule");
 
-                if (IfExist(testerID, "tester"))
+                if (IfExist(testerID, "tester")&& scheduleRoot.Elements().Any())
                 {
                     XElement sc=(from item in scheduleRoot.Elements()
                      where item.Element("testerID").Value == testerID
@@ -854,7 +854,6 @@ namespace DAL
             }
             catch (KeyNotFoundException) { throw; }
 
-            LoadData("schedule");
             XElement schedule = new XElement("schedule", new XElement("testerID", testerID));
             for (int i = 0; i < 5; ++i)
             {
