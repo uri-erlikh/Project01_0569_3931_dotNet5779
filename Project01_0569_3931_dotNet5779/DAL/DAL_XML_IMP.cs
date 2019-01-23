@@ -116,6 +116,7 @@ namespace DAL
                         trainees = GetTraineesList();
                         break;
                     }
+                    catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - trainees");
@@ -274,6 +275,8 @@ namespace DAL
                                   Teacher = trainee.Element("teacher").Value,
                                   DrivingLessonsNum = int.Parse(trainee.Element("drivingLessonsNum").Value),
                               }).ToList();
+                if (myTrainees == null)
+                    throw (new NullReferenceException("problem"));
             }
             catch (FileLoadException e)
             {
