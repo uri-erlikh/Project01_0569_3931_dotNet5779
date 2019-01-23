@@ -116,7 +116,7 @@ namespace DAL
                         trainees = GetTraineesList();
                         break;
                     }
-                    catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }
+                    catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }//
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - trainees");
