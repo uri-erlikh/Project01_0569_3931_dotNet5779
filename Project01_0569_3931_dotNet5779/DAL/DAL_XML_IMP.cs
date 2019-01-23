@@ -48,6 +48,7 @@ namespace DAL
             if (!File.Exists(traineePath))
                 CreateFiles("trainees");
 
+            // File.Delete(testerPath);
             if (!File.Exists(testPath))
                 CreateFiles("tests");
 
@@ -60,8 +61,6 @@ namespace DAL
         //---------------------------------------------------------
         private void CreateFiles(string identifier)
         {
-            File.Delete(testerPath);
-            File.Delete(traineePath);
             switch (identifier)
             {
                 case "testers":
@@ -118,11 +117,11 @@ namespace DAL
                         trainees = GetTraineesList();
                         break;
                     }
+                    catch (NullReferenceException e) { throw new KeyNotFoundException(e.Message); }//
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - trainees");
                     }
-                // catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }//
                 case "tests":
                     try
                     {
@@ -277,8 +276,6 @@ namespace DAL
                                   Teacher = trainee.Element("teacher").Value,
                                   DrivingLessonsNum = int.Parse(trainee.Element("drivingLessonsNum").Value),
                               }).ToList();
-                //if (myTrainees == null)
-                //  throw (new NullReferenceException("problem"));
             }
             catch (FileLoadException e)
             {
@@ -316,8 +313,8 @@ namespace DAL
             XElement vinkers = new XElement("vinkers", test.Vinkers);
             XElement trafficSigns = new XElement("trafficSigns", test.TrafficSigns);
             XElement passedTest = new XElement("passedTest", test.PassedTest);
-            XElement testerNote = new XElement("testNote", test.TesterNote);
-            // testRoot.Add(new XElement("test",))
+            XElement testerNote = new XElement("testerNote", test.TesterNote);
+            //testerRoot.Add(new XElement("test",))
 
             testRoot.Add(new XElement("test", testNumber, IDTester, IDTrainee, vehicle, testDate, testHour,
                 testAddress, mirrors, brakes, reverseParking, distance, vinkers, trafficSigns, passedTest, testerNote));
@@ -381,7 +378,7 @@ namespace DAL
             try
             {
                 LoadData("testers");
-                if (testers != null && IfExist(tester.ID, "tester"))
+                if (IfExist(tester.ID, "tester"))
                     throw new DuplicateWaitObjectException("tester allready exist");
                 //DO.Tester myTester = GetOneTester(tester.ID);
                 //DO.Trainee myTrainee = GetOneTrainee(tester.ID, tester.TesterVehicle);
@@ -463,11 +460,8 @@ namespace DAL
             try
             {
                 LoadData("trainees");
-                if (GetOneTrainee(trainee.ID, trainee.TraineeVehicle) != null)
+                if (IfExist(trainee.ID, "trainee"))
                     throw new DuplicateWaitObjectException("ID allready exist");
-
-                //if (IfExist(trainee.ID, "trainee"))
-                //    throw new DuplicateWaitObjectException("ID allready exist");
                 // this.trainees.Add(trainee);
                 SaveOneTrainee(trainee);
                 traineeRoot.Save(traineePath);
@@ -488,14 +482,16 @@ namespace DAL
                 LoadData("trainees");
                 if (!IfExist(ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
+
+                foreach (var item in this.trainees)
+                {
+                    if (item.ID == ID && item.TraineeVehicle == vehicle)
+                        return new DO.Trainee(item);
+                }
+                throw new KeyNotFoundException("no match between trainee and vehicle type");
             }
             catch (KeyNotFoundException e) { throw; }
-            foreach (var item in this.trainees)
-            {
-                if (item.ID == ID)
-                    return new DO.Trainee(item);
-            }
-            return null;
+           // return null;
             //FileStream file = new FileStream(traineePath, FileMode.Open);
             //XmlSerializer xmlSerializer = new XmlSerializer(typeof(DO.Trainee));
 
@@ -558,12 +554,11 @@ namespace DAL
             {
                 LoadData("trainees");
                 LoadData("tests");
-                //if(GetOneTrainee(traineeID, vehicle)==null)
-                //    throw new KeyNotFoundException("ID not found");
+
                 if (!IfExist(traineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
                 (from trainee in traineeRoot.Elements()
-                 where trainee.Element("person").Element("ID").Value == traineeID
+                 where trainee.Element("ID").Value == traineeID
                  where trainee.Element("traineeVehicle").Value == vehicle.ToString()
                  select trainee).FirstOrDefault().Remove();
             }
@@ -578,7 +573,7 @@ namespace DAL
             (from item in testRoot.Elements()
              where item.Element("IDTrainee").Value == traineeID
              where item.Element("Vehicle").Value == vehicle.ToString()
-             select item).FirstOrDefault().Remove();
+             select item).Remove();
             traineeRoot.Save(traineePath);
             testRoot.Save(testPath);
         }
@@ -588,7 +583,6 @@ namespace DAL
             try
             {
                 LoadData("trainee");
-
                 if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
 
@@ -783,7 +777,7 @@ namespace DAL
                           where bool.Parse(item.Element("Readable").Value) == true
                           select new { key = item.Name.LocalName, value = item.Element("value").Value };
             foreach (var item in newDict)
-                dictionary.Add(item.key, item.value as object);
+                dictionary.Add(item.key,item.value as object);
             return dictionary;
         }
         //-----------------------------------------------------------------------
