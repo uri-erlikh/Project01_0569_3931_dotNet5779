@@ -303,7 +303,7 @@ namespace DAL
             XElement testNumber = new XElement("testNumber", test.TestNumber);
             XElement IDTester = new XElement("IDTester", test.TesterId);
             XElement IDTrainee = new XElement("IDTrainee", test.TraineeId);
-            XElement vehicle = new XElement("Vehicle", test.Vehicle.ToString());
+            XElement vehicle = new XElement("vehicle", test.Vehicle.ToString());
             XElement testDate = new XElement("testDate", test.TestDate);
             XElement testHour = new XElement("testHour", test.TestHour);
             XElement city = new XElement("city", test.TestAddress.City);
@@ -580,7 +580,7 @@ namespace DAL
             //this.trainees.RemoveAll(x => x.ID == traineeID);
             // this.tests.RemoveAll(x => x.TraineeId == traineeID);
             //SaveTestList();
-
+            
             (from item in testRoot.Elements()
              where item.Element("IDTrainee").Value == traineeID
              where item.Element("Vehicle").Value == vehicle.ToString()
@@ -844,10 +844,14 @@ namespace DAL
                 LoadData("testers");
                 LoadData("schedule");
 
-                if (IfExist(testerID, "tester") && scheduleRoot.Elements().Any())
-                    (from item in scheduleRoot.Elements()
+                if (IfExist(testerID, "tester"))
+                {
+                    XElement sc=(from item in scheduleRoot.Elements()
                      where item.Element("testerID").Value == testerID
-                     select item).Remove();
+                     select item).First();
+                    if (!sc.IsEmpty)
+                        sc.Remove();
+                }
                 //throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException) { throw; }
