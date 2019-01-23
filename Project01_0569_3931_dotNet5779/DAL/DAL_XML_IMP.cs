@@ -60,6 +60,8 @@ namespace DAL
         //---------------------------------------------------------
         private void CreateFiles(string identifier)
         {
+            File.Delete(testerPath);
+            File.Delete(traineePath);
             switch (identifier)
             {
                 case "testers":
@@ -116,11 +118,11 @@ namespace DAL
                         trainees = GetTraineesList();
                         break;
                     }
-                    catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }//
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - trainees");
                     }
+                // catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }//
                 case "tests":
                     try
                     {
@@ -183,7 +185,7 @@ namespace DAL
             XElement personAddress = new XElement("personAddress", city, street, numOfBuilding);
             XElement person = new XElement("person", ID, familyName, privateName, dayOfBirth, personGender, phone, personAddress);
             XElement testerExperience = new XElement("testerExperience", tester.TesterExperience);
-            XElement maxWeeklyTests = new XElement("mawWeeklyTests", tester.MaxWeeklyTests);
+            XElement maxWeeklyTests = new XElement("maxWeeklyTests", tester.MaxWeeklyTests);
             XElement testerVehicle = new XElement("testerVehicle", tester.TesterVehicle.ToString());
             XElement rangeToTest = new XElement("rangeToTest", tester.RangeToTest);
             //XElement schdule = new XElement("schedule",tester.matrix);
@@ -246,7 +248,7 @@ namespace DAL
             XElement personAddress = new XElement("personAddress", city, street, numOfBuilding);
             XElement person = new XElement("person", ID, familyName, privateName, dayOfBirth, personGender, phone, personAddress);
             XElement traineeVehicle = new XElement("traineeVehicle", trainee.TraineeVehicle.ToString());
-            XElement traineeGear = new XElement("traineeVehicle", trainee.TraineeGear.ToString());
+            XElement traineeGear = new XElement("traineeGear", trainee.TraineeGear.ToString());
             XElement school = new XElement("school", trainee.School);
             XElement teacher = new XElement("teacher", trainee.Teacher);
             XElement drivingLessonsNum = new XElement("drivingLessonsNum", trainee.DrivingLessonsNum);
@@ -262,8 +264,8 @@ namespace DAL
                               select new DO.Trainee(trainee.Element("person").Element("ID").Value)
                               {
                                   FamilyName = trainee.Element("person").Element("familyName").Value,
-                                  PrivateName = trainee.Element("person").Element("privateName").Value,                                  
-                                  DayOfBirth= DateTime.Parse(trainee.Element("person").Element("dayOfBirth").Value),
+                                  PrivateName = trainee.Element("person").Element("privateName").Value,
+                                  DayOfBirth = DateTime.Parse(trainee.Element("person").Element("dayOfBirth").Value),
                                   PersonGender = (DO.Gender)Enum.Parse(typeof(DO.Gender), trainee.Element("person").Element("personGender").Value),
                                   Phone = trainee.Element("person").Element("phone").Value,
                                   PersonAddress = new DO.Address(trainee.Element("person").Element("personAddress").Element("city").Value,
@@ -275,8 +277,8 @@ namespace DAL
                                   Teacher = trainee.Element("teacher").Value,
                                   DrivingLessonsNum = int.Parse(trainee.Element("drivingLessonsNum").Value),
                               }).ToList();
-                if (myTrainees == null)
-                    throw (new NullReferenceException("problem"));
+                //if (myTrainees == null)
+                //  throw (new NullReferenceException("problem"));
             }
             catch (FileLoadException e)
             {
@@ -314,10 +316,10 @@ namespace DAL
             XElement vinkers = new XElement("vinkers", test.Vinkers);
             XElement trafficSigns = new XElement("trafficSigns", test.TrafficSigns);
             XElement passedTest = new XElement("passedTest", test.PassedTest);
-            XElement testerNote = new XElement("testerNote", test.TesterNote);
-            //testerRoot.Add(new XElement("test",))
+            XElement testerNote = new XElement("testNote", test.TesterNote);
+            // testRoot.Add(new XElement("test",))
 
-            testerRoot.Add(new XElement("tester", testNumber, IDTester, IDTrainee, vehicle, testDate, testHour,
+            testRoot.Add(new XElement("test", testNumber, IDTester, IDTrainee, vehicle, testDate, testHour,
                 testAddress, mirrors, brakes, reverseParking, distance, vinkers, trafficSigns, passedTest, testerNote));
         }
         //---------------------------------------------------------------
@@ -461,8 +463,11 @@ namespace DAL
             try
             {
                 LoadData("trainees");
-                if (IfExist(trainee.ID, "trainee"))
+                if (GetOneTrainee(trainee.ID, trainee.TraineeVehicle) != null)
                     throw new DuplicateWaitObjectException("ID allready exist");
+
+                //if (IfExist(trainee.ID, "trainee"))
+                //    throw new DuplicateWaitObjectException("ID allready exist");
                 // this.trainees.Add(trainee);
                 SaveOneTrainee(trainee);
                 traineeRoot.Save(traineePath);
@@ -553,11 +558,12 @@ namespace DAL
             {
                 LoadData("trainees");
                 LoadData("tests");
-
+                //if(GetOneTrainee(traineeID, vehicle)==null)
+                //    throw new KeyNotFoundException("ID not found");
                 if (!IfExist(traineeID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
                 (from trainee in traineeRoot.Elements()
-                 where trainee.Element("ID").Value == traineeID
+                 where trainee.Element("person").Element("ID").Value == traineeID
                  where trainee.Element("traineeVehicle").Value == vehicle.ToString()
                  select trainee).FirstOrDefault().Remove();
             }
@@ -572,7 +578,7 @@ namespace DAL
             (from item in testRoot.Elements()
              where item.Element("IDTrainee").Value == traineeID
              where item.Element("Vehicle").Value == vehicle.ToString()
-             select item).Remove();
+             select item).FirstOrDefault().Remove();
             traineeRoot.Save(traineePath);
             testRoot.Save(testPath);
         }
@@ -582,25 +588,26 @@ namespace DAL
             try
             {
                 LoadData("trainee");
+
                 if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
 
                 (from myTrainee in traineeRoot.Elements()
-                 where myTrainee.Element("ID").Value == trainee.ID
+                 where myTrainee.Element("person").Element("ID").Value == trainee.ID
                  where myTrainee.Element("traineeVehicle").Value == trainee.TraineeVehicle.ToString()
                  select myTrainee).Remove();
                 SaveOneTrainee(trainee);
 
                 foreach (var item in traineeRoot.Elements())
                 {
-                    if (item.Element("ID").Value == trainee.ID && item.Element("traineeVehicle").Value != trainee.TraineeVehicle.ToString())
+                    if (item.Element("person").Element("ID").Value == trainee.ID && item.Element("traineeVehicle").Value != trainee.TraineeVehicle.ToString())
                     {
-                        item.Element("privateName").Value = trainee.PrivateName;
-                        item.Element("familyName").Value = trainee.FamilyName;
-                        item.Element("city").Value = trainee.PersonAddress.City;
-                        item.Element("street").Value = trainee.PersonAddress.Street;
-                        item.Element("numOfBuilding").Value = trainee.PersonAddress.NumOfBuilding.ToString();
-                        item.Element("phone").Value = trainee.Phone;
+                        item.Element("person").Element("privateName").Value = trainee.PrivateName;
+                        item.Element("person").Element("familyName").Value = trainee.FamilyName;
+                        item.Element("person").Element("personAddress").Element("city").Value = trainee.PersonAddress.City;
+                        item.Element("person").Element("personAddress").Element("street").Value = trainee.PersonAddress.Street;
+                        item.Element("person").Element("personAddress").Element("numOfBuilding").Value = trainee.PersonAddress.NumOfBuilding.ToString();
+                        item.Element("person").Element("phone").Value = trainee.Phone;
                     }
                 }
                 traineeRoot.Save(traineePath);
@@ -776,7 +783,7 @@ namespace DAL
                           where bool.Parse(item.Element("Readable").Value) == true
                           select new { key = item.Name.LocalName, value = item.Element("value").Value };
             foreach (var item in newDict)
-                dictionary.Add(item.key,item.value as object);
+                dictionary.Add(item.key, item.value as object);
             return dictionary;
         }
         //-----------------------------------------------------------------------
