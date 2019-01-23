@@ -777,7 +777,7 @@ namespace DAL
                           where bool.Parse(item.Element("Readable").Value) == true
                           select new { key = item.Name.LocalName, value = item.Element("value").Value };
             foreach (var item in newDict)
-                dictionary.Add(item.key, item.value);
+                dictionary.Add(item.key,item.value as object);
             return dictionary;
         }
         //-----------------------------------------------------------------------
