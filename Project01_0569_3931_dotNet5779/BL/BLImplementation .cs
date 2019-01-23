@@ -53,7 +53,7 @@ namespace BL
                 dl.DeleteTester(TesterID);
             }
             catch (KeyNotFoundException e)
-            { throw; }            
+            { throw; }
         }
         //--------------------------------------------------------------------
         public void UpdateTester(BO.Tester tester)
@@ -133,8 +133,8 @@ namespace BL
             catch (InvalidDataException e)
             {
                 throw;
-            }              
-            catch(InvalidOperationException)
+            }
+            catch (InvalidOperationException)
             {
                 throw;
             }
@@ -230,8 +230,8 @@ namespace BL
 
             try
             {
-                return dl.AddTest(Convert(test)) + "\n your test date: " + test.TestHour +"\nyour tester: ID- "+test.Tester.ID
-                    +", "+"\n good luck!";
+                return dl.AddTest(Convert(test)) + "\n your test date: " + test.TestHour + "\nyour tester: ID- " + test.Tester.ID
+                    + ", " + "\n good luck!";
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -265,7 +265,7 @@ namespace BL
                         select Convert(item)).ToList();
             }
             catch (KeyNotFoundException e) { throw; }
-           catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         private DateTime GetNewDate(DateTime date, BO.Test test)
@@ -273,13 +273,13 @@ namespace BL
             DateTime temp = date.AddDays(1);
             while (!GetTestersByDate(temp).Any() || !IfTraineeDoTest(temp, test))
                 if (temp.Hour < 14)
-                    temp=temp.AddHours(1);
+                    temp = temp.AddHours(1);
                 else
                 {
-                    temp=temp.AddDays(1);
-                    temp=temp.AddHours(-5);
+                    temp = temp.AddDays(1);
+                    temp = temp.AddHours(-5);
                     if ((int)temp.DayOfWeek > 4)
-                        temp=temp.AddDays(2);
+                        temp = temp.AddDays(2);
                 }
             return temp;
         }
@@ -307,21 +307,25 @@ namespace BL
             /*var tspan = test.TestDate -*/
             try
             {
+
+                if (dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle && x.TestHour > DateTime.Now).Any())
+                    throw new InvalidDataException("You already have a test");
+
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle)//הוספתי תנאי של כלי רכב לשים לב שזה אכן נצרך
                      let temp = test.TestDate - item.TestDate
                      where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
                      select item).ToList().Any())
                     throw new InvalidDataException("tests are too close");
-            }
 
-            //where item.TestDate < DateTime.Now
-            // orderby item.TestDate descending
-            //select item.TestDate).ToList().FirstOrDefault();//same vehicle
-            //try
-            //{
-            //    if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
-            //        throw new InvalidDataException("test too close");
-            //}
+                //where item.TestDate < DateTime.Now
+                // orderby item.TestDate descending
+                //select item.TestDate).ToList().FirstOrDefault();//same vehicle
+                //try
+                //{
+                //    if (tspan.Days < BO.Configuration.MIN_GAP_TEST)
+                //        throw new InvalidDataException("test too close");
+                //}
+            }
             catch (InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
             //-------------
@@ -353,10 +357,10 @@ namespace BL
             if (fromDate > untilDate)
                 throw new InvalidDataException("Choose earlier start date");
 
-            BO.Address address = new BO.Address(city, street, numbilding);            
+            BO.Address address = new BO.Address(city, street, numbilding);
             List<BO.Tester> closeTester = GetCloseTester(address, 30);
             if (!closeTester.Any())
-                throw new InvalidDataException("no close tester");            
+                throw new InvalidDataException("no close tester");
             List<BO.Tester> whoTest = new List<BO.Tester>();
             List<DateTime> dateTimes = new List<DateTime>();
 
@@ -365,13 +369,13 @@ namespace BL
 
                 if (fromDate.Hour == 00)
                     fromDate = fromDate.AddHours(9);
-                
+
                 for (int j = 9; j <= 23; ++j)
                 {
                     if (fromDate.Hour <= 14 && fromDate.Hour >= 9 && (int)fromDate.DayOfWeek < 5)
                     {
                         try
-                        {                            
+                        {
                             whoTest = GetTestersByDate(fromDate);
                         }
                         catch (KeyNotFoundException) { throw; }
@@ -636,7 +640,7 @@ namespace BL
                 return (from item in dl.GetTrainees()
                         orderby item.FamilyName
                         group Convert(item) by Convert(item).Teacher);// into g
-                                                                               //   select new { teacher = g.Key, name = g };
+                                                                      //   select new { teacher = g.Key, name = g };
 
             }
             else
