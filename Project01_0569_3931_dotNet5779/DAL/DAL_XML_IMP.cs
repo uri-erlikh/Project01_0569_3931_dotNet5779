@@ -15,7 +15,7 @@ namespace DAL
         static DAL_XML_IMP instance = null;
 
         public static DAL_XML_IMP GetInstance()
-        {
+        { 
             if (instance == null)
                 instance = new DAL_XML_IMP();
             return instance;
@@ -42,6 +42,8 @@ namespace DAL
 
         private DAL_XML_IMP()
         {
+            //File.Delete(traineePath);
+           // File.Delete(testerPath);
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
 
@@ -460,9 +462,15 @@ namespace DAL
         {
             try
             {
-                LoadData("trainees");
-                if (IfExist(trainee.ID, "trainee"))
-                    throw new DuplicateWaitObjectException("ID allready exist");
+                LoadData("trainees");               
+
+                DO.Trainee tr = trainees.Find(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
+                if (tr != null || IfExist(trainee.ID, "tester"))
+                    throw new DuplicateWaitObjectException("allready exist");
+
+                //if (IfExist(trainee.ID, "trainee"))
+                //    throw new DuplicateWaitObjectException("ID allready exist");
+
                 // this.trainees.Add(trainee);
                 SaveOneTrainee(trainee);
                 traineeRoot.Save(traineePath);
