@@ -43,7 +43,9 @@ namespace DAL
         private DAL_XML_IMP()
         {
             //File.Delete(traineePath);
-           // File.Delete(testerPath);
+            // File.Delete(testerPath);
+            File.Delete(testPath);
+
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
 
