@@ -44,7 +44,7 @@ namespace DAL
         {
             //File.Delete(traineePath);
             // File.Delete(testerPath);
-            File.Delete(testPath);
+          //  File.Delete(testPath);
 
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
