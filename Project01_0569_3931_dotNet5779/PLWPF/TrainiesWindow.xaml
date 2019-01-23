@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
         Title="Trainies" Height="450" Width="800" Background="{StaticResource windowBackGround}">
+    <TabControl x:Name="tabControl" Background="{StaticResource windowBackGround}">
+        <TabControl.Items>
+            <TabItem x:Name="MainTab" Header="Main" >
+                <TabItem.Content>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -72,6 +76,22 @@
         </ListView>
         <Button x:Name="BackButton" Grid.Row="4" Margin="5" Content="Back" 
                 Height="Auto" HorizontalAlignment="Right" MinWidth="100"  Click="BackButton_Click"/>
-        <Button x:Name="ResetButton" Content="Reset form" HorizontalAlignment="Left" Margin="564,5,5,5" Height="Auto"  Grid.Row="4" VerticalAlignment="Top" MinWidth="100" Click="ResetButton_Click"/>
-    </Grid>
+                        <Button x:Name="ResetButton" Content="Reset form" HorizontalAlignment="Left" Margin="564,5,5,5" Height="Auto"  Grid.Row="4" VerticalAlignment="Top" MinWidth="100" Click="ResetButton_Click"/>
+                    </Grid>
+                    
+                </TabItem.Content>
+            </TabItem>
+            
+            <TabItem x:Name="RecentlyOpenedTab" Header="Recently opened">
+                <TabItem.Content>
+                    <WrapPanel>
+                        <ListBox x:Name="DetailsListBox" SelectionMode="Single" SelectionChanged="DetailsListBox_SelectionChanged"  />
+                    </WrapPanel>
+
+
+                </TabItem.Content>
+            </TabItem>
+
+        </TabControl.Items>
+    </TabControl>
 </Window>

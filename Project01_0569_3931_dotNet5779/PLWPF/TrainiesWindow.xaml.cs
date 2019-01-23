@@ -25,7 +25,9 @@ namespace PLWPF
         string traineeID;
         BO.Vehicle vehicle;
         // private List<BO.Trainee> trainees = new List<BO.Trainee>();
-         private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
+        ObservableCollection<string> _trainiesID = new ObservableCollection<string>();
+        private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
+        bool check = true;
         //--------------------------------------------------------------------
         public TrainiesWindow(string identifier)
         {
@@ -38,6 +40,16 @@ namespace PLWPF
                 this.AddTraineeButton.Visibility = Visibility.Visible;
                 this.DeleteTraineeButton.Visibility = Visibility.Visible;
                 this.UpdateTraineeButton.Visibility = Visibility.Visible;
+            }
+            if (BO.Trainee.traineiesRecentlyopened.Any())
+            {
+                foreach (var item in BO.Trainee.traineiesRecentlyopened)
+                {
+                    _trainiesID.Add(item.ID);
+                    ListBoxItem listBoxItem = new ListBoxItem();
+                    listBoxItem.Content = item;
+                    DetailsListBox.Items.Add(listBoxItem);
+                }
             }
         }
         //-------------------------------------------------------------------
@@ -61,6 +73,19 @@ namespace PLWPF
                     {
                         trainees.Clear();
                         trainees.Add(trainee);
+                        foreach (var item in BO.Trainee.traineiesRecentlyopened)
+                        {
+                            if ( traineeID == item.ID && vehicle== item.TraineeVehicle)
+                                check = false;
+                        }
+                        if (check)
+                        {
+                            BO.Trainee.traineiesRecentlyopened.Add(trainee);
+                            _trainiesID.Add(trainee.ID);
+                            ListBoxItem listBoxItem = new ListBoxItem();
+                            listBoxItem.Content = trainee;
+                            DetailsListBox.Items.Add(listBoxItem);
+                        }
                     }
                     this.PrintTraineeButton.IsEnabled = true;
                     this.GetTestOfTTraineeButton.IsEnabled = true;
@@ -183,6 +208,39 @@ namespace PLWPF
             this.GetTestOfTTraineeButton.IsEnabled = false;
             this.DeleteTraineeButton.IsEnabled = false;
             this.UpdateTraineeButton.IsEnabled = false;
+        }
+
+        private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            reset();
+            traineeID = _trainiesID[DetailsListBox.SelectedIndex];
+            vehicle = BO.Trainee.traineiesRecentlyopened[DetailsListBox.SelectedIndex].TraineeVehicle;
+            GetIDTextBox.Text = traineeID;
+            GetVehicleTypeComboBox.SelectedIndex=(int)vehicle ;
+            try
+            {
+                trainee = bl.GetOneTrainee(GetIDTextBox.Text , vehicle);
+                trainees.Add(trainee);
+                this.PrintTraineeButton.IsEnabled = true;
+                this.GetTestOfTTraineeButton.IsEnabled = true;
+                if (this.AddTraineeButton.Visibility == Visibility.Visible)
+                {
+                    this.UpdateTraineeButton.IsEnabled = true;
+                    this.DeleteTraineeButton.IsEnabled = true;
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (BO.InvalidDataException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            catch (InvalidOperationException a)
+            {
+                MessageBox.Show(a.Message);
+            }
         }
     }
 }
