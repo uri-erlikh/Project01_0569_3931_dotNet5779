@@ -7,12 +7,17 @@ using DAL;
 using DO;
 using BO;
 using System.Globalization;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Input;
+//using System.IO;
+using System.Net;
 
 namespace BL
 {
     class BLImplementation : IBL
     {
-        IDal dl = DAL_Factory.GetDL("lists");
+        IDal dl = DAL_Factory.GetDL("XML");
         static Random r = new Random();
         //-------------------------------------------------------------
         public void AddTester(BO.Tester tester, bool[,] matrix)

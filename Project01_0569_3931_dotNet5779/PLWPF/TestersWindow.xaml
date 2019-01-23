@@ -78,10 +78,10 @@
 
                 </TabItem.Content>
             </TabItem>
-            <TabItem x:Name="RecentlyopenedTab" Header="Recently opened">
+            <TabItem x:Name="RecentlyOpenedTab" Header="Recently opened">
                 <TabItem.Content>
                     <WrapPanel>
-                        <ListBox x:Name="DeatielsListBox" SelectionMode="Single" SelectionChanged="DeatielsListBox_SelectionChanged" />
+                        <ListBox x:Name="DetailsListBox" SelectionMode="Single" SelectionChanged="DetailsListBox_SelectionChanged" />
                     </WrapPanel>
 
 
