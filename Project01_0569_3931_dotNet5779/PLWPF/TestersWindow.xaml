@@ -78,6 +78,7 @@
 
                 </TabItem.Content>
             </TabItem>
+            
             <TabItem x:Name="RecentlyopenedTab" Header="Recently opened">
                 <TabItem.Content>
                     <WrapPanel>
