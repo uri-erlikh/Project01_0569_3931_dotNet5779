@@ -45,7 +45,7 @@ namespace PLWPF
                     _testersID.Add(item.ID);
                     ListBoxItem listBoxItem = new ListBoxItem();
                     listBoxItem.Content = item;
-                    DeatielsListBox.Items.Add(listBoxItem);
+                    DetailsListBox.Items.Add(listBoxItem);
                 }
             }           
         }
@@ -81,7 +81,7 @@ namespace PLWPF
                             _testersID.Add(tester.ID);
                             ListBoxItem listBoxItem = new ListBoxItem();
                             listBoxItem.Content = tester;
-                            DeatielsListBox.Items.Add(listBoxItem);
+                            DetailsListBox.Items.Add(listBoxItem);
                         }
                     }
 
@@ -198,10 +198,10 @@ namespace PLWPF
             this.UpdateTesterButton.IsEnabled = false;
         }
 
-        private void DeatielsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             reset();
-            testerID = _testersID[DeatielsListBox.SelectedIndex];
+            testerID = _testersID[DetailsListBox.SelectedIndex];
             GetIDTextBox.Text = testerID;
             try
             {

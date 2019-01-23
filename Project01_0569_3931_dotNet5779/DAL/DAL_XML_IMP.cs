@@ -10,7 +10,7 @@ using System.Xml.Serialization;
 namespace DAL
 {
 
-    class DAL_XML_IMP:IDal
+    class DAL_XML_IMP : IDal
     {
         static DAL_XML_IMP instance = null;
 
@@ -116,6 +116,7 @@ namespace DAL
                         trainees = GetTraineesList();
                         break;
                     }
+                    catch (NullReferenceException) { throw new KeyNotFoundException("problem"); }//
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - trainees");
@@ -202,7 +203,7 @@ namespace DAL
                                  PrivateName = tester.Element("person").Element("privateName").Value,
                                  DayOfBirth = DateTime.Parse(tester.Element("person").Element("dayOfBirth").Value),
                                  PersonGender = (DO.Gender)Enum.Parse(typeof(DO.Gender), tester.Element("person").Element("personGender").Value),
-                                 Phone = tester.Element("phone").Value,
+                                 Phone = tester.Element("person").Element("phone").Value,
                                  PersonAddress = new DO.Address(tester.Element("person").Element("personAddress").Element("city").Value,
                                  tester.Element("person").Element("personAddress").Element("street").Value,
                                  int.Parse(tester.Element("person").Element("personAddress").Element("numOfBuilding").Value)),
@@ -261,8 +262,8 @@ namespace DAL
                               select new DO.Trainee(trainee.Element("person").Element("ID").Value)
                               {
                                   FamilyName = trainee.Element("person").Element("familyName").Value,
-                                  PrivateName = trainee.Element("person").Element("privateName").Value,
-                                  DayOfBirth = DateTime.Parse(trainee.Element("person").Element("dayOfBirth").Value),
+                                  PrivateName = trainee.Element("person").Element("privateName").Value,                                  
+                                  DayOfBirth= DateTime.Parse(trainee.Element("person").Element("dayOfBirth").Value),
                                   PersonGender = (DO.Gender)Enum.Parse(typeof(DO.Gender), trainee.Element("person").Element("personGender").Value),
                                   Phone = trainee.Element("person").Element("phone").Value,
                                   PersonAddress = new DO.Address(trainee.Element("person").Element("personAddress").Element("city").Value,
@@ -274,6 +275,8 @@ namespace DAL
                                   Teacher = trainee.Element("teacher").Value,
                                   DrivingLessonsNum = int.Parse(trainee.Element("drivingLessonsNum").Value),
                               }).ToList();
+                if (myTrainees == null)
+                    throw (new NullReferenceException("problem"));
             }
             catch (FileLoadException e)
             {
@@ -356,14 +359,16 @@ namespace DAL
             switch (type)
             {
                 case "tester":
-                    foreach (var tester in this.testers)
-                        if (tester.ID == ID)
-                            check1 = true;
+                    if (testers.Any())
+                        foreach (var tester in this.testers)
+                            if (tester.ID == ID)
+                                check1 = true;
                     break;
                 case "trainee":
-                    foreach (var trainee in this.trainees)
-                        if (trainee.ID == ID)
-                            check1 = true;
+                    if (trainees.Any())
+                        foreach (var trainee in this.trainees)
+                            if (trainee.ID == ID)
+                                check1 = true;
                     break;
             }
             return check1;
@@ -374,10 +379,12 @@ namespace DAL
             try
             {
                 LoadData("testers");
-                DO.Tester myTester = GetOneTester(tester.ID);
-                DO.Trainee myTrainee = GetOneTrainee(tester.ID, tester.TesterVehicle);
-                if (myTester != null || myTrainee != null)
-                    throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
+                if (testers != null && IfExist(tester.ID, "tester"))
+                    throw new DuplicateWaitObjectException("tester allready exist");
+                //DO.Tester myTester = GetOneTester(tester.ID);
+                //DO.Trainee myTrainee = GetOneTrainee(tester.ID, tester.TesterVehicle);
+                //    if (myTester != null || myTrainee != null)
+                //        throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
             }
             catch (DuplicateWaitObjectException e) { throw; }
 
@@ -631,7 +638,7 @@ namespace DAL
             //xmlSerializer.Serialize(file, trainee);
             //file.Close();
 
-            traineeRoot.Save(traineePath);
+            // traineeRoot.Save(traineePath);
         }
         //---------------------------------------------------------------------------
         public string AddTest(DO.Test test)
@@ -771,7 +778,7 @@ namespace DAL
             foreach (var item in newDict)
                 dictionary.Add(item.key,item.value as object);
             return dictionary;
-        }       
+        }
         //-----------------------------------------------------------------------
         public void SetConfig(string parm, object value)
         {
@@ -793,7 +800,8 @@ namespace DAL
         //---------------------------------------------------------------------
         public bool[,] GetSchedule(string ID)
         {
-            try {
+            try
+            {
                 LoadData("testers");
                 if (!IfExist(ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
@@ -806,11 +814,11 @@ namespace DAL
                                  where item.Element("testerID").Value == ID
                                  select item).FirstOrDefault();
 
-            bool[, ] mat=new bool[5,6];
+            bool[,] mat = new bool[5, 6];
 
             for (int i = 0; i < 5; ++i)
                 for (int j = 0; j < 6; ++j)
-                    mat[i, j] = bool.Parse(schedule.Element("" + i).Element("" + j).Value);
+                    mat[i, j] = bool.Parse(schedule.Element("day_" + i).Element("hour_" + j).Value);
 
             return mat;
         }
@@ -820,26 +828,28 @@ namespace DAL
             try
             {
                 LoadData("testers");
-                if (!IfExist(testerID, "tester"))
-                    throw new KeyNotFoundException("ID not found");
+                if (IfExist(testerID, "tester"))
+                    (from item in scheduleRoot.Elements()
+                     where item.Element("testerID").Value == testerID
+                     select item).Remove();
+                //throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException) { throw; }
 
-            XElement schedule = new XElement("schedule",new XElement("testerID",testerID));
+            LoadData("schedule");
+            XElement schedule = new XElement("schedule", new XElement("testerID", testerID));
             for (int i = 0; i < 5; ++i)
             {
-                XElement day = new XElement(""+i);
+                XElement day = new XElement("day_" + i);
                 for (int j = 0; j < 6; ++j)
                 {
-                    XElement hour = new XElement(""+j, matrix[i, j]);
+                    XElement hour = new XElement("hour_" + j, matrix[i, j]);
                     day.Add(hour);
                 }
                 schedule.Add(day);
             }
-            (from item in scheduleRoot.Elements()
-             where item.Element("testerID").Value == testerID
-             select item).Remove();
             scheduleRoot.Add(schedule);
+            scheduleRoot.Save(schedulePath);
         }
 
 
