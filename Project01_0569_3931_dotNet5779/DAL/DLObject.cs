@@ -73,8 +73,7 @@ namespace DAL
                 if (!IfExist(tester.ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
                 int index = DataSource.Testers.FindIndex(x => x.ID == tester.ID );
-                DataSource.Testers[index] = tester;
-               
+                DataSource.Testers[index] = tester;                
             }
             catch (KeyNotFoundException e) { throw; }
             //try
@@ -350,7 +349,7 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-        public Dictionary<String, Object> getConfig()
+        public Dictionary<String, Object> GetConfig()
         {
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             var newDict = from item in DataSource.Configuration
@@ -384,11 +383,18 @@ namespace DAL
                     throw new KeyNotFoundException();
             }
             catch (KeyNotFoundException e) { throw; }
-            var matrix = (from item in DataSource.Schedules
-                          where (item.Key == ID)
-                          select item.Value).ToArray();
-            return matrix.FirstOrDefault();
+            //var matrix = (from item in DataSource.Schedules
+            //              where (item.Key == ID)
+            //              select item.Value).ToArray();
+            //return matrix.FirstOrDefault();
+            return DataSource.Schedules[ID];
         }
+        //--------------------------------------------------
+        public void SetSchedule(bool[,] schedule, string testerID)
+        {           
+                    DataSource.Schedules[testerID] = schedule;
+        }
+
     }
 }
 

@@ -6,11 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
-
+//tVezKd2ywDz9DAzMAwVhzCecXPSErYc4
 namespace DAL
 {
 
-    class DAL_XML_IMP//:IDal
+    class DAL_XML_IMP:IDal
     {
         static DAL_XML_IMP instance = null;
 
@@ -34,6 +34,9 @@ namespace DAL
         string testPath = @"TestXml.xml";
         List<DO.Test> tests = new List<DO.Test>();
 
+        XElement scheduleRoot;
+        string schedulePath = @"ScheduleXML.xml";
+
         XElement configRoot;
         string configPath = @"Config.xml";
 
@@ -41,23 +44,18 @@ namespace DAL
         {
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
-            else
-                LoadData("testers");
 
             if (!File.Exists(traineePath))
                 CreateFiles("trainees");
-            else
-                LoadData("trainees");
 
             if (!File.Exists(testPath))
                 CreateFiles("tests");
-            else
-                LoadData("tests");
+
+            if (!File.Exists(schedulePath))
+                CreateFiles("schedule");
 
             if (!File.Exists(configPath))
                 CreateConfig();
-            else
-                LoadData("config");
         }
         //---------------------------------------------------------
         private void CreateFiles(string identifier)
@@ -75,18 +73,24 @@ namespace DAL
                 case "tests":
                     testRoot = new XElement("tests");
                     testRoot.Save(testPath);
-                    break;               
+                    break;
+                case "schedule":
+                    scheduleRoot = new XElement("schedules");
+                    scheduleRoot.Save(schedulePath);
+                    break;
             }
         }
         //------------------------------------------------------------
         private void CreateConfig()
         {
-            XElement minLessons = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
-            XElement maxTesterAge = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
-            XElement minTraineeAge = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
-            XElement minGapTest = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
-            XElement minTesterAge = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
-            XElement numberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
+            XElement MIN_LESSONS = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
+            XElement MAX_TESTER_AGE = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
+            XElement MIN_TRAINEE_AGE = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
+            XElement MIN_GAP_TEST = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
+            XElement MIN_TESTER_AGE = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
+            XElement NumberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
+            configRoot.Add(MIN_LESSONS, MAX_TESTER_AGE, MIN_TRAINEE_AGE, MIN_GAP_TEST, MIN_TESTER_AGE, NumberTest);
+            configRoot.Save(configPath);
         }
         //-----------------------------------------------------------
         private void LoadData(string identifier)
@@ -96,7 +100,6 @@ namespace DAL
                 case "testers":
                     try
                     {
-
                         testerRoot = XElement.Load(testerPath);
                         testers = GetTestersList();
                         break;
@@ -128,29 +131,41 @@ namespace DAL
                         throw new KeyNotFoundException("File upload problem - tests");
                     }
 
+                case "schedule":
+                    try
+                    {
+                        scheduleRoot = XElement.Load(schedulePath);
+                        break;
+                    }
+                    catch
+                    {
+                        throw new KeyNotFoundException("File upload problem - schedules");
+                    }
+
                 case "config":
                     try
                     {
+                        configRoot = XElement.Load(configPath);
+                        break;
 
                     }
                     catch
                     {
                         throw new KeyNotFoundException("File upload problem - config");
                     }
-                    break;
             }
         }
         //-------------------------------------------------------------------
-        private void SaveTestersList(List<DO.Tester> testersList)
-        {          
-            testerRoot = new XElement("testers");
+        //private void SaveTestersList(List<DO.Tester> testersList)
+        //{
+        //    testerRoot = new XElement("testers");
 
-            foreach (var tester in testersList)
-            {
-                SaveOneTester(tester);
-            }
-            testerRoot.Save(testerPath);
-        }
+        //    foreach (var tester in testersList)
+        //    {
+        //        SaveOneTester(tester);
+        //    }
+        //    testerRoot.Save(testerPath);
+        //}
 
         private void SaveOneTester(DO.Tester tester)
         {
@@ -204,16 +219,16 @@ namespace DAL
             return myTesters;
         }
         //------------------------------------------------------------------
-        private void SaveTraineeList(List<DO.Trainee> traineeList)
-        {
-            traineeRoot = new XElement("trainees");
+        //private void SaveTraineeList(List<DO.Trainee> traineeList)
+        //{
+        //    traineeRoot = new XElement("trainees");
 
-            foreach (var trainee in traineeList)
-            {
-                SaveOneTrainee(trainee);
-            }
-            traineeRoot.Save(traineePath);
-        }
+        //    foreach (var trainee in traineeList)
+        //    {
+        //        SaveOneTrainee(trainee);
+        //    }
+        //    traineeRoot.Save(traineePath);
+        //}
 
         private void SaveOneTrainee(DO.Trainee trainee)
         {
@@ -233,7 +248,7 @@ namespace DAL
             XElement school = new XElement("school", trainee.School);
             XElement teacher = new XElement("teacher", trainee.Teacher);
             XElement drivingLessonsNum = new XElement("drivingLessonsNum", trainee.DrivingLessonsNum);
-            traineeRoot.Add(new XElement("trainee", person,, traineeVehicle, traineeGear, school, teacher, drivingLessonsNum));
+            traineeRoot.Add(new XElement("trainee", person, traineeVehicle, traineeGear, school, teacher, drivingLessonsNum));
         }
         //---------------------------------------------------------------- 
         private List<DO.Trainee> GetTraineesList()
@@ -266,15 +281,15 @@ namespace DAL
             return myTrainees;
         }
         //---------------------------------------------------------------
-        private void SaveTestList(List<DO.Test> testsList)
-        {
-            testRoot = new XElement("tests");
-            foreach (var test in testsList)
-            {
-                SaveOneTest(test);
-            }
-            testRoot.Save(testPath);
-        }
+        //private void SaveTestList(List<DO.Test> testsList)
+        //{
+        //    testRoot = new XElement("tests");
+        //    foreach (var test in testsList)
+        //    {
+        //        SaveOneTest(test);
+        //    }
+        //    testRoot.Save(testPath);
+        //}
 
         private void SaveOneTest(DO.Test test)
         {
@@ -283,7 +298,7 @@ namespace DAL
             XElement IDTrainee = new XElement("IDTrainee", test.TraineeId);
             XElement vehicle = new XElement("Vehicle", test.Vehicle.ToString());
             XElement testDate = new XElement("testDate", test.TestDate);
-            XElement testHour = new XElement("testHour", test.TestHour);            
+            XElement testHour = new XElement("testHour", test.TestHour);
             XElement city = new XElement("city", test.TestAddress.City);
             XElement street = new XElement("street", test.TestAddress.Street);
             XElement numOfBuilding = new XElement("numOfBuilding", test.TestAddress.NumOfBuilding);
@@ -296,10 +311,10 @@ namespace DAL
             XElement trafficSigns = new XElement("trafficSigns", test.TrafficSigns);
             XElement passedTest = new XElement("passedTest", test.PassedTest);
             XElement testerNote = new XElement("testerNote", test.TesterNote);
-            testerRoot.Add(new XElement("test",))
-           
-            testerRoot.Add(new XElement("tester", testNumber,IDTester,IDTrainee,vehicle,testDate,testHour,
-                testAddress,mirrors,brakes,reverseParking,distance,vinkers,trafficSigns,passedTest,testerNote));
+            //testerRoot.Add(new XElement("test",))
+
+            testerRoot.Add(new XElement("tester", testNumber, IDTester, IDTrainee, vehicle, testDate, testHour,
+                testAddress, mirrors, brakes, reverseParking, distance, vinkers, trafficSigns, passedTest, testerNote));
         }
         //---------------------------------------------------------------
         private List<DO.Test> GetTestsList()
@@ -317,14 +332,14 @@ namespace DAL
                                TestAddress = new DO.Address(test.Element("testAddress").Element("city").Value,
                                  test.Element("testAddress").Element("street").Value,
                                  int.Parse(test.Element("testAddress").Element("numOfBuilding").Value)),
-                               Mirrors=bool.Parse(test.Element("mirrors").Value),
-                               Brakes= bool.Parse(test.Element("brakes").Value),
-                               ReverseParking= bool.Parse(test.Element("reverseParking").Value),
-                               Distance= bool.Parse(test.Element("distance").Value),
-                               Vinkers= bool.Parse(test.Element("vinkers").Value),
-                               TrafficSigns= bool.Parse(test.Element("trafficSigns").Value),
-                               PassedTest= bool.Parse(test.Element("passedTest").Value),
-                               TesterNote=test.Element("testerNote").Value,
+                               Mirrors = bool.Parse(test.Element("mirrors").Value),
+                               Brakes = bool.Parse(test.Element("brakes").Value),
+                               ReverseParking = bool.Parse(test.Element("reverseParking").Value),
+                               Distance = bool.Parse(test.Element("distance").Value),
+                               Vinkers = bool.Parse(test.Element("vinkers").Value),
+                               TrafficSigns = bool.Parse(test.Element("trafficSigns").Value),
+                               PassedTest = bool.Parse(test.Element("passedTest").Value),
+                               TesterNote = test.Element("testerNote").Value,
                            }).ToList();
             }
             catch (FileLoadException e)
@@ -357,45 +372,50 @@ namespace DAL
         {
             try
             {
+                LoadData("testers");
                 DO.Tester myTester = GetOneTester(tester.ID);
-                DO.Trainee myTrainee = GetOneTrainee(tester.ID,tester.TesterVehicle);
+                DO.Trainee myTrainee = GetOneTrainee(tester.ID, tester.TesterVehicle);
                 if (myTester != null || myTrainee != null)
                     throw new DuplicateWaitObjectException("Tester with the same ID already exists...");
             }
             catch (DuplicateWaitObjectException e) { throw; }
 
-            this.testers.Add(tester);
             SaveOneTester(tester);
-            //schedule;
+            SetSchedule(matrix, tester.ID);
             testerRoot.Save(testerPath);
         }
         //--------------------------------------------------------------------
         public void DeleteTester(string testerID)
         {
-            XElement testerElement;
+            LoadData("testers");
+            LoadData("tests");
+            //XElement testerElement;
             try
             {
-                testerElement = (from tester in testerRoot.Elements()
-                                 where tester.Element("ID").Value == testerID
-                                 select tester).FirstOrDefault();
-                if (testerElement == null)
-                    throw new KeyNotFoundException("ID not found");
-                testerElement.Remove();
-
-                if (!IfExist(testerID, "tester"))
+                if (IfExist(testerID, "tester"))
+                {
+                    (from tester in testerRoot.Elements()
+                     where tester.Element("ID").Value == testerID
+                     select tester).FirstOrDefault().Remove();
+                }
+                else
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            this.testers.RemoveAll(x => x.ID == testerID);
-            this.tests.RemoveAll(x => x.TesterId == testerID);
-            //SaveTestList();
+
+            (from item in testRoot.Elements()
+             where item.Element("IDTester").Value == testerID
+             select item).Remove();
+
             testerRoot.Save(testerPath);
+            testRoot.Save(testPath);
         }
         //-------------------------------------------------------------------
         public DO.Tester GetOneTester(string testerID)
         {
             try
             {
+                LoadData("testers");
                 if (!IfExist(testerID, "tester"))
                     throw new KeyNotFoundException("ID not found");
             }
@@ -408,20 +428,19 @@ namespace DAL
             return null;
         }
         //----------------------------------------------------------------------
-        public void UpdateTester(DO.Tester tester)
+        public void UpdateTester(DO.Tester tester)//המטריצה נשלחת לפונקציה בנפרד בשכבה מעל
         {
             try
             {
+                LoadData("testers");
                 if (!IfExist(tester.ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
-                int index = this.testers.FindIndex(x => x.ID == tester.ID);
-                this.testers[index] = tester;
 
                 XElement testerElement = (from myTester in testerRoot.Elements()
                                           where myTester.Element("ID").Value == tester.ID
                                           select myTester).FirstOrDefault();
-                if (testerElement == null)
-                    throw new KeyNotFoundException("ID not found");
+                //if (testerElement == null)
+                //    throw new KeyNotFoundException("ID not found");
                 testerElement.Remove();
                 SaveOneTester(tester);
                 testerRoot.Save(testerPath);
@@ -433,9 +452,10 @@ namespace DAL
         {
             try
             {
+                LoadData("trainees");
                 if (IfExist(trainee.ID, "trainee"))
                     throw new DuplicateWaitObjectException("ID allready exist");
-                this.trainees.Add(trainee);
+                // this.trainees.Add(trainee);
                 SaveOneTrainee(trainee);
                 traineeRoot.Save(traineePath);
             }
@@ -452,6 +472,7 @@ namespace DAL
         {
             try
             {
+                LoadData("trainees");
                 if (!IfExist(ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
             }
@@ -522,42 +543,74 @@ namespace DAL
         {
             try
             {
+                LoadData("trainees");
+                LoadData("tests");
+
+                if (!IfExist(traineeID, "trainee"))
+                    throw new KeyNotFoundException("ID not found");
                 (from trainee in traineeRoot.Elements()
                  where trainee.Element("ID").Value == traineeID
                  where trainee.Element("traineeVehicle").Value == vehicle.ToString()
                  select trainee).FirstOrDefault().Remove();
-
-                if (!IfExist(traineeID, "trainee"))
-                    throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            this.trainees.RemoveAll(x => x.ID == traineeID);
-            this.tests.RemoveAll(x => x.TraineeId == traineeID);
+            catch (InvalidOperationException)
+            { throw new KeyNotFoundException("trainee doesn't study this vehicle"); }
+
+            //this.trainees.RemoveAll(x => x.ID == traineeID);
+            // this.tests.RemoveAll(x => x.TraineeId == traineeID);
             //SaveTestList();
+
+            (from item in testRoot.Elements()
+             where item.Element("IDTrainee").Value == traineeID
+             where item.Element("Vehicle").Value == vehicle.ToString()
+             select item).Remove();
             traineeRoot.Save(traineePath);
+            testRoot.Save(testPath);
         }
         //-------------------------------------------------------------------------
         public void UpdateTrainee(DO.Trainee trainee)
         {
             try
             {
+                LoadData("trainee");
                 if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
-                int index = this.trainees.FindIndex(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
-                this.trainees[index] = trainee;
-                List<DO.Trainee> trainees = this.trainees.FindAll(x => x.ID == trainee.ID && x.TraineeVehicle != trainee.TraineeVehicle);
-                if (trainees.Any())
-                    foreach (var _trainee in trainees)
+
+                (from myTrainee in traineeRoot.Elements()
+                 where myTrainee.Element("ID").Value == trainee.ID
+                 where myTrainee.Element("traineeVehicle").Value == trainee.TraineeVehicle.ToString()
+                 select myTrainee).Remove();
+                SaveOneTrainee(trainee);
+
+                foreach (var item in traineeRoot.Elements())
+                {
+                    if (item.Element("ID").Value == trainee.ID && item.Element("traineeVehicle").Value != trainee.TraineeVehicle.ToString())
                     {
-                        _trainee.PrivateName = trainee.PrivateName;
-                        _trainee.FamilyName = trainee.FamilyName;
-                        _trainee.PersonAddress = trainee.PersonAddress;
-                        _trainee.Phone = trainee.Phone;
+                        item.Element("privateName").Value = trainee.PrivateName;
+                        item.Element("familyName").Value = trainee.FamilyName;
+                        item.Element("city").Value = trainee.PersonAddress.City;
+                        item.Element("street").Value = trainee.PersonAddress.Street;
+                        item.Element("numOfBuilding").Value = trainee.PersonAddress.NumOfBuilding.ToString();
+                        item.Element("phone").Value = trainee.Phone;
                     }
-                SaveTraineeList(trainees);
+                }
+                traineeRoot.Save(traineePath);
             }
             catch (KeyNotFoundException e) { throw; }
             catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee doesn't study this vehicle"); }
+            //traineeRoot.Save(traineePath);
+            //List<DO.Trainee> trainees = this.trainees.FindAll(x => x.ID == trainee.ID && x.TraineeVehicle != trainee.TraineeVehicle);
+            //if (trainees.Any())
+            //    foreach (var _trainee in trainees)
+            //    {
+            //        _trainee.PrivateName = trainee.PrivateName;
+            //        _trainee.FamilyName = trainee.FamilyName;
+            //        _trainee.PersonAddress = trainee.PersonAddress;
+            //        _trainee.Phone = trainee.Phone;
+            //    }
+            // SaveTraineeList(trainees);
+
             //try
             //{
             //    // LoadTrainees();
@@ -577,49 +630,40 @@ namespace DAL
             //xmlSerializer.Serialize(file, trainee);
             //file.Close();
 
-            //XElement _traineeElement = (from _trainee in traineeRoot.Elements()
-            //                            where _trainee.Element("id").Value == trainee.ID
-            //                            where _trainee.Element("TraineeVehicle").Value != trainee.TraineeVehicle.ToString()
-            //                            select _trainee).FirstOrDefault();
-            //_traineeElement.Element("PrivateName").Value = trainee.PrivateName;
-            //_traineeElement.Element("FamilyName").Value = trainee.FamilyName;
-            //_traineeElement.Element("City").Value = trainee.PersonAddress.City;
-            //_traineeElement.Element("Street").Value = trainee.PersonAddress.Street;
-            //// _traineeElement.Element("NumOfBuilding").Value = trainee.PersonAddress.NumOfBuilding;
-            //_traineeElement.Element("Phone").Value = trainee.Phone;
-
-            //traineeRoot.Save(traineePath);
+            traineeRoot.Save(traineePath);
         }
         //---------------------------------------------------------------------------
         public string AddTest(DO.Test test)
         {
             try
             {
+                LoadData("tests");
                 if (!IfExist(test.TesterId, "tester"))
                     throw new KeyNotFoundException("TesterID not found");
                 if (!IfExist(test.TraineeId, "trainee"))
                     throw new KeyNotFoundException("TraineeID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            //int temp = (int)DataSource.Configuration["Number"].value;
-            test.TestNumber = temp;
+            LoadData("config");
+            test.TestNumber = int.Parse(configRoot.Element("NumberTest").Element("value").Value);
             this.tests.Add(test);
-            //DataSource.Configuration["Number"].value = temp + 1;
+            configRoot.Element("NumberTest").Element("value").SetValue(int.Parse(configRoot.Element("NumberTest").Element("value").Value) + 1);
             SaveOneTest(test);
             testRoot.Save(testPath);
-            return "your number test is" + temp;
+            return "your number test is" + test.TestNumber;
         }
         //-------------------------------------------------------------------------
         public void UpdateTestResult(DO.Test test1)
         {
             try
             {
-                int index = this.tests.FindIndex(x => x.TestNumber == test1.TestNumber);
-                this.tests[index] = test1;
+                LoadData("tests");
+                //int index = this.tests.FindIndex(x => x.TestNumber == test1.TestNumber);
+                //this.tests[index] = test1;
 
                 XElement testElement = (from myTest in testRoot.Elements()
-                                          where int.Parse(myTest.Element("testNumber").Value) == test1.TestNumber
-                                          select myTest).FirstOrDefault();
+                                        where int.Parse(myTest.Element("testNumber").Value) == test1.TestNumber
+                                        select myTest).FirstOrDefault();
                 if (testElement == null)
                     throw new KeyNotFoundException("test not found in xml");
                 testElement.Remove();
@@ -627,7 +671,7 @@ namespace DAL
                 testRoot.Save(testPath);
             }
             catch (ArgumentNullException e) { throw; }
-            catch(KeyNotFoundException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
         }
         //------------------------------------------------------------------------------
         private bool IfTestExist(int numOfTest)
@@ -641,6 +685,7 @@ namespace DAL
         {
             try
             {
+                LoadData("tests");
                 if (!IfTestExist(testNum))
                     throw new KeyNotFoundException("no such test");
             }
@@ -652,43 +697,46 @@ namespace DAL
         }
         //-------------------------------------------------------------------------------
         public void DeleteTest(int numOfTest)
-        {           
-                this.tests.RemoveAll(x => x.TestNumber == numOfTest);
-                XElement testElement;
-                try
-                {
-                    testElement = (from test in testRoot.Elements()
-                                     where int.Parse(test.Element("testNumber").Value) == numOfTest
-                                     select test).FirstOrDefault();
-                    if (testElement == null)
-                        throw new KeyNotFoundException("test not found in xml");
-                    testElement.Remove();                    
-                }
-                catch (KeyNotFoundException e) { throw; }
-                                
-                testRoot.Save(testPath);           
+        {
+            LoadData("tests");
+            XElement testElement;
+            try
+            {
+                if (!IfTestExist(numOfTest))
+                    throw new KeyNotFoundException("no such test");
+                testElement = (from test in testRoot.Elements()
+                               where int.Parse(test.Element("testNumber").Value) == numOfTest
+                               select test).FirstOrDefault();
+                testElement.Remove();
+            }
+            catch (KeyNotFoundException e) { throw; }
+            testRoot.Save(testPath);
         }
         //---------------------------------------------------------------------------------
         public List<DO.Tester> GetTesters()
-        {            
+        {
+            LoadData("testers");
             return (from item in this.testers
                     select new DO.Tester(item)).ToList();
         }
         //-------------------------------------------------------------------------
         public List<DO.Trainee> GetTrainees()
         {
+            LoadData("trainees");
             return (from item in this.trainees
                     select new DO.Trainee(item)).ToList();
         }
         //----------------------------------------------------
         public List<DO.Test> GetTests()
         {
+            LoadData("tests");
             return (from item in this.tests
                     select new DO.Test(item)).ToList();
         }
         //---------------------------------------------------------
         public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
+            LoadData("tests");
             return (from item in this.tests
                     where (someFunc(item))
                     select new DO.Test(item)).ToList();
@@ -696,6 +744,7 @@ namespace DAL
         //--------------------------------------------------
         public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
+            LoadData("testers");
             var NewList = from item in this.testers
                           where (func(item))
                           select new DO.Tester(item);
@@ -704,14 +753,93 @@ namespace DAL
         //--------------------------------------------------
         public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
         {
+            LoadData("trainees");
             var NewList = from item in this.trainees
                           where (func(item))
                           select new DO.Trainee(item);
             return NewList.ToList();
         }
         //------------------------------------------------------------------
+        public Dictionary<String, Object> GetConfig()
+        {
+            LoadData("config");
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            var newDict = from item in configRoot.Elements()
+                          where bool.Parse(item.Element("Readable").Value) == true
+                          select new { key = item.Name.LocalName, value = item.Element("value").Value };
+            foreach (var item in newDict)
+                dictionary.Add(item.key, item.value);
+            return dictionary;
+        }       
+        //-----------------------------------------------------------------------
+        public void SetConfig(string parm, object value)
+        {
+            try
+            {
+                LoadData("config");
+                var tempArray = (from item in configRoot.Elements()
+                                 where item.Name.LocalName == parm
+                                 select item.Name.LocalName).ToList();
+                if (tempArray.Count == 0)
+                    throw new KeyNotFoundException("key not found");
+                if (bool.Parse(configRoot.Element(parm).Element("Writable").Value) == false)
+                    throw new InvalidOperationException("it is non-writeable value");
+            }
+            catch (InvalidOperationException e) { throw; }
+            catch (KeyNotFoundException e) { throw; }
+            this.configRoot.Element(parm).Element("value").SetValue(value);
+        }
+        //---------------------------------------------------------------------
+        public bool[,] GetSchedule(string ID)
+        {
+            try {
+                LoadData("testers");
+                if (!IfExist(ID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch (KeyNotFoundException) { throw; }
 
+            LoadData("schedule");
 
+            XElement schedule = (from item in scheduleRoot.Elements()
+                                 where item.Element("testerID").Value == ID
+                                 select item).FirstOrDefault();
+
+            bool[, ] mat=new bool[5,6];
+
+            for (int i = 0; i < 5; ++i)
+                for (int j = 0; j < 6; ++j)
+                    mat[i, j] = bool.Parse(schedule.Element("" + i).Element("" + j).Value);
+
+            return mat;
+        }
+        //-----------------------------------------------------------------------
+        public void SetSchedule(bool[,] matrix, string testerID)
+        {
+            try
+            {
+                LoadData("testers");
+                if (!IfExist(testerID, "tester"))
+                    throw new KeyNotFoundException("ID not found");
+            }
+            catch (KeyNotFoundException) { throw; }
+
+            XElement schedule = new XElement("schedule",new XElement("testerID",testerID));
+            for (int i = 0; i < 5; ++i)
+            {
+                XElement day = new XElement(""+i);
+                for (int j = 0; j < 6; ++j)
+                {
+                    XElement hour = new XElement(""+j, matrix[i, j]);
+                    day.Add(hour);
+                }
+                schedule.Add(day);
+            }
+            (from item in scheduleRoot.Elements()
+             where item.Element("testerID").Value == testerID
+             select item).Remove();
+            scheduleRoot.Add(schedule);
+        }
 
 
     };

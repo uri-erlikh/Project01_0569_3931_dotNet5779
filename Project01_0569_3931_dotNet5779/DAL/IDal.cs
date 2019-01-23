@@ -31,9 +31,10 @@ namespace DAL
         List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func );
         List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func );
 
-        Dictionary<string, object> getConfig();
+        Dictionary<string, object> GetConfig();
         void SetConfig(string parm, object value);
         bool[,] GetSchedule(string ID);
+        void SetSchedule(bool[,] schedule, string testerID);
     }
 }
 

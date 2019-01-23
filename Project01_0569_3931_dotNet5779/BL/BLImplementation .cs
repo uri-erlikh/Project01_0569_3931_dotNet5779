@@ -61,12 +61,12 @@ namespace BL
                 CheckPhone(tester.Phone);
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
-                //CheckSchedule(tester.Schedule,tester.MaxWeeklyTests);
             }
             catch (InvalidDataException e) { throw; }
             try
             {
                 dl.UpdateTester(Convert(tester));
+                dl.SetSchedule(tester.Schedule, tester.ID);
             }
             catch (KeyNotFoundException e) { throw; }
         }
@@ -494,7 +494,7 @@ namespace BL
         //--------------------------------------------------------------------------
         public Dictionary<string, object> GetConfig()
         {
-            return dl.getConfig();
+            return dl.GetConfig();
         }
         //-----------------------------------------------------------------------------
         public void SetConfig(string parm, object value)
