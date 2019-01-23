@@ -27,16 +27,16 @@ namespace BO
 
         static Configuration()
         {
-            IDal d_l = DAL_Factory.GetDL("lists");
+            IDal d_l = DAL_Factory.GetDL("XML");
 
             IfIntialized = true;
             updateTime = DateTime.Now;
             Dictionary<string, object> config= new Dictionary<string, object>(d_l.GetConfig());
-            MIN_LESSONS = (int)config["MIN_LESSONS"];
-            MAX_TESTER_AGE = (int)config["MAX_TESTER_AGE"];
-            MIN_TRAINEE_AGE = (int)config["MIN_TRAINEE_AGE"];
-            MIN_GAP_TEST = (int)config["MIN_GAP_TEST"];
-            MIN_TESTER_AGE = (int)config["MIN_TESTER_AGE"];
+            MIN_LESSONS = int.Parse(config["MIN_LESSONS"].ToString());
+            MAX_TESTER_AGE = int.Parse(config["MAX_TESTER_AGE"].ToString());
+            MIN_TRAINEE_AGE = int.Parse(config["MIN_TRAINEE_AGE"].ToString());
+            MIN_GAP_TEST = int.Parse(config["MIN_GAP_TEST"].ToString());
+            MIN_TESTER_AGE = int.Parse(config["MIN_TESTER_AGE"].ToString());
         }        
     }
     //----------------------------------------------------

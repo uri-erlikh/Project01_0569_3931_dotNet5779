@@ -83,6 +83,7 @@ namespace DAL
         //------------------------------------------------------------
         private void CreateConfig()
         {
+            XElement configRoot = new XElement("config");
             XElement MIN_LESSONS = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
             XElement MAX_TESTER_AGE = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
             XElement MIN_TRAINEE_AGE = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
@@ -195,7 +196,7 @@ namespace DAL
             try
             {
                 myTesters = (from tester in testerRoot.Elements()
-                             select new DO.Tester(tester.Element("ID").Value)
+                             select new DO.Tester(tester.Element("person").Element("ID").Value)
                              {
                                  FamilyName = tester.Element("person").Element("familyName").Value,
                                  PrivateName = tester.Element("person").Element("privateName").Value,
@@ -257,13 +258,13 @@ namespace DAL
             try
             {
                 myTrainees = (from trainee in traineeRoot.Elements()
-                              select new DO.Trainee(trainee.Element("ID").Value)
+                              select new DO.Trainee(trainee.Element("person").Element("ID").Value)
                               {
                                   FamilyName = trainee.Element("person").Element("familyName").Value,
                                   PrivateName = trainee.Element("person").Element("privateName").Value,
                                   DayOfBirth = DateTime.Parse(trainee.Element("person").Element("dayOfBirth").Value),
                                   PersonGender = (DO.Gender)Enum.Parse(typeof(DO.Gender), trainee.Element("person").Element("personGender").Value),
-                                  Phone = trainee.Element("phone").Value,
+                                  Phone = trainee.Element("person").Element("phone").Value,
                                   PersonAddress = new DO.Address(trainee.Element("person").Element("personAddress").Element("city").Value,
                                                    trainee.Element("person").Element("personAddress").Element("street").Value,
                                                    int.Parse(trainee.Element("person").Element("personAddress").Element("numOfBuilding").Value)),
@@ -768,7 +769,7 @@ namespace DAL
                           where bool.Parse(item.Element("Readable").Value) == true
                           select new { key = item.Name.LocalName, value = item.Element("value").Value };
             foreach (var item in newDict)
-                dictionary.Add(item.key, item.value);
+                dictionary.Add(item.key,item.value as object);
             return dictionary;
         }       
         //-----------------------------------------------------------------------

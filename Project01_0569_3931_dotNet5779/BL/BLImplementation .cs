@@ -12,7 +12,7 @@ namespace BL
 {
     class BLImplementation : IBL
     {
-        IDal dl = DAL_Factory.GetDL("lists");
+        IDal dl = DAL_Factory.GetDL("XML");
         static Random r = new Random();
         //-------------------------------------------------------------
         public void AddTester(BO.Tester tester, bool[,] matrix)
