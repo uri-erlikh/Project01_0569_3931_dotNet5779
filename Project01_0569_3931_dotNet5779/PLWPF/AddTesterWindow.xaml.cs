@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 namespace PLWPF
 {
     /// <summary>
-    /// Interaction logic for AddTesterWindow.xaml
+    /// Interaction logic for AddTesterWindow.xaml//
     /// </summary>
     public partial class AddTesterWindow : Window
     {
