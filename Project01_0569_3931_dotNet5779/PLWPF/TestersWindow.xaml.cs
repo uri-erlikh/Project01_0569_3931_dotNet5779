@@ -197,7 +197,7 @@ namespace PLWPF
             this.DeleteTesterButton.IsEnabled = false;
             this.UpdateTesterButton.IsEnabled = false;
         }
-
+        //------------------------------------------------------------------------------
         private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             reset();

@@ -65,6 +65,10 @@ namespace PLWPF
                         myTrainee.DayOfBirth = new DateTime(1999, 01, 01);
                         this.IDTextBox.Clear();
                         this.DataContext = myTrainee;
+                        this.traineeGearComboBox.SelectedItem = null;
+                        this.traineeVehicleComboBox.SelectedItem = null;
+                        this.personGenderComboBox.SelectedItem = null;
+                        this.streetTextBox.Clear();
                     }
                 }
             }
@@ -80,9 +84,9 @@ namespace PLWPF
         //--------------------------------------------------------------------
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            this.traineeGearComboBox.SelectedIndex = 0;
-            this.traineeVehicleComboBox.SelectedIndex = 0;
-            this.personGenderComboBox.SelectedIndex = 0;
+            this.traineeGearComboBox.SelectedItem = null;
+            this.traineeVehicleComboBox.SelectedItem = null;
+            this.personGenderComboBox.SelectedItem = null;
             this.IDTextBox.Clear();
             this.privateNameTextBox.Clear();
             this.familyNameTextBox.Clear();

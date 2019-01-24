@@ -11,77 +11,78 @@
             <TabItem x:Name="MainTab" Header="Main" >
                 <TabItem.Content>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="5">
-            <Label Content="Insert ID of a trainee:" Foreground="Yellow" FontWeight="Bold" Margin="5" />
-            <TextBox x:Name="GetIDTextBox" Margin="5" MaxLength="9" MinWidth="193" IsEnabled="True" />
-            <Label Content="Chose type of vehicle:" Foreground="Yellow" FontWeight="Bold" Margin="5"/>
-            <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="5" MinWidth="100"/>
-            <Button x:Name="GetDataButton" Margin="5" Content="Insert" MinWidth="100" Click="GetDataButton_Click" />
-        </StackPanel>
-        <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="PrintTraineeButton"  Margin="5" Content="Print Trainee Details" FontSize="20" IsEnabled="False" FontWeight="Bold" Click="PrintTraineeButton_Click" />
-            <Button x:Name= "GetTestOfTTraineeButton" Grid.Column="1" Margin="5" Content="Get Future Tests Of Trainee" FontSize="20" IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTraineeButton_Click"/>
-        </Grid>
-        <Grid Grid.Row="2">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel Orientation="Horizontal" Margin="5">
+                            <Label Content="Insert ID of a trainee:" Foreground="Yellow" FontWeight="Bold" Margin="5" />
+                            <TextBox x:Name="GetIDTextBox" Margin="5" MaxLength="9" MinWidth="193" IsEnabled="True" />
+                            <Label Content="Chose type of vehicle:" Foreground="Yellow" FontWeight="Bold" Margin="5"/>
+                            <ComboBox x:Name="GetVehicleTypeComboBox" SelectedItem="{Binding Vehicle}" Background="DarkCyan" Margin="5" MinWidth="100"/>
+                            <Button x:Name="GetDataButton" Margin="5" Content="Insert" MinWidth="100" Click="GetDataButton_Click" />
+                        </StackPanel>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="PrintTraineeButton"  Margin="5" Content="Print Trainee Details" FontSize="20" IsEnabled="False" FontWeight="Bold" Click="PrintTraineeButton_Click" />
+                            <Button x:Name= "GetTestOfTTraineeButton" Grid.Column="1" Margin="5" Content="Get Future Tests Of Trainee" FontSize="20" IsEnabled="False"  FontWeight="Bold" Click="GetTestOfTTraineeButton_Click"/>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
 
-            <Button x:Name="AddTraineeButton"  Margin="5" Content= "Add Trainee" FontWeight="Bold" Visibility="Hidden" Click= "AddTraineeButton_Click"  />
-            <Button x:Name="DeleteTraineeButton"  Grid.Column="1" Margin="5" Content="Delete Trainee" IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="DeleteTraineeButton_Click"/>
-            <Button x:Name="UpdateTraineeButton" Grid.Column="2" Margin="5" Content="Update Trainee" 
+                            <Button x:Name="AddTraineeButton"  Margin="5" Content= "Add Trainee" FontWeight="Bold" Visibility="Hidden" Click= "AddTraineeButton_Click"  />
+                            <Button x:Name="DeleteTraineeButton"  Grid.Column="1" Margin="5" Content="Delete Trainee" IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="DeleteTraineeButton_Click"/>
+                            <Button x:Name="UpdateTraineeButton" Grid.Column="2" Margin="5" Content="Update Trainee" 
                      IsEnabled="False" Visibility="Hidden" FontWeight="Bold" Click="UpdateTraineeButton_Click" />
-        </Grid>
-        <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" Background="Black" />
+                        </Grid>
+                        <TextBlock x:Name="DataTextBlock" Margin="5" Grid.Row="3" Visibility="Hidden" Background="Black" />
 
-        <ListView Grid.Row="3" Name="DetailsTraineeListView" Margin="5" Visibility="Hidden">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn x:Name="firstnamegrid" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" Header="First Name"/>
-                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
-                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TraineeVehicle}" />
-                    <GridViewColumn Header="Gear" Width="80" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
-                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
-                    <GridViewColumn Header="Number Of Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
-                    <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
-                    <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+                        <ListView Grid.Row="3" Name="DetailsTraineeListView" Margin="5" Visibility="Hidden">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn x:Name="firstnamegrid" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" Header="First Name"/>
+                                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
+                                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TraineeVehicle}" />
+                                    <GridViewColumn Header="Gear" Width="80" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
+                                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
+                                    <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
+                                    <GridViewColumn Header="Driving Lessons" Width="Auto" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
+                                    <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
+                                    <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
 
-        <ListView Grid.Row="3" Name="DetailsTestListView" Margin="5" Visibility="Hidden">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
-                    <GridViewColumn Header="Date" Width="155" DisplayMemberBinding="{Binding Path=TestHour}"/>
-                    <GridViewColumn Header="City" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.City}"/>
-                    <GridViewColumn Header="Street" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.Street}"/>
-                    <GridViewColumn Header="Number of bilding" Width="120" DisplayMemberBinding="{Binding Path=TestAddress.NumOfBuilding}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Button x:Name="BackButton" Grid.Row="4" Margin="5" Content="Back" 
+                        <ListView Grid.Row="3" Name="DetailsTestListView" Margin="5" Visibility="Hidden">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Number of test"  Width="100" DisplayMemberBinding="{Binding Path=TestNumber}" />
+                                    <GridViewColumn Header="Date" Width="155" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                                    <GridViewColumn Header="City" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.City}"/>
+                                    <GridViewColumn Header="Street" Width="80" DisplayMemberBinding="{Binding Path=TestAddress.Street}"/>
+                                    <GridViewColumn Header="Number of Building" Width="120" DisplayMemberBinding="{Binding Path=TestAddress.NumOfBuilding}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                        <Button x:Name="BackButton" Grid.Row="4" Margin="5" Content="Back" 
                 Height="Auto" HorizontalAlignment="Right" MinWidth="100"  Click="BackButton_Click"/>
                         <Button x:Name="ResetButton" Content="Reset form" HorizontalAlignment="Left" Margin="564,5,5,5" Height="Auto"  Grid.Row="4" VerticalAlignment="Top" MinWidth="100" Click="ResetButton_Click"/>
                     </Grid>
-                    
+
                 </TabItem.Content>
             </TabItem>
-            
+
             <TabItem x:Name="RecentlyOpenedTab" Header="Recently opened">
                 <TabItem.Content>
                     <WrapPanel>

@@ -56,8 +56,8 @@
                                     <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TesterVehicle}" />
                                     <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
                                     <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
-                                    <GridViewColumn Header="Day Of Birth" Width="145" DisplayMemberBinding="{Binding Path=DayOfBirth}"/>
-                                    <GridViewColumn Header="Max Weekly  Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
+                                    <GridViewColumn Header="Day Of Birth" Width="Auto" DisplayMemberBinding="{Binding Path=DayOfBirth, StringFormat={}{0:dd/MM/yyyy}}"/>
+                                    <GridViewColumn Header="Max Weekly Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>

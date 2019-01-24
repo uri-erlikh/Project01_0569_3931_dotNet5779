@@ -64,6 +64,8 @@ namespace PLWPF
                         tester.DayOfBirth = new DateTime(1969, 01, 01);
                         this.IDTextBox.Clear();
                         this.DataContext = tester;
+                        this.personGenderComboBox.SelectedItem = null;
+                        this.testerVehicleComboBox.SelectedItem = null;
                     }
                 }
             }

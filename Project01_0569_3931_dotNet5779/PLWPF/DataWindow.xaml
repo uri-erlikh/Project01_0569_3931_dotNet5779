@@ -21,9 +21,9 @@
             </ListBox.Items>
         </ListBox>
 
-        <TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
+        <!--<TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
                         <ListBox x:Name="forgroup" Height="308" Width="400"/>
-                    </InlineUIContainer></TextBlock>
+                    </InlineUIContainer></TextBlock>-->
 
         <TabControl x:Name="tabControl" Grid.Row="1">
             <TabControl.Items>
@@ -39,7 +39,8 @@
                                     <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TraineeVehicle}" />
                                     <GridViewColumn Header="Gear" Width="70" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
                                     <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
-                                    <GridViewColumn Header="Number Of Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
+                                    <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
+                                    <GridViewColumn Header="Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
                                     <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
                                     <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
                                 </GridView>
@@ -58,10 +59,11 @@
                                     <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" />
                                     <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
                                     <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TesterVehicle}" />
-                                    <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
+                                    <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
                                     <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
-                                    <GridViewColumn Header="Day Of Birth" Width="145" DisplayMemberBinding="{Binding Path=DayOfBirth}"/>
-                                    <GridViewColumn Header="Max Weekly  Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
+                                    <GridViewColumn Header="Day Of Birth" Width="Auto" DisplayMemberBinding="{Binding Path=DayOfBirth, StringFormat={}{0:dd/MM/yyyy}}"/>
+                                    <GridViewColumn Header="Max Weekly Tests" Width="Auto" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
+                                    <GridViewColumn Header="Range (km)" DisplayMemberBinding="{Binding Path=RangeToTest}"/>
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -80,7 +82,7 @@
                                     <GridViewColumn Header="ID of tester"  Width="70" DisplayMemberBinding="{Binding Path=Tester.ID}"/>
                                     <GridViewColumn Header="Vehicle"  Width="70" DisplayMemberBinding="{Binding Path=Vehicle}" />
                                     <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour}"/>
-                                    <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=TestAddress}"/>
+                                    <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=TestAddress}"/>
                                     <GridViewColumn Header="Passed" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
                                     <GridViewColumn Header="Note" Width="Auto" DisplayMemberBinding="{Binding Path=TesterNote}" />
 
