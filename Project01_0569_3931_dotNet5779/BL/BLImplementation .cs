@@ -10,8 +10,9 @@ using System.Globalization;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-//using System.IO;
+using System.IO;
 using System.Net;
+using System.Xml;
 
 namespace BL
 {
@@ -19,6 +20,12 @@ namespace BL
     {
         IDal dl = DAL_Factory.GetDL("XML");
         static Random r = new Random();
+
+        string API_KEY = @"tVezKd2ywDz9DAzMAwVhzCecXPSErYc4";
+        BackgroundWorker backgroundworker;
+        public double distance_result;
+        bool Distance_found = false;
+        string address_not_found = null;
         //-------------------------------------------------------------
         public void AddTester(BO.Tester tester, bool[,] matrix)
         {
@@ -67,7 +74,7 @@ namespace BL
                 CheckTesterExperience(tester.TesterExperience);
                 CheckMaxWeeekltTests(tester.MaxWeeklyTests);
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             try
             {
                 dl.UpdateTester(Convert(tester));
@@ -94,7 +101,7 @@ namespace BL
             try
             {
                 if (trainee.age < Configuration.MIN_TRAINEE_AGE)
-                    throw new InvalidDataException("Too young trainee");
+                    throw new BO.InvalidDataException("Too young trainee");
                 CheckID(trainee.ID);
                 CheckName(trainee.FamilyName);
                 CheckName(trainee.PrivateName);
@@ -104,7 +111,7 @@ namespace BL
                 CheckGear(trainee.TraineeGear.ToString());
                 CheckDrivingLessonsNum(trainee.DrivingLessonsNum);
             }
-            catch (InvalidDataException e)
+            catch (BO.InvalidDataException e)
             {
                 throw;
             }
@@ -123,14 +130,14 @@ namespace BL
             try
             {
                 if (!dl.GetSomeTrainies(x => x.ID == traineeID && x.TraineeVehicle == (DO.Vehicle)vehicle).Any())
-                    throw new InvalidDataException("no match between trainee and vehicle");
+                    throw new BO.InvalidDataException("no match between trainee and vehicle");
                 dl.DeleteTrainee(traineeID, (DO.Vehicle)vehicle);
             }
             catch (KeyNotFoundException e)
             {
                 throw;
             }
-            catch (InvalidDataException e)
+            catch (BO.InvalidDataException e)
             {
                 throw;
             }
@@ -163,7 +170,7 @@ namespace BL
 
 
             }
-            catch (InvalidDataException) { throw; }
+            catch (BO.InvalidDataException) { throw; }
 
             try
             {
@@ -191,13 +198,13 @@ namespace BL
                 ChecksToAddTest(test);
             }
             catch (KeyNotFoundException e) { throw; }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             try
             {
                 DateTime newDate = test.TestHour;
-                List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
-                if (!closeTester.Any())
-                    throw new InvalidDataException("no close tester");
+                //  List<BO.Tester> closeTester = GetCloseTester(test.TestAddress, 30);
+                //if (!closeTester.Any())
+                //    throw new BO.InvalidDataException("no close tester");
 
                 List<BO.Tester> whoTest = GetTestersByDate(test.TestHour);
                 if (!whoTest.Any())
@@ -207,25 +214,40 @@ namespace BL
                 }
 
                 bool flag = false;//למה לא לעשות בTRY
-                if (whoTest.Any() && closeTester.Any())
+                List<BO.Tester> finalList = new List<BO.Tester>();
+
+                if (whoTest.Any())
+                    finalList = (from item in whoTest
+                                 where item.TesterVehicle == test.Vehicle
+                                 where Distance_calc(test.TestAddress, item.PersonAddress)//בוליאני שבודק האם הגיע תשובה מהאינטרנט
+                                 where distance_result<= item.RangeToTest//משתנה דאבל שמייצג את המרחק כפי שחושב
+                                 select item).ToList();
+                if (finalList.Any())
                 {
-                    var finalList = (from item in whoTest
-                                     from item1 in closeTester
-                                     where item.ID == item1.ID
-                                     select item).ToList();
-                    foreach (var item in finalList)
-                        if (item.TesterVehicle == test.Vehicle)
-                        {
-                            test.Tester.ID = item.ID;
-                            test.TestDate = newDate.Date;
-                            test.TestHour = newDate;
-                            flag = true;
-                        }
+                    test.Tester.ID = finalList[0].ID;
+                    test.TestDate = newDate.Date;
+                    test.TestHour = newDate;
+                    flag = true;
                 }
+                //if (whoTest.Any() && closeTester.Any())
+                //{
+                //    var finalList = (from item in whoTest
+                //                     from item1 in closeTester
+                //                     where item.ID == item1.ID
+                //                     select item).ToList();
+                //    foreach (var item in finalList)
+                //        if (item.TesterVehicle == test.Vehicle)
+                //        {
+                //            test.Tester.ID = item.ID;
+                //            test.TestDate = newDate.Date;
+                //            test.TestHour = newDate;
+                //            flag = true;
+                //        }
+                //}
                 if (!flag)
-                    throw new InvalidDataException("no match between vehicles");
+                    throw new BO.InvalidDataException("no match between vehicles or no close tester");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
 
             try
@@ -265,7 +287,7 @@ namespace BL
                         select Convert(item)).ToList();
             }
             catch (KeyNotFoundException e) { throw; }
-            catch (IndexOutOfRangeException e) { throw new InvalidDataException("don't choose friday-saturday"); }
+            catch (IndexOutOfRangeException e) { throw new BO.InvalidDataException("don't choose friday-saturday"); }
         }
         //-----------------------------------------------------------------
         private DateTime GetNewDate(DateTime date, BO.Test test)
@@ -300,22 +322,22 @@ namespace BL
                 CheckDateTrainee(test.TestDate);
                 CheckHour(test.TestHour);
                 if (test.TestHour < DateTime.Now)
-                    throw new InvalidDataException("your date allready passed");
+                    throw new BO.InvalidDataException("your date allready passed");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             //------------
             /*var tspan = test.TestDate -*/
             try
             {
 
                 if (dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle && x.TestHour > DateTime.Now).Any())
-                    throw new InvalidDataException("You already have a test");
+                    throw new BO.InvalidDataException("You already have a test");
 
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId && x.Vehicle == Convert(test).Vehicle)//הוספתי תנאי של כלי רכב לשים לב שזה אכן נצרך
                      let temp = test.TestDate - item.TestDate
                      where temp.Days < BO.Configuration.MIN_GAP_TEST && temp.Days > -(BO.Configuration.MIN_GAP_TEST)
                      select item).ToList().Any())
-                    throw new InvalidDataException("tests are too close");
+                    throw new BO.InvalidDataException("tests are too close");
 
                 //where item.TestDate < DateTime.Now
                 // orderby item.TestDate descending
@@ -326,41 +348,41 @@ namespace BL
                 //        throw new InvalidDataException("test too close");
                 //}
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
             //-------------
             try
             {
                 if (dl.GetOneTrainee(test.TraineeId, (DO.Vehicle)test.Vehicle).DrivingLessonsNum < Configuration.MIN_LESSONS)
-                    throw new InvalidDataException("not enough lessons");
+                    throw new BO.InvalidDataException("not enough lessons");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
             //-------------
             try
             {
                 if (!dl.GetSomeTrainies(x => x.ID == test.TraineeId && x.TraineeVehicle == (DO.Vehicle)test.Vehicle).Any())
-                    throw new InvalidDataException("you don't study this vehicle");
+                    throw new BO.InvalidDataException("you don't study this vehicle");
                 if ((from item in dl.GetSomeTests(x => x.TraineeId == test.TraineeId)
                      where item.PassedTest == true
                      where item.Vehicle == (DO.Vehicle)test.Vehicle
                      select item).ToList().Any())
-                    throw new InvalidDataException("trainee passed a test on this vehicle");
+                    throw new BO.InvalidDataException("trainee passed a test on this vehicle");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //---------------------------------------------------------------------
         public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbilding, BO.Vehicle vehicle)
         {
             if (fromDate < DateTime.Now)
-                throw new InvalidDataException("Choose later start date");
+                throw new BO.InvalidDataException("Choose later start date");
             if (fromDate > untilDate)
-                throw new InvalidDataException("Choose earlier start date");
+                throw new BO.InvalidDataException("Choose earlier start date");
 
             BO.Address address = new BO.Address(city, street, numbilding);
             List<BO.Tester> closeTester = GetCloseTester(address, 30);
             if (!closeTester.Any())
-                throw new InvalidDataException("no close tester");
+                throw new BO.InvalidDataException("no close tester");
             List<BO.Tester> whoTest = new List<BO.Tester>();
             List<DateTime> dateTimes = new List<DateTime>();
 
@@ -426,19 +448,19 @@ namespace BL
                 //bool summary = true;
                 //DO.Test test = dl.GetOneTest(NumOfTest);
                 if (test.TestHour > DateTime.Now)
-                    throw new InvalidDataException("Test didn't occur yet");
+                    throw new BO.InvalidDataException("Test didn't occur yet");
                 //for (int i = 0; i < result.Length - 1; ++i)
                 //    if (result[i] == false)
                 //        summary = false;
                 //if (summary != result[result.Length - 1])
                 if (test.PassedTest == false && test.Brakes == true && test.Mirrors == true && test.Vinkers == true && test.ReverseParking == true && test.Distance == true && test.TrafficSigns == true)
-                    throw new InvalidDataException("data and result are not matched");
+                    throw new BO.InvalidDataException("data and result are not matched");
 
                 if (test.PassedTest == true)
                     if (test.Brakes == false || test.Mirrors == false || test.Vinkers == false || test.ReverseParking == false || test.Distance == false || test.TrafficSigns == false)
-                        throw new InvalidDataException("data and result are not matched");
+                        throw new BO.InvalidDataException("data and result are not matched");
             }
-            catch (InvalidDataException) { throw; }
+            catch (BO.InvalidDataException) { throw; }
             catch (KeyNotFoundException) { throw; }
             try
             {
@@ -603,7 +625,7 @@ namespace BL
                         select item).ToList();
             }
             catch (KeyNotFoundException e)
-            { throw new InvalidDataException(e.Message); }
+            { throw new BO.InvalidDataException(e.Message); }
         }
         //----------------------------------------------------------------
         public IEnumerable<IGrouping<BO.Vehicle, BO.Tester>> TestersByVehicle(bool flag)
@@ -843,9 +865,9 @@ namespace BL
             try
             {
                 if (name == "")
-                    throw new InvalidDataException("name cannot be empty string");
+                    throw new BO.InvalidDataException("name cannot be empty string");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //------------------------------------------------------------------------------
         private void CheckDate(DateTime time)
@@ -853,14 +875,14 @@ namespace BL
             try
             {
                 if (time.Day < 1 || time.Day > 31)
-                    throw new InvalidDataException("no valid day");
+                    throw new BO.InvalidDataException("no valid day");
                 if (time.Month < 1 || time.Month > 12)
-                    throw new InvalidDataException("no valid month");
+                    throw new BO.InvalidDataException("no valid month");
                 if (time.Year < (DateTime.Now.Year - Configuration.MAX_TESTER_AGE)
                     || time.Year > (DateTime.Now.Year - Configuration.MIN_TESTER_AGE))
-                    throw new InvalidDataException("no valid year");
+                    throw new BO.InvalidDataException("no valid year");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //-------------------------------------------------------------------------
         private void CheckPhone(string phone)
@@ -868,9 +890,9 @@ namespace BL
             try
             {
                 if (phone[0] != '0' || phone.Length != 10)
-                    throw new InvalidDataException("no valid phone number");
+                    throw new BO.InvalidDataException("no valid phone number");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //--------------------------------------------------------------------
         private void CheckTesterExperience(int testerExperience)
@@ -878,9 +900,9 @@ namespace BL
             try
             {
                 if (testerExperience > Configuration.MAX_TESTER_AGE - Configuration.MIN_TESTER_AGE || testerExperience < 0)
-                    throw new InvalidDataException("no valid num of tster's experience years");
+                    throw new BO.InvalidDataException("no valid num of tster's experience years");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //--------------------------------------------------------------------------
         private void CheckMaxWeeekltTests(int maxWeeklyTests)
@@ -888,9 +910,9 @@ namespace BL
             try
             {
                 if (maxWeeklyTests < 1 || maxWeeklyTests > 30)
-                    throw new InvalidDataException("no valid maxWeeklyTests number");
+                    throw new BO.InvalidDataException("no valid maxWeeklyTests number");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //------------------------------------------------------------------------
         private void CheckVehicle(string vehicle)
@@ -899,9 +921,9 @@ namespace BL
             {
                 if (vehicle != "privateCar" && vehicle != "motorcycle"
                             && vehicle != "truck" && vehicle != "heavyTruck")
-                    throw new InvalidDataException("no valid vehicle");
+                    throw new BO.InvalidDataException("no valid vehicle");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //------------------------------------------------------------------------
         private void CheckScheduale(int day, int hour)
@@ -909,9 +931,9 @@ namespace BL
             try
             {
                 if (day < 1 || day > 5 || hour < 9 || hour > 14)
-                    throw new InvalidDataException("hours operation are not matched");
+                    throw new BO.InvalidDataException("hours operation are not matched");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //--------------------------------------------------------------------
         private void CheckGear(string gear)
@@ -919,9 +941,9 @@ namespace BL
             try
             {
                 if (gear != "auto" && gear != "manual")
-                    throw new InvalidDataException("no valid gear");
+                    throw new BO.InvalidDataException("no valid gear");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //----------------------------------------------------------------------------
         private void CheckDrivingLessonsNum(int num)
@@ -929,9 +951,9 @@ namespace BL
             try
             {
                 if (num < Configuration.MIN_LESSONS)
-                    throw new InvalidDataException("too few lessons");
+                    throw new BO.InvalidDataException("too few lessons");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
 
         }
         //--------------------------------------------------------------------------------
@@ -940,11 +962,11 @@ namespace BL
             try
             {
                 if (age >= Configuration.MAX_TESTER_AGE)
-                    throw new InvalidDataException("too old tester");
+                    throw new BO.InvalidDataException("too old tester");
                 if (age < Configuration.MIN_TESTER_AGE)
-                    throw new InvalidDataException("too young tester");
+                    throw new BO.InvalidDataException("too young tester");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //--------------------------------------------------------------------------------
         private void CheckDateTrainee(DateTime time)
@@ -952,11 +974,11 @@ namespace BL
             try
             {
                 if (time.Day < 1 || time.Day > 31)
-                    throw new InvalidDataException("no valid day");
+                    throw new BO.InvalidDataException("no valid day");
                 if (time.Month < 1 || time.Month > 12)
-                    throw new InvalidDataException("no valid month");
+                    throw new BO.InvalidDataException("no valid month");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //------------------------------------------------------------------------------
         private void CheckID(string ID)
@@ -964,9 +986,9 @@ namespace BL
             try
             {
                 if (int.Parse(ID) > 999999999 || int.Parse(ID) < 10000000)
-                    throw new InvalidDataException("no valid ID");
+                    throw new BO.InvalidDataException("no valid ID");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //---------------------------------------------------------------------------------
         private void CheckHour(DateTime hour)
@@ -974,13 +996,91 @@ namespace BL
             try
             {
                 if (hour.Hour < 9 || hour.Hour > 14)
-                    throw new InvalidDataException("not at operation time");
+                    throw new BO.InvalidDataException("not at operation time");
                 if ((int)hour.DayOfWeek > 4 || (int)hour.DayOfWeek < 0)
-                    throw new InvalidDataException("we aren't working at weekend");
+                    throw new BO.InvalidDataException("we aren't working at weekend");
             }
-            catch (InvalidDataException e) { throw; }
+            catch (BO.InvalidDataException e) { throw; }
         }
         //-------------------------------------------------------------------------------
+        private bool Distance_calc(BO.Address testAddress, BO.Address testerAddress)
+        {
+            try
+            {
+                Distance_found = false;
+                backgroundworker = new BackgroundWorker();
+                backgroundworker.DoWork += Backgroundworker_DoWork;
+                //backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
+                backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
+                while (Distance_found == false)
+                {
+                }
+                if (address_not_found != null)
+                {
+                    throw new KeyNotFoundException(address_not_found);
+                }
+            }
+            catch (KeyNotFoundException e)
+            {
+                throw ;
+            }
+            return true;
+        }
+        //--------------------------------------------------------------------------------
+        private void Backgroundworker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            List<BO.Address> addr = e.Argument as List<BO.Address>;
+
+            string origin = addr[0].Street + " " + addr[0].NumOfBuilding + " st. " + addr[0].City;
+            string destination = addr[1].Street + " " + addr[1].NumOfBuilding + " st. " + addr[1].City;
+            string KEY = API_KEY;
+
+            string url = @"https://www.mapquestapi.com/directions/v2/route" +
+            @"?key=" + KEY +
+            @"&from=" + origin +
+            @"&to=" + destination +
+            @"&outFormat=xml" +
+            @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+            @"&enhancedNarrative=false&avoidTimedConditions=false";
+            //request from MapQuest service the distance between the 2 addresses
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            WebResponse response = request.GetResponse();
+            Stream dataStream = response.GetResponseStream();
+            StreamReader sreader = new StreamReader(dataStream);
+            string responsereader = sreader.ReadToEnd();
+            response.Close();
+            //the response is given in an XML format
+            XmlDocument xmldoc = new XmlDocument();
+            xmldoc.LoadXml(responsereader);
+            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0")
+            //we have the expected answer
+            {
+                //display the returned distance
+                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                double distInMiles = double.Parse(distance[0].ChildNodes[0].InnerText);
+                // Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
+
+                distance_result = (distInMiles * 1.609344);
+
+                e.Result = distance_result;
+
+                //display the returned driving time
+                // XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
+                // string fTime = formattedTime[0].ChildNodes[0].InnerText;
+                //  Console.WriteLine("Driving Time: " + fTime);
+            }
+            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+            //we have an answer that an error occurred, one of the addresses is not found
+            {
+                address_not_found = "an error occurred, one of the addresses is not found. try again.";
+            }
+            else //busy network or other error...
+            {
+                address_not_found = "We have'nt got an answer, maybe the net is busy...";
+            }
+            Distance_found = true;
+        }
+
 
     }
 }

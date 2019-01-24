@@ -383,11 +383,12 @@ namespace DAL
                     throw new KeyNotFoundException();
             }
             catch (KeyNotFoundException e) { throw; }
+            bool[,] temp;
             //var matrix = (from item in DataSource.Schedules
             //              where (item.Key == ID)
             //              select item.Value).ToArray();
             //return matrix.FirstOrDefault();
-            return DataSource.Schedules[ID];
+            return (temp= DataSource.Schedules[ID].Clone() as bool[,]);
         }
         //--------------------------------------------------
         public void SetSchedule(bool[,] schedule, string testerID)
