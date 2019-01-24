@@ -62,13 +62,13 @@ namespace PLWPF
                     if (item.Key == (BO.Vehicle)vehicleComboBox.SelectedItem)
                     {
                         testers = new ObservableCollection<BO.Tester>(item);
-                        forgroup.ItemsSource = testers;
+                        DetailsTesterListView.ItemsSource = testers;
                     }
                 }
             }
         }
         //----------------------------------------------------------------------------
-        private void traineesPerSchool_Selected(object sender, RoutedEventArgs e)
+        private void traineesPerSchool_Selected(object sender, RoutedEventArgs e)  
         {
             reset();
             schoolComboBox.IsEnabled = true;
@@ -94,7 +94,7 @@ namespace PLWPF
                     if (item.Key == (string)schoolComboBox.SelectedItem)
                     {
                         trainees = new ObservableCollection<BO.Trainee>(item);
-                        forgroup.ItemsSource = trainees;
+                        DetailsTraineeListView.ItemsSource = trainees;
                     }
                 }
             }
@@ -126,7 +126,7 @@ namespace PLWPF
                     if (item.Key == (string)teacherComboBox.SelectedItem)
                     {
                         trainees = new ObservableCollection<BO.Trainee>(item);
-                        forgroup.ItemsSource = trainees;
+                        DetailsTraineeListView.ItemsSource = trainees;
                     }
                 }
             }
@@ -158,7 +158,7 @@ namespace PLWPF
                     if (item.Key == (int)NumberOfTestsComboBox.SelectedItem)
                     {
                         trainees = new ObservableCollection<BO.Trainee>(item);
-                        forgroup.ItemsSource = trainees;
+                        DetailsTestListView.ItemsSource = trainees;
                     }
                 }
             }
@@ -168,21 +168,21 @@ namespace PLWPF
         {
             reset();
             List<BO.Tester> allTesters = new List<BO.Tester>(bl.GetTesters());
-            forgroup.ItemsSource = allTesters;
+            DetailsTesterListView.ItemsSource = allTesters;
         }
 
         private void getTraineess_Selected(object sender, RoutedEventArgs e)
         {
             reset();
             List<BO.Trainee> allTrainees = new List<BO.Trainee>(bl.GetTrainees());
-            forgroup.ItemsSource = allTrainees;
+            DetailsTraineeListView.ItemsSource = allTrainees;
         }
 
         private void getTests_Selected(object sender, RoutedEventArgs e)
         {
             reset();
             List<BO.Test> allTests = new List<BO.Test>(bl.GetTests());
-            forgroup.ItemsSource = allTests;
+            DetailsTestListView.ItemsSource = allTests;
         }
         //------------------------------------------------------------------------       
         private void textBox_PreviewTextInput(object sender, TextCompositionEventArgs e)

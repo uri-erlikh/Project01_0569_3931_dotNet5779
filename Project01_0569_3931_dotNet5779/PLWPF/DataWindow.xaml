@@ -12,7 +12,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="DataListBox"   Margin="5,5,629.6,0">
+        <ListBox x:Name="DataListBox"   Margin="5,5,621.6,0">
             <ListBox.Items>
                 <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected" Width="154"   />
                 <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected" Width="154"/>
@@ -24,6 +24,76 @@
         <TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
                         <ListBox x:Name="forgroup" Height="308" Width="400"/>
                     </InlineUIContainer></TextBlock>
+
+        <TabControl x:Name="tabControl" Grid.Row="1">
+            <TabControl.Items>
+                <TabItem x:Name="TrainiesTab" Header="Trainies" >
+                    <TabItem.Content>
+
+                        <ListView Grid.Row="1" Name="DetailsTraineeListView" Margin="5" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID"  Width="80" DisplayMemberBinding="{Binding Path=ID}"/>
+                                    <GridViewColumn x:Name="firstnamegrid" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" Header="First Name"/>
+                                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
+                                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TraineeVehicle}" />
+                                    <GridViewColumn Header="Gear" Width="70" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
+                                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
+                                    <GridViewColumn Header="Number Of Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
+                                    <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
+                                    <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="TestersTab" Header="Testers">
+                    <TabItem.Content>
+                        <ListView Grid.Row="1" x:Name="DetailsTesterListView" Margin="5" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ID"  Width="80" DisplayMemberBinding="{Binding Path=ID}"/>
+                                    <GridViewColumn Header="First Name" DisplayMemberBinding="{Binding Path=PrivateName}"  Width="80" />
+                                    <GridViewColumn Header="Family Name" DisplayMemberBinding="{Binding Path=FamilyName}" Width="80"/>
+                                    <GridViewColumn Header="Vehicle"  Width="80" DisplayMemberBinding="{Binding Path=TesterVehicle}" />
+                                    <GridViewColumn Header="Address" Width="110" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
+                                    <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
+                                    <GridViewColumn Header="Day Of Birth" Width="145" DisplayMemberBinding="{Binding Path=DayOfBirth}"/>
+                                    <GridViewColumn Header="Max Weekly  Tests" DisplayMemberBinding="{Binding Path=MaxWeeklyTests}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </TabItem.Content>
+                </TabItem>
+
+                <TabItem x:Name="TestsTab" Header="Tests">
+                    <TabItem.Content>
+
+                        <ListView Grid.Row="1" Name="DetailsTestListView" Margin="5" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Number of test" Width="100" DisplayMemberBinding="{Binding Path=TestNumber}"/>
+                                    <GridViewColumn Header="ID of trainee" DisplayMemberBinding="{Binding Path=TraineeId}"  Width="70"/>
+                                    <GridViewColumn Header="Name of trainee" DisplayMemberBinding="{Binding Path=TraineeName}" Width="100"/>
+                                    <GridViewColumn Header="ID of tester"  Width="70" DisplayMemberBinding="{Binding Path=Tester.ID}"/>
+                                    <GridViewColumn Header="Vehicle"  Width="70" DisplayMemberBinding="{Binding Path=Vehicle}" />
+                                    <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                                    <GridViewColumn Header="Adress" Width="110" DisplayMemberBinding="{Binding Path=TestAddress}"/>
+                                    <GridViewColumn Header="Pased" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
+                                    <GridViewColumn Header="Note" Width="80" DisplayMemberBinding="{Binding Path=TesterNote}" />
+
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </TabItem.Content>
+                </TabItem>
+
+            </TabControl.Items>
+        </TabControl>
+
         <Button x:Name="BackButton" Grid.Row="2" HorizontalAlignment="Left" MinWidth="120" Content="Back" FontStyle="Italic" FontWeight="Heavy" Click="BackButton_Click" />
         <ComboBox x:Name="vehicleComboBox" SelectionChanged="vehicleComboBox_SelectionChanged" IsEnabled="False" HorizontalAlignment="Left" Margin="164,5,0,0" VerticalAlignment="Top" MinWidth="120" RenderTransformOrigin="-0.134,-0.267"/>
         <ComboBox x:Name="schoolComboBox" IsEnabled="False" HorizontalAlignment="Left" Margin="164,27,0,0" VerticalAlignment="Top" Width="120" Height="20" SelectionChanged="schoolComboBox_SelectionChanged"/>
