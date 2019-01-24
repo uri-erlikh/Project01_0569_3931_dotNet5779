@@ -53,7 +53,7 @@ namespace PLWPF
                             tester.Schedule[row, column] = (bool)item.IsChecked;
                         }
                         bl.UpdateTester(tester);
-                        MessageBox.Show("Update is succeeded");
+                        MessageBox.Show("Update succeeded","d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
                         new TestersWindow("admin").Show();
                         this.Close();
                     }                

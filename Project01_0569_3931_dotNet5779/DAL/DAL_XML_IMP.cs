@@ -666,10 +666,11 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
             LoadData("config");
             test.TestNumber = int.Parse(configRoot.Element("NumberTest").Element("value").Value);
-           // this.tests.Add(test);
+            // this.tests.Add(test);
             configRoot.Element("NumberTest").Element("value").SetValue(int.Parse(configRoot.Element("NumberTest").Element("value").Value) + 1);
             SaveOneTest(test);
             testRoot.Save(testPath);
+            configRoot.Save(configPath);
             return "your number test is" + test.TestNumber;
         }
         //-------------------------------------------------------------------------
@@ -827,11 +828,12 @@ namespace DAL
                                  select item).FirstOrDefault();
 
             bool[,] mat = new bool[5, 6];
-
-            for (int i = 0; i < 5; ++i)
-                for (int j = 0; j < 6; ++j)
-                    mat[i, j] = bool.Parse(schedule.Element("day_" + i).Element("hour_" + j).Value);
-
+            if (!(schedule==null))
+            {
+                for (int i = 0; i < 5; ++i)
+                    for (int j = 0; j < 6; ++j)
+                        mat[i, j] = bool.Parse(schedule.Element("day_" + i).Element("hour_" + j).Value);
+            }
             return mat;
         }
         //-----------------------------------------------------------------------
@@ -846,8 +848,8 @@ namespace DAL
                 {
                     XElement sc=(from item in scheduleRoot.Elements()
                      where item.Element("testerID").Value == testerID
-                     select item).First();
-                    if (!sc.IsEmpty)
+                     select item).FirstOrDefault();
+                    if (!(sc==null))
                         sc.Remove();
                 }
                 //throw new KeyNotFoundException("ID not found");

@@ -45,7 +45,7 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" TextAlignment="Center" Text="Monday"/>
                 <TextBlock Grid.Row="3" Grid.Column="0" HorizontalAlignment="Center" TextAlignment="Center" Text="Tuesday"/>
                 <TextBlock Grid.Row="4" Grid.Column="0" HorizontalAlignment="Center" TextAlignment="Center" Text="Wedensday"/>
-                <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center" TextAlignment="Center" Text="Yhursday"/>
+                <TextBlock Grid.Row="5" Grid.Column="0" HorizontalAlignment="Center" TextAlignment="Center" Text="Thursday"/>
 
                 <TextBlock Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" TextAlignment="Center" Text="9:00-10:00"/>
                 <TextBlock Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" TextAlignment="Center" Text="10:00-11:00"/>

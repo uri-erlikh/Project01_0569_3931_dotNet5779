@@ -46,7 +46,7 @@ namespace PLWPF
                 else
                 {
                     bl.UpdateTrainee(trainee);
-                    MessageBox.Show("Update is succeeded");
+                    MessageBox.Show("Update succeeded","d.m.v",MessageBoxButton.OK,MessageBoxImage.Information);
                     new TrainiesWindow("admin").Show();
                     this.Close();
                 }
