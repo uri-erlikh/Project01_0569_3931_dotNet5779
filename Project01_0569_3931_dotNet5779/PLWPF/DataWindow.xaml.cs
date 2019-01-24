@@ -62,7 +62,7 @@ namespace PLWPF
                     if (item.Key == (BO.Vehicle)vehicleComboBox.SelectedItem)
                     {
                         testers = new ObservableCollection<BO.Tester>(item);
-                        DetailsTesterListView.ItemsSource = testers;
+                        this.DetailsTesterListView.ItemsSource = testers;
                     }
                 }
             }

@@ -53,7 +53,7 @@ namespace PLWPF
             try
             {
                 bl.UpdateTestResult(test1);
-                MessageBox.Show("update is Succeeded");
+                MessageBox.Show("update succeeded","d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
                 new TestsWindow().Show();
                 this.Close();
             }
