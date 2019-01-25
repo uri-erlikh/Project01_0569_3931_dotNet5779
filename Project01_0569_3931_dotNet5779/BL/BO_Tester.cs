@@ -75,7 +75,7 @@ namespace BO
         {
         }
 
-        public static List<Tester> testersRecentlyopened = new List<Tester>();
+        public static List<Tester> testersRecentlyOpened = new List<Tester>();
       //  public static ObservableCollection<BO.Tester> testers = new ObservableCollection<BO.Tester>();
 
 

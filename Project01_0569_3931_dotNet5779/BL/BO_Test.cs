@@ -74,7 +74,7 @@ namespace BO
                 + "\npassed? "+this.PassedTest+" note: "+this.TesterNote;
         }
 
-        public static List<Test> testsRecentlyopened = new List<Test>();
+        public static List<Test> testsRecentlyOpened = new List<Test>();
 
     }
 }

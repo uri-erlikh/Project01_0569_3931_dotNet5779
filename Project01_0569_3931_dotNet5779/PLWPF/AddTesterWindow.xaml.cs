@@ -81,8 +81,8 @@ namespace PLWPF
         //-----------------------------------------------------------------
         private void ResetButton_Click(object sender, RoutedEventArgs e)
         {
-            this.personGenderComboBox.SelectedIndex = 0;
-            this.testerVehicleComboBox.SelectedIndex = 0;
+            this.personGenderComboBox.SelectedItem = null;
+            this.testerVehicleComboBox.SelectedItem = null;
             this.IDTextBox.Clear();
             this.privateNameTextBox.Clear();
             this.familyNameTextBox.Clear();

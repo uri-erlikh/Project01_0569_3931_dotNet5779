@@ -41,9 +41,9 @@ namespace PLWPF
                 this.DeleteTraineeButton.Visibility = Visibility.Visible;
                 this.UpdateTraineeButton.Visibility = Visibility.Visible;
             }
-            if (BO.Trainee.traineiesRecentlyopened.Any())
+            if (BO.Trainee.traineesRecentlyOpened.Any())
             {
-                foreach (var item in BO.Trainee.traineiesRecentlyopened)
+                foreach (var item in BO.Trainee.traineesRecentlyOpened)
                 {
                     _trainiesID.Add(item.ID);
                     ListBoxItem listBoxItem = new ListBoxItem();
@@ -73,14 +73,14 @@ namespace PLWPF
                     {
                         trainees.Clear();
                         trainees.Add(trainee);
-                        foreach (var item in BO.Trainee.traineiesRecentlyopened)
+                        foreach (var item in BO.Trainee.traineesRecentlyOpened)
                         {
                             if ( traineeID == item.ID && vehicle== item.TraineeVehicle)
                                 check = false;
                         }
                         if (check)
                         {
-                            BO.Trainee.traineiesRecentlyopened.Add(trainee);
+                            BO.Trainee.traineesRecentlyOpened.Add(trainee);
                             _trainiesID.Add(trainee.ID);
                             ListBoxItem listBoxItem = new ListBoxItem();
                             listBoxItem.Content = trainee;
@@ -209,12 +209,12 @@ namespace PLWPF
             this.DeleteTraineeButton.IsEnabled = false;
             this.UpdateTraineeButton.IsEnabled = false;
         }
-
+        //-----------------------------------------------------------------------------
         private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             reset();
             traineeID = _trainiesID[DetailsListBox.SelectedIndex];
-            vehicle = BO.Trainee.traineiesRecentlyopened[DetailsListBox.SelectedIndex].TraineeVehicle;
+            vehicle = BO.Trainee.traineesRecentlyOpened[DetailsListBox.SelectedIndex].TraineeVehicle;
             GetIDTextBox.Text = traineeID;
             GetVehicleTypeComboBox.SelectedIndex=(int)vehicle ;
             try

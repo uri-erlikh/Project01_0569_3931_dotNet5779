@@ -35,7 +35,7 @@ namespace BO
 
         //private DateTime datelastoftest;
         //public DateTime DateLastOfTest { get; set; }
-        public static List<Trainee> traineiesRecentlyopened = new List<Trainee>();
+        public static List<Trainee> traineesRecentlyOpened = new List<Trainee>();
 
     }
 }

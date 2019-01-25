@@ -33,9 +33,9 @@ namespace PLWPF
             bl = BL.BL_Factory.GetBL();
             DataContext = test;
 
-            if (BO.Test.testsRecentlyopened.Any())
+            if (BO.Test.testsRecentlyOpened.Any())
             {
-                foreach (var item in BO.Test.testsRecentlyopened)
+                foreach (var item in BO.Test.testsRecentlyOpened)
                 {
                     _Numtest.Add(item.TestNumber.ToString());
                     ListBoxItem listBoxItem = new ListBoxItem();
@@ -72,7 +72,7 @@ namespace PLWPF
                         }
                         if (check)
                         {
-                            BO.Test.testsRecentlyopened.Add(test);
+                            BO.Test.testsRecentlyOpened.Add(test);
                             _Numtest.Add(GetTestNumTextBox.Text);
                             ListBoxItem listBoxItem = new ListBoxItem();
                             listBoxItem.Content = test;

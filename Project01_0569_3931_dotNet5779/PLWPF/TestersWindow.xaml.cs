@@ -38,9 +38,9 @@ namespace PLWPF
                 this.DeleteTesterButton.Visibility = Visibility.Visible;
             }
 
-            if (BO.Tester.testersRecentlyopened.Any())
+            if (BO.Tester.testersRecentlyOpened.Any())
             {
-                foreach (var item in BO.Tester.testersRecentlyopened)
+                foreach (var item in BO.Tester.testersRecentlyOpened)
                 {
                     _testersID.Add(item.ID);
                     ListBoxItem listBoxItem = new ListBoxItem();
@@ -77,7 +77,7 @@ namespace PLWPF
                         }
                         if (check)
                         {
-                            BO.Tester.testersRecentlyopened.Add(tester);
+                            BO.Tester.testersRecentlyOpened.Add(tester);
                             _testersID.Add(tester.ID);
                             ListBoxItem listBoxItem = new ListBoxItem();
                             listBoxItem.Content = tester;
