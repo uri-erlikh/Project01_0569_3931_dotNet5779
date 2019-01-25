@@ -859,7 +859,7 @@ namespace DAL
 
             XElement schedule = new XElement("schedule", new XElement("testerID", testerID));
             for (int i = 0; i < 5; ++i)
-            {
+            { 
                 XElement day = new XElement("day_" + i);
                 for (int j = 0; j < 6; ++j)
                 {
