@@ -26,6 +26,7 @@ namespace PLWPF
         BO.Vehicle vehicle;
         // private List<BO.Trainee> trainees = new List<BO.Trainee>();
         ObservableCollection<string> _trainiesID = new ObservableCollection<string>();
+        ObservableCollection<BO.Vehicle> _vehicles = new ObservableCollection<BO.Vehicle>();
         private ObservableCollection<BO.Trainee> trainees = new ObservableCollection<BO.Trainee>();
         bool check = true;
         //--------------------------------------------------------------------
@@ -46,6 +47,7 @@ namespace PLWPF
                 foreach (var item in BO.Trainee.traineesRecentlyOpened)
                 {
                     _trainiesID.Add(item.ID);
+                    _vehicles.Add(item.TraineeVehicle);
                     ListBoxItem listBoxItem = new ListBoxItem();
                     listBoxItem.Content = item;
                     DetailsListBox.Items.Add(listBoxItem);
@@ -75,16 +77,36 @@ namespace PLWPF
                         trainees.Add(trainee);
                         foreach (var item in BO.Trainee.traineesRecentlyOpened)
                         {
-                            if ( traineeID == item.ID && vehicle== item.TraineeVehicle)
+                            if (traineeID == item.ID && vehicle == item.TraineeVehicle)
                                 check = false;
                         }
                         if (check)
                         {
-                            BO.Trainee.traineesRecentlyOpened.Add(trainee);
-                            _trainiesID.Add(trainee.ID);
-                            ListBoxItem listBoxItem = new ListBoxItem();
-                            listBoxItem.Content = trainee;
-                            DetailsListBox.Items.Add(listBoxItem);
+                            if (BO.Trainee.traineesRecentlyOpened.Count < 5)
+                            {
+                                BO.Trainee.traineesRecentlyOpened.Enqueue(trainee);
+                                _trainiesID.Add(trainee.ID);
+                                _vehicles.Add(trainee.TraineeVehicle);
+                                ListBoxItem listBoxItem = new ListBoxItem();
+                                listBoxItem.Content = trainee;
+                                DetailsListBox.Items.Add(listBoxItem);
+                            }
+                            else
+                            {
+                                BO.Trainee.traineesRecentlyOpened.Dequeue();
+                                BO.Trainee.traineesRecentlyOpened.Enqueue(trainee);
+                                DetailsListBox.Items.Clear();
+                                _trainiesID.Clear();
+                                _vehicles.Clear();
+                                foreach (var item in BO.Trainee.traineesRecentlyOpened)
+                                {
+                                    _trainiesID.Add(item.ID);
+                                    _vehicles.Add(item.TraineeVehicle);
+                                    ListBoxItem listBoxItem = new ListBoxItem();
+                                    listBoxItem.Content = item;
+                                    DetailsListBox.Items.Add(listBoxItem);
+                                }
+                            }
                         }
                     }
                     this.PrintTraineeButton.IsEnabled = true;
@@ -132,11 +154,11 @@ namespace PLWPF
                 {
                     bl.DeleteTrainee(traineeID, vehicle);
                 }
-                 catch (InvalidOperationException a)
+                catch (InvalidOperationException a)
                 {
                     MessageBox.Show(a.Message);
                 }
-            MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Trainee was deleted from list", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
                 reset();
             }
         }
@@ -144,7 +166,7 @@ namespace PLWPF
         private void PrintTraineeButton_Click(object sender, RoutedEventArgs e)
         {
             // trainees.Clear();
-            this.DataTextBlock.Visibility= Visibility.Hidden;
+            this.DataTextBlock.Visibility = Visibility.Hidden;
             this.DetailsTestListView.Visibility = Visibility.Hidden;
             this.DetailsTraineeListView.Visibility = Visibility.Visible;
 
@@ -156,7 +178,7 @@ namespace PLWPF
         {
             try
             {
-                this.DetailsTraineeListView.Visibility = Visibility.Hidden;                
+                this.DetailsTraineeListView.Visibility = Visibility.Hidden;
                 this.DataTextBlock.Text = "";
                 List<BO.TraineeTest> list = bl.GetFutureTestForTrainee(traineeID, vehicle);
                 if (!list.Any())
@@ -168,7 +190,7 @@ namespace PLWPF
                 else
                 {
                     this.DetailsTestListView.Visibility = Visibility.Visible;
-                    this. DetailsTestListView.ItemsSource = list;
+                    this.DetailsTestListView.ItemsSource = list;
                 }
                 //foreach (var item in list)
                 //{
@@ -214,12 +236,12 @@ namespace PLWPF
         {
             reset();
             traineeID = _trainiesID[DetailsListBox.SelectedIndex];
-            vehicle = BO.Trainee.traineesRecentlyOpened[DetailsListBox.SelectedIndex].TraineeVehicle;
+            vehicle = _vehicles[DetailsListBox.SelectedIndex];
             GetIDTextBox.Text = traineeID;
-            GetVehicleTypeComboBox.SelectedIndex=(int)vehicle ;
+            GetVehicleTypeComboBox.SelectedIndex = (int)vehicle;
             try
             {
-                trainee = bl.GetOneTrainee(GetIDTextBox.Text , vehicle);
+                trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
                 trainees.Add(trainee);
                 this.PrintTraineeButton.IsEnabled = true;
                 this.GetTestOfTTraineeButton.IsEnabled = true;

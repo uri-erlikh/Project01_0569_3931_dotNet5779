@@ -72,11 +72,29 @@ namespace PLWPF
                         }
                         if (check)
                         {
-                            BO.Test.testsRecentlyOpened.Add(test);
-                            _Numtest.Add(GetTestNumTextBox.Text);
-                            ListBoxItem listBoxItem = new ListBoxItem();
-                            listBoxItem.Content = test;
-                            DeatielsListBox.Items.Add(listBoxItem);
+                            if (BO.Test.testsRecentlyOpened.Count < 5)
+                            {
+                                BO.Test.testsRecentlyOpened.Enqueue(test);
+                                _Numtest.Add(GetTestNumTextBox.Text);
+                                ListBoxItem listBoxItem = new ListBoxItem();
+                                listBoxItem.Content = test;
+                                DeatielsListBox.Items.Add(listBoxItem);
+                            }
+                            else
+                            {
+                                BO.Test.testsRecentlyOpened.Dequeue();
+                                BO.Test.testsRecentlyOpened.Enqueue(test);
+                                DeatielsListBox.Items.Clear();
+                                _Numtest.Clear();
+                                foreach(var item in BO.Test.testsRecentlyOpened)
+                                {
+                                    _Numtest.Add(item.TestNumber.ToString());
+                                    ListBoxItem listBoxItem = new ListBoxItem();
+                                    listBoxItem.Content = item;
+                                    DeatielsListBox.Items.Add(listBoxItem);
+                                }
+
+                            }
                         }
                     }
                     this.UpdateTestButton.IsEnabled = true;
