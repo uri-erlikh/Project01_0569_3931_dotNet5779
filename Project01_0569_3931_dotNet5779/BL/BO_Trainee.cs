@@ -28,14 +28,13 @@ namespace BO
 
         public override string ToString()
         {
-            return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle + " at school: " + this.School
-                + "\nallready got " + this.DrivingLessonsNum + " lessons";
+            return this.PrivateName + " " + this.FamilyName + " " + this.ID + "\nvehicle: " + this.TraineeVehicle;
         }
         public Trainee(){}
 
         //private DateTime datelastoftest;
         //public DateTime DateLastOfTest { get; set; }
-        public static List<Trainee> traineesRecentlyOpened = new List<Trainee>();
+        public static Queue<Trainee> traineesRecentlyOpened = new Queue<Trainee>();
 
     }
 }

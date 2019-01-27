@@ -77,11 +77,30 @@ namespace PLWPF
                         }
                         if (check)
                         {
-                            BO.Tester.testersRecentlyOpened.Add(tester);
-                            _testersID.Add(tester.ID);
-                            ListBoxItem listBoxItem = new ListBoxItem();
-                            listBoxItem.Content = tester;
-                            DetailsListBox.Items.Add(listBoxItem);
+                            if (BO.Tester.testersRecentlyOpened.Count < 5)
+                            {
+                                BO.Tester.testersRecentlyOpened.Enqueue(tester);
+                                _testersID.Add(tester.ID);
+                                ListBoxItem listBoxItem = new ListBoxItem();
+                                listBoxItem.Content = tester;
+                                DetailsListBox.Items.Add(listBoxItem);
+                            }
+                            else
+                            {
+                                BO.Tester.testersRecentlyOpened.Dequeue();
+                                BO.Tester.testersRecentlyOpened.Enqueue(tester);
+                                _testersID.Clear();
+                                DetailsListBox.Items.Clear();
+                                foreach (var item in BO.Tester.testersRecentlyOpened)
+                                {
+                                    _testersID.Add(item.ID);
+                                    ListBoxItem listBoxItem = new ListBoxItem();
+                                    listBoxItem.Content = item;
+                                    DetailsListBox.Items.Add(listBoxItem);
+
+                                }
+                            }
+                           
                         }
                     }
 
