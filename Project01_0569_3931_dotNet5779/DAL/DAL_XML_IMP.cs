@@ -45,6 +45,7 @@ namespace DAL
             //File.Delete(traineePath);
             //File.Delete(testerPath);
            // File.Delete(testPath);
+          // File.Delete()
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
 
@@ -582,7 +583,7 @@ namespace DAL
             
             (from item in testRoot.Elements()
              where item.Element("IDTrainee").Value == traineeID
-             where item.Element("Vehicle").Value == vehicle.ToString()
+             where item.Element("vehicle").Value == vehicle.ToString()
              select item).Remove();
             traineeRoot.Save(traineePath);
             testRoot.Save(testPath);
