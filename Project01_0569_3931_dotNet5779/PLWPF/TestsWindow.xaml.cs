@@ -30,6 +30,8 @@ namespace PLWPF
         public TestsWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
             DataContext = test;
 

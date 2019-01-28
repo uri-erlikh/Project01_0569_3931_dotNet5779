@@ -20,20 +20,27 @@ namespace PLWPF
     /// Interaction logic for DataWindow.xaml
     /// </summary>
     public partial class DataWindow : Window
-    {
+    {       
         BL.IBL bl;
 
         ObservableCollection<BO.Tester> testers;
         ObservableCollection<BO.Trainee> trainees;
+
         IEnumerable<IGrouping<BO.Vehicle, BO.Tester>> testerByVehicle;
         IEnumerable<IGrouping<string, BO.Trainee>> traineesBySchool;
         IEnumerable<IGrouping<string, BO.Trainee>> traineesByTeacher;
         IEnumerable<IGrouping<int, BO.Trainee>> traineesByTestNum;
 
+        List<string> configValues = new List<string>() { "MIN_LESSONS", "MAX_TESTER_AGE", "MIN_TRAINEE_AGE", "MIN_GAP_TEST", "MIN_TESTER_AGE" };
+        
+
         public DataWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
+            this.configComboBox.ItemsSource = configValues;
         }
         //----------------------------------------------------------------------------        
         private void testersPerVehicle_Selected(object sender, RoutedEventArgs e)
@@ -222,6 +229,42 @@ namespace PLWPF
             }
         }
         //----------------------------------------------------------------
+        private void configComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            configValuesTextBox.IsEnabled = true;
+            configValuesTextBox.Text = bl.GetConfig()[configComboBox.SelectedItem.ToString()].ToString();
+        }
+
+        private void configValuesTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            if (regex.IsMatch(e.Text) && e.Text != "\r")
+            {
+                e.Handled = true;
+                MessageBox.Show("Insert numbers only!", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+            }
+        }
+
+        private void configValuesTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Enter && configValuesTextBox.Text != null)
+                {
+                    bl.SetConfig(configComboBox.SelectedItem.ToString(), configValuesTextBox.Text);
+                    MessageBox.Show("Done!", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+            catch (InvalidOperationException ex)
+            {
+                MessageBox.Show(ex.Message, "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        //----------------------------------------------------       
         private void reset()
         {
             NumberOfTestsComboBox.SelectedItem = null;
@@ -235,6 +278,8 @@ namespace PLWPF
             new MainWindow().Show();
             this.Close();
         }
+       
 
+        
     }
 }

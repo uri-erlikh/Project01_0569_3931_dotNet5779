@@ -582,7 +582,7 @@ namespace DAL
             
             (from item in testRoot.Elements()
              where item.Element("IDTrainee").Value == traineeID
-             where item.Element("Vehicle").Value == vehicle.ToString()
+             where item.Element("vehicle").Value == vehicle.ToString()
              select item).Remove();
             traineeRoot.Save(traineePath);
             testRoot.Save(testPath);
@@ -805,7 +805,7 @@ namespace DAL
                 if (tempArray.Count == 0)
                     throw new KeyNotFoundException("key not found");
                 if (bool.Parse(configRoot.Element(parm).Element("Writable").Value) == false)
-                    throw new InvalidOperationException("it is non-writeable value");
+                    throw new InvalidOperationException("it is non-writable value");
             }
             catch (InvalidOperationException e) { throw; }
             catch (KeyNotFoundException e) { throw; }

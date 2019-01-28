@@ -380,7 +380,7 @@ namespace BL
                 throw new BO.InvalidDataException("Choose earlier start date");
 
             BO.Address address = new BO.Address(city, street, numbilding);
-            List<BO.Tester> closeTester = GetCloseTester(address, 30);
+            List<BO.Tester> closeTester = GetCloseTester(address, 50);
             if (!closeTester.Any())
                 throw new BO.InvalidDataException("no close tester");
             List<BO.Tester> whoTest = new List<BO.Tester>();
@@ -544,7 +544,7 @@ namespace BL
             try
             {
                 return (from item in dl.GetTesters()
-                        where x < r.Next()
+                        where Distance_calc(address, Convert(item).PersonAddress) && x< distance_result
                         select Convert(item)).ToList();
             }
             catch (ArgumentNullException e) { throw; }
@@ -1010,11 +1010,12 @@ namespace BL
                 Distance_found = false;
                 backgroundworker = new BackgroundWorker();
                 backgroundworker.DoWork += Backgroundworker_DoWork;
-                //backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
+                backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
                 backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
                 while (Distance_found == false)
                 {
                 }
+                
                 if (address_not_found != null)
                 {
                     throw new KeyNotFoundException(address_not_found);
@@ -1060,9 +1061,9 @@ namespace BL
                 double distInMiles = double.Parse(distance[0].ChildNodes[0].InnerText);
                 // Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
 
-                distance_result = (distInMiles * 1.609344);
-
-                e.Result = distance_result;
+                //distance_result = (distInMiles * 1.609344);
+                e.Result= (distInMiles * 1.609344);
+                //e.Result = distance_result;
 
                 //display the returned driving time
                 // XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
@@ -1078,9 +1079,14 @@ namespace BL
             {
                 address_not_found = "We have'nt got an answer, maybe the net is busy...";
             }
+            //Distance_found = true;
+        }
+        //-------------------------------------------------------------
+        private void Backgroundworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            distance_result = (double)e.Result;
             Distance_found = true;
         }
-
 
     }
 }

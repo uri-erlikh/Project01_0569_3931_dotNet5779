@@ -33,6 +33,8 @@ namespace PLWPF
         public TrainiesWindow(string identifier)
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
             this.DataContext = trainee;
             this.GetVehicleTypeComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));

@@ -28,6 +28,7 @@ namespace PLWPF
         public AddTraineeWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             myTrainee.DayOfBirth = new DateTime(1999,01,01);
             this.DataContext = myTrainee;
