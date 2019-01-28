@@ -30,6 +30,8 @@ namespace PLWPF
         public TestersWindow(string identifier)
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
             if (identifier == "admin")
             {

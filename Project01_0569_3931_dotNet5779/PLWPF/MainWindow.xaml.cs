@@ -26,6 +26,7 @@ namespace PLWPF
         public MainWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
         //-------------------------------------------------------------------
         private void TestersButoon_Click(object sender, RoutedEventArgs e)

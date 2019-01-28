@@ -65,8 +65,8 @@
                     <GridViewColumn Header="Vehicle"  Width="70" DisplayMemberBinding="{Binding Path=Vehicle}" />
                     <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour}"/>
                     <GridViewColumn Header="Adress" Width="110" DisplayMemberBinding="{Binding Path=TestAddress}"/>
-                    <GridViewColumn Header="Pased" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
-                    <GridViewColumn Header="Note" Width="80" DisplayMemberBinding="{Binding Path=TesterNote}" />
+                    <GridViewColumn Header="Passed" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
+                    <GridViewColumn Header="Note" Width="Auto" DisplayMemberBinding="{Binding Path=TesterNote}" />
 
                 </GridView>
             </ListView.View>

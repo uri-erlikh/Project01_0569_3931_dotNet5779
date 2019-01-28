@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PLWPF"
         mc:Ignorable="d"
-        Title="DataWindow" Height="450" Width="800">
+        Title="DataWindow" Height="450" Width="820">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -81,7 +81,7 @@
                                     <GridViewColumn Header="Name of trainee" DisplayMemberBinding="{Binding Path=TraineeName}" Width="100"/>
                                     <GridViewColumn Header="ID of tester"  Width="70" DisplayMemberBinding="{Binding Path=Tester.ID}"/>
                                     <GridViewColumn Header="Vehicle"  Width="70" DisplayMemberBinding="{Binding Path=Vehicle}" />
-                                    <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour}"/>
+                                    <GridViewColumn Header="Date" Width="130" DisplayMemberBinding="{Binding Path=TestHour }"/>
                                     <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=TestAddress}"/>
                                     <GridViewColumn Header="Passed" Width="60" DisplayMemberBinding="{Binding Path=PassedTest}" />
                                     <GridViewColumn Header="Note" Width="Auto" DisplayMemberBinding="{Binding Path=TesterNote}" />
@@ -106,10 +106,17 @@
             <ListBoxItem x:Name="getTrainees" Content="Get all trainees" FontWeight="Bold" Selected="getTraineess_Selected" />
             <ListBoxItem x:Name="getTests" Content="Get all tests" FontWeight="Bold" Selected="getTests_Selected"  />
         </ListBox>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="418,5,0,0" TextWrapping="Wrap" Text="Enter ID of trainee" FontWeight="Bold" VerticalAlignment="Top" Height="22" Width="Auto"/>
-        <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" MinHeight="22" Margin="521,5,0,0" TextWrapping="Wrap" MaxLength="9" VerticalAlignment="Top" MinWidth="125" PreviewTextInput="textBox_PreviewTextInput" PreviewKeyDown="textBox_PreviewKeyDown"/>
-        <ComboBox x:Name="VehicleTraineeComboBox" HorizontalAlignment="Left" Margin="521,27,0,0" IsEnabled="False" SelectedItem="{Binding BO.Vehicle}" VerticalAlignment="Top" MinWidth="125" SelectionChanged="VehicleTraineeComboBox_SelectionChanged"/>
-        <TextBlock x:Name="VehicletextBlock" HorizontalAlignment="Left" Margin="418,27,0,0" TextWrapping="Wrap" Text="Chose vehicle type" FontWeight="Bold" VerticalAlignment="Top" Width="103" Height="22"/>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="418,5,0,0" TextWrapping="Wrap" Text="Enter ID of trainee" FontWeight="Bold" VerticalAlignment="Top" Height="22" Width="115"/>
+
+
+
+        <TextBox x:Name="IDtextBox" HorizontalAlignment="Left" MinHeight="22" Margin="533,5,0,0" TextWrapping="Wrap" MaxLength="9" VerticalAlignment="Top" MinWidth="125" PreviewTextInput="textBox_PreviewTextInput" PreviewKeyDown="textBox_PreviewKeyDown" Width="113"/>
+        <ComboBox x:Name="VehicleTraineeComboBox" HorizontalAlignment="Left" Margin="533,27,0,0" IsEnabled="False" SelectedItem="{Binding BO.Vehicle}" VerticalAlignment="Top" MinWidth="125" SelectionChanged="VehicleTraineeComboBox_SelectionChanged" Width="113"/>
+        <TextBlock x:Name="VehicletextBlock" HorizontalAlignment="Left" Margin="418,27,0,0" TextWrapping="Wrap" Text="Chose vehicle type" FontWeight="Bold" VerticalAlignment="Top" Width="115" Height="22"/>
         <TextBlock x:Name="InfoTextBlock" HorizontalAlignment="Left" Margin="418,49,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="228" Height="20"/>
+        <TextBlock x:Name="configTextBlock" HorizontalAlignment="Left" Margin="677,5,-0.4,0" TextWrapping="Wrap" Text="Chose config:" FontWeight="Bold" VerticalAlignment="Top" Height="20" Width="117"/>
+        <ComboBox x:Name="configComboBox" HorizontalAlignment="Left" Margin="677,0,0,39.8" VerticalAlignment="Bottom" Width="117" Height="22" SelectionChanged="configComboBox_SelectionChanged"/>
+        <TextBlock x:Name="configValuesTextBlock" HorizontalAlignment="Left" Margin="677,49,0,0" TextWrapping="Wrap" Text="Enter value:" FontWeight="Bold" VerticalAlignment="Top" Height="20" Width="70"/>
+        <TextBox x:Name="configValuesTextBox" HorizontalAlignment="Left" Height="20" Margin="747,49,0,0" IsEnabled="False" TextWrapping="Wrap" MaxLength="2" VerticalAlignment="Top" Width="47"  PreviewKeyDown="configValuesTextBox_PreviewKeyDown" PreviewTextInput="configValuesTextBox_PreviewTextInput"/>
     </Grid>
 </Window>

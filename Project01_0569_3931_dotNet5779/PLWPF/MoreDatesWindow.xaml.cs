@@ -51,6 +51,8 @@ namespace PLWPF
         public MoreDatesWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             DataContext = dates;
             bl = BL.BL_Factory.GetBL();
             dates.EndDate = DateTime.Now.AddDays(2);

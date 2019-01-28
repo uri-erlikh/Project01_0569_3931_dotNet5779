@@ -29,6 +29,8 @@ namespace PLWPF
         public UpdateTestWindow(string number, BO.Test test)
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
             try
             {

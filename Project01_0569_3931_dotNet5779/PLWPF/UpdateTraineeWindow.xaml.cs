@@ -27,6 +27,8 @@ namespace PLWPF
         public UpdateTraineeWindow(BO.Trainee trainee1)
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             numTraineeTextBlock.Text = "ID: " + trainee1.ID;
             bl = BL.BL_Factory.GetBL();
             trainee = trainee1;

@@ -56,6 +56,7 @@ namespace PLWPF
         public AddTestWindow()
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
             this.DataContext = test;
             bl = BL.BL_Factory.GetBL();

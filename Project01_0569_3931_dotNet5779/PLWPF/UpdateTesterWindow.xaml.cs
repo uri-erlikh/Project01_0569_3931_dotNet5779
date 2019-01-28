@@ -26,6 +26,8 @@ namespace PLWPF
         public UpdateTesterWindow(BO.Tester tester1)
         {
             InitializeComponent();
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
             bl = BL.BL_Factory.GetBL();
             tester = tester1;
             numTesterTextBlock.Text = "ID: " + tester.ID;

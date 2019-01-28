@@ -20,13 +20,15 @@ namespace PLWPF
     /// </summary>
     public partial class AddTesterWindow : Window
     {
+        
         BO.Tester tester = new BO.Tester();
         BL.IBL bl;
 
         public AddTesterWindow()
         {
             InitializeComponent();
-
+            WindowStartupLocation = WindowStartupLocation.CenterScreen;
+        
             tester.DayOfBirth = new DateTime(1969, 01, 01);
             this.DataContext = tester;
             bl = BL.BL_Factory.GetBL();
