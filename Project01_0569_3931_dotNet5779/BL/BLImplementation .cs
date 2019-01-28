@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.IO;
 using System.Net;
 using System.Xml;
+using System.Threading;
 
 namespace BL
 {
@@ -1008,14 +1009,22 @@ namespace BL
             try
             {
                 Distance_found = false;
+                //Thread t1 = new Thread(bgw(testAddress, testerAddress));
+                //t1.Start();
+                //t1.Join(); 
                 backgroundworker = new BackgroundWorker();
+
+                //backgroundworker.WorkerReportsProgress = true;//
+                //backgroundworker.WorkerSupportsCancellation = true;//
                 backgroundworker.DoWork += Backgroundworker_DoWork;
-                backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
+                //backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
                 backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
+
+
                 while (Distance_found == false)
                 {
                 }
-                
+
                 if (address_not_found != null)
                 {
                     throw new KeyNotFoundException(address_not_found);
@@ -1061,8 +1070,8 @@ namespace BL
                 double distInMiles = double.Parse(distance[0].ChildNodes[0].InnerText);
                 // Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
 
-                //distance_result = (distInMiles * 1.609344);
-                e.Result= (distInMiles * 1.609344);
+                distance_result = (distInMiles * 1.609344);
+               // e.Result= (distInMiles * 1.609344);
                 //e.Result = distance_result;
 
                 //display the returned driving time
@@ -1079,14 +1088,22 @@ namespace BL
             {
                 address_not_found = "We have'nt got an answer, maybe the net is busy...";
             }
-            //Distance_found = true;
-        }
-        //-------------------------------------------------------------
-        private void Backgroundworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            distance_result = (double)e.Result;
             Distance_found = true;
         }
+        //-------------------------------------------------------------
+        //private void Backgroundworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        //{
+        //    distance_result = (double)e.Result;
+        //    Distance_found = true;
+        //}
 
+        //private static void bgw(BO.Address testAddress, BO.Address testerAddress) {
+        //    backgroundworker = new BackgroundWorker();
+        //    backgroundworker.WorkerReportsProgress = true;//
+        //    backgroundworker.WorkerSupportsCancellation = true;//
+        //    backgroundworker.DoWork += Backgroundworker_DoWork;
+        //    backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
+        //    backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
+        //}
     }
 }
