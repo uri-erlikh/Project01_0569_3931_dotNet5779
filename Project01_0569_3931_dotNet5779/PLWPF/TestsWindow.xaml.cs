@@ -187,33 +187,36 @@ namespace PLWPF
 
         private void DeatielsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            reset();
-            try
+            if (DeatielsListBox.Items.Count > 0)
             {
-                testNumber = int.Parse(_Numtest[DeatielsListBox.SelectedIndex]);
-            }
-            catch (OverflowException ex)//יש פה המרה בגלל זה בוצע קטץ' לבדוק איזה קאטצים צריך להוסיף
-            {
-                MessageBox.Show(ex.Message);
+                reset();
+                try
+                {
+                    testNumber = int.Parse(_Numtest[DeatielsListBox.SelectedIndex]);
+                }
+                catch (OverflowException ex)//יש פה המרה בגלל זה בוצע קטץ' לבדוק איזה קאטצים צריך להוסיף
+                {
+                    MessageBox.Show(ex.Message);
 
+                }
+                GetTestNumTextBox.Text = _Numtest[DeatielsListBox.SelectedIndex];
+                try
+                {
+                    test = bl.GetOneTest(testNumber);
+                    tests.Add(test);
+                    this.UpdateTestButton.IsEnabled = true;
+                    this.DeleteTestButton.IsEnabled = true;
+                    this.PrintTestButton.IsEnabled = true;
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (BO.InvalidDataException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            GetTestNumTextBox.Text = _Numtest[DeatielsListBox.SelectedIndex];
-            try
-            {
-                test = bl.GetOneTest(testNumber);
-                tests.Add(test);
-                this.UpdateTestButton.IsEnabled = true;
-                this.DeleteTestButton.IsEnabled = true;
-                this.PrintTestButton.IsEnabled = true;
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (BO.InvalidDataException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }        
         }
     }
 
