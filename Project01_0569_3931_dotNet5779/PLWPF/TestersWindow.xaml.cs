@@ -65,6 +65,7 @@ namespace PLWPF
             {
                 try
                 {
+                    
                     testerID = GetIDTextBox.Text;
                     tester = bl.GetOneTester(GetIDTextBox.Text);
                     if (!testers.Any() || testers[0].ID != tester.ID)
@@ -221,28 +222,31 @@ namespace PLWPF
         //------------------------------------------------------------------------------
         private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            reset();
-            testerID = _testersID[DetailsListBox.SelectedIndex];
-            GetIDTextBox.Text = testerID;
-            try
+            if (DetailsListBox.Items.Count > 0)
             {
-                tester = bl.GetOneTester(GetIDTextBox.Text);
-                testers.Add(tester);
-                this.PrintTesterButton.IsEnabled = true;
-                this.GetTestOfTTesterButton.IsEnabled = true;
-                if (this.AddTesterButton.Visibility == Visibility.Visible)
+                reset();
+                testerID = _testersID[DetailsListBox.SelectedIndex];
+                GetIDTextBox.Text = testerID;
+                try
                 {
-                    this.UpdateTesterButton.IsEnabled = true;
-                    this.DeleteTesterButton.IsEnabled = true;
+                    tester = bl.GetOneTester(GetIDTextBox.Text);
+                    testers.Add(tester);
+                    this.PrintTesterButton.IsEnabled = true;
+                    this.GetTestOfTTesterButton.IsEnabled = true;
+                    if (this.AddTesterButton.Visibility == Visibility.Visible)
+                    {
+                        this.UpdateTesterButton.IsEnabled = true;
+                        this.DeleteTesterButton.IsEnabled = true;
+                    }
                 }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (BO.InvalidDataException ex)
-            {
-                MessageBox.Show(ex.Message);
+                catch (KeyNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (BO.InvalidDataException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
         }
     }

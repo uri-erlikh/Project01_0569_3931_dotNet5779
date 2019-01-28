@@ -236,34 +236,37 @@ namespace PLWPF
         //-----------------------------------------------------------------------------
         private void DetailsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            reset();
-            traineeID = _trainiesID[DetailsListBox.SelectedIndex];
-            vehicle = _vehicles[DetailsListBox.SelectedIndex];
-            GetIDTextBox.Text = traineeID;
-            GetVehicleTypeComboBox.SelectedIndex = (int)vehicle;
-            try
+            if (DetailsListBox.Items.Count > 0)
             {
-                trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
-                trainees.Add(trainee);
-                this.PrintTraineeButton.IsEnabled = true;
-                this.GetTestOfTTraineeButton.IsEnabled = true;
-                if (this.AddTraineeButton.Visibility == Visibility.Visible)
+                reset();
+                traineeID = _trainiesID[DetailsListBox.SelectedIndex];
+                vehicle = _vehicles[DetailsListBox.SelectedIndex];
+                GetIDTextBox.Text = traineeID;
+                GetVehicleTypeComboBox.SelectedIndex = (int)vehicle;
+                try
                 {
-                    this.UpdateTraineeButton.IsEnabled = true;
-                    this.DeleteTraineeButton.IsEnabled = true;
+                    trainee = bl.GetOneTrainee(GetIDTextBox.Text, vehicle);
+                    trainees.Add(trainee);
+                    this.PrintTraineeButton.IsEnabled = true;
+                    this.GetTestOfTTraineeButton.IsEnabled = true;
+                    if (this.AddTraineeButton.Visibility == Visibility.Visible)
+                    {
+                        this.UpdateTraineeButton.IsEnabled = true;
+                        this.DeleteTraineeButton.IsEnabled = true;
+                    }
                 }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (BO.InvalidDataException ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            catch (InvalidOperationException a)
-            {
-                MessageBox.Show(a.Message);
+                catch (KeyNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (BO.InvalidDataException ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                catch (InvalidOperationException a)
+                {
+                    MessageBox.Show(a.Message);
+                }
             }
         }
     }
