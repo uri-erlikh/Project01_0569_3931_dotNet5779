@@ -545,7 +545,7 @@ namespace BL
             try
             {
                 return (from item in dl.GetTesters()
-                        where Distance_calc(address, Convert(item).PersonAddress) && x< distance_result
+                        where Distance_calc(address, Convert(item).PersonAddress) && x> distance_result
                         select Convert(item)).ToList();
             }
             catch (ArgumentNullException e) { throw; }

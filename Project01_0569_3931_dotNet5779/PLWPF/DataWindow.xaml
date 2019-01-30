@@ -12,10 +12,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="DataListBox"   Margin="5,5,621.6,0">
+        <ListBox x:Name="DataListBox"   Margin="5,5,650.6,0">
             <ListBox.Items>
-                <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected" Width="154"   />
-                <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected" Width="154"/>
+                <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected"   />
+                <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected" />
                 <ListBoxItem x:Name="traineesPerTeacher" Content="Get trainees per teacher" FontWeight="Bold" Selected="traineesPerTeacher_Selected" />
                 <ListBoxItem x:Name="traineesPerTests"  Content="Get trainees per tests" FontWeight="Bold" Selected="traineesPerTests_Selected" />
             </ListBox.Items>

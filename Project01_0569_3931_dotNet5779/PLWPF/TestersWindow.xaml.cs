@@ -49,7 +49,7 @@ namespace PLWPF
                     listBoxItem.Content = item;
                     DetailsListBox.Items.Add(listBoxItem);
                 }
-            }           
+            }
         }
 
         private void GetDataButton_Click(object sender, RoutedEventArgs e)
@@ -65,14 +65,14 @@ namespace PLWPF
             {
                 try
                 {
-                    
+
                     testerID = GetIDTextBox.Text;
                     tester = bl.GetOneTester(GetIDTextBox.Text);
                     if (!testers.Any() || testers[0].ID != tester.ID)
                     {
                         testers.Clear();
                         testers.Add(tester);
-                      //  BO.Tester.testersRecentlyopened.Add(tester);
+                        //  BO.Tester.testersRecentlyopened.Add(tester);
                         foreach (var item in _testersID)
                         {
                             if (testerID == item)
@@ -103,7 +103,7 @@ namespace PLWPF
 
                                 }
                             }
-                           
+
                         }
                     }
 
