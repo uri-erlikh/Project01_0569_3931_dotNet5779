@@ -92,7 +92,7 @@ namespace PLWPF
                             {
                                 BO.Tester.testersRecentlyOpened.Dequeue();
                                 BO.Tester.testersRecentlyOpened.Enqueue(tester);
-                                _testersID.Clear();
+                                _testersID.Clear();                                
                                 DetailsListBox.Items.Clear();
                                 foreach (var item in BO.Tester.testersRecentlyOpened)
                                 {

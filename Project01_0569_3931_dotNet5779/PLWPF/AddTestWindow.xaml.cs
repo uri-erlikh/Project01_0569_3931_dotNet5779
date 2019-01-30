@@ -12,6 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using BL;
+using System.IO;
+using System.Net;
+using System.Xml;
+using System.Threading;
+using System.ComponentModel;
+using System.Globalization;
+
 
 namespace PLWPF
 {
@@ -48,11 +55,111 @@ namespace PLWPF
     //    }
     //}
     //-----------------------------------------------------
+    //public partial class AddTestWindow : Window
+    //{
+    //    BO.Test test = new BO.Test();
+    //    BL.IBL bl;
+    //    public AddTestWindow()
+    //    {
+    //        InitializeComponent();
+    //        WindowStartupLocation = WindowStartupLocation.CenterScreen;
+
+    //        this.DataContext = test;
+    //        bl = BL.BL_Factory.GetBL();
+    //        test.TestDate = DateTime.Now;
+    //        test.TestHour = DateTime.Now;
+
+    //        this.vehicleComboBox.ItemsSource = Enum.GetValues(typeof(BO.Vehicle));
+    //        for (int i = 9; i < 15; ++i)
+    //        {
+    //            ComboBoxItem comboBoxItem = new ComboBoxItem();
+    //            comboBoxItem.Content = "hour: " + i;
+    //            comboBoxhour.Items.Add(comboBoxItem);
+    //        }
+    //    }
+    //    //-----------------------------------------------------------------------
+    //    private void AddTestButton_Click(object sender, RoutedEventArgs e)
+    //    {
+    //        try
+    //        {
+    //            if (this.traineeIdTextBox.Text.Length < 9)
+    //                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
+    //            else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true ||
+    //               int.TryParse(this.numOfBuildingTextBox.Text, out int number1) != true)
+    //            {
+    //                MessageBox.Show("please insert only digits for ID", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+    //                this.traineeIdTextBox.Clear();
+    //            }
+    //            else
+    //            {
+    //                if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == ""
+    //                    || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "")
+    //                    MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+    //                else
+    //                {
+    //                    test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
+    //                    test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
+    //                    MessageBox.Show(bl.AddTest(test), "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+    //                    //MessageBoxResult result;
+    //                    //result = MessageBox.Show("If you want more dates press YES", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
+    //                    //if (result == MessageBoxResult.Yes)
+    //                    //    MoreDatesButton.IsEnabled = true;
+    //                    test = new BO.Test();
+    //                    this.traineeIdTextBox.Clear();
+    //                    test.TestDate = DateTime.Now;
+    //                    test.TestHour = DateTime.Now;
+    //                    this.DataContext = test;
+    //                }
+    //            }
+    //        }
+    //        catch (KeyNotFoundException a)
+    //        {
+    //            MessageBox.Show(a.Message);
+
+    //        }
+    //        catch (BO.InvalidDataException a)
+    //        {
+    //            MessageBox.Show(a.Message);
+
+    //        }
+    //    }
+    //    //---------------------------------------------------------------------
+    //    private void BackButton_Click(object sender, RoutedEventArgs e)
+    //    {
+    //        new TestsWindow().Show();
+    //        this.Close();
+    //    }
+
+    //    private void MoreDatesButton_Click(object sender, RoutedEventArgs e)
+    //    {
+    //        new MoreDatesWindow().Show();
+    //        this.Close();
+
+    //    }
+    //  try
+    //    {
+    //        Dates dates = new Dates();
+    //        dates.Times = bl.GetDateOfTests(dates.StartDate, dates.EndtDate, test);
+    //        MoreDatesTextBlock.Text = dates.ToString();
+    //    }
+    //    catch (KeyNotFoundException a)
+    //    {
+    //        MessageBox.Show(a.Message);
+
+    //    }
+    //    catch (BO.InvalidDataException a)
+    //    {
+    //        MessageBox.Show(a.Message);
+
+    //    }
+    //}
+    // }
     public partial class AddTestWindow : Window
     {
         BO.Test test = new BO.Test();
         BL.IBL bl;
 
+        BackgroundWorker backgroundworker;
         public AddTestWindow()
         {
             InitializeComponent();
@@ -74,50 +181,57 @@ namespace PLWPF
         //-----------------------------------------------------------------------
         private void AddTestButton_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (this.traineeIdTextBox.Text.Length < 9)
+                MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
+            else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true ||
+               int.TryParse(this.numOfBuildingTextBox.Text, out int number1) != true)
             {
-                if (this.traineeIdTextBox.Text.Length < 9)
-                    MessageBox.Show("please insert valid ID - 9 digits", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Warning);
-                else if (int.TryParse(this.traineeIdTextBox.Text, out int number) != true ||
-                   int.TryParse(this.numOfBuildingTextBox.Text, out int number1) != true)
-                {
-                    MessageBox.Show("please insert only digits for ID", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
-                    this.traineeIdTextBox.Clear();
-                }
+                MessageBox.Show("please insert only digits for ID", "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Error);
+                this.traineeIdTextBox.Clear();
+            }
+            else
+            {
+                if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == ""
+                    || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "")
+                    MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
                 else
                 {
-                    if (this.comboBoxhour.SelectedItem == null || this.cityTextBox.Text == ""
-                        || this.streetTextBox.Text == "" || this.numOfBuildingTextBox.Text == "")
-                        MessageBox.Show("please fill all fields", "d.m.v.", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
-                    else
-                    {
-                       
-                       
-                        test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
-                        test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
-                        MessageBox.Show(bl.AddTest(test),"d.m.v.",MessageBoxButton.OK,MessageBoxImage.Information);
-                        //MessageBoxResult result;
-                        //result = MessageBox.Show("If you want more dates press YES", "d.m.v.", MessageBoxButton.YesNoCancel, MessageBoxImage.Warning);
-                        //if (result == MessageBoxResult.Yes)
-                        //    MoreDatesButton.IsEnabled = true;
-                        test = new BO.Test();
-                        this.traineeIdTextBox.Clear();
-                        test.TestDate = DateTime.Now;
-                        test.TestHour = DateTime.Now;
-                        this.DataContext = test;
-                    }
+                    test.TestHour = new DateTime(test.TestDate.Year, test.TestDate.Month, test.TestDate.Day, (comboBoxhour.SelectedIndex + 9), 0, 0);
+                    test.Vehicle = (BO.Vehicle)this.vehicleComboBox.SelectedIndex;
+
+                    backgroundworker = new BackgroundWorker();
+                    backgroundworker.DoWork += Backgroundworker_DoWork;
+                    backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
+                    backgroundworker.RunWorkerAsync(test);
                 }
+            }
+        }
+
+        private void Backgroundworker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            try
+            {
+                string temp = bl.AddTest(e.Argument as BO.Test);
+                e.Result = temp;
             }
             catch (KeyNotFoundException a)
             {
-                MessageBox.Show(a.Message);
-
+                e.Result = a.Message;
             }
             catch (BO.InvalidDataException a)
             {
-                MessageBox.Show(a.Message);
-                
+                e.Result = a.Message;
             }
+        }
+
+        private void Backgroundworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            MessageBox.Show(e.Result.ToString(), "d.m.v.", MessageBoxButton.OK, MessageBoxImage.Information);
+            test = new BO.Test();
+            this.traineeIdTextBox.Clear();
+            test.TestDate = DateTime.Now;
+            test.TestHour = DateTime.Now;
+            this.DataContext = test;
         }
         //---------------------------------------------------------------------
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -130,24 +244,7 @@ namespace PLWPF
         {
             new MoreDatesWindow().Show();
             this.Close();
-            
-        }
-        //  try
-        //    {
-        //        Dates dates = new Dates();
-        //        dates.Times = bl.GetDateOfTests(dates.StartDate, dates.EndtDate, test);
-        //        MoreDatesTextBlock.Text = dates.ToString();
-        //    }
-        //    catch (KeyNotFoundException a)
-        //    {
-        //        MessageBox.Show(a.Message);
 
-            //    }
-            //    catch (BO.InvalidDataException a)
-            //    {
-            //        MessageBox.Show(a.Message);
-
-            //    }
-            //}
         }
+    }
 }

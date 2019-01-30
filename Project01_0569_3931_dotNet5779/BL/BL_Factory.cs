@@ -10,7 +10,7 @@ namespace BL
     {
         public static IBL GetBL ()
         {
-            return new BLImplementation();
+            return BLImplementation.GetInstance();
         }
     }
 }
