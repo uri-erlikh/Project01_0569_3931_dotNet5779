@@ -53,7 +53,7 @@ namespace PLWPF
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
 
-            DataContext = dates;
+            this.DataContext = dates;
             bl = BL.BL_Factory.GetBL();
             dates.EndDate = DateTime.Now.AddDays(2);
             dates.StartDate= DateTime.Now.AddDays(1);

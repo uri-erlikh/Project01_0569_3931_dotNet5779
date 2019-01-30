@@ -22,6 +22,15 @@ namespace BL
         IDal dl = DAL_Factory.GetDL("XML");
         static Random r = new Random();
 
+        static BLImplementation instance = null;
+
+        public static BLImplementation GetInstance()
+        {
+            if (instance == null)
+                instance = new BLImplementation();
+            return instance;
+        }
+
         string API_KEY = @"tVezKd2ywDz9DAzMAwVhzCecXPSErYc4";
         BackgroundWorker backgroundworker;
         public double distance_result;
@@ -373,14 +382,14 @@ namespace BL
             catch (BO.InvalidDataException e) { throw; }
         }
         //---------------------------------------------------------------------
-        public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbilding, BO.Vehicle vehicle)
+        public List<DateTime> GetDateOfTests(DateTime fromDate, DateTime untilDate, string city, string street, int numbuilding, BO.Vehicle vehicle)
         {
             if (fromDate < DateTime.Now)
                 throw new BO.InvalidDataException("Choose later start date");
             if (fromDate > untilDate)
                 throw new BO.InvalidDataException("Choose earlier start date");
 
-            BO.Address address = new BO.Address(city, street, numbilding);
+            BO.Address address = new BO.Address(city, street, numbuilding);
             List<BO.Tester> closeTester = GetCloseTester(address, 50);
             if (!closeTester.Any())
                 throw new BO.InvalidDataException("no close tester");
@@ -545,7 +554,7 @@ namespace BL
             try
             {
                 return (from item in dl.GetTesters()
-                        where Distance_calc(address, Convert(item).PersonAddress) && x< distance_result
+                        where Distance_calc(address, Convert(item).PersonAddress) && x>distance_result
                         select Convert(item)).ToList();
             }
             catch (ArgumentNullException e) { throw; }
@@ -1027,7 +1036,7 @@ namespace BL
 
                 if (address_not_found != null)
                 {
-                    throw new KeyNotFoundException(address_not_found);
+                   throw new KeyNotFoundException(address_not_found);                   
                 }
             }
             catch (KeyNotFoundException e)
@@ -1082,11 +1091,11 @@ namespace BL
             else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
             //we have an answer that an error occurred, one of the addresses is not found
             {
-                address_not_found = "an error occurred, one of the addresses is not found. try again.";
+                e.Result = 30;// address_not_found = "an error occurred, one of the addresses is not found. try again.";
             }
             else //busy network or other error...
             {
-                address_not_found = "We have'nt got an answer, maybe the net is busy...";
+                e.Result = 30; //address_not_found = "We have'nt got an answer, maybe the net is busy...";
             }
             Distance_found = true;
         }

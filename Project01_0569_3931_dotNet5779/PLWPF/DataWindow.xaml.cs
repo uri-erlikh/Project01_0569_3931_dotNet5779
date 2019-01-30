@@ -165,7 +165,7 @@ namespace PLWPF
                     if (item.Key == (int)NumberOfTestsComboBox.SelectedItem)
                     {
                         trainees = new ObservableCollection<BO.Trainee>(item);
-                        DetailsTestListView.ItemsSource = trainees;
+                        DetailsTraineeListView.ItemsSource = trainees;
                     }
                 }
             }
@@ -278,8 +278,7 @@ namespace PLWPF
             new MainWindow().Show();
             this.Close();
         }
-       
 
-        
+       
     }
 }

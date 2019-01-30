@@ -12,20 +12,19 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="DataListBox"   Margin="5,5,621.6,0">
-            <ListBox.Items>
-                <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected" Width="154"   />
-                <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected" Width="154"/>
-                <ListBoxItem x:Name="traineesPerTeacher" Content="Get trainees per teacher" FontWeight="Bold" Selected="traineesPerTeacher_Selected" />
-                <ListBoxItem x:Name="traineesPerTests"  Content="Get trainees per tests" FontWeight="Bold" Selected="traineesPerTests_Selected" />
-            </ListBox.Items>
+        <ListBox x:Name="DataListBox"   Margin="0,5,649.6,51.2" >
+            <ListBoxItem x:Name="testersPerVehicle" Content="Get testers per vehicle" FontWeight="Bold" Selected="testersPerVehicle_Selected" Width="157"   />
+            <ListBoxItem  x:Name="traineesPerSchool" Content="Get trainees per school" FontWeight="Bold" Selected="traineesPerSchool_Selected" Width="156"/>
+            <ListBoxItem x:Name="traineesPerTeacher" Content="Get trainees per teacher" FontWeight="Bold" Selected="traineesPerTeacher_Selected" Width="154" />
+            <ListBoxItem x:Name="traineesPerTests"  Content="Get trainees per tests" FontWeight="Bold" Selected="traineesPerTests_Selected" Width="154" />
+
         </ListBox>
 
         <!--<TextBlock x:Name="dataTextBlock" Grid.Row="1"><InlineUIContainer>
                         <ListBox x:Name="forgroup" Height="308" Width="400"/>
                     </InlineUIContainer></TextBlock>-->
 
-        <TabControl x:Name="tabControl" Grid.Row="1">
+        <TabControl x:Name="tabControl" Margin="0,114,-0.4,19" Grid.RowSpan="3">
             <TabControl.Items>
                 <TabItem x:Name="TrainiesTab" Header="Trainies" >
                     <TabItem.Content>
@@ -40,7 +39,7 @@
                                     <GridViewColumn Header="Gear" Width="70" DisplayMemberBinding="{Binding Path=TraineeGear}"/>
                                     <GridViewColumn Header="Phone" Width="80" DisplayMemberBinding="{Binding Path=Phone}"/>
                                     <GridViewColumn Header="Address" Width="Auto" DisplayMemberBinding="{Binding Path=PersonAddress}"/>
-                                    <GridViewColumn Header="Driving Lessons" Width="150" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
+                                    <GridViewColumn Header="Driving Lessons" Width="Auto" DisplayMemberBinding="{Binding Path=DrivingLessonsNum}"/>
                                     <GridViewColumn Header="Teacher" Width="80" DisplayMemberBinding="{Binding Path=Teacher}" />
                                     <GridViewColumn Header="School"  Width="80" DisplayMemberBinding="{Binding Path=School}"/>
                                 </GridView>
@@ -114,9 +113,9 @@
         <ComboBox x:Name="VehicleTraineeComboBox" HorizontalAlignment="Left" Margin="533,27,0,0" IsEnabled="False" SelectedItem="{Binding BO.Vehicle}" VerticalAlignment="Top" MinWidth="125" SelectionChanged="VehicleTraineeComboBox_SelectionChanged" Width="113"/>
         <TextBlock x:Name="VehicletextBlock" HorizontalAlignment="Left" Margin="418,27,0,0" TextWrapping="Wrap" Text="Chose vehicle type" FontWeight="Bold" VerticalAlignment="Top" Width="115" Height="22"/>
         <TextBlock x:Name="InfoTextBlock" HorizontalAlignment="Left" Margin="418,49,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="228" Height="20"/>
-        <TextBlock x:Name="configTextBlock" HorizontalAlignment="Left" Margin="677,5,-0.4,0" TextWrapping="Wrap" Text="Chose config:" FontWeight="Bold" VerticalAlignment="Top" Height="20" Width="117"/>
-        <ComboBox x:Name="configComboBox" HorizontalAlignment="Left" Margin="677,0,0,39.8" VerticalAlignment="Bottom" Width="117" Height="22" SelectionChanged="configComboBox_SelectionChanged"/>
+        <TextBlock x:Name="configTextBlock" HorizontalAlignment="Left" Margin="677,5,0,0" TextWrapping="Wrap" Text="Chose config:" FontWeight="Bold" VerticalAlignment="Top" Height="20" Width="117"/>
+        <ComboBox x:Name="configComboBox" HorizontalAlignment="Left" Margin="677,27,0,113" Width="117" SelectionChanged="configComboBox_SelectionChanged"/>
         <TextBlock x:Name="configValuesTextBlock" HorizontalAlignment="Left" Margin="677,49,0,0" TextWrapping="Wrap" Text="Enter value:" FontWeight="Bold" VerticalAlignment="Top" Height="20" Width="70"/>
-        <TextBox x:Name="configValuesTextBox" HorizontalAlignment="Left" Height="20" Margin="747,49,0,0" IsEnabled="False" TextWrapping="Wrap" MaxLength="2" VerticalAlignment="Top" Width="47"  PreviewKeyDown="configValuesTextBox_PreviewKeyDown" PreviewTextInput="configValuesTextBox_PreviewTextInput"/>
+        <TextBox x:Name="configValuesTextBox" HorizontalAlignment="Left" Height="20" Margin="752,49,0,0" IsEnabled="False" TextWrapping="Wrap" MaxLength="2" VerticalAlignment="Top" Width="42"  PreviewKeyDown="configValuesTextBox_PreviewKeyDown" PreviewTextInput="configValuesTextBox_PreviewTextInput"/>
     </Grid>
 </Window>

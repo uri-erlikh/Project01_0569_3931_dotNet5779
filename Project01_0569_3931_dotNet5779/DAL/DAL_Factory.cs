@@ -10,12 +10,16 @@ namespace DAL
     {
         public static IDal GetDL(string type)
         {
-            switch (type)
+            try
             {
-                case "lists":return DLObject.GetInstance();
-                case "XML":return DAL_XML_IMP.GetInstance();
+                switch (type)
+                {
+                    case "lists": return DLObject.GetInstance();
+                    case "XML": return DAL_XML_IMP.GetInstance();
+                    default: throw new KeyNotFoundException("error");
+                }
             }
-            return null;
+            catch (KeyNotFoundException) { throw; }           
         }       
     }
 }
