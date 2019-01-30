@@ -217,10 +217,10 @@ namespace PLWPF
             try
             {
                 if (bl.IfPassed(IDtextBox.Text, (BO.Vehicle)VehicleTraineeComboBox.SelectedIndex) == true)
-                    InfoTextBlock.Text = "allready did " + bl.NumOfTest(IDtextBox.Text, (BO.Vehicle)VehicleTraineeComboBox.SelectedIndex)
+                    InfoTextBlock.Text = "registered for " + bl.NumOfTest(IDtextBox.Text, (BO.Vehicle)VehicleTraineeComboBox.SelectedIndex)
                         + " tests and passed!";
                 else
-                    InfoTextBlock.Text = "allready did " + bl.NumOfTest(IDtextBox.Text, (BO.Vehicle)VehicleTraineeComboBox.SelectedIndex)
+                    InfoTextBlock.Text = "registered for " + bl.NumOfTest(IDtextBox.Text, (BO.Vehicle)VehicleTraineeComboBox.SelectedIndex)
                         + " tests and not passed yet!";
             }
             catch (KeyNotFoundException ex)

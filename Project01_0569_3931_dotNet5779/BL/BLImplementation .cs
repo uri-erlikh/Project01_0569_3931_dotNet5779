@@ -32,7 +32,7 @@ namespace BL
         }
 
         string API_KEY = @"tVezKd2ywDz9DAzMAwVhzCecXPSErYc4";
-        BackgroundWorker backgroundworker;
+       
         public double distance_result;
         bool Distance_found = false;
         string address_not_found = null;
@@ -230,7 +230,7 @@ namespace BL
                     finalList = (from item in whoTest
                                  where item.TesterVehicle == test.Vehicle
                                  where Distance_calc(test.TestAddress, item.PersonAddress)//בוליאני שבודק האם הגיע תשובה מהאינטרנט
-                                 where distance_result<= item.RangeToTest//משתנה דאבל שמייצג את המרחק כפי שחושב
+                                 where distance_result <= item.RangeToTest//משתנה דאבל שמייצג את המרחק כפי שחושב
                                  select item).ToList();
                 if (finalList.Any())
                 {
@@ -554,7 +554,7 @@ namespace BL
             try
             {
                 return (from item in dl.GetTesters()
-                        where Distance_calc(address, Convert(item).PersonAddress) && x>distance_result
+                        where Distance_calc(address, Convert(item).PersonAddress) && x > distance_result
                         select Convert(item)).ToList();
             }
             catch (ArgumentNullException e) { throw; }
@@ -1018,101 +1018,59 @@ namespace BL
             try
             {
                 Distance_found = false;
-                //Thread t1 = new Thread(bgw(testAddress, testerAddress));
-                //t1.Start();
-                //t1.Join(); 
-                backgroundworker = new BackgroundWorker();
+                string origin = testAddress.Street + " " + testAddress.NumOfBuilding + " st. " + testAddress.City;
+                string destination = testerAddress.Street + " " + testerAddress.NumOfBuilding + " st. " + testerAddress.City;
+                string KEY = API_KEY;
 
-                //backgroundworker.WorkerReportsProgress = true;//
-                //backgroundworker.WorkerSupportsCancellation = true;//
-                backgroundworker.DoWork += Backgroundworker_DoWork;
-                //backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
-                backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
-
-
-                while (Distance_found == false)
+                string url = @"https://www.mapquestapi.com/directions/v2/route" +
+                @"?key=" + KEY +
+                @"&from=" + origin +
+                @"&to=" + destination +
+                @"&outFormat=xml" +
+                @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
+                @"&enhancedNarrative=false&avoidTimedConditions=false";
+                //request from MapQuest service the distance between the 2 addresses
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                WebResponse response = request.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader sreader = new StreamReader(dataStream);
+                string responsereader = sreader.ReadToEnd();
+                response.Close();
+                //the response is given in an XML format
+                XmlDocument xmldoc = new XmlDocument();
+                xmldoc.LoadXml(responsereader);
+                if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0")
+                //we have the expected answer
                 {
-                }
+                    //display the returned distance
+                    XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
+                    double distInMiles = double.Parse(distance[0].ChildNodes[0].InnerText);
+                    // Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
 
+                    distance_result = (distInMiles * 1.609344);
+                }
+                else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
+                //we have an answer that an error occurred, one of the addresses is not found
+                {
+                    distance_result = 30;// address_not_found = "an error occurred, one of the addresses is not found. try again.";
+                }
+                else //busy network or other error...
+                {
+                    distance_result = 30; //address_not_found = "We have'nt got an answer, maybe the net is busy...";
+                }
+                Distance_found = true;
                 if (address_not_found != null)
                 {
-                   throw new KeyNotFoundException(address_not_found);                   
+                    throw new KeyNotFoundException(address_not_found);
                 }
             }
             catch (KeyNotFoundException e)
             {
-                throw ;
+                throw;
             }
             return true;
         }
         //--------------------------------------------------------------------------------
-        private void Backgroundworker_DoWork(object sender, DoWorkEventArgs e)
-        {
-            List<BO.Address> addr = e.Argument as List<BO.Address>;
-
-            string origin = addr[0].Street + " " + addr[0].NumOfBuilding + " st. " + addr[0].City;
-            string destination = addr[1].Street + " " + addr[1].NumOfBuilding + " st. " + addr[1].City;
-            string KEY = API_KEY;
-
-            string url = @"https://www.mapquestapi.com/directions/v2/route" +
-            @"?key=" + KEY +
-            @"&from=" + origin +
-            @"&to=" + destination +
-            @"&outFormat=xml" +
-            @"&ambiguities=ignore&routeType=fastest&doReverseGeocode=false" +
-            @"&enhancedNarrative=false&avoidTimedConditions=false";
-            //request from MapQuest service the distance between the 2 addresses
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            WebResponse response = request.GetResponse();
-            Stream dataStream = response.GetResponseStream();
-            StreamReader sreader = new StreamReader(dataStream);
-            string responsereader = sreader.ReadToEnd();
-            response.Close();
-            //the response is given in an XML format
-            XmlDocument xmldoc = new XmlDocument();
-            xmldoc.LoadXml(responsereader);
-            if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "0")
-            //we have the expected answer
-            {
-                //display the returned distance
-                XmlNodeList distance = xmldoc.GetElementsByTagName("distance");
-                double distInMiles = double.Parse(distance[0].ChildNodes[0].InnerText);
-                // Console.WriteLine("Distance In KM: " + distInMiles * 1.609344);
-
-                distance_result = (distInMiles * 1.609344);
-               // e.Result= (distInMiles * 1.609344);
-                //e.Result = distance_result;
-
-                //display the returned driving time
-                // XmlNodeList formattedTime = xmldoc.GetElementsByTagName("formattedTime");
-                // string fTime = formattedTime[0].ChildNodes[0].InnerText;
-                //  Console.WriteLine("Driving Time: " + fTime);
-            }
-            else if (xmldoc.GetElementsByTagName("statusCode")[0].ChildNodes[0].InnerText == "402")
-            //we have an answer that an error occurred, one of the addresses is not found
-            {
-                e.Result = 30;// address_not_found = "an error occurred, one of the addresses is not found. try again.";
-            }
-            else //busy network or other error...
-            {
-                e.Result = 30; //address_not_found = "We have'nt got an answer, maybe the net is busy...";
-            }
-            Distance_found = true;
-        }
-        //-------------------------------------------------------------
-        //private void Backgroundworker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    distance_result = (double)e.Result;
-        //    Distance_found = true;
-        //}
-
-        //private static void bgw(BO.Address testAddress, BO.Address testerAddress) {
-        //    backgroundworker = new BackgroundWorker();
-        //    backgroundworker.WorkerReportsProgress = true;//
-        //    backgroundworker.WorkerSupportsCancellation = true;//
-        //    backgroundworker.DoWork += Backgroundworker_DoWork;
-        //    backgroundworker.RunWorkerCompleted += Backgroundworker_RunWorkerCompleted;
-        //    backgroundworker.RunWorkerAsync(new List<BO.Address> { testerAddress, testAddress });
-        //}
+       
     }
 }
