@@ -31,6 +31,8 @@ namespace BL
             return instance;
         }
 
+        private BLImplementation() { }
+
         string API_KEY = @"tVezKd2ywDz9DAzMAwVhzCecXPSErYc4";
        
         public double distance_result;
