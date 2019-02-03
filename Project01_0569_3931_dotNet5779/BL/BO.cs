@@ -13,7 +13,7 @@ namespace BO
     public enum Vehicle { privateCar, motorcycle, truck, heavyTruck };
     public enum GearBox { auto, manual };
     public enum Gender { male, female };
-
+    //------------------------------------------------------
     public static class Configuration
     {
         public static int MIN_LESSONS;

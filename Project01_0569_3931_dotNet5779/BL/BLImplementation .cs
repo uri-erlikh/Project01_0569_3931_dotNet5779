@@ -31,7 +31,10 @@ namespace BL
             return instance;
         }
 
-        private BLImplementation() { }
+        private BLImplementation()
+        {
+            DAL_Factory.AddConfigUpdatedObserver(actionToAddToObserver);
+        }
 
         string API_KEY = @"tVezKd2ywDz9DAzMAwVhzCecXPSErYc4";
        
@@ -1023,7 +1026,7 @@ namespace BL
                 string origin = testAddress.Street + " " + testAddress.NumOfBuilding + " st. " + testAddress.City;
                 string destination = testerAddress.Street + " " + testerAddress.NumOfBuilding + " st. " + testerAddress.City;
                 string KEY = API_KEY;
-
+                Thread.Sleep(1000);
                 string url = @"https://www.mapquestapi.com/directions/v2/route" +
                 @"?key=" + KEY +
                 @"&from=" + origin +
@@ -1073,6 +1076,15 @@ namespace BL
             return true;
         }
         //--------------------------------------------------------------------------------
-       
+        public void actionToAddToObserver()
+        {
+            Dictionary<string, object> config = new Dictionary<string, object>(dl.GetConfig());
+            Configuration.MIN_LESSONS = int.Parse(config["MIN_LESSONS"].ToString());
+            Configuration.MAX_TESTER_AGE = int.Parse(config["MAX_TESTER_AGE"].ToString());
+            Configuration.MIN_TRAINEE_AGE = int.Parse(config["MIN_TRAINEE_AGE"].ToString());
+            Configuration.MIN_GAP_TEST = int.Parse(config["MIN_GAP_TEST"].ToString());
+            Configuration.MIN_TESTER_AGE = int.Parse(config["MIN_TESTER_AGE"].ToString());
+            Configuration.updateTime = DateTime.Now;
+        }
     }
 }

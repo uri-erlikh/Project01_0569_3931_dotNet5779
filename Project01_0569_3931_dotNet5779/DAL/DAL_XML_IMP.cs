@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -10,9 +11,11 @@ using System.Xml.Serialization;
 namespace DAL
 {
 
-    class DAL_XML_IMP : IDal
+    class DAL_XML_IMP :DO.BaseDL
     {
         static DAL_XML_IMP instance = null;
+        public volatile bool updated = false;
+
 
         public static DAL_XML_IMP GetInstance()
         { 
@@ -42,10 +45,14 @@ namespace DAL
 
         private DAL_XML_IMP()
         {
+            Thread forConfigThread = new Thread(checkFlag);
+            forConfigThread.Start();
+
+
             //File.Delete(traineePath);
             //File.Delete(testerPath);
-           // File.Delete(testPath);
-          // File.Delete()
+            // File.Delete(testPath);
+           // File.Delete(configPath);
             if (!File.Exists(testerPath))
                 CreateFiles("testers");
 
@@ -61,7 +68,7 @@ namespace DAL
 
             if (!File.Exists(configPath))
                 CreateConfig();
-        }
+        }        
         //---------------------------------------------------------
         private void CreateFiles(string identifier)
         {
@@ -89,12 +96,12 @@ namespace DAL
         private void CreateConfig()
         {
             XElement configRoot = new XElement("config");
-            XElement MIN_LESSONS = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 28));
-            XElement MAX_TESTER_AGE = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 67));
-            XElement MIN_TRAINEE_AGE = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 16));
-            XElement MIN_GAP_TEST = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 30));
-            XElement MIN_TESTER_AGE = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 40));
-            XElement NumberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 10000000));
+            XElement MIN_LESSONS = new XElement("MIN_LESSONS", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 28));
+            XElement MAX_TESTER_AGE = new XElement("MAX_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 67));
+            XElement MIN_TRAINEE_AGE = new XElement("MIN_TRAINEE_AGE", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 16));
+            XElement MIN_GAP_TEST = new XElement("MIN_GAP_TEST", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 30));
+            XElement MIN_TESTER_AGE = new XElement("MIN_TESTER_AGE", new XElement("Readable", true), new XElement("Writable", true), new XElement("value", 40));
+            XElement NumberTest = new XElement("NumberTest", new XElement("Readable", true), new XElement("Writable", false), new XElement("value", 10000009));
             configRoot.Add(MIN_LESSONS, MAX_TESTER_AGE, MIN_TRAINEE_AGE, MIN_GAP_TEST, MIN_TESTER_AGE, NumberTest);
             configRoot.Save(configPath);
         }
@@ -377,7 +384,7 @@ namespace DAL
             return check1;
         }
         //----------------------------------------------------------------------------
-        public void AddTester(DO.Tester tester, bool[,] matrix)
+        public override void AddTester(DO.Tester tester, bool[,] matrix)
         {
             try
             {
@@ -397,7 +404,7 @@ namespace DAL
             SetSchedule(matrix, tester.ID);
         }
         //--------------------------------------------------------------------
-        public void DeleteTester(string testerID)
+        public override void DeleteTester(string testerID)
         {
             LoadData("testers");
             LoadData("tests");
@@ -423,7 +430,7 @@ namespace DAL
             testRoot.Save(testPath);
         }
         //-------------------------------------------------------------------
-        public DO.Tester GetOneTester(string testerID)
+        public override DO.Tester GetOneTester(string testerID)
         {
             try
             {
@@ -440,7 +447,7 @@ namespace DAL
             return null;
         }
         //----------------------------------------------------------------------
-        public void UpdateTester(DO.Tester tester)//המטריצה נשלחת לפונקציה בנפרד בשכבה מעל
+        public override void UpdateTester(DO.Tester tester)//המטריצה נשלחת לפונקציה בנפרד בשכבה מעל
         {
             try
             {
@@ -460,7 +467,7 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
         }
         //---------------------------------------------------------------------
-        public void AddTrainee(DO.Trainee trainee)
+        public override void AddTrainee(DO.Trainee trainee)
         {
             try
             {
@@ -486,7 +493,7 @@ namespace DAL
             //file.Close();
         }
         //-----------------------------------------------------------------------
-        public DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
+        public override DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
         {
             try
             {
@@ -559,7 +566,7 @@ namespace DAL
             //return trainee;
         }
         //-----------------------------------------------------------------------
-        public void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
+        public override void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
         {
             try
             {
@@ -589,7 +596,7 @@ namespace DAL
             testRoot.Save(testPath);
         }
         //-------------------------------------------------------------------------
-        public void UpdateTrainee(DO.Trainee trainee)
+        public override void UpdateTrainee(DO.Trainee trainee)
         {
             try
             {
@@ -653,7 +660,7 @@ namespace DAL
             // traineeRoot.Save(traineePath);
         }
         //---------------------------------------------------------------------------
-        public string AddTest(DO.Test test)
+        public override string AddTest(DO.Test test)
         {
             try
             {
@@ -676,7 +683,7 @@ namespace DAL
             return "your number test is" + test.TestNumber;
         }
         //-------------------------------------------------------------------------
-        public void UpdateTestResult(DO.Test test1)
+        public override void UpdateTestResult(DO.Test test1)
         {
             try
             {
@@ -704,7 +711,7 @@ namespace DAL
             return true;
         }
         //------------------------------------------------------------------------------
-        public DO.Test GetOneTest(int testNum)
+        public override DO.Test GetOneTest(int testNum)
         {
             try
             {
@@ -719,7 +726,7 @@ namespace DAL
             return null;
         }
         //-------------------------------------------------------------------------------
-        public void DeleteTest(int numOfTest)
+        public override void DeleteTest(int numOfTest)
         {
             LoadData("tests");
             XElement testElement;
@@ -736,28 +743,28 @@ namespace DAL
             testRoot.Save(testPath);
         }
         //---------------------------------------------------------------------------------
-        public List<DO.Tester> GetTesters()
+        public override List<DO.Tester> GetTesters()
         {
             LoadData("testers");
             return (from item in this.testers
                     select new DO.Tester(item)).ToList();
         }
         //-------------------------------------------------------------------------
-        public List<DO.Trainee> GetTrainees()
+        public override List<DO.Trainee> GetTrainees()
         {
             LoadData("trainees");
             return (from item in this.trainees
                     select new DO.Trainee(item)).ToList();
         }
         //----------------------------------------------------
-        public List<DO.Test> GetTests()
+        public override List<DO.Test> GetTests()
         {
             LoadData("tests");
             return (from item in this.tests
                     select new DO.Test(item)).ToList();
         }
         //---------------------------------------------------------
-        public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
+        public override List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
             LoadData("tests");
             return (from item in this.tests
@@ -765,7 +772,7 @@ namespace DAL
                     select new DO.Test(item)).ToList();
         }
         //--------------------------------------------------
-        public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
+        public override List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
             LoadData("testers");
             var NewList = from item in this.testers
@@ -774,7 +781,7 @@ namespace DAL
             return NewList.ToList();
         }
         //--------------------------------------------------
-        public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
+        public override List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
         {
             LoadData("trainees");
             var NewList = from item in this.trainees
@@ -783,19 +790,20 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-        public Dictionary<String, Object> GetConfig()
+        public override Dictionary<String, Object> GetConfig()
         {
             LoadData("config");
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             var newDict = from item in configRoot.Elements()
-                          where bool.Parse(item.Element("Readable").Value) == true
+                          where item.Name.LocalName!="NumberTest"
+                          where item.Element("Readable").Value == "true"
                           select new { key = item.Name.LocalName, value = item.Element("value").Value };
             foreach (var item in newDict)
                 dictionary.Add(item.key,item.value as object);
             return dictionary;
         }
         //-----------------------------------------------------------------------
-        public void SetConfig(string parm, object value)
+        public override void SetConfig(string parm, object value)
         {
             try
             {
@@ -805,15 +813,30 @@ namespace DAL
                                  select item.Name.LocalName).ToList();
                 if (tempArray.Count == 0)
                     throw new KeyNotFoundException("key not found");
-                if (bool.Parse(configRoot.Element(parm).Element("Writable").Value) == false)
+                if (configRoot.Element(parm).Element("Writable").Value == "false")
                     throw new InvalidOperationException("it is non-writable value");
             }
             catch (InvalidOperationException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
-            this.configRoot.Element(parm).Element("value").SetValue(value);
+            this.configRoot.Element(parm).Element("value").Value=value.ToString();
+            this.configRoot.Save(configPath);
+            updated = true;
+        }
+
+        private void checkFlag()
+        {
+            while (true)
+            {
+                if (updated == true)
+                {
+                    updated = false;
+                    instance?.ConfigUpdated();
+                }
+                Thread.Sleep(1000);
+            }
         }
         //---------------------------------------------------------------------
-        public bool[,] GetSchedule(string ID)
+        public override bool[,] GetSchedule(string ID)
         {
             try
             {
@@ -839,7 +862,7 @@ namespace DAL
             return mat;
         }
         //-----------------------------------------------------------------------
-        public void SetSchedule(bool[,] matrix, string testerID)
+        public override void SetSchedule(bool[,] matrix, string testerID)
         {
             try
             {

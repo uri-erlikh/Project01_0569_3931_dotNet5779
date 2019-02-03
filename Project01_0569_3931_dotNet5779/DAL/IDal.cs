@@ -36,5 +36,7 @@ namespace DAL
         bool[,] GetSchedule(string ID);
         void SetSchedule(bool[,] schedule, string testerID);
     }
+
+   
 }
 
