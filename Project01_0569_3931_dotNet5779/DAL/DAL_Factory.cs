@@ -8,10 +8,13 @@ namespace DAL
 {
     public static class DAL_Factory
     {
+        static string currentDL;
+
         public static IDal GetDL(string type)
         {
             try
             {
+                currentDL = type;
                 switch (type)
                 {
                     case "lists": return DLObject.GetInstance();
@@ -19,8 +22,22 @@ namespace DAL
                     default: throw new KeyNotFoundException("error");
                 }
             }
-            catch (KeyNotFoundException) { throw; }           
-        }       
+            catch (KeyNotFoundException) { throw; }
+        }
+
+        public static void AddConfigUpdatedObserver(Action act)
+        {
+            switch (currentDL)
+            {
+                case "lists":
+                    DLObject.GetInstance().ConfigUpdated += act;
+                    break;
+                case "XML":
+                    DAL_XML_IMP.GetInstance().ConfigUpdated += act;
+                    break;
+                default: break;
+            }
+        }
     }
 }
 

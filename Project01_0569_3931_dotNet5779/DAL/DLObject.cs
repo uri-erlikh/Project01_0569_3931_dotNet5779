@@ -2,15 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DO;
 
 namespace DAL
 {
-    class DLObject : IDal
+    class DLObject : DO.BaseDL
     {
+        public volatile bool updated = false;
         static DLObject instance = null;
-        private DLObject() { }
+        private DLObject()
+        {
+            Thread forConfigThread = new Thread(checkFlag);
+            forConfigThread.Start();
+        }
         //static DLObject() { }
 
         //public static DLObject Instance// { get { return instance; } }
@@ -22,20 +28,23 @@ namespace DAL
             return instance;
         }
 
+        //static readonly DLObject instance = new DLObject();
+        //public static DLObject Instance { get { return instance; } }
+
         //-------------------------------------------------------
-        public void AddTester(DO.Tester tester, bool[,] matrix)
+        public override void AddTester(DO.Tester tester, bool[,] matrix)
         {
             try
             {
                 if (IfExist(tester.ID, "tester") || IfExist(tester.ID, "trainee"))
-                    throw new DuplicateWaitObjectException("allready exist");                
+                    throw new DuplicateWaitObjectException("allready exist");
             }
             catch (DuplicateWaitObjectException e) { throw; }
             DataSource.Testers.Add(tester);
             DataSource.Schedules.Add(tester.ID, matrix);
         }
         //--------------------------------------------------------------
-        public void DeleteTester(string TesterID)
+        public override void DeleteTester(string TesterID)
         {
             try
             {
@@ -66,14 +75,14 @@ namespace DAL
             return check1;
         }
         //----------------------------------------------------------------------------
-        public void UpdateTester(DO.Tester tester)
+        public override void UpdateTester(DO.Tester tester)
         {
             try
             {
                 if (!IfExist(tester.ID, "tester"))
                     throw new KeyNotFoundException("ID not found");
-                int index = DataSource.Testers.FindIndex(x => x.ID == tester.ID );
-                DataSource.Testers[index] = tester;                
+                int index = DataSource.Testers.FindIndex(x => x.ID == tester.ID);
+                DataSource.Testers[index] = tester;
             }
             catch (KeyNotFoundException e) { throw; }
             //try
@@ -120,7 +129,7 @@ namespace DAL
             //{ throw; }
         }
         //--------------------------------------------------------
-        public DO.Tester GetOneTester(string ID)
+        public override DO.Tester GetOneTester(string ID)
         {
             try
             {
@@ -136,7 +145,7 @@ namespace DAL
             return null;
         }
         //------------------------------------------------------------
-        public void AddTrainee(DO.Trainee trainee)
+        public override void AddTrainee(DO.Trainee trainee)
         {
             try
             {
@@ -149,7 +158,7 @@ namespace DAL
             catch (DuplicateWaitObjectException e) { throw; }
         }
         //------------------------------------------------------------
-        public void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
+        public override void DeleteTrainee(string traineeID, DO.Vehicle vehicle)
         {
             try
             {
@@ -157,27 +166,27 @@ namespace DAL
                     throw new KeyNotFoundException("ID not found");
             }
             catch (KeyNotFoundException e) { throw; }
-            DataSource.Trainies.RemoveAll(x => x.ID == traineeID && x.TraineeVehicle==vehicle);
-            DataSource.Tests.RemoveAll(x => x.TraineeId == traineeID &&x.Vehicle==vehicle);
+            DataSource.Trainies.RemoveAll(x => x.ID == traineeID && x.TraineeVehicle == vehicle);
+            DataSource.Tests.RemoveAll(x => x.TraineeId == traineeID && x.Vehicle == vehicle);
         }
         //--------------------------------------------------------------
-        public void UpdateTrainee(DO.Trainee trainee)
+        public override void UpdateTrainee(DO.Trainee trainee)
         {
             try
             {
                 if (!IfExist(trainee.ID, "trainee"))
                     throw new KeyNotFoundException("ID not found");
-                int index=DataSource.Trainies.FindIndex(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
+                int index = DataSource.Trainies.FindIndex(x => x.ID == trainee.ID && x.TraineeVehicle == trainee.TraineeVehicle);
                 DataSource.Trainies[index] = trainee;
                 List<Trainee> trainies = DataSource.Trainies.FindAll(x => x.ID == trainee.ID && x.TraineeVehicle != trainee.TraineeVehicle);
-                if(trainies.Any())
-                foreach (var _trainee in trainies)
-                {                                                                        
-                            _trainee.PrivateName = trainee.PrivateName;
-                            _trainee.FamilyName = trainee.FamilyName;
-                            _trainee.PersonAddress = trainee.PersonAddress;
-                            _trainee.Phone = trainee.Phone;                        
-                }
+                if (trainies.Any())
+                    foreach (var _trainee in trainies)
+                    {
+                        _trainee.PrivateName = trainee.PrivateName;
+                        _trainee.FamilyName = trainee.FamilyName;
+                        _trainee.PersonAddress = trainee.PersonAddress;
+                        _trainee.Phone = trainee.Phone;
+                    }
             }
             catch (KeyNotFoundException e) { throw; }
             catch (NullReferenceException e) { throw new KeyNotFoundException("the trainee don't study this vehicle"); }
@@ -218,7 +227,7 @@ namespace DAL
 
         }
         //--------------------------------------------------
-        public DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
+        public override DO.Trainee GetOneTrainee(string ID, DO.Vehicle vehicle)
         {
             try
             {
@@ -239,7 +248,7 @@ namespace DAL
             catch (KeyNotFoundException e) { throw; }
         }
         //--------------------------------------------------------
-        public string AddTest(DO.Test test)
+        public override string AddTest(DO.Test test)
         {
             try
             {
@@ -256,24 +265,24 @@ namespace DAL
             return "your number test is" + temp;
         }
         //---------------------------------------------------------
-        public void UpdateTestResult(DO.Test test1)
+        public override void UpdateTestResult(DO.Test test1)
         {
             try
-            {               
+            {
                 int index = DataSource.Tests.FindIndex(x => x.TestNumber == test1.TestNumber);
-                DataSource.Tests[index] = test1;                
+                DataSource.Tests[index] = test1;
             }
             catch (ArgumentNullException e) { throw; }
         }
         //--------------------------------------------------
         private bool IfTestExist(int numOfTest)
-        {            
+        {
             if (DataSource.Tests.Find(x => x.TestNumber == numOfTest) == null)
                 return false;
             return true;
         }
         //----------------------------------------------------
-        public DO.Test GetOneTest(int testNum)
+        public override DO.Test GetOneTest(int testNum)
         {
             try
             {
@@ -287,16 +296,16 @@ namespace DAL
             return null;
         }
         //---------------------------------------------------
-        public void DeleteTest(int numOfTest)
+        public override void DeleteTest(int numOfTest)
         {
             try
             {
-                DataSource.Tests.RemoveAll(x => x.TestNumber == numOfTest);                
+                DataSource.Tests.RemoveAll(x => x.TestNumber == numOfTest);
             }
-            catch (KeyNotFoundException) { throw; }           
+            catch (KeyNotFoundException) { throw; }
         }
         //--------------------------------------------------
-        public List<DO.Tester> GetTesters()
+        public override List<DO.Tester> GetTesters()
         {
             List<DO.Tester> newList = new List<DO.Tester>();
             foreach (var item in DataSource.Testers)
@@ -306,7 +315,7 @@ namespace DAL
             return newList;
         }
         //-----------------------------------------------------
-        public List<DO.Trainee> GetTrainees()
+        public override List<DO.Trainee> GetTrainees()
         {
             List<DO.Trainee> newList = new List<DO.Trainee>();
             foreach (var item in DataSource.Trainies)
@@ -316,7 +325,7 @@ namespace DAL
             return newList;
         }
         //----------------------------------------------------
-        public List<DO.Test> GetTests()
+        public override List<DO.Test> GetTests()
         {
             List<DO.Test> newList = new List<DO.Test>();
             foreach (var item in DataSource.Tests)
@@ -326,14 +335,14 @@ namespace DAL
             return newList;
         }
         //---------------------------------------------------------
-        public List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
+        public override List<DO.Test> GetSomeTests(Predicate<DO.Test> someFunc)
         {
             return (from item in DataSource.Tests
                     where (someFunc(item))
                     select new DO.Test(item)).ToList();
         }
         //--------------------------------------------------
-        public List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
+        public override List<DO.Tester> GetSomeTesters(Predicate<DO.Tester> func)
         {
             var NewList = from item in DataSource.Testers
                           where (func(item))
@@ -341,7 +350,7 @@ namespace DAL
             return NewList.ToList();
         }
         //--------------------------------------------------
-        public List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
+        public override List<DO.Trainee> GetSomeTrainies(Predicate<DO.Trainee> func)
         {
             var NewList = from item in DataSource.Trainies
                           where (func(item))
@@ -349,7 +358,7 @@ namespace DAL
             return NewList.ToList();
         }
         //------------------------------------------------------------------
-        public Dictionary<String, Object> GetConfig()
+        public override Dictionary<String, Object> GetConfig()
         {
             Dictionary<string, object> dictionary = new Dictionary<string, object>();
             var newDict = from item in DataSource.Configuration
@@ -360,7 +369,7 @@ namespace DAL
             return dictionary;
         }
         //-----------------------------------------------------------------------
-        public void SetConfig(string parm, object value)
+        public override void SetConfig(string parm, object value)
         {
             try
             {
@@ -373,9 +382,23 @@ namespace DAL
             catch (InvalidOperationException e) { throw; }
             catch (KeyNotFoundException e) { throw; }
             DataSource.Configuration[parm].value = value;
+            updated = true;
+        }
+
+        private void checkFlag()
+        {
+            while (true)
+            {
+                if (updated == true)
+                {
+                    updated = false;
+                    instance?.ConfigUpdated();
+                }
+                Thread.Sleep(1000);
+            }
         }
         //-----------------------------------------------------
-        public bool[,] GetSchedule(string ID)
+        public override bool[,] GetSchedule(string ID)
         {
             try
             {
@@ -388,12 +411,12 @@ namespace DAL
             //              where (item.Key == ID)
             //              select item.Value).ToArray();
             //return matrix.FirstOrDefault();
-            return (temp= DataSource.Schedules[ID].Clone() as bool[,]);
+            return (temp = DataSource.Schedules[ID].Clone() as bool[,]);
         }
         //--------------------------------------------------
-        public void SetSchedule(bool[,] schedule, string testerID)
-        {           
-                    DataSource.Schedules[testerID] = schedule;
+        public override void SetSchedule(bool[,] schedule, string testerID)
+        {
+            DataSource.Schedules[testerID] = schedule;
         }
 
     }
