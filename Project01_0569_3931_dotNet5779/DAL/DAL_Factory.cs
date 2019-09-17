@@ -8,7 +8,7 @@ namespace DAL
 {
     public static class DAL_Factory
     {
-        static string currentDL;
+        static string currentDL;//stam
 
         public static IDal GetDL(string type)
         {
