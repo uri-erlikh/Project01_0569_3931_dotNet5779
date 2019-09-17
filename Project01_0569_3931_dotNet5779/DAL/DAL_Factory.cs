@@ -17,7 +17,7 @@ namespace DAL
                 currentDL = type;
                 switch (type)
                 {
-                    case "lists": return DLObject.GetInstance();
+                    case "lists": return DLObject.GetInstance();//
                     case "XML": return DAL_XML_IMP.GetInstance();
                     default: throw new KeyNotFoundException("error");
                 }
